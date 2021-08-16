@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <settings>
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+    <setting name="jdbcTypeForNull" value="NULL" />
+  </settings>
+  <typeAliases>
+<!--     <typeAlias type="com.group.approval.dto." alias="approval"/>
+    <typeAlias type="com.group.board.dto." alias="board"/>
+    <typeAlias type="com.group.calendar.dto." alias="calendar"/>
+    <typeAlias type="com.group.employee.dto." alias="employee"/>
+    <typeAlias type="com.group.main.dto." alias="main"/>
+	<typeAlias type="com.group.mypage.dto." alias="mypage"/> -->
+  </typeAliases>
+  <mappers>
+  </mappers>
+</configuration>
