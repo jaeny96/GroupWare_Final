@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
@@ -66,7 +65,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 
 			for (int i = 0; i < addApLineEmpIdArr.length; i++) {
 				if("staffOne".equals(addApLineEmpIdArr[i]) || "staffTwo".equals(addApLineEmpIdArr[i]) ||"staffThree".equals(addApLineEmpIdArr[i])) {
-					System.out.println(i+"번째 결재자가 없습니다");
+					System.out.println(i+"踰덉㎏ 寃곗옱�옄媛� �뾾�뒿�땲�떎");
 				}else {
 					Approval approval = new Approval();
 					Document apDocNo = new Document();
@@ -77,9 +76,9 @@ public class AddApprovalDocsServlet extends HttpServlet {
 					approval.setEmployee_id(apEmp);
 					approval.setAp_step(Integer.parseInt(addApLineStepArr[i]));
 					if(i==0) {
-						System.out.println(i+"로 들어옴");
+						System.out.println(i+"濡� �뱾�뼱�샂");
 						ApprovalStatus as = new ApprovalStatus();
-						as.setApStatus_type("승인");
+						as.setApStatus_type("�듅�씤");
 						approval.setAp_type(as);
 					}
 					service.completeApRegister(approval);
@@ -109,7 +108,10 @@ public class AddApprovalDocsServlet extends HttpServlet {
 
 				service.completeReRegister(reference);
 			}
-		} catch (AddException | FindException e) {
+		} catch (AddException  e) {
+			e.printStackTrace();
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -119,13 +121,13 @@ public class AddApprovalDocsServlet extends HttpServlet {
 //		String[] strArr = {"SR", "CR", "BC", "AC", "LE"};
 		String docType = document_type.trim();
 		String result = "";
-		if ("지출".equals(docType)) {
+		if ("吏�異�".equals(docType)) {
 			result = "SR";
-		} else if ("회람".equals(docType)) {
+		} else if ("�쉶�엺".equals(docType)) {
 			result = "CR";
-		} else if ("품의".equals(docType)) {
+		} else if ("�뭹�쓽".equals(docType)) {
 			result = "AC";
-		} else if ("휴가".equals(docType)) {
+		} else if ("�쑕媛�".equals(docType)) {
 			result = "LE";
 		} else {
 			result = "BC";
