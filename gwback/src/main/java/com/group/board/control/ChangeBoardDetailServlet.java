@@ -34,7 +34,7 @@ public class ChangeBoardDetailServlet extends HttpServlet {
 
 		try {
 			Employee emp = new Employee();
-			emp.setEmployee_id(targetWriterid);
+			emp.setEmployeeId(targetWriterid);
 			Board bd = new Board();
 			bd.setBd_no(modiTargetBdNo);
 			bd.setBd_title(modiTargetBdTitle);

@@ -54,7 +54,7 @@ public class BoardCommentService {
 	 */
 	public void addCm(BoardComment cm) throws AddException {
 		boolean flag = false;
-		if (cm.getCm_writer().getEmployee_id() != null && !"".equals(cm.getCm_writer().getEmployee_id())) {
+		if (cm.getCm_writer().getEmployeeId() != null && !"".equals(cm.getCm_writer().getEmployeeId())) {
 			if (cm.getCm_content() != null && !"".equals(cm.getCm_content())) {
 				flag = true;
 			} else {
@@ -79,7 +79,7 @@ public class BoardCommentService {
 		try {
 			cmList = service.showCm(cm.getBd_no());
 			BoardComment compare = cmList.get(cmList.size()-cm.getCm_no());
-			if(compare.getCm_writer().getEmployee_id().equals(cm.getCm_writer().getEmployee_id())) {
+			if(compare.getCm_writer().getEmployeeId().equals(cm.getCm_writer().getEmployeeId())) {
 				dao.delete(cm);
 			}else {
 				System.out.println("댓글을 작성한 작성자가 아닙니다");

@@ -57,7 +57,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 
 		try {
 			pstmt = con.prepareStatement(SkdListSQL);
-			pstmt.setString(1, skd_e.getEmployee_id());
+			pstmt.setString(1, skd_e.getEmployeeId());
 			pstmt.setString(2, skd_e.getDepartment().getDepartment_id()+"%");
 			rs = pstmt.executeQuery();
 			
@@ -117,7 +117,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	      
 	      try {
 	         pstmt = con.prepareStatement(SkdListSQL);
-	         pstmt.setString(1, skd_e.getEmployee_id());	            
+	         pstmt.setString(1, skd_e.getEmployeeId());	            
 	         pstmt.setString(2, sdate);
 	         pstmt.setString(3, edate);
 	         pstmt.setString(4, skd_e.getDepartment().getDepartment_id()+"%");
@@ -262,7 +262,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 
 		try {
 			pstmt = con.prepareStatement(skdByContentSQL);
-			pstmt.setString(1, s.getSkd_id().getEmployee_id());
+			pstmt.setString(1, s.getSkd_id().getEmployeeId());
 			pstmt.setString(2, "%"+s.getSkd_title()+"%");
 			pstmt.setString(3, "%"+s.getSkd_content()+"%");
 			rs = pstmt.executeQuery();
@@ -364,7 +364,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	         try {
 	            pstmt = con.prepareStatement(insertSQL); // insertSQL 문 실행
 	            pstmt.setString(1, skd_type.getSkd_type());
-	            pstmt.setString(2, skd_id.getEmployee_id());
+	            pstmt.setString(2, skd_id.getEmployeeId());
 	            pstmt.setString(3, skd_title);
 	            pstmt.setString(4, skd_content);
 	            pstmt.setTimestamp(5, skd_start_date);
@@ -489,7 +489,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	               
 	            pstmt = con.prepareStatement(updateSQL+updateSQL1);
 	            pstmt.setInt(1, skd_no);
-	            pstmt.setString(2, skd_id.getEmployee_id());
+	            pstmt.setString(2, skd_id.getEmployeeId());
 	            
 	            int rowcnt = pstmt.executeUpdate();
 	            if(rowcnt ==1) {
@@ -544,7 +544,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	       Employee skd_id = s.getSkd_id();
 	      
 	       System.out.println("오라클 삭제 번호 "+skd_no);
-	       System.out.println("오라클 삭제 작성자  "+skd_id.getEmployee_id());
+	       System.out.println("오라클 삭제 작성자  "+skd_id.getEmployeeId());
 	   //    skd_id = emp.getEmployee_id();
 	       
 	       //emp.setEmployee_id("MSD002");
@@ -553,7 +553,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	       try {
 	         pstmt = con.prepareStatement(deleteSQL);
 	         pstmt.setInt(1, skd_no);
-	         pstmt.setString(2, skd_id.getEmployee_id());
+	         pstmt.setString(2, skd_id.getEmployeeId());
 	         //.setString(2, skd_id);
 
 	         int rowcnt = pstmt.executeUpdate();

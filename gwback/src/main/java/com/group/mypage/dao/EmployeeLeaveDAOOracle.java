@@ -41,7 +41,7 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 				empleave = new EmployeeLeave();
 
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				
 				Department d = new Department();
@@ -59,9 +59,9 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 				j.setJob_title(rs.getString("job_title"));
 				emp.setJob(j);
 				
-				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
-				emp.setHire_date(rs.getDate("hire_date"));
+				emp.setHireDate(rs.getDate("hire_date"));
 				emp.setenabled(rs.getInt("enabled"));
 				emp.setPassword(rs.getString("password"));
 
@@ -95,8 +95,8 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 
 		String str = "";
 
-		if (emp.getPhone_number() != null) {
-			str += " phone_number='" + emp.getPhone_number() + "',";
+		if (emp.getPhoneNumber() != null) {
+			str += " phone_number='" + emp.getPhoneNumber() + "',";
 		}
 
 		if (emp.getPassword() != null) {
@@ -107,10 +107,10 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(updateSQL);
-			pstmt.setString(1, emp.getEmployee_id());
+			pstmt.setString(1, emp.getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
-				System.out.println(emp.getEmployee_id() + "의 정보가 변경되었습니다.");
+				System.out.println(emp.getEmployeeId() + "의 정보가 변경되었습니다.");
 			} else {
 				System.out.println(rowcnt);
 				throw new ModifyException("정보를 변경할 수  없습니다");

@@ -42,7 +42,7 @@ public class ShowByContent extends HttpServlet {
 	      
 	      try {
 	    	 Employee em = new Employee();
-	    	 em.setEmployee_id(id);
+	    	 em.setEmployeeId(id);
 	         Schedule skd = new Schedule(em, title, content);
 	         skd.setSkd_id(em);
 	         List<Schedule> list = service.findByContent(skd);

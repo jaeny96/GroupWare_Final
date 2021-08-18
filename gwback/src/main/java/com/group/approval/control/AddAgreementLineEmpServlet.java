@@ -36,7 +36,7 @@ public class AddAgreementLineEmpServlet extends HttpServlet {
 			Document d = new Document();
 			d.setDocument_no(addApDocsNo);
 			Employee emp = new Employee();
-			emp.setEmployee_id(addAgLineEmpId);
+			emp.setEmployeeId(addAgLineEmpId);
 			d.setEmployee(emp);
 			ag.setDocument_no(d);
 			ag.setEmployee_id(emp);

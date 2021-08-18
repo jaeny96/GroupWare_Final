@@ -26,12 +26,18 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean> -->
+	
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="defaultEncoding" value="UTF-8"></beans:property>
 		<beans:property name="maxUploadSize" value="104857568"></beans:property>
 		<beans:property name="maxUploadSizePerFile" value="2097152"></beans:property>
     </beans:bean>
-	<context:component-scan base-package="com.day.control" />
-
+    
+	<context:component-scan base-package="com.group.approval.control" />
+	<context:component-scan base-package="com.group.board.control" />
+	<context:component-scan base-package="com.group.calendar.control" />
+	<context:component-scan base-package="com.group.employee.control" />
+	<context:component-scan base-package="com.group.main.control" />
+	<context:component-scan base-package="com.group.mypage.control" />
 </beans:beans>

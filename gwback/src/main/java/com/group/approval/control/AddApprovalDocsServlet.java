@@ -58,7 +58,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			dtype.setDocument_type(addApDocsType);
 			document.setDocument_type(dtype);
 			Employee emp = new Employee();
-			emp.setEmployee_id(addApWriterId);
+			emp.setEmployeeId(addApWriterId);
 			document.setEmployee(emp);
 			
 			service.complete(document);
@@ -72,7 +72,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 					apDocNo.setDocument_no(addApDocsNo);
 					approval.setDocument_no(apDocNo);
 					Employee apEmp = new Employee();
-					apEmp.setEmployee_id(addApLineEmpIdArr[i]);
+					apEmp.setEmployeeId(addApLineEmpIdArr[i]);
 					approval.setEmployee_id(apEmp);
 					approval.setAp_step(Integer.parseInt(addApLineStepArr[i]));
 					if(i==0) {
@@ -91,7 +91,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 				agDocNo.setDocument_no(addApDocsNo);
 				agreement.setDocument_no(agDocNo);
 				Employee agEmp = new Employee();
-				agEmp.setEmployee_id(addAgLineEmpId);
+				agEmp.setEmployeeId(addAgLineEmpId);
 				agreement.setEmployee_id(agEmp);
 
 				service.completeAgRegister(agreement);
@@ -103,7 +103,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 				reDocNo.setDocument_no(addApDocsNo);
 				reference.setDocument_no(reDocNo);
 				Employee reEmp = new Employee();
-				reEmp.setEmployee_id(addReLineEmpId);
+				reEmp.setEmployeeId(addReLineEmpId);
 				reference.setEmployee_id(reEmp);
 
 				service.completeReRegister(reference);

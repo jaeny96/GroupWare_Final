@@ -43,7 +43,7 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_no(rs.getString("bd_no"));
 
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
 
@@ -94,7 +94,7 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_no(rs.getString("bd_no"));
 				bd.setBd_title(rs.getString("bd_title"));
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
 				bd.setBd_date(rs.getTimestamp("bd_date"));
@@ -137,7 +137,7 @@ public class BoardDAOOracle implements BoardDAO {
 				bd.setBd_no(rs.getString("bd_no"));
 				bd.setBd_title(rs.getString("bd_title"));
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
 				bd.setBd_date(rs.getTimestamp("bd_date"));
@@ -178,7 +178,7 @@ public class BoardDAOOracle implements BoardDAO {
 			if (rs.next()) {
 				bd.setBd_no(rs.getString("bd_no"));
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
 				bd.setBd_title(rs.getString("bd_title"));
@@ -209,7 +209,7 @@ public class BoardDAOOracle implements BoardDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setString(1, bd.getWriter().getEmployee_id());
+			pstmt.setString(1, bd.getWriter().getEmployeeId());
 			pstmt.setString(2, bd.getBd_title());
 			pstmt.setString(3, bd.getBd_content());
 			pstmt.executeUpdate();
@@ -247,7 +247,7 @@ public class BoardDAOOracle implements BoardDAO {
 		try {
 			pstmt = con.prepareStatement(updateSQL);
 			pstmt.setString(1, bd.getBd_no());
-			pstmt.setString(2, bd.getWriter().getEmployee_id());
+			pstmt.setString(2, bd.getWriter().getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
 				System.out.println("내용이 변경되었습니다");
@@ -279,7 +279,7 @@ public class BoardDAOOracle implements BoardDAO {
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
 			pstmt.setString(1, bd.getBd_no());
-			pstmt.setString(2, bd.getWriter().getEmployee_id());
+			pstmt.setString(2, bd.getWriter().getEmployeeId());
 			pstmt.executeUpdate();
 
 			System.out.println("게시글을 삭제하였습니다.");

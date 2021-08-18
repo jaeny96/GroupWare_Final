@@ -35,7 +35,7 @@ public class ChangeMyPwdServlet extends HttpServlet {
 		try {
 			if (modiPwd.equals(chkModiPwd)) {
 				Employee emp = new Employee();
-				emp.setEmployee_id(id);
+				emp.setEmployeeId(id);
 				emp.setPassword(modiPwd);
 				service.modify(emp);
 			} else {

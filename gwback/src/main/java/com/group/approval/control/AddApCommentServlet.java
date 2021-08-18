@@ -39,7 +39,7 @@ public class AddApCommentServlet extends HttpServlet {
 			Approval ap = new Approval();
 			ap.setAp_ap_comment(updateApComment);
 			Employee emp = new Employee();
-			emp.setEmployee_id(updateEmpId);
+			emp.setEmployeeId(updateEmpId);
 			Document d = new Document();
 			d.setDocument_no(updateDocsNo);
 			service.decisionAp(ap);

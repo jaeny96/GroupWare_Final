@@ -56,8 +56,8 @@ public class EmployeeLeaveService {
 	 */
 	public void modify(Employee emp) throws ModifyException {
 		try {
-			EmployeeLeave el = showDetail(emp.getEmployee_id());
-			if ((emp.getPhone_number() != null && !el.getEmployee().getPhone_number().equals(emp.getPhone_number()))
+			EmployeeLeave el = showDetail(emp.getEmployeeId());
+			if ((emp.getPhoneNumber() != null && !el.getEmployee().getPhoneNumber().equals(emp.getPhoneNumber()))
 					|| (emp.getPassword() != null && !el.getEmployee().getPassword().equals(emp.getPassword()))) {
 				dao.update(emp);
 			} else {

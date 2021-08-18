@@ -32,7 +32,7 @@ public class AddBoardServlet extends HttpServlet {
 
 		try {
 			Employee emp = new Employee();
-			emp.setEmployee_id(addBdWriterId);
+			emp.setEmployeeId(addBdWriterId);
 			emp.setName(addBdWriter);
 			Board bd = new Board();
 			bd.setBd_title(addBdTitle);

@@ -32,7 +32,7 @@ public class UpdateReCheckServlet extends HttpServlet {
 			Document d = new Document();
 			d.setDocument_no(DocsNo);
 			Employee emp = new Employee();
-			emp.setEmployee_id(LoginId);
+			emp.setEmployeeId(LoginId);
 			re.setEmployee_id(emp);
 			re.setDocument_no(d);
 			service.decisionRe(re);

@@ -31,7 +31,7 @@ public class RemoveBoardCommentServlet extends HttpServlet {
 
 		try {
 			Employee emp = new Employee();
-			emp.setEmployee_id(removeCmWriterId);
+			emp.setEmployeeId(removeCmWriterId);
 			BoardComment cm = new BoardComment();
 			cm.setBd_no(removeTargetBdNo);
 			cm.setCm_no(removeTargetCmNo);

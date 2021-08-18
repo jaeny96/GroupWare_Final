@@ -82,7 +82,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -163,7 +163,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -244,7 +244,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -325,7 +325,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -405,7 +405,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -486,7 +486,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -566,7 +566,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -647,7 +647,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -959,7 +959,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 			while (rs.next()) {
 				Employee e = new Employee();
 				Approval a = new Approval();
-				e.setEmployee_id(rs.getString("employee_id"));
+				e.setEmployeeId(rs.getString("employee_id"));
 				a.setEmployee_id(e);
 				a.setAp_ap_date(rs.getDate("ap_date"));
 				a.setAp_ap_comment(rs.getString("ap_comment"));
@@ -1041,7 +1041,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1130,7 +1130,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1219,7 +1219,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1308,7 +1308,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1397,7 +1397,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1486,7 +1486,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1575,7 +1575,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));
@@ -1664,7 +1664,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				d.setState(rs.getString("state"));
 				d.setDocument_no(rs.getString("document_no"));
 				d.setDocument_title(rs.getString("document_title"));
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
 				d.setDraft_date(rs.getDate("dt"));

@@ -41,7 +41,7 @@ public class deleteScheduleServlet extends HttpServlet {
 			Schedule s = new Schedule();
 			Employee emp = new Employee();
 
-			emp.setEmployee_id(targetId);
+			emp.setEmployeeId(targetId);
 			s.setSkd_id(emp);
 			s.setSkd_no(skdDeleteNo);
 

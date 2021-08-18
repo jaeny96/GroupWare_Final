@@ -32,7 +32,7 @@ public class RemoveBoardServlet extends HttpServlet {
 			Board bd = new Board();
 			bd.setBd_no(removeTargetBdNo);
 			Employee emp = new Employee();
-			emp.setEmployee_id(removeBdWriterId);
+			emp.setEmployeeId(removeBdWriterId);
 			bd.setWriter(emp);
 			service.removeBd(bd);
 		} catch (RemoveException e) {

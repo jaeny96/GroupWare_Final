@@ -51,7 +51,7 @@ public class AddScheduleServlet extends HttpServlet {
 			Schedule s = new Schedule();
 			Employee emp = new Employee();
 			ScheduleType st = new ScheduleType();
-			emp.setEmployee_id(targetId);
+			emp.setEmployeeId(targetId);
 			st.setSkd_type(skdInsertType);
 			
 			s.setSkd_id(emp);

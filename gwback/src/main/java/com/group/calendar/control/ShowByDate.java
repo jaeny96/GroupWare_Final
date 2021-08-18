@@ -53,7 +53,7 @@ public class ShowByDate extends HttpServlet {
 	         Department dpt_id = new Department();
 	         dpt_id.setDepartment_id(dept);
 	         Employee em = new Employee(id, null, dpt_id, null, null, null, null, null, 1, null);
-	         em.setEmployee_id(id);
+	         em.setEmployeeId(id);
 	         em.setDepartment(dpt_id);
 	         List<Schedule> list = service.findByDate(em, sdate, edate);
 

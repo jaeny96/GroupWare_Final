@@ -42,7 +42,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 				cm.setCm_no(rs.getInt("cm_no"));
 
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				cm.setCm_writer(emp);
 				cm.setCm_date(rs.getTimestamp("cm_date"));
@@ -80,7 +80,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setString(1, cm.getBd_no());
 			pstmt.setString(2, cm.getBd_no());
-			pstmt.setString(3, cm.getCm_writer().getEmployee_id());
+			pstmt.setString(3, cm.getCm_writer().getEmployeeId());
 			pstmt.setString(4, cm.getCm_content());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -108,7 +108,7 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 			pstmt = con.prepareStatement(deleteSQL);
 			pstmt.setString(1, cm.getBd_no());
 			pstmt.setInt(2, cm.getCm_no());
-			pstmt.setString(3, cm.getCm_writer().getEmployee_id());
+			pstmt.setString(3, cm.getCm_writer().getEmployeeId());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

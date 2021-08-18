@@ -31,8 +31,8 @@ public class ChangeMyPhoneNumServlet extends HttpServlet {
 
 		try {
 			Employee emp = new Employee();
-			emp.setEmployee_id(id);
-			emp.setPhone_number(modiPhone);
+			emp.setEmployeeId(id);
+			emp.setPhoneNumber(modiPhone);
 			service.modify(emp);
 		} catch (ModifyException e) {
 			e.printStackTrace();

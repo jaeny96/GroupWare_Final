@@ -13,57 +13,73 @@
 		">
 	<!-- Root Context: defines shared resources visible to all other web components -->
 
-       
-     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> 
-	 <!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-      <property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:XE"/>   -->
-         <property name="driverClassName" 	value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/> 
-  <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
-      
-	<property name="username" value="hr"/> 
-	  <property name="password" value="hr"/>
- <property name="minimumIdle" value="1" />
-<!--       <property name="maximumPoolSize" value="10" /> -->
-<!--       <property name="connectionTestQuery" value="select 1 from sys.dual" /> -->
-<!--       <property name="connectionTimeout"  value="300000" /> -->    	
-</bean>
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:XE" />
+		<property name="username" value="groupware" />
+		<property name="password" value="groupware" />
+		<property name="minimumIdle" value="1" />
+	</bean>
 
-	<bean id="dataSource2" 
-	      class="com.zaxxer.hikari.HikariDataSource" 
-	      destroy-method="close"> 
-	      <qualifier value="hikarids"/>
-	      <constructor-arg ref="hikariConfig" />      
-	</bean> 
-    
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+		destroy-method="close">
+		<qualifier value="hikarids" />
+		<constructor-arg ref="hikariConfig" />
+	</bean>
 
-	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
-		  id="sqlSessionFactory2">
-		  <qualifier value="Underscore"></qualifier>
-<!-- 		<property name="dataSource"      ref="dataSource"></property> -->
-		<property name="dataSource"      ref="dataSource2"></property>
-		<property name="configLocation"  value="classpath:mybatis-group-config.xml"/>
-	</bean>		
-	
-	
-	<tx:annotation-driven transaction-manager="transactionManager" />
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-       <property name="dataSource" ref="dataSource2"/>
-     <!-- <property name="dataSource" ref="dataSource"/> -->
-    </bean>
-    
-	<aop:aspectj-autoproxy proxy-target-class="true"/>	
-<!-- 	<bean id="loggingSample" class="com.day.aop.MyAdvice" /> -->
-	
-<context:annotation-config/>
-<context:component-scan base-package="com.group.approval.dao"/>
-<context:component-scan base-package="com.group.calendar.dao"/>
-<context:component-scan base-package="com.group.employee.dao"/>
-<context:component-scan base-package="com.group.main.dao"/>
-<context:component-scan base-package="com.group.mypage.dao"/>
-<context:component-scan base-package="com.group.approval.service"/>
-<context:component-scan base-package="com.group.calendar.service"/>
-<context:component-scan base-package="com.group.employee.service"/>
-<context:component-scan base-package="com.group.main.service"/>
-<context:component-scan base-package="com.group.mypage.service"/>
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+<!-- 		<qualifier value="UnderscoreToCamelCase"></qualifier> -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation"
+			value="classpath:mybatis-group-config.xml" />
+	</bean>
 
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+
+	<context:annotation-config />
+	<context:component-scan
+		base-package="com.group.approval.dao" />
+	<context:component-scan
+		base-package="com.group.board.dao" />
+	<context:component-scan
+		base-package="com.group.calendar.dao" />
+	<context:component-scan
+		base-package="com.group.employee.dao" />
+	<context:component-scan
+		base-package="com.group.main.dao" />
+	<context:component-scan
+		base-package="com.group.mypage.dao" />
+
+	<context:component-scan
+		base-package="com.group.approval.service" />
+	<context:component-scan
+		base-package="com.group.board.service" />
+	<context:component-scan
+		base-package="com.group.calendar.service" />
+	<context:component-scan
+		base-package="com.group.employee.service" />
+	<context:component-scan
+		base-package="com.group.main.service" />
+	<context:component-scan
+		base-package="com.group.mypage.service" />
+
+	<context:component-scan
+		base-package="com.group.approval.dto" />
+	<context:component-scan
+		base-package="com.group.board.dto" />
+	<context:component-scan
+		base-package="com.group.calendar.dto" />
+	<context:component-scan
+		base-package="com.group.employee.dto" />
+	<context:component-scan
+		base-package="com.group.mypage.dto" />
 </beans>

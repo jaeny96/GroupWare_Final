@@ -288,7 +288,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		    	
 			    d.setDocument_no(rs.getString("document_no"));
 		    	d.setDocument_title(rs.getString("document_title"));
-		    	emp.setEmployee_id(rs.getString("employee_id"));
+		    	emp.setEmployeeId(rs.getString("employee_id"));
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
@@ -374,7 +374,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		    	
 			    d.setDocument_no(rs.getString("document_no"));
 		    	d.setDocument_title(rs.getString("document_title"));
-		    	emp.setEmployee_id(rs.getString("employee_id"));
+		    	emp.setEmployeeId(rs.getString("employee_id"));
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
 		    	d.setDraft_date(rs.getDate("dt"));
@@ -463,7 +463,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 				    d.setDocument_no(rs.getString("document_no"));
 			    	d.setDocument_title(rs.getString("document_title"));
 			    	//사원 테이블 정보 넣기
-			    	emp.setEmployee_id(rs.getString("employee_id"));
+			    	emp.setEmployeeId(rs.getString("employee_id"));
 			    	emp.setName(rs.getString("name"));
 			    	d.setEmployee(emp);
 			    	d.setDraft_date(rs.getDate("dt"));
@@ -552,7 +552,7 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			    	
 				    d.setDocument_no(rs.getString("document_no"));
 			    	d.setDocument_title(rs.getString("document_title"));
-			    	emp.setEmployee_id(rs.getString("employee_id"));
+			    	emp.setEmployeeId(rs.getString("employee_id"));
 			    	emp.setName(rs.getString("name"));
 			    	d.setEmployee(emp);
 			    	d.setDraft_date(rs.getDate("dt"));

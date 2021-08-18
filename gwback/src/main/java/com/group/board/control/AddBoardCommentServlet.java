@@ -32,7 +32,7 @@ public class AddBoardCommentServlet extends HttpServlet {
 
 		try {
 			Employee emp = new Employee();
-			emp.setEmployee_id(addCmWriterId);
+			emp.setEmployeeId(addCmWriterId);
 			emp.setName(addCmWriter);
 			BoardComment cm = new BoardComment();
 			cm.setBd_no(addTargetNo);

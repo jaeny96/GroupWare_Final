@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.group.approval.dto.Document;
 import com.group.board.dto.Board;
 import com.group.calendar.dto.Schedule;
@@ -16,42 +21,59 @@ import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.sql.MyConnection;
 
+@Repository("mainDAO")
 public class MainDAOOracle implements MainDAO {
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
+	
 	@Override
 	public Employee selectById(String id) throws FindException{
-		Connection con = null;
+		SqlSession session = null;
+		
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			Employee emp = session.selectOne("com.group.main.MainPageMapper.selectById", id);
+			return emp;
+		}catch (Exception e) {
 			throw new FindException(e.getMessage());
-		}
-		String selectByIdSQL = "SELECT employee_id, name, password, department_id \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Employee emp = new Employee();
-		try {
-			pstmt = con.prepareStatement(selectByIdSQL);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				emp.setPassword(rs.getString("password"));;
-				Department dept = new Department();
-				dept.setDepartment_id(rs.getString("department_id"));
-				emp.setDepartment(dept);
-			} else {
-				throw new FindException("해당 정보를 찾을 수 없습니다");
+		}finally {
+			if(session!=null) {
+				session.close();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, rs);
 		}
-		return emp;
+//		Connection con = null;
+//		try {
+//			con = MyConnection.getConnection();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		}
+//		String selectByIdSQL = "SELECT employee_id, name, password, department_id \r\n" + "FROM employee\r\n" + "WHERE employee_id=?";
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		Employee emp = new Employee();
+//		try {
+//			pstmt = con.prepareStatement(selectByIdSQL);
+//			pstmt.setString(1, id);
+//			rs = pstmt.executeQuery();
+//
+//			if (rs.next()) {
+//				emp.setEmployee_id(rs.getString("employee_id"));
+//				emp.setName(rs.getString("name"));
+//				emp.setPassword(rs.getString("password"));;
+//				Department dept = new Department();
+//				dept.setDepartment_id(rs.getString("department_id"));
+//				emp.setDepartment(dept);
+//			} else {
+//				throw new FindException("해당 정보를 찾을 수 없습니다");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		} finally {
+//			MyConnection.close(con, pstmt, rs);
+//		}
+//		return emp;
 	}
 
 	@Override
@@ -166,7 +188,7 @@ public class MainDAOOracle implements MainDAO {
 				bd.setBd_no(rs.getString("bd_no"));
 				bd.setBd_title(rs.getString("bd_title"));
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				bd.setWriter(emp);
 				bd.setBd_date(rs.getTimestamp("bd_date"));
 
@@ -209,7 +231,7 @@ public class MainDAOOracle implements MainDAO {
 		try {
 			pstmt = con.prepareStatement(selectScheduleSQL);
 			pstmt.setString(1, emp.getDepartment().getDepartment_id());
-			pstmt.setString(2, emp.getEmployee_id());
+			pstmt.setString(2, emp.getEmployeeId());
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
