@@ -2,7 +2,8 @@ $(function () {
   //메뉴 이동 시 변경 될 부분
   var $content = $("div.wrapper>div.main>main.content");
   //로그인 여부 확인
-  var backurlCheckLogined = "/back/checkedlogined";
+  // var backurlCheckLogined = "/back/checkedlogined";
+  // var backurlCheckLogined = "http://localhost:8888/gwback/main/chkLogin";
   // $.ajax({
   //   url: backurlCheckLogined,
   //   method: "get",
@@ -231,7 +232,7 @@ $(function () {
   //ajax요청 시 사용할 backurl 선언
   //프로필 정보
   // var backurlProfile = "/back/showmainpageprofile";
-  var backurlProfile = "http://localhost:8888/gwback/main";
+  var backurlProfile = "http://localhost:8888/gwback/main/profile";
   //결재예정문서
   // var backurlAp = "/back/showmainpageap";
   var backurlAp = "http://localhost:8888/gwback/main/document";
@@ -245,7 +246,7 @@ $(function () {
   // var backurlSkd = "/back/showmainpageskd";
   var backurlSkd = "http://localhost:8888/gwback/main/todaySkd";
   //로그아웃
-  var backurlLogout = "/back/logout";
+  var backurlLogout = "http://localhost:8888/gwback/main/logout";
 
   //프로필 정보 get
   // $.ajax({
@@ -379,20 +380,20 @@ $(function () {
     },
   });
 
-  // //로그아웃 관련 클릭 이벤트 핸들러
-  // function logoutBtnClickHandler() {
-  //   $.ajax({
-  //     url: backurlLogout,
-  //     method: "get",
-  //     success: function (responseData) {
-  //       //로그인 페이지로 이동
-  //       location.href = "http://localhost:8888/front";
-  //     },
-  //   });
-  // }
+  //로그아웃 관련 클릭 이벤트 핸들러
+  function logoutBtnClickHandler() {
+    $.ajax({
+      url: backurlLogout,
+      method: "get",
+      success: function (responseData) {
+        //로그인 페이지로 이동
+        location.href = "http://localhost:8888/front";
+      },
+    });
+  }
 
-  // //로그아웃 버튼 클릭 이벤트 등록
-  // logoutBtnObj.addEventListener("click", logoutBtnClickHandler);
+  //로그아웃 버튼 클릭 이벤트 등록
+  logoutBtnObj.addEventListener("click", logoutBtnClickHandler);
 
   //sidebar menu Obj 찾기
   var $menuObj = $(

@@ -23,16 +23,16 @@
 		<property name="minimumIdle" value="1" />
 	</bean>
 
-	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource"
+	<bean id="dataSource2" class="com.zaxxer.hikari.HikariDataSource"
 		destroy-method="close">
 		<qualifier value="hikarids" />
 		<constructor-arg ref="hikariConfig" />
 	</bean>
 
-	<bean id="sqlSessionFactory"
+	<bean id="sqlSessionFactory2"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 <!-- 		<qualifier value="UnderscoreToCamelCase"></qualifier> -->
-		<property name="dataSource" ref="dataSource"></property>
+		<property name="dataSource" ref="dataSource2"></property>
 		<property name="configLocation"
 			value="classpath:mybatis-group-config.xml" />
 	</bean>
@@ -41,7 +41,7 @@
 		transaction-manager="transactionManager" />
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource2" />
 	</bean>
 
 
@@ -71,15 +71,4 @@
 		base-package="com.group.main.service" />
 	<context:component-scan
 		base-package="com.group.mypage.service" />
-
-	<context:component-scan
-		base-package="com.group.approval.dto" />
-	<context:component-scan
-		base-package="com.group.board.dto" />
-	<context:component-scan
-		base-package="com.group.calendar.dto" />
-	<context:component-scan
-		base-package="com.group.employee.dto" />
-	<context:component-scan
-		base-package="com.group.mypage.dto" />
 </beans>
