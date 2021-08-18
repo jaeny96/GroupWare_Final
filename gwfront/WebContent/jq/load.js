@@ -237,7 +237,8 @@ $(function () {
   //최근게시글
   var backurlBd = "/back/showmainpagebd";
   //휴가정보
-  var backurlLeave = "/back/showmainpageleave";
+  // var backurlLeave = "/back/showmainpageleave";
+  var backurlLeave = "http://localhost:8888/gwback/main/leave";
   //오늘의일정
   var backurlSkd = "/back/showmainpageskd";
   //로그아웃
@@ -267,7 +268,7 @@ $(function () {
     timeout: {},
     success: function (responseData) {
       console.log(responseData);
-      mainLoginId = responseData.employee_id;
+      mainLoginId = responseData.employeeId;
       mainLoginName = responseData.name;
       //함수 호출
       insertProfileInfo();
@@ -362,17 +363,17 @@ $(function () {
   //   },
   // });
 
-  // //휴가정보 get
-  // $.ajax({
-  //   url: backurlLeave,
-  //   method: "get",
-  //   success: function (responseData) {
-  //     mainGrantLeave = responseData.grant_days;
-  //     mainRemainLeave = responseData.remain_days;
-  //     //함수 호출
-  //     insertMainLeaveElement();
-  //   },
-  // });
+  //휴가정보 get
+  $.ajax({
+    url: backurlLeave,
+    method: "get",
+    success: function (responseData) {
+      mainGrantLeave = responseData.grant_days;
+      mainRemainLeave = responseData.remain_days;
+      //함수 호출
+      insertMainLeaveElement();
+    },
+  });
 
   // //오늘의일정 정보 get
   // $.ajax({

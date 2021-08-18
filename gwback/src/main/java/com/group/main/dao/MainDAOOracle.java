@@ -78,40 +78,53 @@ public class MainDAOOracle implements MainDAO {
 
 	@Override
 	public Leave selectLeave(String id) throws FindException{
-		Connection con = null;
+		SqlSession session = null;
+		
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			Leave leave = session.selectOne("com.group.main.MainPageMapper.selectLeave", id);
+			return leave;
+		}catch (Exception e) {
 			throw new FindException(e.getMessage());
-		}
-
-		String selectLeaveSQL = "SELECT employee_id, grant_days, (grant_days-remain_days), remain_days\r\n" + "FROM leave\r\n"
-				+ "WHERE employee_id=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Leave leave = new Leave();
-		try {
-			pstmt = con.prepareStatement(selectLeaveSQL);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				leave.setEmployee_id(rs.getString("employee_id"));
-				leave.setGrant_days(rs.getInt("grant_days"));
-				leave.setUse_days(rs.getInt(2));
-				leave.setRemain_days(rs.getInt("remain_days"));
-			} else {
-				throw new FindException("휴가 정보를 찾을 수 없습니다");
+		}finally {
+			if(session!=null) {
+				session.close();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, rs);
 		}
-
-		return leave;
+//		Connection con = null;
+//		try {
+//			con = MyConnection.getConnection();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		}
+//
+//		String selectLeaveSQL = "SELECT employee_id, grant_days, (grant_days-remain_days), remain_days\r\n" + "FROM leave\r\n"
+//				+ "WHERE employee_id=?";
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		Leave leave = new Leave();
+//		try {
+//			pstmt = con.prepareStatement(selectLeaveSQL);
+//			pstmt.setString(1, id);
+//			rs = pstmt.executeQuery();
+//
+//			if (rs.next()) {
+//				leave.setEmployeeId(rs.getString("employee_id"));
+//				leave.setGrantDays(rs.getInt("grant_days"));
+//				leave.setUseDays(rs.getInt(2));
+//				leave.setRemainDays(rs.getInt("remain_days"));
+//			} else {
+//				throw new FindException("휴가 정보를 찾을 수 없습니다");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new FindException(e.getMessage());
+//		} finally {
+//			MyConnection.close(con, pstmt, rs);
+//		}
+//
+//		return leave;
 	}
 
 	@Override

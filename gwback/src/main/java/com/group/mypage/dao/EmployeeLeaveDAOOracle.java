@@ -66,9 +66,9 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 				emp.setPassword(rs.getString("password"));
 
 				Leave leave = new Leave();
-				leave.setGrant_days(rs.getInt("grant_days"));
-				leave.setRemain_days(rs.getInt("remain_days"));
-				leave.setUse_days(rs.getInt("grant_days") - rs.getInt("remain_days"));
+				leave.setGrantDays(rs.getInt("grant_days"));
+				leave.setRemainDays(rs.getInt("remain_days"));
+				leave.setUseDays(rs.getInt("grant_days") - rs.getInt("remain_days"));
 
 				empleave.setEmployee(emp);
 				empleave.setLeave(leave);

@@ -3,69 +3,69 @@ package com.group.employee.dto;
 import java.util.Date;
 
 public class Leave {
-	private String employee_id;
-	private int grant_days;
-	private int use_days;
-	private int remain_days;
-	private Date grant_year;
+	private String employeeId;
+	private int grantDays;
+	private int useDays;
+	private int remainDays;
+	private Date grantYear;
 	
 	public Leave() {
 		
 	}
 	
-	public Leave(String employee_id, int grant_days, int use_days, int remain_days, Date grant_year) {
+	public Leave(String employeeId, int grantDays, int useDays, int remainDays, Date grantYear) {
 		super();
-		this.employee_id = employee_id;
-		this.grant_days = grant_days;
-		this.use_days = use_days;
-		this.remain_days = remain_days;
-		this.grant_year = grant_year;
+		this.employeeId = employeeId;
+		this.grantDays = grantDays;
+		this.useDays = useDays;
+		this.remainDays = remainDays;
+		this.grantYear = grantYear;
 	}
 
-	public String getEmployee_id() {
-		return employee_id;
+	public String getEmployeeId() {
+		return employeeId;
 	}
 
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
-	public int getGrant_days() {
-		return grant_days;
+	public int getGrantDays() {
+		return grantDays;
 	}
 
-	public void setGrant_days(int grant_days) {
-		this.grant_days = grant_days;
+	public void setGrantDays(int grantDays) {
+		this.grantDays = grantDays;
 	}
 
-	public int getUse_days() {
-		return use_days;
+	public int getUseDays() {
+		return useDays;
 	}
 
-	public void setUse_days(int use_days) {
-		this.use_days = use_days;
+	public void setUseDays(int useDays) {
+		this.useDays = useDays;
 	}
 
-	public int getRemain_days() {
-		return remain_days;
+	public int getRemainDays() {
+		return remainDays;
 	}
 
-	public void setRemain_days(int remain_days) {
-		this.remain_days = remain_days;
+	public void setRemainDays(int remainDays) {
+		this.remainDays = remainDays;
 	}
 
-	public Date getGrant_year() {
-		return grant_year;
+	public Date getGrantYear() {
+		return grantYear;
 	}
 
-	public void setGrant_year(Date grant_year) {
-		this.grant_year = grant_year;
+	public void setGrantYear(Date grantYear) {
+		this.grantYear = grantYear;
 	}
 
 	@Override
 	public String toString() {
-		return "Leave [employee_id=" + employee_id + ", grant_days=" + grant_days + ", use_days=" + use_days
-				+ ", remain_days=" + remain_days + ", grant_year=" + grant_year + "]";
+		return "Leave [employeeId=" + employeeId + ", grantDays=" + grantDays + ", useDays=" + useDays
+				+ ", remainDays=" + remainDays + ", grantYear=" + grantYear + "]";
 	}
 	
 }

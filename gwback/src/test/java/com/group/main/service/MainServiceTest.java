@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.group.employee.dto.Employee;
+import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 
 @ExtendWith(SpringExtension.class)
@@ -20,11 +21,19 @@ class MainServiceTest {
 	@Autowired
 	MainService service;
 	@Test
-	void test() throws FindException{
+	void showProfileTest() throws FindException{
 		String id = "DEV001";
 		Employee emp = service.showProfile(id);
 		String expectedPwd = "1";
 		assertEquals(expectedPwd, emp.getPassword());
+	}
+
+	@Test
+	void showLeaveTest() throws FindException{
+		String id = "DEV001";
+		Leave leave = service.showLeave(id);
+		int expectedRemainDays = 10;
+		assertEquals(expectedRemainDays, leave.getRemainDays());
 	}
 
 }

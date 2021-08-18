@@ -8,4 +8,9 @@
 		FROM employee
 		WHERE employee_id=#{id}
 	</select>
+	<select id="selectLeave" resultType="leave">
+		SELECT employee_id "employeeId", grant_days, (grant_days-remain_days), remain_days
+		FROM leave
+		WHERE employee_id=#{id}
+	</select>
 </mapper>
