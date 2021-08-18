@@ -41,7 +41,7 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			pstmt = con.prepareStatement(updateApprovalSQL);
 			pstmt.setString(1, ap.getAp_type().getApStatus_type());
 			pstmt.setString(2, ap.getAp_ap_comment());
-			pstmt.setString(3, ap.getDocument_no().getDocument_no());
+			pstmt.setString(3, ap.getDocument_no().getDocumentNo());
 			pstmt.setString(4, ap.getEmployee_id().getEmployeeId());
 			int cnt = pstmt.executeUpdate();
 			if (cnt == 1) {
@@ -81,7 +81,7 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			pstmt = con.prepareStatement(updateAgreementSQL);
 			pstmt.setString(1, ag.getAg_ap_type().getApStatus_type());
 			pstmt.setString(2, ag.getAg_ap_comment());
-			pstmt.setString(3, ag.getDocument_no().getDocument_no());
+			pstmt.setString(3, ag.getDocument_no().getDocumentNo());
 			pstmt.setString(4, ag.getEmployee_id().getEmployeeId());
 			int cnt = pstmt.executeUpdate();
 			if (cnt == 1) {
@@ -117,7 +117,7 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 		try {
 			pstmt = con.prepareStatement(updateReferenceSQL);
 			// pstmt.setString(1, R.getRe_ap_type().getApStatus_type());
-			pstmt.setString(1, R.getDocument_no().getDocument_no());
+			pstmt.setString(1, R.getDocument_no().getDocumentNo());
 			pstmt.setString(2, R.getEmployee_id().getEmployeeId());
 			int cnt = pstmt.executeUpdate();
 			if (cnt == 1) {

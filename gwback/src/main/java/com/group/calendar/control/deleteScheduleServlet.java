@@ -42,8 +42,8 @@ public class deleteScheduleServlet extends HttpServlet {
 			Employee emp = new Employee();
 
 			emp.setEmployeeId(targetId);
-			s.setSkd_id(emp);
-			s.setSkd_no(skdDeleteNo);
+			s.setSkdId(emp);
+			s.setSkdNo(skdDeleteNo);
 
 			service.deleteSkd(s);
 			System.out.println("일정이 삭제되었습니다");

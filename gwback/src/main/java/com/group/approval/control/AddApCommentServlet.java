@@ -41,7 +41,7 @@ public class AddApCommentServlet extends HttpServlet {
 			Employee emp = new Employee();
 			emp.setEmployeeId(updateEmpId);
 			Document d = new Document();
-			d.setDocument_no(updateDocsNo);
+			d.setDocumentNo(updateDocsNo);
 			service.decisionAp(ap);
 		} catch (com.group.exception.UpdateException e) {
 			e.printStackTrace();

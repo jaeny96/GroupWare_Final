@@ -44,7 +44,7 @@ public class ShowByContent extends HttpServlet {
 	    	 Employee em = new Employee();
 	    	 em.setEmployeeId(id);
 	         Schedule skd = new Schedule(em, title, content);
-	         skd.setSkd_id(em);
+	         skd.setSkdId(em);
 	         List<Schedule> list = service.findByContent(skd);
 	         jsonStr = mapper.writeValueAsString(list);
 	         response.setContentType("application/json;charset=utf-8");

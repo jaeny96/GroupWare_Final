@@ -45,8 +45,8 @@ public class EmployeeLeaveDAOOracle implements EmployeeLeaveDAO {
 				emp.setName(rs.getString("name"));
 				
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				
 				Position p = new Position();

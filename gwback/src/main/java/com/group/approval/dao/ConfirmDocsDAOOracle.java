@@ -80,14 +80,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -161,14 +161,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -242,14 +242,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -323,14 +323,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -403,14 +403,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -484,14 +484,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -564,14 +564,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -645,14 +645,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Approval a = new Approval();
 				ApprovalStatus ap = new ApprovalStatus();
 
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("employee_id"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("employee_id"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -829,10 +829,10 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				Department dep = new Department();
 
 				// 문서내용 관련 정보 받아오기
-				d.setDocument_title(rs.getString("document_title"));// document_title
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);// document_type
-				d.setDocument_no(rs.getString("document_no"));// document_no
+				d.setDocumentTitle(rs.getString("document_title"));// document_title
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);// document_type
+				d.setDocumentNo(rs.getString("document_no"));// document_no
 				// 부서 id를 보기 쉽게 변환하기 위해
 				String depp = rs.getString("department_id");
 				String depReal = "";
@@ -853,12 +853,12 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				} else if (depp.equals("SEC")) {
 					depReal = "정보보안실";
 				}
-				dep.setDepartment_title(depReal);
+				dep.setDepartmentTitle(depReal);
 				emp.setDepartment(dep);
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);// name
-				d.setDraft_date(rs.getDate("dt"));// draft_date
-				d.setDocument_content(rs.getString("document_content"));// document_content
+				d.setDraftDate(rs.getDate("dt"));// draft_date
+				d.setDocumentContent(rs.getString("document_content"));// document_content
 
 				// 결재자관련 정보 받아오기
 				List<Approval> approvals = new ArrayList<>();
@@ -1039,14 +1039,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1128,14 +1128,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1217,14 +1217,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1306,14 +1306,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1395,14 +1395,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1484,14 +1484,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1573,14 +1573,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);
@@ -1662,14 +1662,14 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 				ApprovalStatus ap = new ApprovalStatus();
 
 				d.setState(rs.getString("state"));
-				d.setDocument_no(rs.getString("document_no"));
-				d.setDocument_title(rs.getString("document_title"));
+				d.setDocumentNo(rs.getString("document_no"));
+				d.setDocumentTitle(rs.getString("document_title"));
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				d.setEmployee(emp);
-				d.setDraft_date(rs.getDate("dt"));
-				dt.setDocument_type(rs.getString("document_type"));
-				d.setDocument_type(dt);
+				d.setDraftDate(rs.getDate("dt"));
+				dt.setDocumentType(rs.getString("document_type"));
+				d.setDocumentType(dt);
 				String s = rs.getString("ap_type");
 				ap.setApStatus_type(rs.getString("ap_type"));
 				a.setAp_type(ap);

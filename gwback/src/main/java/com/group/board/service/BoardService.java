@@ -80,7 +80,7 @@ public class BoardService {
 	 * @throws AddException
 	 */
 	public void addBd(Board bd) throws AddException {
-		if (bd.getBd_title() != null) {
+		if (bd.getBdTitle() != null) {
 			dao.insert(bd);
 		} else {
 			System.out.println("제목이 입력되지 않았습니다");
@@ -95,7 +95,7 @@ public class BoardService {
 	 *                         할지 고민중
 	 */
 	public void modifyBd(Board bd) throws ModifyException {
-		if (!"".equals(bd.getBd_title()) && bd.getBd_title() != null) {
+		if (!"".equals(bd.getBdTitle()) && bd.getBdTitle() != null) {
 			dao.update(bd);
 		} else {
 			System.out.println("제목이 입력되지 않았습니다");

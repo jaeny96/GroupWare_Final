@@ -58,19 +58,19 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		try {
 			pstmt = con.prepareStatement(SkdListSQL);
 			pstmt.setString(1, skd_e.getEmployeeId());
-			pstmt.setString(2, skd_e.getDepartment().getDepartment_id()+"%");
+			pstmt.setString(2, skd_e.getDepartment().getDepartmentId()+"%");
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				Schedule s = new Schedule();
 				ScheduleType st = new ScheduleType();
-				s.setSkd_no(rs.getInt("skd_no"));
-				st.setSkd_type(rs.getString("skd_type"));
-				s.setSkd_type(st);
-				s.setSkd_title(rs.getString("skd_title"));
-				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
-				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
-				s.setSkd_share(rs.getString("skd_share"));		
+				s.setSkdNo(rs.getInt("skd_no"));
+				st.setSkdType(rs.getString("skd_type"));
+				s.setSkdType(st);
+				s.setSkdTitle(rs.getString("skd_title"));
+				s.setSkdStartDate(rs.getTimestamp("skd_start_date"));
+				s.setSkdEndDate(rs.getTimestamp("skd_end_date"));
+				s.setSkdShare(rs.getString("skd_share"));		
 				list.add(s);
 				
 //			System.out.println("전체스케줄:"+s);
@@ -120,7 +120,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	         pstmt.setString(1, skd_e.getEmployeeId());	            
 	         pstmt.setString(2, sdate);
 	         pstmt.setString(3, edate);
-	         pstmt.setString(4, skd_e.getDepartment().getDepartment_id()+"%");
+	         pstmt.setString(4, skd_e.getDepartment().getDepartmentId()+"%");
 	         pstmt.setString(5, sdate);
 	         pstmt.setString(6, edate);
 	         rs = pstmt.executeQuery();
@@ -128,14 +128,14 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	         while(rs.next()) {
 	        	Schedule s = new Schedule();
 	            ScheduleType st = new ScheduleType();
-	            st.setSkd_type(rs.getString("skd_type"));
-	            s.setSkd_type(st);
-	            s.setSkd_no(rs.getInt("skd_no"));
-	            s.setSkd_title(rs.getString("skd_title"));
-	            s.setSkd_content(rs.getNString("skd_content"));
-	            s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
-	            s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
-	            s.setSkd_share(rs.getString("skd_share"));
+	            st.setSkdType(rs.getString("skd_type"));
+	            s.setSkdType(st);
+	            s.setSkdNo(rs.getInt("skd_no"));
+	            s.setSkdTitle(rs.getString("skd_title"));
+	            s.setSkdContent(rs.getNString("skd_content"));
+	            s.setSkdStartDate(rs.getTimestamp("skd_start_date"));
+	            s.setSkdEndDate(rs.getTimestamp("skd_end_date"));
+	            s.setSkdShare(rs.getString("skd_share"));
 	                  
 	            list.add(s);
 //	         System.out.println("전체스케줄:"+s);
@@ -176,16 +176,16 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			while(rs.next()) {
 				Schedule s = new Schedule();
 				ScheduleType st = new ScheduleType();
-				st.setSkd_type(rs.getString("skd_type"));
+				st.setSkdType(rs.getString("skd_type"));
 				String skd_title = rs.getString("skd_title");
 				Timestamp skd_start_date = rs.getTimestamp("skd_start_date");
 				Timestamp skd_end_date = rs.getTimestamp("skd_end_date");
 
 			//	System.out.println("결과값:"+skd_title + skd_start_date+skd_end_date);
-				s.setSkd_type(st);
-				s.setSkd_title(skd_title);
-				s.setSkd_start_date(skd_start_date);
-				s.setSkd_end_date(skd_end_date);
+				s.setSkdType(st);
+				s.setSkdTitle(skd_title);
+				s.setSkdStartDate(skd_start_date);
+				s.setSkdEndDate(skd_end_date);
 
 				list.add(s);
 				
@@ -226,11 +226,11 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			while(rs.next()) {
 				Schedule s = new Schedule();
 				ScheduleType st = new ScheduleType();
-				st.setSkd_type(rs.getString("skd_type"));
-				s.setSkd_type(st);
-				s.setSkd_title(rs.getString("skd_title"));
-				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
-				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+				st.setSkdType(rs.getString("skd_type"));
+				s.setSkdType(st);
+				s.setSkdTitle(rs.getString("skd_title"));
+				s.setSkdStartDate(rs.getTimestamp("skd_start_date"));
+				s.setSkdEndDate(rs.getTimestamp("skd_end_date"));
 				list.add(s);
 //				System.out.println(s);
 			}
@@ -262,21 +262,21 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 
 		try {
 			pstmt = con.prepareStatement(skdByContentSQL);
-			pstmt.setString(1, s.getSkd_id().getEmployeeId());
-			pstmt.setString(2, "%"+s.getSkd_title()+"%");
-			pstmt.setString(3, "%"+s.getSkd_content()+"%");
+			pstmt.setString(1, s.getSkdId().getEmployeeId());
+			pstmt.setString(2, "%"+s.getSkdTitle()+"%");
+			pstmt.setString(3, "%"+s.getSkdContent()+"%");
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				Schedule sc = new Schedule();
 				ScheduleType st = new ScheduleType();
-				st.setSkd_type(rs.getString("skd_type"));
-				sc.setSkd_type(st);
-				sc.setSkd_content(rs.getString("skd_content"));
-				sc.setSkd_start_date(rs.getTimestamp("skd_start_date"));
-				sc.setSkd_end_date(rs.getTimestamp("skd_end_date"));
-				sc.setSkd_title(rs.getString("skd_title"));
-				sc.setSkd_share(rs.getString("skd_share"));
+				st.setSkdType(rs.getString("skd_type"));
+				sc.setSkdType(st);
+				sc.setSkdContent(rs.getString("skd_content"));
+				sc.setSkdStartDate(rs.getTimestamp("skd_start_date"));
+				sc.setSkdEndDate(rs.getTimestamp("skd_end_date"));
+				sc.setSkdTitle(rs.getString("skd_title"));
+				sc.setSkdShare(rs.getString("skd_share"));
 				list.add(sc);
 			}
 			if(list.size()==0) {
@@ -311,13 +311,13 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 			if(rs.next()) {
 				Schedule s = new Schedule();
 				ScheduleType st = new ScheduleType();
-				st.setSkd_type(rs.getString("skd_type"));
-				s.setSkd_type(st);
-				s.setSkd_title(rs.getString("skd_title"));
-				s.setSkd_content(rs.getString("skd_content"));
-				s.setSkd_date(rs.getTimestamp("skd_date"));
-				s.setSkd_start_date(rs.getTimestamp("skd_start_date"));
-				s.setSkd_end_date(rs.getTimestamp("skd_end_date"));
+				st.setSkdType(rs.getString("skd_type"));
+				s.setSkdType(st);
+				s.setSkdTitle(rs.getString("skd_title"));
+				s.setSkdContent(rs.getString("skd_content"));
+				s.setSkdDate(rs.getTimestamp("skd_date"));
+				s.setSkdStartDate(rs.getTimestamp("skd_start_date"));
+				s.setSkdEndDate(rs.getTimestamp("skd_end_date"));
 				return s;
 			}
 				throw new FindException("일정이 없습니다.");
@@ -351,19 +351,19 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	               "?, ?)"; //skd_end_date, skd_share
 
 
-	         ScheduleType skd_type = s.getSkd_type();
-	         Employee skd_id = s.getSkd_id();
-	         String skd_title = s.getSkd_title();
-	         String skd_content = s.getSkd_content();
-	         Timestamp skd_start_date = s.getSkd_start_date();
-	         Timestamp skd_end_date = s.getSkd_end_date();
-	         String skd_share = s.getSkd_share();
+	         ScheduleType skd_type = s.getSkdType();
+	         Employee skd_id = s.getSkdId();
+	         String skd_title = s.getSkdTitle();
+	         String skd_content = s.getSkdContent();
+	         Timestamp skd_start_date = s.getSkdStartDate();
+	         Timestamp skd_end_date = s.getSkdEndDate();
+	         String skd_share = s.getSkdShare();
 	         
 	         PreparedStatement pstmt = null;
 	         
 	         try {
 	            pstmt = con.prepareStatement(insertSQL); // insertSQL 문 실행
-	            pstmt.setString(1, skd_type.getSkd_type());
+	            pstmt.setString(1, skd_type.getSkdType());
 	            pstmt.setString(2, skd_id.getEmployeeId());
 	            pstmt.setString(3, skd_title);
 	            pstmt.setString(4, skd_content);
@@ -403,17 +403,17 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	      String updateSQL = "UPDATE schedule SET ";
 	      String updateSQL1 = " WHERE skd_no = ? AND employee_id = ?";
 	      
-	      ScheduleType skd_type = s.getSkd_type();
-	      String skd_title = s.getSkd_title();
-	      String skd_content = s.getSkd_content();
-	      Timestamp skd_start_date = s.getSkd_start_date();
-	      Timestamp skd_end_date = s.getSkd_end_date();
-	      String skd_share = s.getSkd_share();
+	      ScheduleType skd_type = s.getSkdType();
+	      String skd_title = s.getSkdTitle();
+	      String skd_content = s.getSkdContent();
+	      Timestamp skd_start_date = s.getSkdStartDate();
+	      Timestamp skd_end_date = s.getSkdEndDate();
+	      String skd_share = s.getSkdShare();
 	      
 
 	      boolean flag = false;
 	   
-	      if(!skd_type.getSkd_type().equals("")) {
+	      if(!skd_type.getSkdType().equals("")) {
 	         updateSQL += "skd_type = '"+skd_type+"'" ;
 	         flag = true;
 	      }
@@ -476,8 +476,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	      
 	      PreparedStatement pstmt = null;
 	      //?에 들어갈 변수들 
-	      int skd_no = s.getSkd_no();
-	      Employee skd_id = s.getSkd_id();
+	      int skd_no = s.getSkdNo();
+	      Employee skd_id = s.getSkdId();
 	      
 	      //end 시간이 start보다 빠르지 않도록 제약 설정
 	      String skd_start_datestr = new SimpleDateFormat("yyyyMMddHHmmss").format(skd_start_date);   
@@ -540,8 +540,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 	       PreparedStatement pstmt = null;
 	       Employee emp = new Employee();
 	       
-	       int skd_no = s.getSkd_no();
-	       Employee skd_id = s.getSkd_id();
+	       int skd_no = s.getSkdNo();
+	       Employee skd_id = s.getSkdId();
 	      
 	       System.out.println("오라클 삭제 번호 "+skd_no);
 	       System.out.println("오라클 삭제 작성자  "+skd_id.getEmployeeId());
@@ -584,8 +584,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
 //			List<Schedule> all = dao.skdList(em);
 //			for(Schedule s: all) {
-//				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
-//						s.getSkd_end_date());
+//				System.out.println(s.getSkdType()+"/"+s.getSkdTitle()+"/"+s.getSkdStartDate()+"/"+
+//						s.getSkdEndDate());
 //			}
 //		} catch (Exception e) {
 //			
@@ -603,8 +603,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			Employee em = new Employee(skd_id, null, dpt, null, null, null, null, null, 1, null);
 //			List<Schedule> all = dao.skdPeriodList(em, sdate, edate);
 //			for(Schedule s: all) {
-//				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
-//						s.getSkd_end_date());
+//				System.out.println(s.getSkdType()+"/"+s.getSkdTitle()+"/"+s.getSkdStartDate()+"/"+
+//						s.getSkdEndDate());
 //			}
 //		} catch (Exception e) {
 //			
@@ -617,7 +617,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			ScheduleDAOOracle dao = new ScheduleDAOOracle();
 //			List<Schedule> all = dao.skdByTeam(skd_dpt_id);
 //			for(Schedule s: all) {
-//				System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+s.getSkd_start_date()+"/"+
+//				System.out.println(s.getSkdType()+"/"+s.getSkdTitle()+"/"+s.getSkdStartDate()+"/"+
 //						s.skd_end_date);
 //			}
 //		} catch(FindException e) {
@@ -632,8 +632,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			ScheduleDAOOracle dao = new ScheduleDAOOracle();
 //			List<Schedule> all = dao.skdPersonal(skd_id);
 //			for(Schedule s: all) {
-//			System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+
-//			s.skd_start_date+"/"+s.getSkd_end_date());
+//			System.out.println(s.getSkdType()+"/"+s.getSkdTitle()+"/"+
+//			s.skd_start_date+"/"+s.getSkdEndDate());
 //			}
 //		} catch(FindException e) {
 //			System.out.println(e.getMessage());
@@ -651,8 +651,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //			Schedule sc = new Schedule(em, skd_title, skd_content);
 //			List<Schedule> all = dao.skdByContent(sc);
 //			for(Schedule s: all) {
-//			System.out.println(s.skd_start_date+"/"+s.getSkd_end_date()+"/"+
-//			s.getSkd_title()+"/"+s.getSkd_share());
+//			System.out.println(s.skd_start_date+"/"+s.getSkdEndDate()+"/"+
+//			s.getSkdTitle()+"/"+s.getSkdShare());
 //			}
 //		} catch(FindException e) {
 //			System.out.println(e.getMessage());
@@ -665,8 +665,8 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 //		try {
 //			ScheduleDAOOracle dao = new ScheduleDAOOracle();
 //			Schedule s = dao.skdDetail(skd_no);
-//			System.out.println(s.getSkd_type()+"/"+s.getSkd_title()+"/"+
-//					s.getSkd_content()+"/"+s.getSkd_date()+"/"+s.getSkd_start_date()+"/"+s.getSkd_end_date());
+//			System.out.println(s.getSkdType()+"/"+s.getSkdTitle()+"/"+
+//					s.getSkdContent()+"/"+s.getSkd_date()+"/"+s.getSkdStartDate()+"/"+s.getSkdEndDate());
 //		} catch(FindException e) {
 //			System.out.println(e.getMessage());
 //		} catch (Exception e) {

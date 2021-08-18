@@ -40,15 +40,15 @@ public class BoardDAOOracle implements BoardDAO {
 			while (rs.next()) {
 				Board bd = new Board();
 
-				bd.setBd_no(rs.getString("bd_no"));
+				bd.setBdNo(rs.getString("bd_no"));
 
 				Employee emp = new Employee();
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
 
-				bd.setBd_title(rs.getString("bd_title"));
-				bd.setBd_date(rs.getTimestamp("bd_date"));
+				bd.setBdTitle(rs.getString("bd_title"));
+				bd.setBdDate(rs.getTimestamp("bd_date"));
 				bdList.add(bd);
 			}
 			if (bdList.size() == 0) {
@@ -91,13 +91,13 @@ public class BoardDAOOracle implements BoardDAO {
 
 			while (rs.next()) {
 				Board bd = new Board();
-				bd.setBd_no(rs.getString("bd_no"));
-				bd.setBd_title(rs.getString("bd_title"));
+				bd.setBdNo(rs.getString("bd_no"));
+				bd.setBdTitle(rs.getString("bd_title"));
 				Employee emp = new Employee();
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
-				bd.setBd_date(rs.getTimestamp("bd_date"));
+				bd.setBdDate(rs.getTimestamp("bd_date"));
 
 				bdList.add(bd);
 			}
@@ -134,13 +134,13 @@ public class BoardDAOOracle implements BoardDAO {
 
 			while (rs.next()) {
 				Board bd = new Board();
-				bd.setBd_no(rs.getString("bd_no"));
-				bd.setBd_title(rs.getString("bd_title"));
+				bd.setBdNo(rs.getString("bd_no"));
+				bd.setBdTitle(rs.getString("bd_title"));
 				Employee emp = new Employee();
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
-				bd.setBd_date(rs.getTimestamp("bd_date"));
+				bd.setBdDate(rs.getTimestamp("bd_date"));
 				bdList.add(bd);
 			}
 			if (bdList.size() == 0) {
@@ -176,14 +176,14 @@ public class BoardDAOOracle implements BoardDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				bd.setBd_no(rs.getString("bd_no"));
+				bd.setBdNo(rs.getString("bd_no"));
 				Employee emp = new Employee();
 				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				bd.setWriter(emp);
-				bd.setBd_title(rs.getString("bd_title"));
-				bd.setBd_content(rs.getString("bd_content"));
-				bd.setBd_date(rs.getTimestamp("bd_date"));
+				bd.setBdTitle(rs.getString("bd_title"));
+				bd.setBdContent(rs.getString("bd_content"));
+				bd.setBdDate(rs.getTimestamp("bd_date"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -210,8 +210,8 @@ public class BoardDAOOracle implements BoardDAO {
 		try {
 			pstmt = con.prepareStatement(insertSQL);
 			pstmt.setString(1, bd.getWriter().getEmployeeId());
-			pstmt.setString(2, bd.getBd_title());
-			pstmt.setString(3, bd.getBd_content());
+			pstmt.setString(2, bd.getBdTitle());
+			pstmt.setString(3, bd.getBdContent());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -234,19 +234,19 @@ public class BoardDAOOracle implements BoardDAO {
 
 		String str = "";
 
-		if (bd.getBd_title() != null) {
-			str += " bd_title='" + bd.getBd_title() + "',";
+		if (bd.getBdTitle() != null) {
+			str += " bd_title='" + bd.getBdTitle() + "',";
 		}
 
-		if (bd.getBd_content() != null) {
-			str += " bd_content='" + bd.getBd_content() + "',";
+		if (bd.getBdContent() != null) {
+			str += " bd_content='" + bd.getBdContent() + "',";
 		}
 		String updateSQL = "UPDATE board SET " + str.substring(0, str.length() - 1)
 				+ " ,bd_date=SYSTIMESTAMP WHERE bd_no=? AND employee_id=?";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(updateSQL);
-			pstmt.setString(1, bd.getBd_no());
+			pstmt.setString(1, bd.getBdNo());
 			pstmt.setString(2, bd.getWriter().getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
@@ -278,7 +278,7 @@ public class BoardDAOOracle implements BoardDAO {
 
 		try {
 			pstmt = con.prepareStatement(deleteSQL);
-			pstmt.setString(1, bd.getBd_no());
+			pstmt.setString(1, bd.getBdNo());
 			pstmt.setString(2, bd.getWriter().getEmployeeId());
 			pstmt.executeUpdate();
 

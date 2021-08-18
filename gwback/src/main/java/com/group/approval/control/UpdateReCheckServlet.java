@@ -30,7 +30,7 @@ public class UpdateReCheckServlet extends HttpServlet {
 		try {
 			Reference re = new Reference();
 			Document d = new Document();
-			d.setDocument_no(DocsNo);
+			d.setDocumentNo(DocsNo);
 			Employee emp = new Employee();
 			emp.setEmployeeId(LoginId);
 			re.setEmployee_id(emp);

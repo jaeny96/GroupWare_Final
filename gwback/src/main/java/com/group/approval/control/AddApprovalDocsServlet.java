@@ -51,12 +51,12 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			String addApDocsNo=docTypeCode+"-"+addApDocsType+"-"+today()+"-"+docNumber;
 
 			Document document = new Document();
-			document.setDocument_no(addApDocsNo);
-			document.setDocument_title(addApDocsTitle);
-			document.setDocument_content(addApDocsContent);
+			document.setDocumentNo(addApDocsNo);
+			document.setDocumentTitle(addApDocsTitle);
+			document.setDocumentContent(addApDocsContent);
 			DocumentType dtype = new DocumentType();
-			dtype.setDocument_type(addApDocsType);
-			document.setDocument_type(dtype);
+			dtype.setDocumentType(addApDocsType);
+			document.setDocumentType(dtype);
 			Employee emp = new Employee();
 			emp.setEmployeeId(addApWriterId);
 			document.setEmployee(emp);
@@ -69,7 +69,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 				}else {
 					Approval approval = new Approval();
 					Document apDocNo = new Document();
-					apDocNo.setDocument_no(addApDocsNo);
+					apDocNo.setDocumentNo(addApDocsNo);
 					approval.setDocument_no(apDocNo);
 					Employee apEmp = new Employee();
 					apEmp.setEmployeeId(addApLineEmpIdArr[i]);
@@ -88,7 +88,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			if (addAgLineEmpId != null && !"".equals(addAgLineEmpId) && !"agreementBoxBtn".equals(addAgLineEmpId)) {
 				Agreement agreement = new Agreement();
 				Document agDocNo = new Document();
-				agDocNo.setDocument_no(addApDocsNo);
+				agDocNo.setDocumentNo(addApDocsNo);
 				agreement.setDocument_no(agDocNo);
 				Employee agEmp = new Employee();
 				agEmp.setEmployeeId(addAgLineEmpId);
@@ -100,7 +100,7 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			if (addReLineEmpId != null && !"".equals(addReLineEmpId) && !"referenceBoxBtn".equals(addReLineEmpId)) {
 				Reference reference = new Reference();
 				Document reDocNo = new Document();
-				reDocNo.setDocument_no(addApDocsNo);
+				reDocNo.setDocumentNo(addApDocsNo);
 				reference.setDocument_no(reDocNo);
 				Employee reEmp = new Employee();
 				reEmp.setEmployeeId(addReLineEmpId);

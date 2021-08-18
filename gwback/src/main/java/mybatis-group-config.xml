@@ -8,11 +8,17 @@
     <setting name="jdbcTypeForNull" value="NULL" />
   </settings>
   <typeAliases>
+    <typeAlias type="com.group.approval.dto.Document" alias="document"/>  
+  
     <typeAlias type="com.group.employee.dto.Department" alias="department"/>
     <typeAlias type="com.group.employee.dto.Employee" alias="employee"/>
     <typeAlias type="com.group.employee.dto.Job" alias="job"/>
     <typeAlias type="com.group.employee.dto.Leave" alias="leave"/>
     <typeAlias type="com.group.employee.dto.Position" alias="position"/>
+    
+    <typeAlias type="com.group.board.dto.Board" alias="board"/>
+
+    <typeAlias type="com.group.calendar.dto.Schedule" alias="schedule"/>
   </typeAliases>
   <mappers>
   	<mapper resource="MainPageMapper.xml"></mapper>

@@ -35,8 +35,8 @@ public class AddBoardServlet extends HttpServlet {
 			emp.setEmployeeId(addBdWriterId);
 			emp.setName(addBdWriter);
 			Board bd = new Board();
-			bd.setBd_title(addBdTitle);
-			bd.setBd_content(addBdContent);
+			bd.setBdTitle(addBdTitle);
+			bd.setBdContent(addBdContent);
 			bd.setWriter(emp);
 			service.addBd(bd);
 		} catch (AddException e) {

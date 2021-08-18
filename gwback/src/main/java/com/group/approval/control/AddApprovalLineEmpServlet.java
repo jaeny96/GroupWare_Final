@@ -35,7 +35,7 @@ public class AddApprovalLineEmpServlet extends HttpServlet {
 			}else {
 				Approval approval = new Approval();
 				Document apDocNo = new Document();
-				apDocNo.setDocument_no(addApDocsNo);
+				apDocNo.setDocumentNo(addApDocsNo);
 				approval.setDocument_no(apDocNo);
 				Employee apEmp = new Employee();
 				apEmp.setEmployeeId(addApLineEmpIdArr[i]);

@@ -51,7 +51,7 @@ public class ShowByDate extends HttpServlet {
 	      
 	      try {
 	         Department dpt_id = new Department();
-	         dpt_id.setDepartment_id(dept);
+	         dpt_id.setDepartmentId(dept);
 	         Employee em = new Employee(id, null, dpt_id, null, null, null, null, null, 1, null);
 	         em.setEmployeeId(id);
 	         em.setDepartment(dpt_id);

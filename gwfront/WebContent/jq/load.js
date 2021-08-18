@@ -233,14 +233,17 @@ $(function () {
   // var backurlProfile = "/back/showmainpageprofile";
   var backurlProfile = "http://localhost:8888/gwback/main";
   //결재예정문서
-  var backurlAp = "/back/showmainpageap";
+  // var backurlAp = "/back/showmainpageap";
+  var backurlAp = "http://localhost:8888/gwback/main/document";
   //최근게시글
-  var backurlBd = "/back/showmainpagebd";
+  // var backurlBd = "/back/showmainpagebd";
+  var backurlBd = "http://localhost:8888/gwback/main/board";
   //휴가정보
   // var backurlLeave = "/back/showmainpageleave";
   var backurlLeave = "http://localhost:8888/gwback/main/leave";
   //오늘의일정
-  var backurlSkd = "/back/showmainpageskd";
+  // var backurlSkd = "/back/showmainpageskd";
+  var backurlSkd = "http://localhost:8888/gwback/main/todaySkd";
   //로그아웃
   var backurlLogout = "/back/logout";
 
@@ -256,141 +259,125 @@ $(function () {
   //   },
   // });
   $.ajax({
-    method: "get",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
     url: backurlProfile,
-    headers: {
-      Accept: "application/json, text/plain, */*",
-    },
-    data: "",
-    timeout: {},
+    method: "get",
     success: function (responseData) {
-      console.log(responseData);
       mainLoginId = responseData.employeeId;
       mainLoginName = responseData.name;
       //함수 호출
       insertProfileInfo();
     },
-    error: function (request, status, error) {
-      console.log(request);
-      console.log(status);
-      console.log(error);
-
-      alert("에러 ");
-    },
   });
 
   //결재예정문서 정보 get
-  // $.ajax({
-  //   url: backurlAp,
-  //   method: "get",
-  //   success: function (responseData) {
-  //     $(responseData).each(function (i, e) {
-  //       mainApId[i] = e.document_no;
-  //       mainApTitle[i] = e.document_title;
-  //       mainApDate[i] = e.draft_date;
-  //     });
-  //     //함수 호출
-  //     for (var i = 0; i < mainApId.length; i++) {
-  //       createMainApElement(i);
-  //     }
-  //     //결재예정문서 제목 객체
-  //     $titleObj = $(".card-body tbody.mainApTbody tr td:nth-child(2) a");
+  $.ajax({
+    url: backurlAp,
+    method: "get",
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        mainApId[i] = e.documentNo;
+        mainApTitle[i] = e.documentTitle;
+        mainApDate[i] = e.draftDate;
+      });
+      //함수 호출
+      for (var i = 0; i < mainApId.length; i++) {
+        createMainApElement(i);
+      }
+      //결재예정문서 제목 객체
+      $titleObj = $(".card-body tbody.mainApTbody tr td:nth-child(2) a");
 
-  //     //결재예정문서 제목 객체 클릭 시 이벤트 발생
-  //     $titleObj.click(function (e) {
-  //       e.preventDefault();
-  //       //클릭시 a링크에 담겨있는 문서값 저장
-  //       localStorage.setItem("apDocumentNum", e.target.id);
-  //       var href = $(this).attr("href");
+      //결재예정문서 제목 객체 클릭 시 이벤트 발생
+      $titleObj.click(function (e) {
+        e.preventDefault();
+        //클릭시 a링크에 담겨있는 문서값 저장
+        localStorage.setItem("apDocumentNum", e.target.id);
+        var href = $(this).attr("href");
 
-  //       switch (href) {
-  //         case "approval-detail.html":
-  //           //컨텐트에 로드
-  //           $content.load(href, function (responseTxt, statusTxt, xhr) {
-  //             if (statusTxt == "error")
-  //               alert("Error: " + xhr.status + ": " + xhr.statusText);
-  //           });
-  //           break;
-  //       }
-  //       return false;
-  //     });
-  //   },
-  // });
+        switch (href) {
+          case "approval-detail.html":
+            //컨텐트에 로드
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+            break;
+        }
+        return false;
+      });
+    },
+  });
 
-  // //최근게시글 정보 get
-  // $.ajax({
-  //   url: backurlBd,
-  //   method: "get",
-  //   success: function (responseData) {
-  //     $(responseData).each(function (i, e) {
-  //       mainBdId[i] = e.bd_no;
-  //       mainBdTitle[i] = e.bd_title;
-  //       mainBdWriter[i] = e.writer.name;
-  //       mainBdDate[i] = e.bd_date;
-  //     });
+  //최근게시글 정보 get
+  $.ajax({
+    url: backurlBd,
+    method: "get",
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        mainBdId[i] = e.bdNo;
+        mainBdTitle[i] = e.bdTitle;
+        mainBdWriter[i] = e.writer.employeeId;
+        mainBdDate[i] = e.bdDate;
+      });
 
-  //     //함수 호출
-  //     for (var i = 0; i < mainBdId.length; i++) {
-  //       createMainBdElement(i);
-  //     }
+      //함수 호출
+      for (var i = 0; i < mainBdId.length; i++) {
+        createMainBdElement(i);
+      }
 
-  //     //최근게시글 제목 객체
-  //     $mainBdTitleObj = $(
-  //       'body > div > div > main > div > div:nth-child(1) > div.col-12.col-md-6.d-flex.order-2.order-xxl-3 > div > div.card-body.d-flex > div > table > tbody > tr > td >a[href="board-detail.html"]'
-  //     );
+      //최근게시글 제목 객체
+      $mainBdTitleObj = $(
+        'body > div > div > main > div > div:nth-child(1) > div.col-12.col-md-6.d-flex.order-2.order-xxl-3 > div > div.card-body.d-flex > div > table > tbody > tr > td >a[href="board-detail.html"]'
+      );
 
-  //     //최근게시글 제목 객체 클릭 시 이벤트 발생
-  //     $mainBdTitleObj.click(function (e) {
-  //       e.preventDefault();
-  //       //클릭시 a링크에 담겨있는 문서값 저장
-  //       localStorage.setItem("bdNumber", e.target.id);
-  //       var href = $(this).attr("href");
+      //최근게시글 제목 객체 클릭 시 이벤트 발생
+      $mainBdTitleObj.click(function (e) {
+        e.preventDefault();
+        //클릭시 a링크에 담겨있는 문서값 저장
+        localStorage.setItem("bdNumber", e.target.id);
+        var href = $(this).attr("href");
 
-  //       switch (href) {
-  //         case "board-detail.html":
-  //           //컨텐트에 로드
-  //           $content.load(href, function (responseTxt, statusTxt, xhr) {
-  //             if (statusTxt == "error")
-  //               alert("Error: " + xhr.status + ": " + xhr.statusText);
-  //           });
-  //           break;
-  //       }
-  //       return false;
-  //     });
-  //   },
-  // });
+        switch (href) {
+          case "board-detail.html":
+            //컨텐트에 로드
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+            break;
+        }
+        return false;
+      });
+    },
+  });
 
   //휴가정보 get
   $.ajax({
     url: backurlLeave,
     method: "get",
     success: function (responseData) {
-      mainGrantLeave = responseData.grant_days;
-      mainRemainLeave = responseData.remain_days;
+      mainGrantLeave = responseData.grantDays;
+      mainRemainLeave = responseData.remainDays;
       //함수 호출
       insertMainLeaveElement();
     },
   });
 
   // //오늘의일정 정보 get
-  // $.ajax({
-  //   url: backurlSkd,
-  //   method: "get",
-  //   success: function (responseData) {
-  //     $(responseData).each(function (i, e) {
-  //       mainSkdId[i] = e.skd_no;
-  //       mainSkdTitle[i] = e.skd_title;
-  //       mainSkdDate[i] = e.skd_date;
-  //     });
-  //     //함수 호출
-  //     for (var i = 0; i < mainSkdId.length; i++) {
-  //       createMainSkdElement(i);
-  //     }
-  //   },
-  // });
+  $.ajax({
+    url: backurlSkd,
+    method: "get",
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        mainSkdId[i] = e.skdNo;
+        mainSkdTitle[i] = e.skdTitle;
+        mainSkdDate[i] = e.skdDate;
+      });
+      //함수 호출
+      for (var i = 0; i < mainSkdId.length; i++) {
+        createMainSkdElement(i);
+      }
+    },
+  });
 
   // //로그아웃 관련 클릭 이벤트 핸들러
   // function logoutBtnClickHandler() {
