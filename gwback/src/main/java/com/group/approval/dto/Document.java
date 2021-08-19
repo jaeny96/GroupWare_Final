@@ -3,27 +3,29 @@ package com.group.approval.dto;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.group.employee.dto.Employee;
 
 public class Document {
 	
 	private String state;//결재서류,기안서류 구분용
-	private String document_no;
-	private String document_title;
-	private String document_content;
-	private Date draft_date;
-	private DocumentType document_status;
+	private String documentNo;
+	private String documentTitle;
+	private String documentContent;
+	@JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
+	private Date draftDate;
+	private DocumentType documentStatus;
 	
 	private Employee employee;
-	private DocumentType document_type;
-	public DocumentType getDocument_type() {
-		return document_type;
+	private DocumentType documentType;
+	public DocumentType getDocumentType() {
+		return documentType;
 	}
 
 
 
-	public void setDocument_type(DocumentType document_type) {
-		this.document_type = document_type;
+	public void setDocumentType(DocumentType documentType) {
+		this.documentType = documentType;
 	}
 	private Approval approval;
 	private Agreement agreement;
@@ -32,40 +34,24 @@ public class Document {
 	
 	public Document() {}
 	
-
-
-	public Document(String state, String document_no, String document_title, String document_content, Date draft_date,
-			DocumentType document_status, Employee employee, DocumentType document_type, Approval approval,
+	public Document(String state, String documentNo, String documentTitle, String documentContent, Date draftDate,
+			DocumentType documentStatus, Employee employee, DocumentType documentType, Approval approval,
 			Agreement agreement, Reference reference, List<Approval> approvals) {
 		super();
 		this.state = state;
-		this.document_no = document_no;
-		this.document_title = document_title;
-		this.document_content = document_content;
-		this.draft_date = draft_date;
-		this.document_status = document_status;
+		this.documentNo = documentNo;
+		this.documentTitle = documentTitle;
+		this.documentContent = documentContent;
+		this.draftDate = draftDate;
+		this.documentStatus = documentStatus;
 		this.employee = employee;
-		this.document_type = document_type;
+		this.documentType = documentType;
 		this.approval = approval;
 		this.agreement = agreement;
 		this.reference = reference;
 		this.approvals = approvals;
 	}
 
-
-
-	public Document(String document_no, String document_title,Employee employee,Employee employee1,Date draft_date,
-			DocumentType document_status,Approval approval) {
-		super();
-		this.document_no = document_no;
-		this.document_title = document_title;
-		this.employee = employee;
-		this.employee = employee1;
-		this.draft_date = draft_date;
-		this.document_status = document_status;
-		this.approval=approval;
-	
-	}
 
 	
 	public List<Approval> getApprovals() {
@@ -81,37 +67,37 @@ public class Document {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getDocument_no() {
-		return document_no;
+	public String getDocumentNo() {
+		return documentNo;
 	}
-	public void setDocument_no(String document_no) {
-		this.document_no = document_no;
+	public void setDocumentNo(String documentNo) {
+		this.documentNo = documentNo;
 	}
-	public String getDocument_title() {
-		return document_title;
+	public String getDocumentTitle() {
+		return documentTitle;
 	}
-	public void setDocument_title(String document_title) {
-		this.document_title = document_title;
+	public void setDocumentTitle(String documentTitle) {
+		this.documentTitle = documentTitle;
 	}
-	public String getDocument_content() {
-		return document_content;
+	public String getDocumentContent() {
+		return documentContent;
 	}
-	public void setDocument_content(String document_content) {
-		this.document_content = document_content;
+	public void setDocumentContent(String documentContent) {
+		this.documentContent = documentContent;
 	}
-	public Date getDraft_date() {
-		return draft_date;
+	public Date getDraftDate() {
+		return draftDate;
 	}
-	public void setDraft_date(Date draft_date) {
-		this.draft_date = draft_date;
-	}
-
-	public DocumentType getDocument_status() {
-		return document_status;
+	public void setDraftDate(Date draftDate) {
+		this.draftDate = draftDate;
 	}
 
-	public void setDocument_status(DocumentType document_status) {
-		this.document_status = document_status;
+	public DocumentType getDocumentStatus() {
+		return documentStatus;
+	}
+
+	public void setDocumentStatus(DocumentType documentStatus) {
+		this.documentStatus = documentStatus;
 	}
 
 
@@ -143,9 +129,9 @@ public class Document {
 	};
 	@Override
 	public String toString() {
-		return "Document [state=" + state + ", document_no=" + document_no + ", document_title=" + document_title
-				+ ", document_content=" + document_content + ", draft_date=" + draft_date + ", document_status="
-				+ document_status + ", employee=" + employee + ", document_type=" + document_type + ", approval="
+		return "Document [state=" + state + ", documentNo=" + documentNo + ", documentTitle=" + documentTitle
+				+ ", documentContent=" + documentContent + ", draftDate=" + draftDate + ", documentStatus="
+				+ documentStatus + ", employee=" + employee + ", documentType=" + documentType + ", approval="
 				+ approval + ", agreement=" + agreement + ", reference=" + reference + ", approvals=" + approvals + "]";
 	}
 

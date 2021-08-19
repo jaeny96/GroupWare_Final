@@ -8,13 +8,19 @@
     <setting name="jdbcTypeForNull" value="NULL" />
   </settings>
   <typeAliases>
-<!--     <typeAlias type="com.group.approval.dto." alias="approval"/>
-    <typeAlias type="com.group.board.dto." alias="board"/>
-    <typeAlias type="com.group.calendar.dto." alias="calendar"/>
-    <typeAlias type="com.group.employee.dto." alias="employee"/>
-    <typeAlias type="com.group.main.dto." alias="main"/>
-	<typeAlias type="com.group.mypage.dto." alias="mypage"/> -->
+	<typeAlias type="com.group.approval.dto.Agreement" alias="agreement"/>
+	<typeAlias type="com.group.approval.dto.Approval" alias="approval"/>
+	<typeAlias type="com.group.approval.dto.ApprovalStatus" alias="approvalStatus"/>
+	<typeAlias type="com.group.approval.dto.Document" alias="document"/>
+	<typeAlias type="com.group.approval.dto.DocumentType" alias="documentType"/>
+	<typeAlias type="com.group.approval.dto.Reference" alias="reference"/>
+    <typeAlias type="com.group.employee.dto.Department" alias="department"/>
+    <typeAlias type="com.group.employee.dto.Employee" alias="employee"/>
+    <typeAlias type="com.group.employee.dto.Job" alias="job"/>
+    <typeAlias type="com.group.employee.dto.Leave" alias="leave"/>
+    <typeAlias type="com.group.employee.dto.Position" alias="position"/>
   </typeAliases>
   <mappers>
+ 	<mapper resource="ApprovalSideMapper.xml"></mapper>
   </mappers>
 </configuration>

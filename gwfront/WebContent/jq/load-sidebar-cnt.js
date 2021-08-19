@@ -32,8 +32,20 @@ $(function () {
 
   //사이드바 관련 ajax 
   $.ajax({
-    url: "/back/sidebarcntall",
-    method: "get",
+	  "method": "GET",
+	  "transformRequest": [
+	    null
+	  ],
+	  "transformResponse": [
+	    null
+	  ],
+	  "jsonpCallbackParam": "callback",
+	  "url": '/gwback/apboard/sidebar',
+	  "headers": {
+	    "Accept": "application/json, text/plain, */*"
+	  },
+	  "data": "",
+	  "timeout": {},
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         cnt[i] = e;

@@ -6,68 +6,71 @@ import com.group.employee.dto.Employee;
 
 public class Approval {
 
-	private Document document_no;
-	private Employee employee_id;
-	private ApprovalStatus ap_type;
-	private int ap_step;
-	private Date ap_ap_date;
-	private String ap_ap_comment;
-
-	public Document getDocument_no() {
-		return document_no;
+	private Document documentNo;
+	private Employee employeeId;
+	private ApprovalStatus apType;
+	private int apStep;
+	private Date apApDate;
+	private String apApComment;
+	
+	
+	public Approval() {
+		super();
+	}
+	
+	
+	public Approval(Document documentNo, Employee employeeId, ApprovalStatus apType, int apStep, Date apApDate,
+			String apApComment) {
+		super();
+		this.documentNo = documentNo;
+		this.employeeId = employeeId;
+		this.apType = apType;
+		this.apStep = apStep;
+		this.apApDate = apApDate;
+		this.apApComment = apApComment;
 	}
 
-	public void setDocument_no(Document document_no) {
-		this.document_no = document_no;
-	}
 
-	public Employee getEmployee_id() {
-		return employee_id;
+	public Document getDocumentNo() {
+		return documentNo;
 	}
-
-	public void setEmployee_id(Employee employee_id) {
-		this.employee_id = employee_id;
+	public void setDocumentNo(Document documentNo) {
+		this.documentNo = documentNo;
 	}
-
-	public ApprovalStatus getAp_type() {
-		return ap_type;
+	public Employee getEmployeeId() {
+		return employeeId;
 	}
-
-	public void setAp_type(ApprovalStatus ap_type) {
-		this.ap_type = ap_type;
+	public void setEmployeeId(Employee employeeId) {
+		this.employeeId = employeeId;
 	}
-
-	public int getAp_step() {
-		return ap_step;
+	public ApprovalStatus getApType() {
+		return apType;
 	}
-
-	public void setAp_step(int ap_step) {
-		this.ap_step = ap_step;
+	public void setApType(ApprovalStatus apType) {
+		this.apType = apType;
 	}
-
-	public Date getAp_ap_date() {
-		return ap_ap_date;
+	public int getApStep() {
+		return apStep;
 	}
-
-	public void setAp_ap_date(Date ap_ap_date) {
-		this.ap_ap_date = ap_ap_date;
+	public void setApStep(int apStep) {
+		this.apStep = apStep;
 	}
-
-	public String getAp_ap_comment() {
-		return ap_ap_comment;
+	public Date getApApDate() {
+		return apApDate;
 	}
-
-	public void setAp_ap_comment(String ap_ap_comment) {
-		this.ap_ap_comment = ap_ap_comment;
+	public void setApApDate(Date apApDate) {
+		this.apApDate = apApDate;
+	}
+	public String getApApComment() {
+		return apApComment;
+	}
+	public void setApApComment(String apApComment) {
+		this.apApComment = apApComment;
 	}
 
 	@Override
 	public String toString() {
-		return "Approval [document_no=" + document_no + ", employee_id=" + employee_id + ", ap_type=" + ap_type
-				+ ", ap_step=" + ap_step + ", ap_ap_date=" + ap_ap_date + ", ap_ap_comment=" + ap_ap_comment + "]";
+		return "Approval [documentNo=" + documentNo + ", employeeId=" + employeeId + ", apType=" + apType + ", apStep="
+				+ apStep + ", apApDate=" + apApDate + ", apApComment=" + apApComment + "]";
 	}
-	
-	
-	
-	
 }

@@ -333,24 +333,33 @@ $(function () {
     tBodyObject.appendChild(tr);
   }
 
-  //전체 목록 문서 붏러오는 ajax
+  //전체 목록 문서 불러오는 ajax
   $.ajax({
-    url: "/back/showapdocsstatus",
-    method: "get",
-    data: {
-      status: "",//아무것도 안보내면 전체를 의미 
-    },
+	  "method": "GET",
+	  "transformRequest": [
+	    null
+	  ],
+	  "transformResponse": [
+	    null
+	  ],
+	  "jsonpCallbackParam": "callback",
+	  "url": '/gwback/apboard/selectdocs',
+	  "headers": {
+	    "Accept": "application/json, text/plain, */*"
+	  },
+	  "data": "",
+	  "timeout": {},
     success: function (responseData) {
       emptyBdElement(tBodyObject);
       createTbodyElement();
       $(responseData).each(function (i, e) {
-        apBdNo[i] = e.document_no;
-        apBdTitle[i] = e.document_title;
+        apBdNo[i] = e.documentNo;
+        apBdTitle[i] = e.documentTitle;
         apBdEmp[i] = e.employee.employee_id;
         apBdEmpName[i] = e.employee.name;
-        apBdDate[i] = e.draft_date;
-        apBdStatus[i] = e.document_status.document_type;
-        apBdCheck[i] = e.approval.ap_type.apStatus_type;
+        apBdDate[i] = e.draftDate;
+        apBdStatus[i] = e.documentType.documentType;
+        apBdCheck[i] = e.approval.apType.apStatusType;
       });
 
       //받아온 데이터 만큼 구성요소 생성 

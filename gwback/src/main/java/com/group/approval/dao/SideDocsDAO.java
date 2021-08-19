@@ -1,6 +1,7 @@
 package com.group.approval.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.group.approval.dto.Document;
 import com.group.exception.FindException;
@@ -59,26 +60,7 @@ public interface SideDocsDAO {
 	  * @param employee_id,document_status
 	  * @throws FindException
 	  */
-	 List<Document> selectByListOk(String employee_id) throws FindException;
-	 
-
-	 
-	 /**
-	  * (진행)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
-	  * @return 진행 문서 목록
-	  * @param employee_id,document_status
-	  * @throws FindException
-	  */
-	 List<Document> selectByListWait(String employee_id) throws FindException;
-	 
-	 
-	 /**
-	  * (반려)자신이 기안을 올린 문서와 결재해야하는 문서를 모두 가지고온다.
-	  * @return 반려 문서 목록
-	  * @param employee_id,document_status
-	  * @throws FindException
-	  */
-	 List<Document> selectByListNo(String employee_id) throws FindException;
+	 List<Document> selectByListStatus(String id,String status) throws FindException;
 	 
 	
 }

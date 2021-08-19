@@ -1,19 +1,29 @@
 package com.group.approval.dto;
 
 public class DocumentType {
-	private String document_type;
-
-	public String getDocument_type() {
-		return document_type;
+	private String dType;
+	
+	public DocumentType() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setDocument_type(String document_type) {
-		this.document_type = document_type;
+	public DocumentType(String dType) {
+		super();
+		this.dType = dType;
+	}
+
+	public String getDocumentType() {
+		return dType;
+	}
+
+	public void setDocumentType(String dType) {
+		this.dType = dType;
 	}
 
 	@Override
 	public String toString() {
-		return "DocumentType [document_type=" + document_type + "]";
+		return "DocumentType [documentType=" + dType + "]";
 	}
    
 	

@@ -333,28 +333,35 @@ $(function () {
 }
 
 
-  //첫 화면 조회하는 ajax
+  var status="대기";
+  //전체 목록 문서 불러오는 ajax
   $.ajax({
-    url: "/back/showapdocsstatus",
-    method: "get",
-    data: {
-      status: "대기",
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    url: "/gwback/apboard/selectdocs"  +"/" + status,
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      contentType: "application/json; charset:UTF-8",
     },
+    data: "",
+    timeout: {},
     success: function (responseData) {
       emptyBdElement(tBodyObject);
       createTbodyElement();
       $(responseData).each(function (i, e) {
         console.log(i + "," + e);
-        apBdNo[i] = e.document_no;
-        apBdTitle[i] = e.document_title;
+        apBdNo[i] = e.documentNo;
+        apBdTitle[i] = e.documentTitle;
         apBdEmp[i] = e.employee.employee_id;
         apBdEmpName[i] = e.employee.name;
-        apBdDate[i] = e.draft_date;
-        apBdStatus[i] = e.document_status.document_type;
-        apBdCheck[i] = e.approval.ap_type.apStatus_type;
+        apBdDate[i] = e.draftDate;
+        apBdStatus[i] = e.documentType.documentType;
+        apBdCheck[i] = e.approval.apType.apStatusType;
       });
 
-      //받아온 데이터 만큼 구성요소 생성 
+      //받아온 데이터 만큼 구성요소 생성
       for (var i = 0; i < apBdTitle.length; i++) {
         createApBdElement(i);
       }

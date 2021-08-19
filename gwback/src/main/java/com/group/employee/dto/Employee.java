@@ -3,7 +3,7 @@ package com.group.employee.dto;
 import java.util.Date;
 
 public class Employee {
-	private String employee_id;
+	private String employeeId;
 	private String name;
 	private Department department;
 	private Job job;
@@ -17,39 +17,39 @@ public class Employee {
 	public Employee() {
 	}
 
-	public Employee(String employee_id) {
-		this(employee_id, null, null, null, null, null, null, null, 1, null);
+	public Employee(String employeeId) {
+		this(employeeId, null, null, null, null, null, null, null, 1, null);
 	}
 	
-	public Employee(String employee_id,Department department) {
-		this(employee_id, null, department, null, null, null, null, null, 1, null);
+	public Employee(String employeeId,Department department) {
+		this(employeeId, null, department, null, null, null, null, null, 1, null);
 	}
-	public Employee(String employee_id, int enabled, String password) {
-		this(employee_id, null, null, null, null, null, null, null, 1, password);
-	}
-
-	public Employee(String employee_id, String phone_number, int enabled) {
-		this(employee_id, null, null, null, null, phone_number, null, null, 1, null);
+	public Employee(String employeeId, int enabled, String password) {
+		this(employeeId, null, null, null, null, null, null, null, 1, password);
 	}
 
-	public Employee(String employee_id, String name, Department department, Job job, Position position) {
-		this(employee_id, name, department, job, position, null, null, null, 1, null);
+	public Employee(String employeeId, String phone_number, int enabled) {
+		this(employeeId, null, null, null, null, phone_number, null, null, 1, null);
 	}
 
-	public Employee(String employee_id, String name, Department department, Job job, Position position,
+	public Employee(String employeeId, String name, Department department, Job job, Position position) {
+		this(employeeId, name, department, job, position, null, null, null, 1, null);
+	}
+
+	public Employee(String employeeId, String name, Department department, Job job, Position position,
 			String phone_number, String email, String password) {
-		this(employee_id, name, department, job, position, phone_number, email, null, 1, password);
+		this(employeeId, name, department, job, position, phone_number, email, null, 1, password);
 	}
 
-	public Employee(String employee_id, String name, Department department, Job job, Position position,
+	public Employee(String employeeId, String name, Department department, Job job, Position position,
 			String phone_number, String email, Date hire_date, String password) {
-		this(employee_id, name, department, job, position, phone_number, email, hire_date, 1, password);
+		this(employeeId, name, department, job, position, phone_number, email, hire_date, 1, password);
 
 	}
 
-	public Employee(String employee_id, String name, Department department, Job job, Position position,
+	public Employee(String employeeId, String name, Department department, Job job, Position position,
 			String phone_number, String email, Date hire_date, int enabled, String password) {
-		this.employee_id = employee_id;
+		this.employeeId = employeeId;
 		this.name = name;
 		this.department = department;
 		this.job = job;
@@ -62,11 +62,11 @@ public class Employee {
 	}
 
 	public String getEmployee_id() {
-		return employee_id;
+		return employeeId;
 	}
 
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
+	public void setEmployee_id(String employeeId) {
+		this.employeeId = employeeId;
 	}
 
 	public String getName() {
@@ -143,7 +143,7 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [employee_id=" + employee_id + ", name=" + name + ", department=" + department + ", job=" + job
+		return "Employee [employee_id=" + employeeId + ", name=" + name + ", department=" + department + ", job=" + job
 				+ ", position=" + position + ", phone_number=" + phone_number + ", email=" + email + ", hire_date="
 				+ hire_date + ", enabled=" + enabled + ", password=" + password + "]";
 	}
