@@ -42,39 +42,41 @@ $(function () {
        * 캘린더에 일정 보여주기 type = 팀일정, 개인일정
        */
       $.ajax({
-        url: "/back/showskddetail",
-        dataType: "json",
-        data: { id: id, dept: dept },
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        url: "http://localhost:8888/gwback/schedule/allSkd",
+        jsonpCallbackParam: "callback",
+        data: "",
         success: function (result) {
+          console.log(result);
           var events = [];
           if (result != null) {
             $.each(result, function (i, e) {
-              var type = $.trim(e.skd_share);
+              var type = $.trim(e.skdShare);
               //컴퓨터마다 t와 p에 띄어쓰기가 있거나 없어서 trim으로 잘라줌
-              var enddate = e.skd_end_date;
-              var startdate = moment(e.skd_start_date).format(
-                "YYYY-MM-DD hh:mm"
-              );
+              var enddate = e.skdEndDate;
+              var startdate = moment(e.skdStartDate).format("YYYY-MM-DD hh:mm");
               var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
               if (type == "t") {
                 //캘린더가 가지고 있는 객체에 DB값 세팅
                 events.push({
-                  title: e.skd_title,
+                  title: e.skdTitle,
                   start: startdate,
                   end: enddate,
                   resource: type,
-                  id: e.skd_no,
-                  extendedProps: { content: e.skd_content },
+                  id: e.skdNo,
+                  extendedProps: { content: e.skdContent },
                   color: "#28a745",
                 });
               } else if (type == "p") {
                 events.push({
-                  title: e.skd_title,
+                  title: e.skdTitle,
                   start: startdate,
                   end: enddate,
                   resource: type,
-                  id: e.skd_no,
-                  extendedProps: { content: e.skd_content },
+                  id: e.skdNo,
+                  extendedProps: { content: e.skdContent },
                   color: "#ffc107",
                 });
               }
@@ -286,25 +288,26 @@ $(function () {
           var id = loginedId;
           var dept = loginedDept;
           $.ajax({
-            url: "/back/showskddetail",
-            dataType: "json",
-            data: { id: id, dept: dept },
+            url: "http://localhost:8888/gwback/schedule/allSkd",
+            method: "GET",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            data: "",
             success: function (result) {
               calendar.removeAllEventSources();
               var events = [];
               if (result != null) {
                 $.each(result, function (i, e) {
                   // var type = e.skd_share;
-                  var type = $.trim(e.skd_share);
-                  var startdate = moment(e.skd_start_date).format(
+                  var type = $.trim(e.skdShare);
+                  var startdate = moment(e.skdStartDate).format(
                     "YYYY-MM-DD hh:mm"
                   );
-                  var enddate = moment(e.skd_end_date).format(
-                    "YYYY-MM-DD hh:mm"
-                  );
+                  var enddate = moment(e.skdEndDate).format("YYYY-MM-DD hh:mm");
                   if (type == "t") {
                     events.push({
-                      title: e.skd_title,
+                      title: e.skdTitle,
                       start: startdate,
                       end: enddate,
                       resource: type,
@@ -312,7 +315,7 @@ $(function () {
                     });
                   } else if (type == "p") {
                     events.push({
-                      title: e.skd_title,
+                      title: e.skdTitle,
                       start: startdate,
                       end: enddate,
                       resource: type,
@@ -337,21 +340,24 @@ $(function () {
           var loginedDept = loginedId.substring(0, 3);
           var dept = loginedDept;
           $.ajax({
-            url: "/back/showteamskd",
-            dataType: "json",
-            data: { dept_id: dept },
+            url: "http://localhost:8888/gwback/schedule/skdTeam",
+            method: "GET",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            data: "",
             success: function (result) {
               calendar.removeAllEventSources();
               var events = [];
               if (result != null) {
                 $.each(result, function (i, e) {
-                  var enddate = e.skd_end_date;
-                  var startdate = moment(e.skd_start_date).format(
+                  var enddate = e.skdEndDate;
+                  var startdate = moment(e.skdStartDate).format(
                     "YYYY-MM-DD hh:mm"
                   );
                   var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
                   events.push({
-                    title: e.skd_title,
+                    title: e.skdTitle,
                     start: startdate,
                     end: enddate,
                     color: "#28a745",
@@ -374,21 +380,24 @@ $(function () {
           var id = loginedId;
 
           $.ajax({
-            url: "/back/showpersonalskd",
-            dataType: "json",
-            data: { skd_id: id },
+            url: "http://localhost:8888/gwback/schedule/skdPersonal",
+            method: "GET",
+            transformRequest: [null],
+            transformResponse: [null],
+            jsonpCallbackParam: "callback",
+            data: "",
             success: function (result) {
               calendar.removeAllEventSources();
               var events = [];
               if (result != null) {
                 $.each(result, function (i, e) {
-                  var enddate = e.skd_end_date;
-                  var startdate = moment(e.skd_start_date).format(
+                  var enddate = e.skdEndDate;
+                  var startdate = moment(e.skdStartDate).format(
                     "YYYY-MM-DD hh:mm"
                   );
                   var enddate = moment(enddate).format("YYYY-MM-DD hh:mm");
                   events.push({
-                    title: e.skd_title,
+                    title: e.skdTitle,
                     start: startdate,
                     end: enddate,
                     color: "#ffc107",
@@ -534,16 +543,19 @@ function createModal(id) {
     });
   }
   $.ajax({
-    url: "/back/showbydetail",
-    dataType: "json",
-    data: { skd_no: skdno },
+    url: "http://localhost:8888/gwback/schedule/skdDetail/" + skdno,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    data: "",
     success: function (responseData) {
       $(responseData).each(function (i, e) {
-        titleValue.innerHTML = e.skd_title;
-        typeValue.innerHTML = e.skd_type.skd_type;
-        StartTimeValue.innerHTML = e.skd_start_date;
-        EndTimeValue.innerHTML = e.skd_end_date;
-        ContentValue.innerHTML = e.skd_content;
+        titleValue.innerHTML = e.skdTitle;
+        typeValue.innerHTML = e.skdType.skdType;
+        StartTimeValue.innerHTML = e.skdStartDate;
+        EndTimeValue.innerHTML = e.skdEndDate;
+        ContentValue.innerHTML = e.skdContent;
 
         //ms 2021-07-31
         localStorage.setItem("title", titleValue.innerHTML);

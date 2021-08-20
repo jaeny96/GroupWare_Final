@@ -12,8 +12,11 @@
 	import java.util.logging.Formatter;
 	
 	import javax.xml.crypto.dsig.Transform;
-	
-	import com.group.calendar.dao.ScheduleDAO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.group.calendar.dao.ScheduleDAO;
 	import com.group.calendar.dto.Schedule;
 	import com.group.employee.dto.Department;
 	import com.group.employee.dto.Employee;
@@ -23,34 +26,11 @@ import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
 	
-	
+	@Service
 	public class ScheduleService {
+		@Autowired
 		private ScheduleDAO dao;
-		private static ScheduleService service; //선언만해두기
-		public static String envProp; 
 		
-		private ScheduleService() {
-			Properties env = new Properties();
-			
-			try {
-				//리팩토링작업
-				env.load(new FileInputStream(envProp));
-	//			env.load(new FileInputStream("classes.prop"));
-				String className = env.getProperty("scheduleDAO");
-	//			System.out.println("클래스네임"+className);
-				Class c = Class.forName(className);//JVM에로드
-	//			System.out.println(c);
-				dao = (ScheduleDAO)c.newInstance();//객체생성 (구체화된 클래스를 사용하지 않고 일반화된 인터페이스를 사용) 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		public static ScheduleService getInstance() {
-			if(service == null) {//getItance가 호출되기전에는 생성 x 호출되면 서비스객체가 생성 = 안전한방법
-				service = new ScheduleService();
-			}
-			return service;
-		}
 		
 		/**
 		 * 일정전체를 조회한다

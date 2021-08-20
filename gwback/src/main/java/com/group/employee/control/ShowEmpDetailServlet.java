@@ -31,7 +31,7 @@ public class ShowEmpDetailServlet extends HttpServlet {
 
 		try {
 			Employee empInfo = new Employee();
-			empInfo.setEmployee_id(id);
+			empInfo.setEmployeeId(id);
 			empInfo.setName(name);
 			Employee emp = service.showDetail(empInfo);
 			ObjectMapper mapper = new ObjectMapper();

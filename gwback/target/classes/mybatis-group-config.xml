@@ -8,6 +8,9 @@
     <setting name="jdbcTypeForNull" value="NULL" />
   </settings>
   <typeAliases>
+  <typeAlias type="com.group.calendar.dto.Schedule" alias ="schedule"/>
+  <typeAlias type="com.group.employee.dto.Employee" alias="employee"/>
+  <typeAlias type="com.group.employee.dto.Department" alias="department"/>
 <!--     <typeAlias type="com.group.approval.dto." alias="approval"/>
     <typeAlias type="com.group.board.dto." alias="board"/>
     <typeAlias type="com.group.calendar.dto." alias="calendar"/>
@@ -16,5 +19,6 @@
 	<typeAlias type="com.group.mypage.dto." alias="mypage"/> -->
   </typeAliases>
   <mappers>
+  <mapper resource="ScheduleMapper.xml"/>
   </mappers>
 </configuration>

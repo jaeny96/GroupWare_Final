@@ -38,12 +38,12 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 
 			while (rs.next()) {
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				
 				Position p = new Position();
@@ -54,7 +54,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				j.setJob_title(rs.getString("job_title"));
 				emp.setJob(j);
 				
-				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 
 				empList.add(emp);
@@ -91,12 +91,12 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 
 			while (rs.next()) {
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				
 				Position p = new Position();
@@ -107,7 +107,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				j.setJob_title(rs.getString("job_title"));
 				emp.setJob(j);
 				
-				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 
 				empList.add(emp);
@@ -146,12 +146,12 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 
 			while (rs.next()) {
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				
 				Position p = new Position();
@@ -162,7 +162,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				j.setJob_title(rs.getString("job_title"));
 				emp.setJob(j);
 				
-				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 
 				empList.add(emp);
@@ -198,15 +198,15 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 		try {
 			pstmt = con.prepareStatement(selectInfoSQL);
 			pstmt.setString(1, emp.getName());
-			pstmt.setString(2, emp.getEmployee_id());
+			pstmt.setString(2, emp.getEmployeeId());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				clickEmp.setEmployee_id(emp.getEmployee_id());
+				clickEmp.setEmployeeId(emp.getEmployeeId());
 				clickEmp.setName(emp.getName());
 				
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				clickEmp.setDepartment(d);
 				
 				Position p = new Position();
@@ -217,7 +217,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				j.setJob_title(rs.getString("job_title"));
 				clickEmp.setJob(j);
 				
-				clickEmp.setPhone_number(rs.getString("phone_number"));
+				clickEmp.setPhoneNumber(rs.getString("phone_number"));
 				clickEmp.setEmail(rs.getString("email"));
 			} else {
 				throw new FindException("정보를 찾을 수 없습니다");

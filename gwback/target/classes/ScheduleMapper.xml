@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.ScheduleMapper">
+
+<!-- 전체일정검색 -->
+<select id="SkdList" resultType="schedule" parameterType="employee">
+SELECT skd_no, skd_type, skd_title, skd_start_date,skd_end_date, skd_share
+FROM schedule 
+WHERE employee_id=#{employeeId} AND skd_share ='p'
+UNION ALL 
+SELECT skd_no, skd_type, skd_title, skd_start_date, skd_end_date, skd_share 
+FROM schedule
+WHERE employee_id like '${department.departmentId}%' and skd_share = 't'
+ORDER BY skd_start_date ASC
+</select>
+
+
+<!-- 기간검색 -->
+<select id="skdPeriodList" resultType="schedule" parameterType="java.util.HashMap">
+SELECT skd_no, skd_type, skd_title, skd_content,skd_start_date,skd_end_date, skd_share
+FROM schedule
+WHERE employee_id=#{emp} AND skd_share ='p' AND skd_start_date BETWEEN #{sdate} AND #{edate} 
+UNION ALL
+SELECT skd_no, skd_type, skd_title,skd_content,skd_start_date,skd_end_date, skd_share 
+FROM schedule
+WHERE employee_id like '${dpt}%' and skd_share = 't' AND skd_start_date 
+BETWEEN #{sdate} AND #{edate} ORDER BY skd_start_date ASC
+</select>
+
+<!-- 팀 일정 조회 -->
+<select id="skdByTeam" resultType="schedule" parameterType="string">
+SELECT skd_type, skd_title, skd_start_date, 'yyyy-mm-dd hh24:mi', skd_end_date, 'yyyy-mm-dd hh24:mi' 
+FROM schedule
+WHERE employee_id IN (SELECT employee_id FROM employee WHERE department_id =#{skd_dpt_id})
+AND skd_share='t'
+</select>
+
+<!-- 개인 일정 조회 -->
+<select id="skdPersonal" resultType="schedule" parameterType="string">
+SELECT skd_type, skd_title,skd_start_date, skd_end_date
+FROM schedule
+WHERE employee_id= #{employeeId} AND skd_share='p'
+</select>
+
+<!-- 내용검색 -->
+<select id="skdByContent" resultType="schedule" parameterType="schedule">
+SELECT skd_no, skd_type, skd_title, skd_content, skd_start_date, skd_end_date, skd_share
+FROM schedule 
+WHERE employee_id= #{skdId.employeeId} AND (skd_title like '%${skdTitle}%' OR skd_content like '$%{skdContent}%')
+</select>
+<!-- 상세 일정 검색 -->
+<select id="skdDetail" resultType="schedule" parameterType="int">
+SELECT skd_type,skd_title,skd_content,skd_date,skd_start_date, skd_end_date, skd_share
+FROM schedule
+WHERE skd_no=#{skd_no}
+</select>
+<!-- 일정 추가 -->
+<insert id="insert" parameterType="schedule">
+INSERT INTO schedule(skd_no, skd_type, employee_id, skd_title,skd_content, skd_date, skd_start_date, skd_end_date, skd_share)
+VALUES (SKD_SEQ.NEXTVAL, #{skdType.skdType}, #{skdId.employeeId}, #{skdTitle}, #{skdContent}, sysdate, #{skdStartDate}, #{skdEndDate}, #{skdShare})
+</insert>
+
+<!-- 일정 수정 -->
+<update id="update" parameterType="schedule">
+UPDATE schedule
+<set>
+	<if test="skdType != null and skdType != '' ">skd_type=#{skdType.skdType},</if>
+	<if test="skdTitle!= null and skdTitle != ''">skd_title=#{skdTitle},</if>
+	<if test="skdContent!= null and skdContent != ''">skd_content=#{skdContent},</if>
+	<if test="skdStartDate != null">skd_start_date=#{skdStartDate},</if>
+	<if test="skdEndDate != null">skd_end_date=#{skdEndDate},</if>
+	<if test="skdShare != null and skdShare != ''">skd_share=#{skdShare},</if>
+</set>
+WHERE skd_no = #{skdNo} AND employee_id = #{skdId.employeeId}
+</update>
+<!-- 일정 삭제 -->
+<delete id="delete" parameterType="schedule">
+delete from schedule
+where skd_no= #{skdNo} AND employee_id = #{skdId.employeeId}
+</delete>
+
+</mapper>

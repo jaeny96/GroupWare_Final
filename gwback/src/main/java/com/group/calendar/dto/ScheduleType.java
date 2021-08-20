@@ -3,11 +3,11 @@ package com.group.calendar.dto;
 
 
 public class ScheduleType {
-	   public String skd_type;
+	   public String skdType;
 
-	public ScheduleType(String skd_type) {
+	public ScheduleType(String skdType) {
 		super();
-		this.skd_type = skd_type;
+		this.skdType = skdType;
 	}
 
 	
@@ -17,16 +17,16 @@ public class ScheduleType {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getSkd_type() {
-		return skd_type;
+	public String getSkdType() {
+		return skdType;
 	}
 
-	public void setSkd_type(String skd_type) {
-		this.skd_type = skd_type;
+	public void setSkdType(String skdType) {
+		this.skdType = skdType;
 	}
 	@Override
 	   public String toString() {
-	      return skd_type;
+	      return skdType;
 	   }
 	   
 }
