@@ -154,86 +154,85 @@ $(function () {
 
   //핸드폰 번호 변경 시 submit 이벤트 핸들러
   function modiPhSubmitHandler(e) {
-    $.ajax({
-      url: backurlChangePh,
-      method: "post",
-      data: {
-        modiPhone: modifyPhoneNumObj.value,
-      },
-      success: function () {
-        alert("연락처가 변경되었습니다");
-        //해당 페이지 재로딩
-        $(
-          "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(2) > a"
-        ).trigger("click");
-      },
-      error: function (request, status, error) {
-        alert(
-          "code:" +
-            request.status +
-            "\n" +
-            "message:" +
-            request.responseText +
-            "\n" +
-            "error:" +
-            error
-        );
-      },
-    });
+    if (phone == modifyPhoneNumObj.value) {
+      alert("변경하려는 연락처가 기존 연락처와 같습니다.");
+    } else {
+      $.ajax({
+        url: backurlChangePh,
+        method: "post",
+        data: {
+          modiPhone: modifyPhoneNumObj.value,
+        },
+        success: function () {
+          alert("연락처가 변경되었습니다");
+          //해당 페이지 재로딩
+          $(
+            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(2) > a"
+          ).trigger("click");
+        },
+        error: function (request, status, error) {
+          alert(
+            "code:" +
+              request.status +
+              "\n" +
+              "message:" +
+              request.responseText +
+              "\n" +
+              "error:" +
+              error
+          );
+        },
+      });
+    }
 
     e.preventDefault();
   }
 
   //비밀번호 변경 시 submit 이벤트 핸들러
   function modiPwdSubmitHandler(e) {
-    $.ajax({
-      url: backurlChangePwd,
-      method: "post",
-      data: {
-        modiPwd: modifyPwdObj.value,
-        chkModiPwd: chkModifyPwdObj.value,
-      },
-      success: function () {
-        //모두 입력한 경우
-        if (modifyPwdObj.value != "" && chkModifyPwdObj.value != "") {
-          //비밀번호 변경 값과 확인 값이 같은 경우
-          //+ 비밀번호 변경값,확인값이 기존 비밀번호값과 같은 경우
-          if (
-            password == modifyPwdObj.value &&
-            password == chkModifyPwdObj.value
-          ) {
-            alert(
-              "변경하려는 비밀번호가 기존 비밀번호와 같아 변경할 수 없습니다"
-            );
-          } else {
-            if (modifyPwdObj.value == chkModifyPwdObj.value) {
+    //모두 입력한 경우
+    if (modifyPwdObj.value != "" && chkModifyPwdObj.value != "") {
+      //비밀번호 변경 값과 확인 값이 같은 경우
+      //+ 비밀번호 변경값,확인값이 기존 비밀번호값과 같은 경우
+      if (password == modifyPwdObj.value && password == chkModifyPwdObj.value) {
+        alert("변경하려는 비밀번호가 기존 비밀번호와 같아 변경할 수 없습니다");
+      } else {
+        if (modifyPwdObj.value == chkModifyPwdObj.value) {
+          $.ajax({
+            url: backurlChangePwd,
+            method: "post",
+            data: {
+              modiPwd: modifyPwdObj.value,
+              chkModiPwd: chkModifyPwdObj.value,
+            },
+            success: function () {
               alert("비밀번호가 변경되었습니다");
               //해당 페이지 재로딩
               $(
                 "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(2) > a"
               ).trigger("click");
-            } else {
-              alert("비밀번호가 일치하지 않습니다");
-            }
-          }
+            },
+            error: function (request, status, error) {
+              alert(
+                "code:" +
+                  request.status +
+                  "\n" +
+                  "message:" +
+                  request.responseText +
+                  "\n" +
+                  "error:" +
+                  error
+              );
+            },
+          });
         } else {
-          //입력된 값이 하나라도 없을 경우
-          alert("입력된 값이 없습니다.");
+          alert("비밀번호가 일치하지 않습니다");
         }
-      },
-      error: function (request, status, error) {
-        alert(
-          "code:" +
-            request.status +
-            "\n" +
-            "message:" +
-            request.responseText +
-            "\n" +
-            "error:" +
-            error
-        );
-      },
-    });
+      }
+    } else {
+      //입력된 값이 하나라도 없을 경우
+      alert("입력된 값이 없습니다.");
+    }
 
     e.preventDefault();
   }

@@ -86,13 +86,13 @@ jQuery(document).ready(function ($) {
 
     //2.
     //로그인 정보를 전달하는 ajax 구문
-    var backurl = "/back/login";
+    var backurl = "http://localhost:8888/gwback/main/login";
     $.ajax({
       url: backurl,
       method: "post",
       data: {
-        id: $("form.form input[name=id]").val(),
-        pwd: $("form.form input[name=pwd]").val(),
+        employeeId: $("form.form input[name=id]").val(),
+        password: $("form.form input[name=pwd]").val(),
       },
       success: function (responseObj) {
         //로그인 성공 시

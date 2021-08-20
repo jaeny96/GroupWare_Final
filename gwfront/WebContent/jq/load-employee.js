@@ -85,15 +85,15 @@ $(function () {
 
   //employee에서 사용할 backurl
   //부서불러오기
-  var backurlDept = "/back/showdept";
+  var backurlDept = "http://localhost:8888/gwback/employee/dep";
   //전체 사원 불러오기
-  var backurlAllEmp = "/back/showallemp";
-  //부서별 사원 불러오기
-  var backurlDeptEmp = "/back/showdeptemp";
-  //사원 상세 불러오기
-  var backurlEmpDetail = "/back/showempdetail";
-  //사원명으로 검색한 결과 불러오기
-  var backurlSearchEmp = "/back/searchemp";
+  var backurlAllEmp = "http://localhost:8888/gwback/employee/all";
+  //부서별 사원 불러오기 +{dep}
+  var backurlDeptEmp = "http://localhost:8888/gwback/employee/byDept/";;
+  //사원 상세 불러오기 +{id}
+  var backurlEmpDetail = "http://localhost:8888/gwback/employee/";
+  //사원명으로 검색한 결과 불러오기 +{word}
+  var backurlSearchEmp = "http://localhost:8888/gwback/employee/";
 
   //사원 클릭 시 클릭 이벤트 핸들러
   function empClickHandler(e) {
@@ -259,7 +259,10 @@ $(function () {
   //부서명 클릭 handler
   function deptClickHandler(e) {
     empHeaderObj.innerText = e.target.innerHTML;
+    console.log(e.target.id);
+    var depInfoArr = e.target.id.split("/");
     selectEmpElement(e.target.id);
+
   }
 
   //부서 내비게이션 생성 함수

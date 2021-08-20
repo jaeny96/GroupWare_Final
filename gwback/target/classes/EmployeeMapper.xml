@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.employee.EmployeeMapper">
+
+<select id="selectAll" resultType="employee">
+SELECT * FROM department d
+JOIN employee e ON d.department_id = e.department_id
+JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id
+WHERE enabled=1
+ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id
+</select>
+
+<select id="selectByDep" parameterType="string" resultType="employee">
+SELECT * FROM department d
+JOIN employee e ON d.department_id = e.department_id
+JOIN position p ON e.position_id=p.position_id
+JOIN job j ON e.job_id=j.job_id
+WHERE d.department_id=#{d.department_id} AND enabled=1 
+ORDER BY p.position_id, employee_id
+</select>
+
+<select id="selectByWord" parameterType="string" resultType="employee">
+SELECT * FROM department d
+JOIN employee e ON d.department_id = e.department_id
+JOIN position p ON e.position_id = p.position_id 
+JOIN job j ON e.job_id=j.job_id
+WHERE name LIKE '%${word}%' AND enabled=1
+ORDER BY department_title, p.position_id, employee_id
+</select>
+
+<select id="selectInfo" parameterType="string" resultType="employee">
+SELECT *
+FROM employee e
+JOIN department d ON (e.department_id = d.department_id)
+JOIN position p ON (e.position_id = p.position_id)
+JOIN job j ON (e.job_id = j.job_id)
+WHERE employee_id= #{employeeId}
+</select>
+
+
+</mapper>  

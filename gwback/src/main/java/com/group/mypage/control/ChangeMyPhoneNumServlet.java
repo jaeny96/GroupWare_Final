@@ -21,22 +21,22 @@ public class ChangeMyPhoneNumServlet extends HttpServlet {
 	//핸드폰 번호 변경
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String id = session.getAttribute("id").toString();
-		String modiPhone = request.getParameter("modiPhone");
-		EmployeeLeaveService service;
-		ServletContext sc = getServletContext();
-		EmployeeLeaveService.envProp = sc.getRealPath(sc.getInitParameter("env"));
-		service = EmployeeLeaveService.getInstance();
-
-		try {
-			Employee emp = new Employee();
-			emp.setEmployee_id(id);
-			emp.setPhone_number(modiPhone);
-			service.modify(emp);
-		} catch (ModifyException e) {
-			e.printStackTrace();
-		}
+//		HttpSession session = request.getSession();
+//		String id = session.getAttribute("id").toString();
+//		String modiPhone = request.getParameter("modiPhone");
+//		EmployeeLeaveService service;
+//		ServletContext sc = getServletContext();
+//		EmployeeLeaveService.envProp = sc.getRealPath(sc.getInitParameter("env"));
+//		service = EmployeeLeaveService.getInstance();
+//
+//		try {
+//			Employee emp = new Employee();
+//			emp.setEmployee_id(id);
+//			emp.setPhone_number(modiPhone);
+//			service.modify(emp);
+//		} catch (ModifyException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }

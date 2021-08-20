@@ -1,53 +1,39 @@
 package com.group.employee.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.group.employee.dto.Department;
 import com.group.exception.FindException;
-import com.group.sql.MyConnection;
-
+@Repository("DepartmentDAO")
 public class DepartmentDAOOracle implements DepartmentDAO {
+	
+	@Autowired
+	private DataSource ds;
+	
+	@Autowired
+	private SqlSessionFactory sessionFactory;
+	
+	
 	@Override
 	public List<Department> selectDepAll() throws FindException{
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
+			session = sessionFactory.openSession();
+			List<Department> depList = session.selectList("com.group.employee.DepartmentMapper.selectDep");			
+			//session.commit();
+			return depList;
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-
-		String selectDepAllSQL = "SELECT d.department_id,department_title,count(*)\r\n"
-				+ "FROM employee e JOIN department d ON (e.department_id = d.department_id)\r\n"
-				+ "WHERE enabled=1 \r\n" + "GROUP BY d.department_id,department_title\r\n"
-				+ "ORDER BY DECODE(department_id,'CEO',1),department_title";
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Department> depList = new ArrayList<Department>();
-		try {
-			pstmt = con.prepareStatement(selectDepAllSQL);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Department dep = new Department();
-				dep.setDepartment_id(rs.getString("department_id"));
-				dep.setDepartment_title(rs.getString("department_title"));
-				dep.setCount(rs.getInt(3));
-
-				depList.add(dep);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
+			throw new FindException(e.getMessage());	
 		} finally {
-			MyConnection.close(con, pstmt, rs);
+			session.close();
 		}
-		return depList;
 	}
 }
