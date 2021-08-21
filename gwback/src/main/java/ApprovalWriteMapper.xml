@@ -14,7 +14,7 @@ SELECT MAX(SUBSTR(document_no,-4)) FROM document WHERE SUBSTR(document_no,4,2)=#
 </select>
 <!-- approval을 기안하기 -->
 <insert id="insertDraftAp" parameterType="document">
-INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (#{documentNo},#{employee.employeeId},#{aprovalStatus.apType},#{apStep})
+INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (#{documentNo},#{employee.employeeId},#{apStatus.apType},#{apStep})
 </insert>
 <!-- agreement를 기안하기 -->
 <insert id="insertDraftAg" parameterType="agreement">
@@ -22,6 +22,6 @@ INSERT INTO agreement (document_no, employee_id, ap_type) VALUES (#{documentNo},
 </insert>
 <!-- reference를 기안하기 -->
 <insert id="insertDraftRe" parameterType="reference">
-INSERT INTO reference (document_no, employee_id,ap_type) VALUES (#{document},#{employee.employeeId},'대기')
+INSERT INTO reference (document_no, employee_id,ap_type) VALUES (#{documentNo},#{employee.employeeId},'대기')
 </insert>
 </mapper>

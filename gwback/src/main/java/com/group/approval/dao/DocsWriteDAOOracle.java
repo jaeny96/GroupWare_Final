@@ -68,12 +68,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		try {
 		
 			session = sessionFactory.openSession();
-			System.out.println(d);
-			d.getDocumentNo();
-			d.getDocumentStatus().getDocumentType();
-			d.getEmployeeD().getEmployeeId();
-			d.getDocumentTitle();
-			d.getDocumentContent();
+			
 			int rowcnt = session.insert("com.group.approval.ApprovalWriteMapper.insertDraft", d);
 			if(rowcnt==1) {
 				System.out.println("문서기안 완료");
@@ -97,27 +92,9 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 	@Override
 	public void draftAp(Approval ap) throws AddException {
 		SqlSession session = null;
-		
-		String apType = "";//전처리 apTypet셋팅
-//		if(ap.getApStep()==0) {//비어있지 않으면? 승인
-//			apType="승인";
-//		}else {
-//			ApprovalStatus aps = new ApprovalStatus();
-//			aps.setApType("대기");
-//			ap.setApStatus(aps);
-//			apType=ap.getApStatus().getApType();	
-//		}
-//		try {
-//		if(ap.getApStep()==0) {
-//			apType="승인";
-//		}else {
-//			apType="대기";
-//		}
-//		}catch(NullPointerException e) {
-//			apType="대기";
-//		}
+		String apType="";
 		try {
-			
+			session = sessionFactory.openSession();
 			ap.getDocumentNo();
 			ap.getEmployee().getEmployeeId();
 			ApprovalStatus aps = new ApprovalStatus();
@@ -128,14 +105,6 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			}
 			aps.setApType(apType);
 			ap.setApStatus(aps);
-			ap.getApStatus().getApType();
-			ap.getApStep();
-			System.out.println(ap.getDocumentNo());
-			System.out.println(ap.getApStatus().getApType());
-			System.out.println(ap.getEmployee().getEmployeeId());
-			System.out.println(ap.getApStep());
-			
-			System.out.println(ap);
 			int rowcnt = session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAp", ap);
 			if(rowcnt==1) {
 				System.out.println("결재 문서기안 완료");
@@ -163,10 +132,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		SqlSession session = null;
 		
 		try {
-
-			ag.getDocumentNo();
-			ag.getEmployee().getEmployeeId();
-			
+			session = sessionFactory.openSession();
+		
 			int rowcnt = session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAg", ag);
 			if(rowcnt==1) {
 				System.out.println("합의 문서기안 완료");
@@ -192,11 +159,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		SqlSession session = null;
 		
 		try {
-			System.out.println(re.getDocumentNo()+"/"+
-					re.getEmployee().getEmployeeId());
-			re.getDocumentNo();
-			re.getEmployee().getEmployeeId();
-			System.out.println(re);
+			session = sessionFactory.openSession();
 			int rowcnt = session.insert("com.group.approval.ApprovalWriteMapper.insertDraftRe", re);
 			if(rowcnt==1) {
 				System.out.println("합의 문서기안 완료");

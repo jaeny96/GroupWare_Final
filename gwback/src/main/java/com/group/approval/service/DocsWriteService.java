@@ -30,7 +30,7 @@ public class DocsWriteService {
 	 * @param d
 	 * @throws AddException
 	 */
-	public void complete(Document d) throws AddException {
+	public void draftD(Document d) throws AddException {
 		dao.draft(d);
 	}
 	/**
@@ -39,27 +39,27 @@ public class DocsWriteService {
 	 * @param d
 	 * @throws AddException
 	 */
-//	public void completeApRegister(Approval ap) throws AddException {
-//		dao.draftAp(ap);
-//	}
-//	/**
-//	 * 결재문서의 합의자 등록
-//	 * 
-//	 * @param d
-//	 * @throws AddException
-//	 */
-//	public void completeAgRegister(Agreement ag) throws AddException {
-//		dao.draftAg(ag);
-//	}
-//	/**
-//	 * 결재문서의 참조자 등록
-//	 * 
-//	 * @param d
-//	 * @throws AddException
-//	 */
-//	public void completeReRegister(Reference re) throws AddException {
-//		dao.draftRe(re);
-//	}
+	public void draftApRe(Approval ap) throws AddException {
+		dao.draftAp(ap);
+	}
+	/**
+	 * 결재문서의 합의자 등록
+	 * 
+	 * @param d
+	 * @throws AddException
+	 */
+	public void draftAgRe(Agreement ag) throws AddException {
+		dao.draftAg(ag);
+	}
+	/**
+	 * 결재문서의 참조자 등록
+	 * 
+	 * @param d
+	 * @throws AddException
+	 */
+	public void draftReRe(Reference re) throws AddException {
+		dao.draftRe(re);
+	}
 //
 //	/**
 //	 * 사원이름 리스트 조회

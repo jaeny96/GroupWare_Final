@@ -12,7 +12,9 @@ public class Agreement {
 	private Date apDate;
 	private String apComment;
 	private Employee employee;
-	private ApprovalStatus approvalStatus;
+	private ApprovalStatus agStatus;
+	
+	
 	
 	public Agreement() {
 		super();
@@ -20,67 +22,54 @@ public class Agreement {
 	}
 	
 	
-	public Agreement(String documentNo, Employee employee, ApprovalStatus approvalStatus) {
-		super();
-		this.documentNo = documentNo;
-		this.employee = employee;
-		this.approvalStatus = approvalStatus;
-	}
-
-
-	public Agreement(String documentNo, Date apDate, String apComment, Employee employee,
-			ApprovalStatus approvalStatus) {
+	public Agreement(String documentNo, Date apDate, String apComment, Employee employee, ApprovalStatus agStatus) {
 		super();
 		this.documentNo = documentNo;
 		this.apDate = apDate;
 		this.apComment = apComment;
 		this.employee = employee;
-		this.approvalStatus = approvalStatus;
+		this.agStatus = agStatus;
 	}
+
 
 	public String getDocumentNo() {
 		return documentNo;
 	}
-
 	public void setDocumentNo(String documentNo) {
 		this.documentNo = documentNo;
 	}
-
 	public Date getApDate() {
 		return apDate;
 	}
-
 	public void setApDate(Date apDate) {
 		this.apDate = apDate;
 	}
-
 	public String getApComment() {
 		return apComment;
 	}
-
 	public void setApComment(String apComment) {
 		this.apComment = apComment;
 	}
-
 	public Employee getEmployee() {
 		return employee;
 	}
-
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-
-	public ApprovalStatus getApprovalStatus() {
-		return approvalStatus;
+	public ApprovalStatus getAgStatus() {
+		return agStatus;
+	}
+	public void setAgStatus(ApprovalStatus agStatus) {
+		this.agStatus = agStatus;
 	}
 
-	public void setApprovalStatus(ApprovalStatus approvalStatus) {
-		this.approvalStatus = approvalStatus;
-	}
 
 	@Override
 	public String toString() {
 		return "Agreement [documentNo=" + documentNo + ", apDate=" + apDate + ", apComment=" + apComment + ", employee="
-				+ employee + ", approvalStatus=" + approvalStatus + "]";
-	}	
+				+ employee + ", agStatus=" + agStatus + "]";
+	}
+	
+
+	
 }

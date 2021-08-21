@@ -8,7 +8,7 @@ public class Reference {
 
 	private String documentNo;
 	private Employee employee;
-	private ApprovalStatus approvalStatus;
+	private ApprovalStatus reStatus;
 	
 	
 	public Reference() {
@@ -17,11 +17,11 @@ public class Reference {
 	}
 
 
-	public Reference(String documentNo, Employee employee, ApprovalStatus approvalStatus) {
+	public Reference(String documentNo, Employee employee, ApprovalStatus reStatus) {
 		super();
 		this.documentNo = documentNo;
 		this.employee = employee;
-		this.approvalStatus = approvalStatus;
+		this.reStatus = reStatus;
 	}
 
 
@@ -40,26 +40,26 @@ public class Reference {
 	}
 
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setEmployee(Employee employeeRe) {
+		this.employee = employeeRe;
 	}
 
 
-	public ApprovalStatus getApprovalStatus() {
-		return approvalStatus;
+	public ApprovalStatus getReStatus() {
+		return reStatus;
 	}
 
 
-	public void setApprovalStatus(ApprovalStatus approvalStatus) {
-		this.approvalStatus = approvalStatus;
+	public void setReStatus(ApprovalStatus reStatus) {
+		this.reStatus = reStatus;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Reference [document=" + documentNo + ", employee=" + employee + ", approvalStatus=" + approvalStatus
-				+ "]";
+		return "Reference [documentNo=" + documentNo + ", employee=" + employee + ", reStatus=" + reStatus + "]";
 	}
-	
+
+
 	
 }

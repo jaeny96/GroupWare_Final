@@ -23,7 +23,7 @@ public class Document {
 	private Approval approval;
 	
 	
-	
+
 	public Document(Reference reference) {
 		super();
 		this.reference = reference;
