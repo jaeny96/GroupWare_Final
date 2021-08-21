@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -12,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +24,6 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.service.MainService;
-import com.group.mypage.dto.EmployeeLeave;
 
 @RestController
 @RequestMapping("/main/*")
@@ -33,6 +33,32 @@ public class MainController {
 	@Autowired
 	private MainService service;
 
+	@PostMapping("/login")
+	 public Map<String, Object> login(HttpSession session, @RequestBody Employee emp){
+	      Map<String, Object> map = new HashMap<>();
+	      
+	      session.removeAttribute("loginInfo");
+	      try {
+	         Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
+	         session.setAttribute("id", loginInfo.getEmployeeId());
+	         session.setAttribute("pwd", loginInfo.getPassword());
+	         session.setAttribute("dept", loginInfo.getDepartment());
+	         System.out.println(loginInfo.getEmployeeId());
+	         System.out.println(loginInfo.getPassword());
+	         System.out.println( loginInfo.getDepartment());
+	         
+	         map.put("status", 1);
+	         return map;
+	      
+	      } catch (FindException e) {
+	         e.printStackTrace();
+	         map.put("status", -1);
+	         map.put("msg", e.getMessage());
+	         return map;
+	      }
+	}
+
+	
 	@GetMapping("/chkLogin")
 	public Map<String,Integer> chkLogin(HttpSession session) {
 		Map<String, Integer> map = new HashMap<>();

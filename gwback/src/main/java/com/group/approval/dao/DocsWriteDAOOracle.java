@@ -26,7 +26,6 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 	public DocsWriteDAOOracle() throws Exception {
 		// JDBC드라이버로드
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-
 	}
 
 	// 1. 문서기안

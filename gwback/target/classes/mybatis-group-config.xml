@@ -19,8 +19,12 @@
     <typeAlias type="com.group.board.dto.Board" alias="board"/>
 
     <typeAlias type="com.group.calendar.dto.Schedule" alias="schedule"/>
+    
+    <typeAlias type="com.group.mypage.dto.EmployeeLeave" alias="employeeleave"/>
+    
   </typeAliases>
   <mappers>
   	<mapper resource="MainPageMapper.xml"></mapper>
+  	<mapper resource="EmployeeLeaveMapper.xml"></mapper>
   </mappers>
 </configuration>

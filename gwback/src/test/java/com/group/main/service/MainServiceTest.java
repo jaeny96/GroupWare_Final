@@ -69,5 +69,16 @@ class MainServiceTest {
 		int expectedBdListSize = 0;
 		assertEquals(expectedBdListSize, skdList.size());
 	}
+	
+	@Test
+	void loginTest() throws FindException{
+		String id ="CEO001";
+		String pwd = "1234";
+		
+		Employee emp = service.login(id, pwd);
+		
+		String expectedName = "권보아";
+		assertEquals(expectedName, emp.getName());
+	}
 
 }

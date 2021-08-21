@@ -64,7 +64,7 @@ class MainDAOOracleTest {
 		emp.setDepartment(dept);
 		
 		List<Schedule> skdList = dao.selectSchedule(emp);
-		int expectedBdListSize = 0;
+		int expectedBdListSize = 1;
 		assertEquals(expectedBdListSize, skdList.size());
 	}
 
