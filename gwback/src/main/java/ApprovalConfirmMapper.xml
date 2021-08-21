@@ -5,18 +5,94 @@
 <mapper namespace="com.group.approval.ApprovalConfirmMapper">
 <resultMap type="document" id="documentMap" autoMapping="true">
      <id  column="document_no"  property="documentNo"/>
-	<collection property="approvals" ofType="approval" autoMapping="true">
-	     <id  column="document_no"  property="documentNo"/>
-	   <association property="employeeAp" javaType="employee" autoMapping="true">
-	     <id property="employeeId" column="employee_id"/>
+     <result column="document_title" property="documentTitle"/>
+     <result column="document_content" property="documentContent"/>
+     <result column="draft_date" property="draftDate"/>
+     <association property="documentStatus" javaType="DocumentType" autoMapping="true">
+   		<id  column="document_type"  property="documentType"/>	
+     </association>
+	<association property="reference" javaType="Reference" autoMapping="true">
+		<id property="documentNo" column="document_no"/>
+		<association property="reStatus"  javaType="ApprovalStatus" autoMapping="true">
+			<id property="apType" column="ap_type"/>
+		</association>
+ 		<association property="employee" javaType="Employee" autoMapping="true">
+		     <result property="employeeId" column="employee_id"/>
+	 	 <result property="name" column="name"/>
+		</association> 
+	</association>
+		<collection property="approvals" ofType="Approval" autoMapping="true">
+	   <association property="employee" javaType="Employee" autoMapping="true">
+	     <result property="employeeId" column="employee_id"/>
 	 	 <result property="name" column="name"/>
 	   </association>
 	   <association property="apStatus" javaType="ApprovalStatus" autoMapping="true"></association>
 	</collection>
-	
 </resultMap>  
-<!-- 확인 /미확인 - 전체/대기/반려/승인-->
-<select id="selectByCheck" parameterType="java.util.HashMap" resultType="document">
+
+<!-- 결재선 상세 -->
+<select id="selectByDocsDetail" resultMap="documentMap">
+SELECT 
+d.document_no, d.document_title,d.document_content ,d.draft_date,e.employee_id,e.name,
+ap.ap_date, ap.ap_type, ap.ap_step, --approval
+ape.name
+, ag.ap_date,ag.ap_type,
+age.name
+,r.ap_type
+,re.name
+FROM document d JOIN employee e ON (d.employee_id = e.employee_id)
+JOIN approval ap ON  ( d.document_no = ap.document_no)
+JOIN employee ape ON (ap.employee_id = ape.employee_id)
+LEFT JOIN agreement ag ON  ( d.document_no = ag.document_no)
+LEFT JOIN employee age ON (ag.employee_id = age.employee_id)
+LEFT JOIN reference r ON ( d.document_no = r.document_no)
+LEFT JOIN employee re ON (r.employee_id = re.employee_id)
+WHERE d.document_no=#{docsNo}
+</select> 
+<!-- 확인 /미확인 - 전체-->
+<select id="selectByCheckAll" parameterType="java.util.HashMap" resultType="document">
+SELECT j.document_no, j.document_title, j.employee_id "employee.employeeId", e.name "employee.name",
+	draft_date, j.document_type "documentStatus.documentType", j.ap_type "approval.apStatus.apType"
+	from employee e join ( 
+	SELECT * FROM (select a.*
+	FROM ((SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type
+	FROM approval a JOIN document d ON a.document_no=d.document_no
+	WHERE  a.ap_type
+	<if test="check.equals(check)">
+	<![CDATA[<>'대기']]> 
+	</if>
+	<if test="check.equals(nocheck)">
+	='대기'
+	</if>
+	AND a.employee_id=#{id}) 
+	UNION ALL
+	(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type
+	FROM reference r JOIN document d ON r.document_no=d.document_no
+    WHERE r.ap_type
+	<if test="check.equals(check)">
+	<![CDATA[<>'대기']]> 
+	</if>
+	<if test="check.equals(nocheck)">
+	='대기'
+	</if>
+    AND r.employee_id=#{id})
+    UNION ALL
+	(SELECT d.document_no,d.document_title,d.employee_id,draft_date,d.document_type,ap_type
+	FROM agreement ag JOIN document d ON ag.document_no=d.document_no
+	WHERE ag.ap_type
+	<if test="check.equals(check)">
+	<![CDATA[<>'대기']]> 
+	</if>
+	<if test="check.equals(nocheck)">
+	='대기'
+	</if>
+	AND ag.employee_id=#{id}))a
+	JOIN document d ON a.document_no= d.document_no 
+	)) j on e.employee_id = j.employee_id
+	ORDER BY draft_date ASC
+</select>
+<!-- 확인 /미확인 - 대기/반려/승인-->
+<select id="selectByCheckStatus" parameterType="java.util.HashMap" resultType="document">
 SELECT j.document_no, j.document_title, j.employee_id "employee.employeeId", e.name "employee.name",
 	draft_date, j.document_type "documentType.dType", j.ap_type "approval.apType.apStatusType"
 	from employee e join ( 
@@ -77,25 +153,7 @@ SELECT j.document_no, j.document_title, j.employee_id "employee.employeeId", e.n
 	WHERE ag.employee_id=#{id} AND ag.document_no=#{docsNo}))a
 	JOIN document d ON a.document_no= d.document_no )) j on e.employee_id = j.employee_id
 </select>
-<!-- 결재선 상세 -->
-<select id="selectByDocsDetail" resultMap="documentMap">
-SELECT d.document_no, document_title,document_content ,draft_date,
-e.employee_id,e.name,
-ap. ap_date, ap.ap_type, ap.ap_step, 
-ape.name
-, ag.ap_date,ag.ap_type,
-age.name
-,r.ap_type
-,re.name
-FROM document d JOIN employee e ON (d.employee_id = e.employee_id)
-JOIN approval ap ON  ( d.document_no = ap.document_no)
-JOIN employee ape ON (ap.employee_id = ape.employee_id)
-LEFT JOIN agreement ag ON  ( d.document_no = ag.document_no)
-LEFT JOIN employee age ON (ag.employee_id = age.employee_id)
-LEFT JOIN reference r ON ( d.document_no = r.document_no)
-LEFT JOIN employee re ON (r.employee_id = re.employee_id)
-WHERE d.document_no=#{docsNo}
-</select> 
+
 <!-- 코멘트 불러오기  -->
 <select id="selectByComments" resultType="approval">
 select a.employee_id "employee.employeeId", a.ap_date "apApDate",a.ap_comment "apApComment" from(
@@ -103,9 +161,9 @@ select a.employee_id "employee.employeeId", a.ap_date "apApDate",a.ap_comment "a
 union all 
 (select employee_id,ap_date,ap_comment from agreement where document_no=#{docsNo} and ap_comment is not null))a ORDER BY ap_date ASC
 </select>
-<!--검색하기 (제목,내용) - 전체 -->
-<!-- <select id="selectBySearch" parameterType="java.util.HashMap" resultType="document">
-SELECT state,j.document_no, j.document_title,j.document_content, j.employee_id, e.name,to_char(j.draft_date, 'yyyy-mm-dd') dt, j.document_type,ap_type
+<!--검색하기 (제목,내용) - 전체 --> 
+<select id="selectBySearchAll" parameterType="java.util.HashMap" resultType="document">
+SELECT state,j.document_no, j.document_title,j.document_content, j.employee_id "employee.employeeId", e.name "employee.name",j.draft_date, j.document_type "documentStatus.documentType",ap_type "approval.apStatus.apType"
 from employee e join (SELECT * FROM (select a.*
 FROM ((SELECT '결재서류' state, d.document_title,d.document_content, d.document_no, draft_date, d.employee_id,d.document_type,a.ap_type
 FROM approval a JOIN document d ON a.document_no=d.document_no WHERE a.employee_id=#{id})
@@ -118,17 +176,50 @@ FROM reference r JOIN document d ON r.document_no=d.document_no WHERE r.employee
 UNION
 (SELECT '기안서류', document_title,d.document_content,document_no, draft_date, employee_id,document_type,'확인'
 FROM document d WHERE employee_id=#{id}))a
-JOIN document d ON a.document_no= d.document_no)) j ON e.employee_id = j.employee_id 
+JOIN document d ON a.document_no= d.document_no
+)) j ON e.employee_id = j.employee_id 
 <if test="searchType != ''">
 	<choose>
 		<when test="searchType == 'title'">
-			where document_title like '%${title}%' 
+			where document_title like '%${search}%' 
 		</when>
 		<when test="searchType == 'content'">
-			where document_content like '%${content}%'
+			where document_content like '%${search}%'
 		</when>
 	</choose>
 </if>
 ORDER BY draft_date ASC
-</select> -->
+</select> 
+<!--검색하기 (제목,내용) - 대기/반려/승인 -->
+<select id="selectBySearchStatus" parameterType="java.util.HashMap" resultType="document">
+SELECT state,j.document_no, j.document_title,j.document_content, j.employee_id "employee.employeeId", e.name "employee.name",j.draft_date, j.document_type "documentStatus.documentType",ap_type "approval.apStatus.apType"
+from employee e join (SELECT * FROM (select a.*
+FROM ((SELECT '결재서류' state, d.document_title,d.document_content, d.document_no, draft_date, d.employee_id,d.document_type,a.ap_type
+FROM approval a JOIN document d ON a.document_no=d.document_no WHERE a.employee_id=#{id})
+UNION 
+(SELECT '결재서류', d.document_title,d.document_content, d.document_no, draft_date, d.employee_id, d.document_type,ag.ap_type
+FROM agreement ag JOIN document d ON ag.document_no=d.document_no 
+WHERE ag.employee_id=#{id}) UNION 
+(SELECT '결재서류',d.document_title,d.document_content,d.document_no, draft_date, d.employee_id,d.document_type,r.ap_type
+FROM reference r JOIN document d ON r.document_no=d.document_no WHERE r.employee_id=#{id})
+UNION
+(SELECT '기안서류', document_title,d.document_content,document_no, draft_date, employee_id,document_type,'확인'
+FROM document d WHERE employee_id=#{id}))a
+JOIN document d ON a.document_no= d.document_no
+<if test="status!=''">
+WHERE document_status=#{status}	
+</if>
+)) j ON e.employee_id = j.employee_id 
+<if test="searchType != ''">
+	<choose>
+		<when test="searchType == 'title'">
+			where document_title like '%${search}%' 
+		</when>
+		<when test="searchType == 'content'">
+			where document_content like '%${search}%'
+		</when>
+	</choose>
+</if>
+ORDER BY draft_date ASC
+</select> 
 </mapper>

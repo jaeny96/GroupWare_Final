@@ -24,5 +24,6 @@
  	<mapper resource="ApprovalSideMapper.xml"></mapper>
  	<mapper resource="ApprovalConfirmMapper.xml"></mapper>
  	<mapper resource="ApprovalWriteMapper.xml"></mapper>
+ 	<mapper resource="ApprovalProcessMapper.xml"></mapper>
   </mappers>
 </configuration>

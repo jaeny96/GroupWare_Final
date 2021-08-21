@@ -21,41 +21,10 @@ public class Document {
 	private Agreement agreement;
 	private Reference reference;
 	private Approval approval;
-	
-	
-
-	public Document(Reference reference) {
-		super();
-		this.reference = reference;
-	}
-
-
-
-	public Document(Approval approval) {
-		super();
-		this.approval = approval;
-	}
-
-
-
-	public Document(String documentNo, String documentTitle, String documentContent, Date draftDate,
-			DocumentType documentStatus, Employee employee, Agreement agreement, Reference reference,
-			Approval approval) {
-		super();
-		this.documentNo = documentNo;
-		this.documentTitle = documentTitle;
-		this.documentContent = documentContent;
-		this.draftDate = draftDate;
-		this.documentStatus = documentStatus;
-		this.employee = employee;
-		this.agreement = agreement;
-		this.reference = reference;
-		this.approval = approval;
-	}
 
 	private List<Approval> approvals;
-	 	/*
-	 * --Domcument의 department_no, department_id, department_title,document_content ,draft_date
+ 	/*
+ * --Domcument의 department_no, department_id, department_title,document_content ,draft_date
 --employee의 id, name
 --approval의 apdate,id(employee-name),aptype = 단, apstep=0랑 관
 --approval의 apdate,id(employee-name),aptype = 단, apstep=1
@@ -63,8 +32,16 @@ public class Document {
 --approval의 apdate,name,aptype = 단, apstep3
 --agreement의 name,agdate,agtype
 --reference의 name,redate
-	 */
-	public Document() {}
+ */
+
+
+
+	public Document() {
+		super();
+	}
+
+
+
 
 	
 
@@ -133,11 +110,11 @@ public class Document {
 		this.documentStatus = documentStatus;
 	}
 
-	public Employee getEmployeeD() {
+	public Employee getEmployee() {
 		return employee;
 	}
 
-	public void setEmployeeD(Employee employee) {
+	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
 

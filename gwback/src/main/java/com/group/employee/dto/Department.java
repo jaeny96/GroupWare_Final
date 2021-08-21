@@ -1,39 +1,38 @@
 package com.group.employee.dto;
 
 public class Department {
-	private String department_id;
-	private String department_title;
+	private String departmentId;
+	private String departmentTitle;
 	private String manager_id;
 	private int count;
 	
 	public Department() {
 	}
 
-	public Department(String department_id,String department_title,int count) {
-		this(department_id,department_title,null,count);
-	}
 	
-	public Department(String department_id, String department_title, String manager_id, int count) {
-		this.department_id = department_id;
-		this.department_title = department_title;
+	public Department(String departmentId, String departmentTitle, String manager_id, int count) {
+		super();
+		this.departmentId = departmentId;
+		this.departmentTitle = departmentTitle;
 		this.manager_id = manager_id;
 		this.count = count;
 	}
 
-	public String getDepartment_id() {
-		return department_id;
+
+	public String getDepartmentId() {
+		return departmentId;
 	}
 
-	public void setDepartment_id(String department_id) {
-		this.department_id = department_id;
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 
-	public String getDepartment_title() {
-		return department_title;
+	public String getDepartmentTitle() {
+		return departmentTitle;
 	}
 
-	public void setDepartment_title(String department_title) {
-		this.department_title = department_title;
+	public void setDepartmentTitle(String departmentTitle) {
+		this.departmentTitle = departmentTitle;
 	}
 
 	public String getManager_id() {
@@ -54,7 +53,9 @@ public class Department {
 
 	@Override
 	public String toString() {
-		return "Department [department_id=" + department_id + ", department_title=" + department_title + ", manager_id="
+		return "Department [departmentId=" + departmentId + ", departmentTitle=" + departmentTitle + ", manager_id="
 				+ manager_id + ", count=" + count + "]";
-	}	
+	}
+
+	
 }

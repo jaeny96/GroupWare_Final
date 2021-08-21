@@ -25,7 +25,7 @@ import com.group.employee.dto.Employee;
 
 
 @RestController
-@RequestMapping("/apboard/*")
+@RequestMapping("/approval/*")
 public class ConfirmDocsController {
 	
 	@Autowired
@@ -38,17 +38,13 @@ public class ConfirmDocsController {
 	public List<Document> sekectCheckList(@PathVariable (name="check") Optional<String> optCheck,
 			@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {
 		
-		Map<String,Object> result= new HashMap<String, Object>();
 		List<Document> list=new ArrayList<Document>();
-		String id="DEV002";
-		System.out.println(optCheck.get());
-		//System.out.println(optStatus.get());
+		String id="DEV001";
 		try {
 			if(optStatus.isPresent()) {
-				list =service.findCheckDocs(id,optStatus.get(),optCheck.get());
+				list =service.findCheckDocs(id,optCheck.get(),optStatus.get());
 			}else {
-				String status = "";
-				list =service.findCheckDocs(id,status,optCheck.get());
+				list =service.findCheckDocs(id,optCheck.get());
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -88,5 +84,23 @@ public class ConfirmDocsController {
 		return list;	
 	}
 	
-	
+	//제목,내용 검색하기 
+	@GetMapping(value={"/searchdocs/{searchType}/{search}","/searchdocs/{searchType}/{search}/{status}"})
+	public List<Document> sekectCheckList(@PathVariable (name="searchType") Optional<String> optType,
+			@PathVariable (name="search") Optional<String> optSearch,
+			@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {
+		
+		List<Document> list=new ArrayList<Document>();
+		String id="DEV001";
+		try {
+			if(optStatus.isPresent()) {
+				list =service.findMySearch(id,optType.get(),optSearch.get(),optStatus.get());
+			}else {
+				list =service.findMySearch(id,optType.get(),optSearch.get());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}		
+		return list;	
+	}
 }

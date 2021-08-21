@@ -21,14 +21,15 @@ import com.group.approval.service.SideDocsService;
 
 
 @RestController
-@RequestMapping("/apboard/*")
+@RequestMapping("/approval/*")
 public class SideDocsController {
 
 	@Autowired
 	private SideDocsService service;
-	
+
 	private Logger log = Logger.getLogger(SideDocsController.class);
 
+	//사이드바 숫자 관련
 	@GetMapping("/sidebar")
 	public List<Integer> sideBarCnt(HttpSession session) {
 		List<Integer> apCntList=new ArrayList<Integer>();
@@ -39,7 +40,6 @@ public class SideDocsController {
 			apCntList.add(1, service.findCntWait(id));
 			apCntList.add(2, service.findCntOk(id));
 			apCntList.add(3, service.findCntNo(id));
-			log.error("-------------------------------"+apCntList.toString());
 		
 		} catch (Exception e) {
 			log.error(e.getMessage());
@@ -47,10 +47,9 @@ public class SideDocsController {
 		return apCntList;	
 	}
 	
+	//문서 목록 불러오기 
 	@GetMapping(value={"/selectdocs","/selectdocs/{status}"})
-	public List<Document> sideBarList(@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {
-		
-		Map<String,Object> result= new HashMap<String, Object>();
+	public List<Document> sideBarList(@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {	
 		List<Document> list=new ArrayList<Document>();
 		String id="DEV001";
 		try {

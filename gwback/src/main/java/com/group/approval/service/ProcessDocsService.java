@@ -1,40 +1,53 @@
 package com.group.approval.service;
 
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.group.approval.dao.DocsWriteDAO;
 import com.group.approval.dao.ProcessDocsDAO;
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
 import com.group.approval.dto.Reference;
+import com.group.employee.dto.Employee;
+import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.UpdateException;
 
+@Service
 public class ProcessDocsService {
+	@Autowired
 	private ProcessDocsDAO dao;
-	private static ProcessDocsService service;
-	public static String envProp="classes.prop";
 	
-	private ProcessDocsService(){
-		Properties env =new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("ProcessDocsDAO");
-			System.out.println(className);
-			Class c = Class.forName(className);
-			dao = (ProcessDocsDAO)c.newInstance();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+	/**
+	 * 부서로 사원 조회
+	 * 
+	 * @param name
+	 * @throws FindException
+	 */
+	public List<Employee> findByEmpDep(String depTitle) throws FindException {
+		return dao.searchByDep(depTitle);
+	}
+
+	/**
+	 * 사원 전체를 조회한다
+	 * @return 사원 전체 목록
+	 * @throws FindException
+	 */
+	public List<Employee> showAll() throws FindException {
+		return dao.searchApLineStaff();
 	}
 	
-	public static ProcessDocsService getInstance() {
-		if(service == null) {
-			service = new ProcessDocsService();
-		}
-		return service;
+	/**
+	 * 참조자의 참조 승인
+	 * @param R
+	 * @throws UpdateException
+	 */
+	public void decisionMyRe(String documentNo, String documentId) throws UpdateException{
+		dao.updateReference(documentNo,documentId);
 	}
 	
 	/**
@@ -53,14 +66,7 @@ public class ProcessDocsService {
 	public void decisionAg(Agreement ag) throws UpdateException{
 		//dao.updateAgreement(ag);
 	}
-	/**
-	 * 참조자의 참조 승인
-	 * @param R
-	 * @throws UpdateException
-	 */
-	public void decisionRe(Reference R) throws UpdateException{
-		//dao.updateReference(R);
-	}
+
 	/**
 	 * 결재자 전원이 승인 처리 시, 문서 상태 승인으로
 	 * @param document_no, id

@@ -25,8 +25,11 @@ public class ConfirmDocsService {
     * @return 사용자가 선택한 결과값 목록
     * @throws FindException
     */   
-   public List<Document> findCheckDocs(String id,String status,String check) throws FindException{
-      return dao.selectByCheck(id,status,check);
+	public List<Document> findCheckDocs(String id,String check) throws FindException{
+		return dao.selectByCheckAll(id,check);
+	}
+	public List<Document> findCheckDocs(String id,String check,String status) throws FindException{
+      return dao.selectByCheckStatus(id,check,status);
    }
 
    /**
@@ -61,30 +64,23 @@ public class ConfirmDocsService {
        return dao.selectByComments(docNo);
     }
    
-//
-//   /**6.
-//    * 문서에 대해 제목으로 검색할 수 있다.
-//    * @param id 로그인한 사용자 id
-//    * @param title 제목 검색시 입력값
-//    * @param 사이드바 전체 / 대기 / 승인 / 반려 값 
-//    * @return 사용자가 입력한 검색어에 일치하는 목록 
-//    * @throws FindException
-//    * @throws SearchException 
-//    */   
-//   public List<Document> findMySearchTitle(String id,String title,String status) throws FindException, SearchException{
-//      
-//      List<Document> lists=null;
-//      if(status.equals("")) {
-//         lists=dao.selectBySearchTitle(id, title);
-//      }else if(status.equals("대기")){
-//         lists=dao.selectBySearchTitleWait(id, title);
-//      }else if(status.equals("승인")){
-//         lists=dao.selectBySearchTitleOk(id, title);
-//      }else if(status.equals("반려")) {
-//         lists=dao.selectBySearchTitleNo(id, title);
-//      }
-//      return lists;
-//   }
+
+   /**
+    * (전체/대기/반려/승인)문서에 대해 제목/내용으로 검색할 수 있다.
+    * @param id 로그인한 사용자 id
+    * @param searchType title/content구분값 
+    * @param search 검색시 입력값
+    * @param status 사이드바 전체 / 대기 / 승인 / 반려 값 
+    * @return 사용자가 입력한 검색어에 일치하는 목록 
+    * @throws SearchException 
+    */   
+    
+   public List<Document> findMySearch(String id,String searchType,String search,String status) throws SearchException{
+	   return dao.selectBySearchStatus(id, searchType, search, status);   
+   }
+   public List<Document> findMySearch(String id,String searchType,String search) throws SearchException{
+	   return dao.selectBySearchAll(id, searchType, search);   
+   }
 //   
 //   /**6.
 //    * 문서에 대해 내용으로 검색할 수 있다.
