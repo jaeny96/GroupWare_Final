@@ -8,8 +8,13 @@
     <setting name="jdbcTypeForNull" value="NULL" />
   </settings>
   <typeAliases>
-    <typeAlias type="com.group.approval.dto.Document" alias="document"/>  
-  
+	<typeAlias type="com.group.approval.dto.Agreement" alias="agreement"/>
+	<typeAlias type="com.group.approval.dto.Approval" alias="approval"/>
+	<typeAlias type="com.group.approval.dto.ApprovalStatus" alias="approvalStatus"/>
+	<typeAlias type="com.group.approval.dto.Document" alias="document"/>
+	<typeAlias type="com.group.approval.dto.DocumentType" alias="documentType"/>
+	<typeAlias type="com.group.approval.dto.Reference" alias="reference"/>
+	
     <typeAlias type="com.group.employee.dto.Department" alias="department"/>
     <typeAlias type="com.group.employee.dto.Employee" alias="employee"/>
     <typeAlias type="com.group.employee.dto.Job" alias="job"/>
@@ -25,6 +30,7 @@
   </typeAliases>
   <mappers>
   	<mapper resource="MainPageMapper.xml"></mapper>
-  	<mapper resource="EmployeeLeaveMapper.xml"></mapper>
+	<!--<mapper resource="EmployeeLeaveMapper.xml"></mapper> --> 	
+	<mapper resource="ApprovalWriteMapper.xml"></mapper>
   </mappers>
 </configuration>

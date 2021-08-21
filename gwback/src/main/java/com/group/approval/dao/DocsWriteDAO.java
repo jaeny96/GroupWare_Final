@@ -2,6 +2,8 @@ package com.group.approval.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
 import com.group.approval.dto.Document;
@@ -21,29 +23,35 @@ public interface DocsWriteDAO {
 	 */
 	int chkMaxNum(String document_type) throws FindException;
 	/**
-	 * 1-1. 사용자는 작성한 문서를 기안한다
+	 * 1-1. 사용자는 작성한 문서상세를 등록한다
 	 * @param d
 	 * @throws AddException
 	 */
-	void draft(Document d) throws AddException;
+	void draftDoc(SqlSession session,Document d) throws AddException;
 	/**
 	 * 1-2. 문서 기안 시 결재자를 등록한다
 	 * @param d
 	 * @throws AddException
 	 */
-	void draftAp(Approval ap) throws AddException;
+	void draftAp(SqlSession session,List<Approval> aps) throws AddException;
 	/**
 	 * 1-3. 문서 기안 시 합의자를 등록한다
 	 * @param d
 	 * @throws AddException
 	 */
-	void draftAg(Agreement ag) throws AddException;
+	void draftAg(SqlSession session,Agreement ag) throws AddException;
 	/**
 	 * 1-4. 문서 기안 시 참조자를 등록한다
 	 * @param d
 	 * @throws AddException
 	 */
-	void draftRe(Reference re) throws AddException;
+	void draftRe(SqlSession session,Reference re) throws AddException;
+	/**
+	 * 1-1. 사용자는 작성한 문서를 등록한다
+	 * @param d
+	 * @throws AddException
+	 */
+	void draft(Document d) throws AddException;
 	/**
 	 * 2-1. 결재선을 설정하는 과정에서 참여시킬 사원의 이름을 검색한다
 	 * @param name

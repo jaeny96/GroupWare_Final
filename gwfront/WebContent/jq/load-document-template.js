@@ -483,6 +483,7 @@ $(function () {
 
   $selectObj.on("change", function (e) {
     var templateType = $(this).val();
+    localStorage.setItem("templateType", templateType);
     //option value가 '선택'이 아닐때
     if (templateType != "#") {
       $apLineBtnObj.attr("style", "");

@@ -1,6 +1,5 @@
 $(function () {
   localStorage.removeItem("apLineName");
-
   // var $apDocListMenu = $("#apAllLink");
   // console.log($apDocListMenu);
 
@@ -251,32 +250,54 @@ $(function () {
   var aglineEmpId;
   var relineEmpId;
 
-  var backurlApAddDocs = "/back/addapprovaldocs";
+  var backurlApAddDocs = "http://localhost:8888/gwback/approval/draft/";
 
   function docFirst() {
-    var apLineId = [0, 1, 2, 3];
+    // var apLineId = [0, 1, 2, 3];
+    var type = localStorage.getItem("templateType");
     var apLineEmpId = [
       apZeroStepName.getAttribute("id"),
       apOneStepName.getAttribute("id"),
       apTwoStepName.getAttribute("id"),
       apThreeStepName.getAttribute("id"),
     ];
+    var count = 0;
+    if (apZeroStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    if (apOneStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    if (apTwoStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    if (apThreeStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    var apLine = new Array();
+    //"approvals":[{"employee":{"employeeId":"DEV001"},"apStep":0},{"employee":{"employeeId":"DEV002"},"apStep":1}],
+    //"approvals\":[{\"employee\":{\"employeeId\":\"DEV001\"},\"apStep\":0},{\"employee\":{\"employeeId\":\"DEV002\"},\"apStep\":1}],
+    for (var i = 0; i < count; i++) {
+      apLine[i] =
+        '{"employee":{"employeeId":' + apLineEmpId[i] + '},"apStep":' + i + "}";
+    }
+
     relineEmpId = apReferenceStepName.getAttribute("id");
     aglineEmpId = apAgreementStepName.getAttribute("id");
 
     // console.log($("select#documentTypeSelect option:selected").html());
     $.ajax({
-      url: backurlApAddDocs,
+      url: backurlApAddDocs + type,
       method: "post",
       data: {
-        addApDocsType: apDocsTypeObj,
-        addApDocsTitle: apDocsTitleObj.value,
-        addApDocsContent: apDocsContentObj.innerText,
-        addApWriterId: loginInfoIdObj.innerText,
-        addApLineEmpId: apLineEmpId,
-        addApLineStep: apLineId,
-        addAgLineEmpId: aglineEmpId,
-        addReLineEmpId: relineEmpId,
+        documentStatus: apDocsTypeObj,
+        documentTitle: apDocsTitleObj.value,
+        documentContent: apDocsContentObj.innerText,
+        employee: { employee: { employeeId: loginInfoIdObj.innerText } },
+        approvals: apLine,
+        // addApLineStep: apLineId,
+        agreement: { employee: { employeeId: aglineEmpId } },
+        reference: { employee: { employeeId: relineEmpId } },
       },
       success: function () {
         alert("기안이 완료되었습니다.");
