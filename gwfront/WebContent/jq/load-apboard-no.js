@@ -12,6 +12,8 @@ $(function () {
   var apBdDate = new Array();
   var apBdStatus = new Array();
   var apBdCheck = new Array();
+  //페이지 구분 변수
+  var status = "반려";
 
   var $content = $("main.content");
 
@@ -148,13 +150,13 @@ $(function () {
     if (e.target.id == "apDocumentStatusOk") {
       //문서상태 : 확인일때
       apChangeStatusBtnObj.innerHTML = "확인";
-      nowStatus = "확인";
+      nowStatus = "check";
       apStatusPickSubmitHandler(e);
     }
     if (e.target.id == "apDocumentStatusNo") {
       //문서상태 : 미확인일때
       apChangeStatusBtnObj.innerHTML = "미확인";
-      nowStatus = "미확인";
+      nowStatus = "nocheck";
       apStatusPickSubmitHandler(e);
     }
     if (e.target.id == "apDocumentStatusAll") {
@@ -175,77 +177,85 @@ $(function () {
   //문서상태 선택했을때 발동하는 핸들러
   function apStatusPickSubmitHandler(e) {
     if (e.target.id == "apDocumentStatusAll") {
-      //모든 문서일때
-      //trigger로 발생시키고 싶었지만 , 클릭시에만 보이는 구성요소는 작동 안되는지 안되네유 ㅠ 저의 한계,,
-      //trigger로 하고싶다 하시는 분은 밑에 찾아놨으니 이걸 이용해서 해보세야,,
-      // var test = document.querySelector(
-      //   "div.wrapper>nav.sidebar>div.js-simplebar>div.simplebar-wrapper>div.simplebar-mask>div.simplebar-offset>div.simplebar-content-wrapper>div.simplebar-content>ul.sidebar-nav>li.sidebar-item>ul.ml-3>li.sidebar-item>ul.sidebar-dropdown>li.sidebar-item>a"
-      // );
-      // console.log(test);
-      $.ajax({
-        url: "/back/showapdocsstatus",
-        method: "get",
-        data: {
-          status: "반려",
-        },
-        success: function (responseData) {
-          emptyBdElement(tBodyObject);
-          createTbodyElement();
-          $(responseData).each(function (i, e) {
-            console.log(i + "," + e);
-            apBdNo[i] = e.document_no;
-            apBdTitle[i] = e.document_title;
-            apBdEmp[i] = e.employee.employee_id;
-            apBdEmpName[i] = e.employee.name;
-            apBdDate[i] = e.draft_date;
-            apBdStatus[i] = e.document_status.document_type;
-            apBdCheck[i] = e.approval.ap_type.apStatus_type;
-          });
-
-          //받아온 데이터 만큼 구성요소 생성
-          for (var i = 0; i < apBdTitle.length; i++) {
-            createApBdElement(i);
-          }
-          $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
-
-          console.log($titleObj);
-
-          $titleObj.click(function (e) {
-            localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
-            var href = $(this).attr("href");
-            console.log(href);
-            switch (href) {
-              case "approval-detail.html":
-                $content.load(href, function (responseTxt, statusTxt, xhr) {
-                  if (statusTxt == "error")
-                    alert("Error: " + xhr.status + ": " + xhr.statusText);
-                });
-                break;
-            }
-            return false;
-          });
-        },
+   //전체 목록 문서 불러오는 ajax
+  $.ajax({
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    url: "/gwback/apboard/selectdocs" +"/" +status,
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      contentType: "application/json; charset:UTF-8",
+    },
+    data: "",
+    timeout: {},
+    success: function (responseData) {
+      emptyBdElement(tBodyObject);
+      createTbodyElement();
+      $(responseData).each(function (i, e) {
+        console.log(i + "," + e);
+        apBdNo[i] = e.documentNo;
+        apBdTitle[i] = e.documentTitle;
+        apBdEmp[i] = e.employee.employee_id;
+        apBdEmpName[i] = e.employee.name;
+        apBdDate[i] = e.draftDate;
+        apBdStatus[i] = e.documentType.documentType;
+        apBdCheck[i] = e.approval.apType.apStatusType;
       });
-    } else {
+
+      //받아온 데이터 만큼 구성요소 생성
+      for (var i = 0; i < apBdTitle.length; i++) {
+        createApBdElement(i);
+      }
+      $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
+
+      console.log($titleObj);
+
+      $titleObj.click(function (e) {
+        localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
+        var href = $(this).attr("href");
+        console.log(href);
+        switch (href) {
+          case "approval-detail.html":
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+            break;
+        }
+        return false;
+      });
+    },
+  });
+    } else {+
       //확인 or 미확인을 선택했을때
-      $.ajax({
-        url: "/back/selectcheckpick",
-        method: "get",
-        data: {
-          check: nowStatus, //확인 or 미확인
-          status: "반려",
-        },
+      $.ajax({        
+      "method": "GET",
+	  "transformRequest": [
+	    null
+	  ],
+	  "transformResponse": [
+	    null
+	  ],
+	  "jsonpCallbackParam": "callback",
+	  "url": "http://localhost:8888/gwback/apboard/selectcheck/"+nowStatus+"/"+status,
+	  "headers": {
+	    "Accept": "application/json, text/plain, */*"
+	  },
+	  "data": "",
+	  "timeout": {},
         success: function (responseData) {
           emptyBdElement(tBodyObject);
           createTbodyElement();
           $(responseData).each(function (i, e) {
-            apBdNo[i] = e.document_no;
-            apBdTitle[i] = e.document_title;
+            apBdNo[i] = e.documentNo;
+            apBdTitle[i] = e.documentTitle;
             apBdEmp[i] = e.employee.employee_id;
             apBdEmpName[i] = e.employee.name;
-            apBdDate[i] = e.draft_date;
-            apBdStatus[i] = e.document_type.document_type;
-            apBdCheck[i] = e.approval.ap_type.apStatus_type;
+            apBdDate[i] = e.draftDate;
+            apBdStatus[i] = e.documentType.documentType;
+            apBdCheck[i] = e.approval.apType.apStatusType;
           });
 
           for (var i = 0; i < apBdTitle.length; i++) {
@@ -338,7 +348,7 @@ $(function () {
     tr.appendChild(tdCheck);
     tBodyObject.appendChild(tr);
   }
-  var status = "반려";
+
   //전체 목록 문서 불러오는 ajax
   $.ajax({
     method: "GET",
@@ -359,11 +369,11 @@ $(function () {
         console.log(i + "," + e);
         apBdNo[i] = e.documentNo;
         apBdTitle[i] = e.documentTitle;
-        apBdEmp[i] = e.employee.employee_id;
+        apBdEmp[i] = e.employee.employeeId;
         apBdEmpName[i] = e.employee.name;
         apBdDate[i] = e.draftDate;
-        apBdStatus[i] = e.documentType.documentType;
-        apBdCheck[i] = e.approval.apType.apStatusType;
+   		apBdStatus[i] = e.documentStatus.documentType;
+        apBdCheck[i] = e.approval.apStatus.apType;
       });
 
       //받아온 데이터 만큼 구성요소 생성

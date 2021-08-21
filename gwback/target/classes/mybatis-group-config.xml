@@ -22,5 +22,7 @@
   </typeAliases>
   <mappers>
  	<mapper resource="ApprovalSideMapper.xml"></mapper>
+ 	<mapper resource="ApprovalConfirmMapper.xml"></mapper>
+ 	<mapper resource="ApprovalWriteMapper.xml"></mapper>
   </mappers>
 </configuration>

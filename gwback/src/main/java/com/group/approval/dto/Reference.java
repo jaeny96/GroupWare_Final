@@ -6,45 +6,60 @@ import com.group.employee.dto.Employee;
 
 public class Reference {
 
-	private Document documentNo;
-	private Employee employeeId;
-	private ApprovalStatus reApType;
+	private String documentNo;
+	private Employee employee;
+	private ApprovalStatus approvalStatus;
 	
 	
 	public Reference() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public Reference(Document documentNo, Employee employeeId, ApprovalStatus reApType) {
+
+
+	public Reference(String documentNo, Employee employee, ApprovalStatus approvalStatus) {
 		super();
 		this.documentNo = documentNo;
-		this.employeeId = employeeId;
-		this.reApType = reApType;
+		this.employee = employee;
+		this.approvalStatus = approvalStatus;
 	}
 
-	public Document getDocumentNo() {
+
+	public String getDocumentNo() {
 		return documentNo;
 	}
-	public void setDocumentNo(Document documentNo) {
+
+
+	public void setDocumentNo(String documentNo) {
 		this.documentNo = documentNo;
 	}
-	public Employee getEmployeeId() {
-		return employeeId;
+
+
+	public Employee getEmployee() {
+		return employee;
 	}
-	public void setEmployeeId(Employee employeeId) {
-		this.employeeId = employeeId;
+
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
-	public ApprovalStatus getReApType() {
-		return reApType;
+
+
+	public ApprovalStatus getApprovalStatus() {
+		return approvalStatus;
 	}
-	public void setReApType(ApprovalStatus reApType) {
-		this.reApType = reApType;
+
+
+	public void setApprovalStatus(ApprovalStatus approvalStatus) {
+		this.approvalStatus = approvalStatus;
 	}
-	
+
+
 	@Override
 	public String toString() {
-		return "Reference [documentNo=" + documentNo + ", employeeId=" + employeeId + ", reApType=" + reApType + "]";
+		return "Reference [document=" + documentNo + ", employee=" + employee + ", approvalStatus=" + approvalStatus
+				+ "]";
 	}
+	
 	
 }

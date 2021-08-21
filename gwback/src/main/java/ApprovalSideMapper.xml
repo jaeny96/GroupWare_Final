@@ -3,9 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group.approval.ApprovalSideMapper">
+<!-- 전체목록 -->
 <select id="selectByListAll" resultType="document">
 SELECT j.document_no, j.document_title, j.employee_id "employee.employeeId", e.name "employee.name",
-	draft_date, j.document_type "documentType.dType", j.ap_type "approval.apType.apStatusType"
+	draft_date, j.document_type "documentStatus.documentType", j.ap_type "approval.apStatus.apType"
 	from employee e join (
 	SELECT * FROM (select a.* 
 	FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type  
@@ -27,9 +28,10 @@ SELECT j.document_no, j.document_title, j.employee_id "employee.employeeId", e.n
 	)) j ON e.employee_id = j.employee_id  
 	ORDER BY draft_date ASC
 </select>
+<!-- 대기/반려/승인 -->
 <select id="selectByListStatus" parameterType="java.util.HashMap" resultType="document">
 SELECT j.document_no, j.document_title, j.employee_id "employee.employeeId", e.name "employee.name",
-	draft_date, j.document_type "documentType.dType", j.ap_type "approval.apType.apStatusType"
+	draft_date, j.document_type "documentStatus.documentType", j.ap_type "approval.apStatus.apType"
 	from employee e join (
 	SELECT * FROM (select a.* 
 	FROM ((SELECT d.document_title, d.document_no, draft_date, d.employee_id,d.document_type, ap_type  

@@ -360,11 +360,11 @@ $(function () {
         console.log(i + "," + e);
         apBdNo[i] = e.documentNo;
         apBdTitle[i] = e.documentTitle;
-        apBdEmp[i] = e.employee.employee_id;
+        apBdEmp[i] = e.employee.employeeId;
         apBdEmpName[i] = e.employee.name;
         apBdDate[i] = e.draftDate;
-        apBdStatus[i] = e.documentType.documentType;
-        apBdCheck[i] = e.approval.apType.apStatusType;
+   		apBdStatus[i] = e.documentStatus.documentType;
+        apBdCheck[i] = e.approval.apStatus.apType;
       });
 
       //받아온 데이터 만큼 구성요소 생성

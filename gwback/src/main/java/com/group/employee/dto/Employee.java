@@ -61,11 +61,11 @@ public class Employee {
 		this.password = password;
 	}
 
-	public String getEmployee_id() {
+	public String getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployee_id(String employeeId) {
+	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
 

@@ -2,7 +2,7 @@ package com.group.approval.dto;
 
 public class ApprovalStatus {
 
-	private String apStatusType;
+	private String apType;
 
 	
 	public ApprovalStatus() {
@@ -10,21 +10,23 @@ public class ApprovalStatus {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ApprovalStatus(String apStatusType) {
+	public ApprovalStatus(String apType) {
 		super();
-		this.apStatusType = apStatusType;
+		this.apType = apType;
 	}
 
-	public String getApStatusType() {
-		return apStatusType;
+	
+
+	public String getApType() {
+		return apType;
 	}
 
-	public void setApStatusType(String apStatusType) {
-		this.apStatusType = apStatusType;
+	public void setApType(String apType) {
+		this.apType = apType;
 	}
 
 	@Override
 	public String toString() {
-		return "ApprovalStatus [apStatusType=" + apStatusType + "]";
+		return "ApprovalStatus [apStatusType=" + apType + "]";
 	}
 }

@@ -9,6 +9,16 @@ import com.group.exception.UpdateException;
 
 public interface ProcessDocsDAO {
 
+
+
+	/**
+	 * 9. 참조자는 참조를 승인한다.
+	 * 
+	 * @param d
+	 * @throws UpdateException
+	 */
+	void updateReference(Reference R) throws UpdateException;
+	
 	/**
 	 * 5-1. 사용자는 버튼을 클릭하면 승인or반려할지를 선택하고, 코멘트를 남길 수 있다. (결재승인테이블)
 	 * 
@@ -24,14 +34,6 @@ public interface ProcessDocsDAO {
 	 * @throws UpdateException
 	 */
 	void updateAgreement(Agreement ag) throws UpdateException;
-
-	/**
-	 * 9. 참조자는 참조를 승인한다.
-	 * 
-	 * @param d
-	 * @throws UpdateException
-	 */
-	void updateReference(Reference R) throws UpdateException;
 
 	/**
 	 * 10. 모두 승인처리를 내리면,최종 문서 상태의 값을 '승인'으로 바꾼다.
