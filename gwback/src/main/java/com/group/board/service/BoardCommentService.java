@@ -1,42 +1,21 @@
 package com.group.board.service;
 
-import java.io.FileInputStream;
 import java.util.List;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.group.board.dao.BoardCommentDAO;
 import com.group.board.dto.BoardComment;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.exception.RemoveException;
-
+@Service
 public class BoardCommentService {
+	@Autowired
 	private BoardCommentDAO dao;
 	private static BoardCommentService service;
-	public static String envProp;
-	
-	private BoardCommentService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("boardCommentDAO");
-			/*
-			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
-			 */
-			Class c = Class.forName(className); // JVM에 로드
-			dao = (BoardCommentDAO) c.newInstance(); // 객체 생성
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	public static BoardCommentService getInstance() {
-		if (service == null) {
-			service = new BoardCommentService();
-		}
-		return service;
-	}
-	
 	/**
 	 * 특정 게시글에 대한 댓글목록을 조회한다
 	 * @param bd_no 특정 게시글 번호
@@ -54,8 +33,8 @@ public class BoardCommentService {
 	 */
 	public void addCm(BoardComment cm) throws AddException {
 		boolean flag = false;
-		if (cm.getCm_writer().getEmployee_id() != null && !"".equals(cm.getCm_writer().getEmployee_id())) {
-			if (cm.getCm_content() != null && !"".equals(cm.getCm_content())) {
+		if (cm.getCmWriter().getEmployeeId() != null && !"".equals(cm.getCmWriter().getEmployeeId())) {
+			if (cm.getCmContent() != null && !"".equals(cm.getCmContent())) {
 				flag = true;
 			} else {
 				System.out.println("입력한 내용이 없습니다");
@@ -77,9 +56,9 @@ public class BoardCommentService {
 	public void removeCm(BoardComment cm) throws RemoveException {
 		List<BoardComment> cmList;
 		try {
-			cmList = service.showCm(cm.getBd_no());
-			BoardComment compare = cmList.get(cmList.size()-cm.getCm_no());
-			if(compare.getCm_writer().getEmployee_id().equals(cm.getCm_writer().getEmployee_id())) {
+			cmList = service.showCm(cm.getBdNo());
+			BoardComment compare = cmList.get(cmList.size()-cm.getCmNo());
+			if(compare.getCmWriter().getEmployeeId().equals(cm.getCmWriter().getEmployeeId())) {
 				dao.delete(cm);
 			}else {
 				System.out.println("댓글을 작성한 작성자가 아닙니다");

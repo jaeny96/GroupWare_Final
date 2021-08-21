@@ -1,8 +1,9 @@
 package com.group.board.service;
 
-import java.io.FileInputStream;
 import java.util.List;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.group.board.dao.BoardDAO;
 import com.group.board.dto.Board;
@@ -11,34 +12,11 @@ import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
 
+@Service
 public class BoardService {
+	@Autowired
 	private BoardDAO dao;
-	private static BoardService service;
-	public static String envProp;
-
-	private BoardService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("boardDAO");
-			/*
-			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
-			 */
-			Class c = Class.forName(className); // JVM에 로드
-			dao = (BoardDAO) c.newInstance(); // 객체 생성
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static BoardService getInstance() {
-		if (service == null) {
-			service = new BoardService();
-		}
-		return service;
-	}
-
+	
 	/**
 	 * 현재 페이지의 게시글 목록을 조회한다
 	 * 
@@ -80,7 +58,7 @@ public class BoardService {
 	 * @throws AddException
 	 */
 	public void addBd(Board bd) throws AddException {
-		if (bd.getBd_title() != null) {
+		if (bd.getBdTitle() != null) {
 			dao.insert(bd);
 		} else {
 			System.out.println("제목이 입력되지 않았습니다");
@@ -95,7 +73,7 @@ public class BoardService {
 	 *                         할지 고민중
 	 */
 	public void modifyBd(Board bd) throws ModifyException {
-		if (!"".equals(bd.getBd_title()) && bd.getBd_title() != null) {
+		if (!"".equals(bd.getBdTitle()) && bd.getBdTitle() != null) {
 			dao.update(bd);
 		} else {
 			System.out.println("제목이 입력되지 않았습니다");

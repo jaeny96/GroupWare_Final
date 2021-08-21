@@ -286,14 +286,14 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		    	Approval a = new Approval();
 		    	ApprovalStatus ap = new ApprovalStatus();
 		    	
-			    d.setDocument_no(rs.getString("document_no"));
-		    	d.setDocument_title(rs.getString("document_title"));
-		    	emp.setEmployee_id(rs.getString("employee_id"));
+			    d.setDocumentNo(rs.getString("document_no"));
+		    	d.setDocumentTitle(rs.getString("document_title"));
+		    	emp.setEmployeeId(rs.getString("employee_id"));
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
-		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("document_type"));
-		    	d.setDocument_status(dt);
+		    	d.setDraftDate(rs.getDate("dt"));
+		    	dt.setDocumentType(rs.getString("document_type"));
+		    	d.setDocumentStatus(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
 		    	a.setAp_type(ap);
@@ -372,14 +372,14 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 		    	Approval a = new Approval();
 		    	ApprovalStatus ap = new ApprovalStatus();
 		    	
-			    d.setDocument_no(rs.getString("document_no"));
-		    	d.setDocument_title(rs.getString("document_title"));
-		    	emp.setEmployee_id(rs.getString("employee_id"));
+			    d.setDocumentNo(rs.getString("document_no"));
+		    	d.setDocumentTitle(rs.getString("document_title"));
+		    	emp.setEmployeeId(rs.getString("employee_id"));
 		    	emp.setName(rs.getString("name"));
 		    	d.setEmployee(emp);
-		    	d.setDraft_date(rs.getDate("dt"));
-		    	dt.setDocument_type(rs.getString("document_type"));
-		    	d.setDocument_status(dt);
+		    	d.setDraftDate(rs.getDate("dt"));
+		    	dt.setDocumentType(rs.getString("document_type"));
+		    	d.setDocumentStatus(dt);
 		    	String s=rs.getString("ap_type");
 		    	ap.setApStatus_type(rs.getString("ap_type"));
 		    	a.setAp_type(ap);
@@ -460,16 +460,16 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			    	ApprovalStatus ap = new ApprovalStatus();
 			    	
 			    	//document테이블 정보 넣기 
-				    d.setDocument_no(rs.getString("document_no"));
-			    	d.setDocument_title(rs.getString("document_title"));
+				    d.setDocumentNo(rs.getString("document_no"));
+			    	d.setDocumentTitle(rs.getString("document_title"));
 			    	//사원 테이블 정보 넣기
-			    	emp.setEmployee_id(rs.getString("employee_id"));
+			    	emp.setEmployeeId(rs.getString("employee_id"));
 			    	emp.setName(rs.getString("name"));
 			    	d.setEmployee(emp);
-			    	d.setDraft_date(rs.getDate("dt"));
+			    	d.setDraftDate(rs.getDate("dt"));
 			    	//문서 타입 관련
-			    	dt.setDocument_type(rs.getString("document_type"));
-			    	d.setDocument_status(dt);
+			    	dt.setDocumentType(rs.getString("document_type"));
+			    	d.setDocumentStatus(dt);
 			    	//문서 상태 관련 
 			    	String s=rs.getString("ap_type");
 			    	ap.setApStatus_type(rs.getString("ap_type"));
@@ -550,14 +550,14 @@ public class SideDocsDAOOracle implements SideDocsDAO{
 			    	Approval a = new Approval();
 			    	ApprovalStatus ap = new ApprovalStatus();
 			    	
-				    d.setDocument_no(rs.getString("document_no"));
-			    	d.setDocument_title(rs.getString("document_title"));
-			    	emp.setEmployee_id(rs.getString("employee_id"));
+				    d.setDocumentNo(rs.getString("document_no"));
+			    	d.setDocumentTitle(rs.getString("document_title"));
+			    	emp.setEmployeeId(rs.getString("employee_id"));
 			    	emp.setName(rs.getString("name"));
 			    	d.setEmployee(emp);
-			    	d.setDraft_date(rs.getDate("dt"));
-			    	dt.setDocument_type(rs.getString("document_type"));
-			    	d.setDocument_status(dt);
+			    	d.setDraftDate(rs.getDate("dt"));
+			    	dt.setDocumentType(rs.getString("document_type"));
+			    	d.setDocumentStatus(dt);
 			    	String s=rs.getString("ap_type");
 			    	ap.setApStatus_type(rs.getString("ap_type"));
 			    	a.setAp_type(ap);

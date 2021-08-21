@@ -53,17 +53,17 @@ public class modifyScheduleServlet extends HttpServlet {
          Schedule s = new Schedule();
          Employee emp = new Employee();
          ScheduleType st = new ScheduleType();
-         emp.setEmployee_id(targetId);
-         st.setSkd_type(skdUpdateType);
+         emp.setEmployeeId(targetId);
+         st.setSkdType(skdUpdateType);
          
-         s.setSkd_id(emp);
-         s.setSkd_type(st);
-         s.setSkd_title(skdUpdateTitle);
-         s.setSkd_start_date(skdUpdateStart);
-         s.setSkd_end_date(skdUpdateEnd);
-         s.setSkd_content(skdUpdateContent);
-         s.setSkd_share(skdUpdateShare);
-         s.setSkd_no(skdUpdateNo);
+         s.setSkdId(emp);
+         s.setSkdType(st);
+         s.setSkdTitle(skdUpdateTitle);
+         s.setSkdStartDate(skdUpdateStart);
+         s.setSkdEndDate(skdUpdateEnd);
+         s.setSkdContent(skdUpdateContent);
+         s.setSkdShare(skdUpdateShare);
+         s.setSkdNo(skdUpdateNo);
          service.modifySkd(s);
          System.out.println("modifyScheduleServlet 일정이 변경되었습니다 ");
       } catch (ModifyException e) {

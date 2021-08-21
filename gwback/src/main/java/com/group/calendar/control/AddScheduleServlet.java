@@ -51,16 +51,16 @@ public class AddScheduleServlet extends HttpServlet {
 			Schedule s = new Schedule();
 			Employee emp = new Employee();
 			ScheduleType st = new ScheduleType();
-			emp.setEmployee_id(targetId);
-			st.setSkd_type(skdInsertType);
+			emp.setEmployeeId(targetId);
+			st.setSkdType(skdInsertType);
 			
-			s.setSkd_id(emp);
-			s.setSkd_type(st);
-			s.setSkd_title(skdInsertTitle);
-			s.setSkd_start_date(skdInsertStart);
-			s.setSkd_end_date(skdInsertEnd);
-			s.setSkd_content(skdInsertContent);
-			s.setSkd_share(skdInsertShare);
+			s.setSkdId(emp);
+			s.setSkdType(st);
+			s.setSkdTitle(skdInsertTitle);
+			s.setSkdStartDate(skdInsertStart);
+			s.setSkdEndDate(skdInsertEnd);
+			s.setSkdContent(skdInsertContent);
+			s.setSkdShare(skdInsertShare);
 			service.addSkd(s);
 			System.out.println("AddScheduleServlet / 일정이 추가되었습니다.");
 		} catch (AddException e) {

@@ -1,11 +1,16 @@
 package com.group.board.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.group.board.dto.Board;
 import com.group.employee.dto.Employee;
@@ -13,281 +18,136 @@ import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
-import com.group.sql.MyConnection;
 
+
+@Repository("BoardDAO")
 public class BoardDAOOracle implements BoardDAO {
+	@Autowired
+	private DataSource ds;
+
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
+
 	@Override
 	public List<Board> selectAll() throws FindException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-
-		String selectAllSQL = "select*\r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
-				+ "            FROM board b \r\n" + "            JOIN employee e ON b.employee_id = e.employee_id\r\n"
-				+ "            ORDER BY bd_date desc\r\n" + "        ) a\r\n" + "    )\r\n";
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Board> bdList = new ArrayList<Board>();
-		try {
-			pstmt = con.prepareStatement(selectAllSQL);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Board bd = new Board();
-
-				bd.setBd_no(rs.getString("bd_no"));
-
-				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				bd.setWriter(emp);
-
-				bd.setBd_title(rs.getString("bd_title"));
-				bd.setBd_date(rs.getTimestamp("bd_date"));
-				bdList.add(bd);
-			}
-			if (bdList.size() == 0) {
-				throw new FindException("게시글이 없습니다.");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			return session.selectList("com.group.board.dto.BoardMapper.selectAll");
+		} catch (Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, rs);
+			session.close();
 		}
-		return bdList;
 	}
 
 	@Override
 	public List<Board> selectAll(int currentPage) throws FindException {
 		int cnt_per_page = 10;
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-		String selectAllPageSQL = "select * \r\n" + "FROM (SELECT rownum rn, a.* \r\n" + "    FROM ( SELECT *\r\n"
-				+ "            FROM board b \r\n" + "            JOIN employee e ON b.employee_id = e.employee_id\r\n"
-				+ "            ORDER BY  bd_date desc\r\n" + "        ) a\r\n" + "    )\r\n"
-				+ "WHERE rn BETWEEN start_row(?,?) AND end_row(?,?)";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Board> bdList = new ArrayList<Board>();
-		try {
-			pstmt = con.prepareStatement(selectAllPageSQL);
-			pstmt.setInt(1, currentPage);
-			pstmt.setInt(2, cnt_per_page);
-			pstmt.setInt(3, currentPage);
-			pstmt.setInt(4, cnt_per_page);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Board bd = new Board();
-				bd.setBd_no(rs.getString("bd_no"));
-				bd.setBd_title(rs.getString("bd_title"));
-				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				bd.setWriter(emp);
-				bd.setBd_date(rs.getTimestamp("bd_date"));
-
-				bdList.add(bd);
+			session = sqlSessionFactory.openSession();
+			HashMap<String, Integer> map = new HashMap<>();
+			map.put("cnt_per_page", cnt_per_page);
+			map.put("currentPage", currentPage);
+			List<Board> bdlist = session.selectList("com.group.board.dto.BoardMapper.selectAllPage");
+			if (bdlist.size() == 0) {
+				throw new FindException("게시글이 없습니다");
 			}
-		} catch (SQLException e) {
+			return bdlist;
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, rs);
+			if (session != null) {
+				session.close();
+			}
 		}
-		return bdList;
 	}
 
 	@Override
 	public List<Board> selectByWord(String category, String word) throws FindException {
-		Connection con = null;
+		SqlSession session = null;
+		// List<Board> bdList = new ArrayList<Board>();
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-
-		String selectByWordSQL = "SELECT * \r\n" + "FROM board b \r\n"
-				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n" + "WHERE " + category
-				+ " LIKE ? ORDER BY bd_no desc";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Board> bdList = new ArrayList<Board>();
-		try {
-			pstmt = con.prepareStatement(selectByWordSQL);
-			pstmt.setString(1, "%" + word + "%");
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Board bd = new Board();
-				bd.setBd_no(rs.getString("bd_no"));
-				bd.setBd_title(rs.getString("bd_title"));
-				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				bd.setWriter(emp);
-				bd.setBd_date(rs.getTimestamp("bd_date"));
-				bdList.add(bd);
-			}
-			if (bdList.size() == 0) {
-				throw new FindException("일치하는 내용이 없습니다");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("category", category);
+			map.put("word", word);			
+			return session.selectList("com.group.board.dto.BoardMapper.selectByWord", map);
+		} catch (Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, rs);
+			session.close();
 		}
-		return bdList;
 	}
 
 	@Override
-	public Board selectBdInfo(String bd_no) throws FindException {
-		Connection con = null;
+	public Board selectBdInfo(String bdNo) throws FindException {
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-
-		String selectBdInfoSQL = "SELECT *\r\n" + "FROM board b \r\n"
-				+ "JOIN employee e ON b.employee_id = e.employee_id\r\n" + "WHERE b.bd_no=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Board bd = new Board();
-		try {
-			pstmt = con.prepareStatement(selectBdInfoSQL);
-			pstmt.setString(1, bd_no);
-			rs = pstmt.executeQuery();
-
-			if (rs.next()) {
-				bd.setBd_no(rs.getString("bd_no"));
-				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				bd.setWriter(emp);
-				bd.setBd_title(rs.getString("bd_title"));
-				bd.setBd_content(rs.getString("bd_content"));
-				bd.setBd_date(rs.getTimestamp("bd_date"));
+			session = sqlSessionFactory.openSession();
+			Board bd = session.selectOne("com.group.board.dto.BoardMapper.selectBdInfo", bdNo);
+			if (bd == null) {
+				throw new FindException("게시글이 없습니다");
 			}
-		} catch (SQLException e) {
+			return bd;
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new FindException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, null);
+			session.close();
 		}
-		return bd;
 	}
 
 	@Override
 	public void insert(Board bd) throws AddException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-
-		String insertSQL = "INSERT INTO " + "board(bd_no,employee_id,bd_title,bd_content) "
-				+ "VALUES('BD'||BD_SEQ.NEXTVAL,?,?,?)";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setString(1, bd.getWriter().getEmployee_id());
-			pstmt.setString(2, bd.getBd_title());
-			pstmt.setString(3, bd.getBd_content());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			session.insert("com.group.board.dto.BoardMapper.insert", bd);
+		} catch (Exception e) {
 			throw new AddException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, null);
+			if (session != null)
+				session.close();
 		}
 
 	}
 
 	@Override
 	public void update(Board bd) throws ModifyException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new ModifyException(e.getMessage());
-		}
-
-		String str = "";
-
-		if (bd.getBd_title() != null) {
-			str += " bd_title='" + bd.getBd_title() + "',";
-		}
-
-		if (bd.getBd_content() != null) {
-			str += " bd_content='" + bd.getBd_content() + "',";
-		}
-		String updateSQL = "UPDATE board SET " + str.substring(0, str.length() - 1)
-				+ " ,bd_date=SYSTIMESTAMP WHERE bd_no=? AND employee_id=?";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(updateSQL);
-			pstmt.setString(1, bd.getBd_no());
-			pstmt.setString(2, bd.getWriter().getEmployee_id());
-			int rowcnt = pstmt.executeUpdate();
+			session = sqlSessionFactory.openSession();
+			int rowcnt = session.update("com.group.board.dto.BoardMapper.update", bd);
 			if (rowcnt == 1) {
 				System.out.println("내용이 변경되었습니다");
 			} else {
 				throw new ModifyException("내용이 변경되지 않았습니다");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			throw new ModifyException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, null);
+			session.close();
 		}
 
 	}
 
 	@Override
+	@Transactional(rollbackFor = RemoveException.class)
 	public void delete(Board bd) throws RemoveException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			int rowcnt = session.update("com.group.board.dto.BoardMapper.delete", bd);
+			if (rowcnt == 0) {
+				throw new RemoveException("삭제실패: 작성자아이디 확인");
+//			session.update("com.group.board.dto.BoardMapper.delete", bd);
+			}
+			System.out.println("삭제완료");
+		} catch (Exception e) {
 			throw new RemoveException(e.getMessage());
-		}
-
-		String deleteSQL = "DELETE FROM board WHERE bd_no=? AND employee_id=?";
-		PreparedStatement pstmt = null;
-
-		try {
-			pstmt = con.prepareStatement(deleteSQL);
-			pstmt.setString(1, bd.getBd_no());
-			pstmt.setString(2, bd.getWriter().getEmployee_id());
-			pstmt.executeUpdate();
-
-			System.out.println("게시글을 삭제하였습니다.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RemoveException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, null);
 		}
 	}
 }

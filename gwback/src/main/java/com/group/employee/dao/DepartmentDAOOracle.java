@@ -36,8 +36,8 @@ public class DepartmentDAOOracle implements DepartmentDAO {
 
 			while (rs.next()) {
 				Department dep = new Department();
-				dep.setDepartment_id(rs.getString("department_id"));
-				dep.setDepartment_title(rs.getString("department_title"));
+				dep.setDepartmentId(rs.getString("department_id"));
+				dep.setDepartmentTitle(rs.getString("department_title"));
 				dep.setCount(rs.getInt(3));
 
 				depList.add(dep);

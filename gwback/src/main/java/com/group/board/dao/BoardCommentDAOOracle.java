@@ -1,120 +1,70 @@
 package com.group.board.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.group.board.dto.BoardComment;
 import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.exception.RemoveException;
-import com.group.sql.MyConnection;
 
+@Repository("BoardCommentDAO")
 public class BoardCommentDAOOracle implements BoardCommentDAO {
+	@Autowired
+	private DataSource ds;
+
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
+
 	@Override
-	public List<BoardComment> selectAll(String bd_no) throws FindException {
-		Connection con = null;
+	public List<BoardComment> selectAll(String bdNo) throws FindException {
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-
-		String selectAllSQL = "SELECT *" + "FROM boardcomment cm \r\n"
-				+ "JOIN employee e ON cm.employee_id = e.employee_id\r\n" + "JOIN board b ON cm.bd_no = b.bd_no\r\n"
-				+ "WHERE b.bd_no=?\r\n" + "ORDER BY cm_no desc";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<BoardComment> cmList = new ArrayList<BoardComment>();
-		try {
-			pstmt = con.prepareStatement(selectAllSQL);
-			pstmt.setString(1, bd_no);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				BoardComment cm = new BoardComment();
-				cm.setBd_no(bd_no);
-				cm.setCm_no(rs.getInt("cm_no"));
-
-				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				cm.setCm_writer(emp);
-				cm.setCm_date(rs.getTimestamp("cm_date"));
-				cm.setCm_content(rs.getString("cm_content"));
-
-				cmList.add(cm);
-			}
+			session = sqlSessionFactory.openSession();
+			List<BoardComment> cmList = session.selectList("com.group.board.dto.BoardCommentMapper.selectAll", bdNo);
 			if (cmList.size() == 0) {
 				throw new FindException("댓글이 없습니다");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return cmList;
+		} catch (Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, null);
+			session.close();
 		}
-
-		return cmList;
 	}
 
 	@Override
 	public void insert(BoardComment cm) throws AddException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-
-		String insertSQL = "INSERT INTO boardcomment " + "(bd_no,cm_no,employee_id,cm_content) \r\n"
-				+ "VALUES(?,(SELECT NVL(MAX(cm_no), 0)+1 FROM boardcomment WHERE bd_no=?),?,?)";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(insertSQL);
-			pstmt.setString(1, cm.getBd_no());
-			pstmt.setString(2, cm.getBd_no());
-			pstmt.setString(3, cm.getCm_writer().getEmployee_id());
-			pstmt.setString(4, cm.getCm_content());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			session.insert("com.group.board.dto.BoardCommentMapper.insert", cm);
+		} catch (Exception e) {
 			throw new AddException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, null);
+			if (session != null)
+				session.close();
 		}
-
 	}
 
 	@Override
+	@Transactional(rollbackFor = RemoveException.class)
 	public void delete(BoardComment cm) throws RemoveException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			session.update("com.group.board.dto.BoardCommentMapper.delete", cm);
+		} catch (Exception e) {
 			throw new RemoveException(e.getMessage());
-		}
-
-		String deleteSQL = "DELETE FROM boardcomment WHERE bd_no=? AND cm_no=? AND employee_id=?";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(deleteSQL);
-			pstmt.setString(1, cm.getBd_no());
-			pstmt.setInt(2, cm.getCm_no());
-			pstmt.setString(3, cm.getCm_writer().getEmployee_id());
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RemoveException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, null);
 		}
 	}
+
 }

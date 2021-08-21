@@ -5,38 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.group.board.dao.BoardDAO;
 import com.group.board.dto.Board;
 import com.group.board.dto.PageBean;
 import com.group.exception.FindException;
-
+@Service
 public class PageBeanService {
+	@Autowired
 	private BoardDAO dao;
 	private static PageBeanService service;
-	public static String envProp;
-
-	private PageBeanService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("boardDAO");
-			/*
-			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
-			 */
-			Class c = Class.forName(className); // JVM에 로드
-			dao = (BoardDAO) c.newInstance(); // 객체 생성
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static PageBeanService getInstance() {
-		if (service == null) {
-			service = new PageBeanService();
-		}
-		return service;
-	}
 
 	public int selectTotalPage() {
 		int totalPage=0;

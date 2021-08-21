@@ -20,8 +20,8 @@
          <property name="driverClassName" 	value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/> 
   <property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:XE"/>
       
-	<property name="username" value="hr"/> 
-	  <property name="password" value="hr"/>
+	<property name="username" value="groupware"/> 
+	  <property name="password" value="groupware"/>
  <property name="minimumIdle" value="1" />
 <!--       <property name="maximumPoolSize" value="10" /> -->
 <!--       <property name="connectionTestQuery" value="select 1 from sys.dual" /> -->
@@ -35,10 +35,9 @@
 	      <constructor-arg ref="hikariConfig" />      
 	</bean> 
     
-
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
 		  id="sqlSessionFactory2">
-		  <qualifier value="Underscore"></qualifier>
+
 <!-- 		<property name="dataSource"      ref="dataSource"></property> -->
 		<property name="dataSource"      ref="dataSource2"></property>
 		<property name="configLocation"  value="classpath:mybatis-group-config.xml"/>
@@ -56,11 +55,13 @@
 	
 <context:annotation-config/>
 <context:component-scan base-package="com.group.approval.dao"/>
+<context:component-scan base-package="com.group.board.dao"/>
 <context:component-scan base-package="com.group.calendar.dao"/>
 <context:component-scan base-package="com.group.employee.dao"/>
 <context:component-scan base-package="com.group.main.dao"/>
 <context:component-scan base-package="com.group.mypage.dao"/>
 <context:component-scan base-package="com.group.approval.service"/>
+<context:component-scan base-package="com.group.board.service"/>
 <context:component-scan base-package="com.group.calendar.service"/>
 <context:component-scan base-package="com.group.employee.service"/>
 <context:component-scan base-package="com.group.main.service"/>

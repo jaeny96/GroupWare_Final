@@ -48,11 +48,11 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		try {
 			pstmt = con.prepareStatement(draftSQL);
 			System.out.println(pstmt);
-			pstmt.setString(1, d.getDocument_no());
-			pstmt.setString(2, d.getDocument_type().getDocument_type());
-			pstmt.setString(3, d.getEmployee().getEmployee_id());
-			pstmt.setString(4, d.getDocument_title());
-			pstmt.setString(5, d.getDocument_content());
+			pstmt.setString(1, d.getDocumentNo());
+			pstmt.setString(2, d.getDocumentType().getDocumentType());
+			pstmt.setString(3, d.getEmployee().getEmployeeId());
+			pstmt.setString(4, d.getDocumentTitle());
+			pstmt.setString(5, d.getDocumentContent());
 			System.out.println("여긴 오라클 "+d);
 			int rowcnt = pstmt.executeUpdate();
 			System.out.println("안녕");
@@ -98,8 +98,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, ap.getDocument_no().getDocument_no());
-			pstmt.setString(2, ap.getEmployee_id().getEmployee_id());
+			pstmt.setString(1, ap.getDocument_no().getDocumentNo());
+			pstmt.setString(2, ap.getEmployee_id().getEmployeeId());
 			pstmt.setString(3, apType);
 			pstmt.setInt(4, ap.getAp_step());
 //			System.out.println("여긴 오라클 "+ap);
@@ -136,8 +136,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, ag.getDocument_no().getDocument_no());
-			pstmt.setString(2, ag.getEmployee_id().getEmployee_id());
+			pstmt.setString(1, ag.getDocument_no().getDocumentNo());
+			pstmt.setString(2, ag.getEmployee_id().getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
 				System.out.println("문서기안 완료");
@@ -170,8 +170,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, re.getDocument_no().getDocument_no());
-			pstmt.setString(2, re.getEmployee_id().getEmployee_id());
+			pstmt.setString(1, re.getDocument_no().getDocumentNo());
+			pstmt.setString(2, re.getEmployee_id().getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
 				System.out.println("문서기안 완료");
@@ -212,11 +212,11 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			while (rs.next()) {
 				Employee em = new Employee();
 //				String name = rs.getString("name");
-				em.setEmployee_id(rs.getString("employee_id"));
+				em.setEmployeeId(rs.getString("employee_id"));
 				em.setName(rs.getString("name"));
 				Department dept = new Department();
-				dept.setDepartment_id(rs.getString("department_id"));
-				dept.setDepartment_title(rs.getString("department_title"));
+				dept.setDepartmentId(rs.getString("department_id"));
+				dept.setDepartmentTitle(rs.getString("department_title"));
 				em.setDepartment(dept);
 				list.add(em);
 			}
@@ -297,11 +297,11 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 
 			while (rs.next()) {
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				Position p = new Position();
 				p.setPosition_title(rs.getString("position_title"));
@@ -309,7 +309,7 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 				Job j = new Job();
 				j.setJob_title(rs.getString("job_title"));
 				emp.setJob(j);
-				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 
 				empList.add(emp);

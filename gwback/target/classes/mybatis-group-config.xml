@@ -8,13 +8,12 @@
     <setting name="jdbcTypeForNull" value="NULL" />
   </settings>
   <typeAliases>
-<!--     <typeAlias type="com.group.approval.dto." alias="approval"/>
-    <typeAlias type="com.group.board.dto." alias="board"/>
-    <typeAlias type="com.group.calendar.dto." alias="calendar"/>
-    <typeAlias type="com.group.employee.dto." alias="employee"/>
-    <typeAlias type="com.group.main.dto." alias="main"/>
-	<typeAlias type="com.group.mypage.dto." alias="mypage"/> -->
+    <typeAlias type="com.group.board.dto.Board" alias="board"/>
+    <typeAlias type="com.group.board.dto.BoardComment" alias="boardcomment"/>
+    <typeAlias type="com.group.board.dto.PageBean" alias="pagebean"/>        
   </typeAliases>
   <mappers>
+  <mapper resource="BoardMapper.xml"></mapper>
+  <mapper resource="BoardCommentMapper.xml"></mapper>  
   </mappers>
 </configuration>
