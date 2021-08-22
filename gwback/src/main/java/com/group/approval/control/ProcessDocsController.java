@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.approval.dto.Agreement;
+import com.group.approval.dto.Approval;
 import com.group.approval.service.ProcessDocsService;
 import com.group.employee.dto.Employee;
 import com.group.exception.UpdateException;
@@ -45,7 +47,7 @@ public class ProcessDocsController {
 		return list;	
 	}
 	
-	//해당 부서 사원 모두 들고온다. 
+	//사원 모두 들고온다. 
 	@GetMapping("/searchapline")
 	public List<Employee> selectAllemp() {
 		List<Employee> list=new ArrayList<>();
@@ -67,6 +69,38 @@ public class ProcessDocsController {
 			service.decisionMyRe(docsNoOpt.get(),id);
 			result.put("status", 1);
 			}
+		} catch (UpdateException e) {
+			e.printStackTrace();
+			result.put("status", 0);
+			result.put("msg", e.getMessage());
+		}
+		return result;
+	}
+	
+	//결재자 승인한다. 
+	@PutMapping("/updateap")
+	public Map<String, Object> updateAp(@RequestBody Approval ap) {
+		
+		Map<String, Object> result = new HashMap<>();
+		try {
+			service.decisionMyAp(ap);
+			result.put("status", 1);
+		} catch (UpdateException e) {
+			e.printStackTrace();
+			result.put("status", 0);
+			result.put("msg", e.getMessage());
+		}
+		return result;
+	}
+	
+	//합의자 승인한다. 
+	@PutMapping("/updateag")
+	public Map<String, Object> updateAg(@RequestBody Agreement ag) {
+		
+		Map<String, Object> result = new HashMap<>();
+		try {
+			service.decisionMyAg(ag);
+			result.put("status", 1);
 		} catch (UpdateException e) {
 			e.printStackTrace();
 			result.put("status", 0);

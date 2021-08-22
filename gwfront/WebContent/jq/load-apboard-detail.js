@@ -1,33 +1,33 @@
 $(function () {
   //문서정보 관련 테이블 구성요소 받아오기
-  var tdDetailType = document.getElementById("apDocumentDetailType");//문서종류 칸
-  var tdDetailNo = document.getElementById("apDocumentDetailNo");//문서번호 칸
-  var tdDetailDep = document.getElementById("apDocumentDetailDep");//기안부서 칸
-  var tdDetailWriter = document.getElementById("apDocumentDetailWriter");//기안자 칸
-  var tdDetailDate = document.getElementById("apDocumentDetailDate");//기안 일시 칸
+  var tdDetailType = document.getElementById("apDocumentDetailType"); //문서종류 칸
+  var tdDetailNo = document.getElementById("apDocumentDetailNo"); //문서번호 칸
+  var tdDetailDep = document.getElementById("apDocumentDetailDep"); //기안부서 칸
+  var tdDetailWriter = document.getElementById("apDocumentDetailWriter"); //기안자 칸
+  var tdDetailDate = document.getElementById("apDocumentDetailDate"); //기안 일시 칸
 
   //내용 관련 구성요소 받아오기
-  var divDetailTitle = document.getElementById("apDocumentDetailTitle");//문서 제목
-  var divDetailContent = document.getElementById("apDocumentContent");//문서 내용
+  var divDetailTitle = document.getElementById("apDocumentDetailTitle"); //문서 제목
+  var divDetailContent = document.getElementById("apDocumentContent"); //문서 내용
 
   //결재 관련 테이블 구성요소 받아오기
-  var apStep0Obj = document.getElementById("apApprovalStep0");//결재 0 칸 , 이미지 or 버튼 들어갈 곳
-  var apStep1Obj = document.getElementById("apApprovalStep1");//결재 1 칸 , 이미지 or 버튼 들어갈 곳
-  var apStep2Obj = document.getElementById("apApprovalStep2");//결재 2 칸 , 이미지 or 버튼 들어갈 곳
-  var apStep3Obj = document.getElementById("apApprovalStep3");//결재 3 칸 , 이미지 or 버튼 들어갈 곳
-  var tdApStep0Name = document.getElementById("apApprovalStepName0");//결재 0 칸 , 이름 들어갈 곳
-  var tdApStep1Name = document.getElementById("apApprovalStepName1");//결재 1 칸 , 이름 들어갈 곳 
-  var tdApStep2Name = document.getElementById("apApprovalStepName2");//결재 2 칸 , 이름 들어갈 곳 
-  var tdApStep3Name = document.getElementById("apApprovalStepName3");//결재  3 칸 , 이름 들어갈 곳
-  var divApStep0Date = document.getElementById("apApprovalStepDate0");//결재 0 칸 , 날짜 들어갈 곳
-  var divApStep1Date = document.getElementById("apApprovalStepDate1");//결재 1 칸 , 날짜 들아갈 곳
-  var divApStep2Date = document.getElementById("apApprovalStepDate2");//결재 2 칸 , 날짜 들어갈 곳 
-  var divApStep3Date = document.getElementById("apApprovalStepDate3");//결재 3 칸 , 날짜 들어갈 곳
-  //합의 관련 테이블 구성요소 받아오기 
+  var apStep0Obj = document.getElementById("apApprovalStep0"); //결재 0 칸 , 이미지 or 버튼 들어갈 곳
+  var apStep1Obj = document.getElementById("apApprovalStep1"); //결재 1 칸 , 이미지 or 버튼 들어갈 곳
+  var apStep2Obj = document.getElementById("apApprovalStep2"); //결재 2 칸 , 이미지 or 버튼 들어갈 곳
+  var apStep3Obj = document.getElementById("apApprovalStep3"); //결재 3 칸 , 이미지 or 버튼 들어갈 곳
+  var tdApStep0Name = document.getElementById("apApprovalStepName0"); //결재 0 칸 , 이름 들어갈 곳
+  var tdApStep1Name = document.getElementById("apApprovalStepName1"); //결재 1 칸 , 이름 들어갈 곳
+  var tdApStep2Name = document.getElementById("apApprovalStepName2"); //결재 2 칸 , 이름 들어갈 곳
+  var tdApStep3Name = document.getElementById("apApprovalStepName3"); //결재  3 칸 , 이름 들어갈 곳
+  var divApStep0Date = document.getElementById("apApprovalStepDate0"); //결재 0 칸 , 날짜 들어갈 곳
+  var divApStep1Date = document.getElementById("apApprovalStepDate1"); //결재 1 칸 , 날짜 들아갈 곳
+  var divApStep2Date = document.getElementById("apApprovalStepDate2"); //결재 2 칸 , 날짜 들어갈 곳
+  var divApStep3Date = document.getElementById("apApprovalStepDate3"); //결재 3 칸 , 날짜 들어갈 곳
+  //합의 관련 테이블 구성요소 받아오기
   var tdAgName = document.getElementById("apAgreementName");
-  //참조 관련 테이블 구성요소 받아오기 
+  //참조 관련 테이블 구성요소 받아오기
   var tdReName = document.getElementById("apReferenceName");
-  
+
   //승인요망 버튼 구성요소 생성하기 : 결재선 0,1,2,3 단계 모두 생성
   var buttonTag = document.createElement("button");
   buttonTag.setAttribute("id", "apCommentConfirmBtn");
@@ -56,7 +56,7 @@ $(function () {
   agButtonTag.setAttribute("class", "ap-btn-outline-purple");
   agButtonTag.setAttribute("style", "width: 90px");
   agButtonTag.innerHTML = "승인 요망";
- //이미지 구성요소 생성하기 : 결재선 0,1,2,3 단계 모두 생성 
+  //이미지 구성요소 생성하기 : 결재선 0,1,2,3 단계 모두 생성
   var imgTag = document.createElement("img");
   imgTag.style.width = "100px";
   var imgTag1 = document.createElement("img");
@@ -68,56 +68,59 @@ $(function () {
   imgTag3.style.width = "100px";
   var agImgTag = document.createElement("img");
   agImgTag.style.width = "60px";
-// 참조 확인용을 위한 구성요소 생성하기 
+  // 참조 확인용을 위한 구성요소 생성하기
   var spanTag = document.createElement("div");
 
   //받아올 데이터들
   var tmpDocsBdNo = localStorage.getItem("apDocumentNum"); //선택한 문서번호 : local에 가져오기
 
-  var apDocsType = new Array();//문서 종류 
-  var apDocsNo = new Array();//문서 번호
-  var apDocsDep = new Array();//기안 부서
-  var apDocsWriter = new Array();//기안자
-  var apDocsDate = new Array();//기안 일시
+  var apDocsType = new Array(); //문서 종류
+  var apDocsNo = new Array(); //문서 번호
+  var apDocsDep = new Array(); //기안 부서
+  var apDocsWriter = new Array(); //기안자
+  var apDocsDate = new Array(); //기안 일시
 
-  var apDocsTitle = new Array();//문서 제목
-  var apDocsContent = new Array();//문서 내용
+  var apDocsTitle = new Array(); //문서 제목
+  var apDocsContent = new Array(); //문서 내용
 
-  var apDocsApName0 = new Array();//결재자 0 이름
-  var apDocsApDate0 = new Array();//결재자 0 승인날짜
-  var apDocsApType0 = new Array();//결재자 0 승인여부
+  var apDocsApName0 = new Array(); //결재자 0 이름
+  var apDocsApDate0 = new Array(); //결재자 0 승인날짜
+  var apDocsApType0 = new Array(); //결재자 0 승인여부
 
-  var apDocsApName1 = new Array();//결재자 1 이름
-  var apDocsApDate1 = new Array();//결재자 1 승인날짜
-  var apDocsApType1 = new Array();//결재자 1 승인여부
-  
-  var apDocsApName2 = new Array();//결재자 2 이름
-  var apDocsApDate2 = new Array();//결재자 2 승인날짜
-  var apDocsApType2 = new Array();//결재자 2 승인여부
-  
-  var apDocsApName3 = new Array();//결재자 3 이름
-  var apDocsApDate3 = new Array();//결재자 3 승인날짜
-  var apDocsApType3 = new Array();//결재자 3 승인여부
+  var apDocsApName1 = new Array(); //결재자 1 이름
+  var apDocsApDate1 = new Array(); //결재자 1 승인날짜
+  var apDocsApType1 = new Array(); //결재자 1 승인여부
 
-  var apDocsAgName = new Array();//합의자 이름
-  var apDocsAgType = new Array();//합의자 승인여부
+  var apDocsApName2 = new Array(); //결재자 2 이름
+  var apDocsApDate2 = new Array(); //결재자 2 승인날짜
+  var apDocsApType2 = new Array(); //결재자 2 승인여부
 
-  var apDocsReName = new Array();//참조자 이름
-  var apDocsReType = new Array();//참조자 승인여부
+  var apDocsApName3 = new Array(); //결재자 3 이름
+  var apDocsApDate3 = new Array(); //결재자 3 승인날짜
+  var apDocsApType3 = new Array(); //결재자 3 승인여부
 
-  var myCheckId = null;// 내가 승인할 위치인지 확인하기 위해 만든 변수
+  var apDocsAgName = new Array(); //합의자 이름
+  var apDocsAgType = new Array(); //합의자 승인여부
 
+  var apDocsReName = new Array(); //참조자 이름
+  var apDocsReType = new Array(); //참조자 승인여부
+
+  var myCheckId = null; // 내가 승인할 위치인지 확인하기 위해 만든 변수
 
   //내가 승인해야할 부분 받아오기 ajax
   $.ajax({
-    url: "/back/selectmyadmin",
-    method: "get",
-    data: {
-      docsNo: tmpDocsBdNo,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    url: "http://localhost:8888/gwback/approval/selectmyclick/" + tmpDocsBdNo,
+    headers: {
+      Accept: "application/json, text/plain, */*",
     },
-
+    data: "",
+    timeout: {},
     success: function (responseObj) {
-      myCheckId = responseObj.loginName;
+      myCheckId = responseObj.employee.name;
       console.log(myCheckId);
     },
   });
@@ -133,7 +136,7 @@ $(function () {
     divDetailTitle.innerText = apDocsTitle;
     divDetailContent.innerText = apDocsContent;
 
-    // 결재 관련 
+    // 결재 관련
     //결재선 이름 채우기
     tdApStep0Name.innerText = apDocsApName0;
     tdApStep1Name.innerText = apDocsApName1;
@@ -144,7 +147,7 @@ $(function () {
     divApStep1Date.innerText = apDocsApDate1;
     divApStep2Date.innerText = apDocsApDate2;
     divApStep3Date.innerText = apDocsApDate3;
-  
+
     tdApStep0Name.appendChild(divApStep0Date);
     tdApStep1Name.appendChild(divApStep1Date);
     tdApStep2Name.appendChild(divApStep2Date);
@@ -203,7 +206,7 @@ $(function () {
     //힙의 이름 채우기
     tdAgName.innerText = apDocsAgName;
     console.log(myCheckId === apDocsAgName.toString());
-   //합의 관련 승인여부에 따라, 알맞은 이미지 부여하기
+    //합의 관련 승인여부에 따라, 알맞은 이미지 부여하기
     if (apDocsAgType == "대기" && myCheckId === apDocsAgName.toString()) {
       tdAgName.appendChild(agButtonTag);
     } else if (apDocsAgType == "반려") {
@@ -229,9 +232,8 @@ $(function () {
   }
   //상세내용 구성요소 채우기 관련 함수 끝
 
-
   //참조 버튼 클릭시 실행하는 것 관련
-  //참조 승인관련 hover 효과 주기 
+  //참조 승인관련 hover 효과 주기
   $("#apReferenceName").hover(
     function () {
       $("#apReferenceName>div.fa-question").css("color", "#6A0888");
@@ -240,39 +242,49 @@ $(function () {
       $("#apReferenceName>div.fa-question").css("color", "#dfd5f5");
     }
   );
-  //로그인 아이디 받아오기 
+  //로그인 아이디 받아오기
   var loginInfoIdObj = document.querySelector(
     "div.profileDropdown span.loginId"
   );
   var currentLoginId = loginInfoIdObj.innerText;
-  //참조 버튼 클릭시 알림창 + ajax 처리 
+  //참조 버튼 클릭시 알림창 + ajax 처리
   $("#apReferenceName").click(function () {
     console.log(myCheckId);
     console.log(apDocsReName.toString());
-     if(apDocsReType=="대기" && myCheckId === apDocsReName.toString()){
+    if (apDocsReType == "대기" && myCheckId === apDocsReName.toString()) {
       console.log("조건 클릭");
       //ajax 관련 내용 넣기
       $.ajax({
-        url: "/back/updaterecheck",
-        method: "post",
-        data: {
-          docsNo: tmpDocsBdNo,
-          id :currentLoginId,
+        method: "PUT",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url: "http://localhost:8888/gwback/approval/updatere/" + tmpDocsBdNo,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json;charset=utf-8",
         },
-    
+        data: "",
+        timeout: {},
         success: function () {
-         
-          alert("참조 확인하셨습니다 !");  
+          alert("참조 확인하셨습니다 !");
           spanTag.style.color = "#6A0888";
           spanTag.setAttribute("class", "fa fa-check");
-         
         },
-        error: function(request, status, error) {
-          alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-        }
+        error: function (request, status, error) {
+          alert(
+            "code:" +
+              request.status +
+              "\n" +
+              "message:" +
+              request.responseText +
+              "\n" +
+              "error:" +
+              error
+          );
+        },
       });
-
-     }
+    }
   });
 
   //문서 상세정보 데이터 가지고오는 ajax
@@ -280,7 +292,7 @@ $(function () {
     url: "/back/showdocsdetail",
     method: "get",
     data: {
-      docsNo: tmpDocsBdNo, 
+      docsNo: tmpDocsBdNo,
     },
     success: function (responseData) {
       $(responseData).each(function (i, e) {
@@ -295,7 +307,7 @@ $(function () {
 
         //
         apDocsApName0[i] = e.approvals[0].employee_id.name;
-        apDocsApType0[i] = "승인";// 결재자 0번은 무조건 승인처리하므로, 고정값 입력
+        apDocsApType0[i] = "승인"; // 결재자 0번은 무조건 승인처리하므로, 고정값 입력
         apDocsApDate0[i] = e.approvals[0].ap_ap_date;
         apDocsApName1[i] = e.approvals[1].employee_id.name;
         apDocsApType1[i] = e.approvals[1].ap_type.apStatus_type;
@@ -325,18 +337,18 @@ $(function () {
   });
 
   //코멘트 관련
-  var commentId = new Array();//코멘트 id
-  var commentDate = new Array();//코멘트 날짜
-  var commentCmt = new Array();//코멘트 내용
+  var commentId = new Array(); //코멘트 id
+  var commentDate = new Array(); //코멘트 날짜
+  var commentCmt = new Array(); //코멘트 내용
 
-  var commentObj = document.getElementById("apCommentTbody");//코멘트 내용넣을 tbody객체 받아오기 
+  var commentObj = document.getElementById("apCommentTbody"); //코멘트 내용넣을 tbody객체 받아오기
 
-  // 코멘트 구성요소 만들기 + 값 채워넣기 
+  // 코멘트 구성요소 만들기 + 값 채워넣기
   function createCommentElement(i) {
     var tr = document.createElement("tr");
-    var td1 = document.createElement("td");//코멘트 id들어갈곳
-    var td2 = document.createElement("td");//코멘트 날짜 들어갈 곳
-    var td3 = document.createElement("td");//코멘트 내용 들어갈 곳 
+    var td1 = document.createElement("td"); //코멘트 id들어갈곳
+    var td2 = document.createElement("td"); //코멘트 날짜 들어갈 곳
+    var td3 = document.createElement("td"); //코멘트 내용 들어갈 곳
 
     td1.innerHTML = commentId[i];
     td2.innerHTML = commentCmt[i];
@@ -351,21 +363,25 @@ $(function () {
 
   //코멘트 데이터값 받아오기 ajax
   $.ajax({
-    url: "/back/selectbycomments",
-    method: "get",
-    data: {
-      documentNo: tmpDocsBdNo,//local에서 받아온 문서번호 값 
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    url: "/gwback/approval/selectcomments/" + tmpDocsBdNo,
+    headers: {
+      Accept: "application/json, text/plain, */*",
     },
-
+    data: "",
+    timeout: {},
     success: function (responseData) {
       console.log(commentObj);
       console.log(responseData);
       $(responseData).each(function (i, e) {
-        commentId[i] = e.employee_id.employee_id;
+        commentId[i] = e.employee.employeeId;
         console.log(commentId);
-        commentDate[i] = e.ap_ap_date;
+        commentDate[i] = e.apDate;
         console.log(commentDate);
-        commentCmt[i] = e.ap_ap_comment;
+        commentCmt[i] = e.apComment;
       });
       console.log(commentId.length);
       for (var i = 0; i < commentId.length; i++) {
@@ -374,11 +390,10 @@ $(function () {
     },
   });
 
-  
-  // 모달 관련 
-  var modal = document.getElementById("modalApprovalComment");//모달 전체 객체 
-  var confirmBtn = document.getElementById("apCommentConfirmBtn");//저장버튼
-  var cancelBtn = document.getElementById("apCommentCancelBtn");//취소버튼
+  // 모달 관련
+  var modal = document.getElementById("modalApprovalComment"); //모달 전체 객체
+  var confirmBtn = document.getElementById("apCommentConfirmBtn"); //저장버튼
+  var cancelBtn = document.getElementById("apCommentCancelBtn"); //취소버튼
 
   const openModal = () => {
     modal.classList.remove("hidden");
@@ -399,6 +414,4 @@ $(function () {
   agButtonTag.addEventListener("click", openModal); //버튼을 띄워줄려면, 만든건 직접적으로 클릭 이벤트
   confirmBtn.addEventListener("click", confirmModal);
   cancelBtn.addEventListener("click", cancelModal);
-
-
 });

@@ -82,25 +82,34 @@ $(function () {
       alert("카테고리가 지정되지 않았습니다");
     } else {
       $.ajax({
-        url: "/back/usersearchdocs",
-        method: "get",
-        data: {
-          searchCategory: apSearchCategory, //제목 or 내용
-          searchWord: apSearchObj.value, //검색 값
-          status: "반려", //상태값
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url:
+          "/gwback/approval/searchdocs/" +
+          apSearchCategory +
+          "/" +
+          apSearchObj.value +
+          "/" +
+          status,
+        headers: {
+          Accept: "application/json, text/plain, */*",
         },
+        data: "",
+        timeout: {},
         success: function (responseData) {
           emptyBdElement(tBodyObject);
           createTbodyElement();
           $(responseData).each(function (i, e) {
             apMyStatus[i] = e.state;
-            apBdNo[i] = e.document_no;
-            apBdTitle[i] = e.document_title;
-            apBdEmp[i] = e.employee.employee_id;
+            apBdNo[i] = e.documentNo;
+            apBdTitle[i] = e.documentTitle;
+            apBdEmp[i] = e.employee.employeeId;
             apBdEmpName[i] = e.employee.name;
-            apBdDate[i] = e.draft_date;
-            apBdStatus[i] = e.document_type.document_type;
-            apBdCheck[i] = e.approval.ap_type.apStatus_type;
+            apBdDate[i] = e.draftDate;
+            apBdStatus[i] = e.documentStatus.documentType;
+            apBdCheck[i] = e.approval.apStatus.apType;
           });
 
           for (var i = 0; i < apBdTitle.length; i++) {
@@ -162,7 +171,7 @@ $(function () {
     if (e.target.id == "apDocumentStatusAll") {
       //문서상태 : 모든문서일때
       apChangeStatusBtnObj.innerHTML = "모든문서";
-      nowStatus = "모든문서";
+      nowStatus = "";
       apStatusPickSubmitHandler(e);
     }
   }
@@ -177,85 +186,81 @@ $(function () {
   //문서상태 선택했을때 발동하는 핸들러
   function apStatusPickSubmitHandler(e) {
     if (e.target.id == "apDocumentStatusAll") {
-   //전체 목록 문서 불러오는 ajax
-  $.ajax({
-    method: "GET",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
-    url: "/gwback/apboard/selectdocs" +"/" +status,
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      contentType: "application/json; charset:UTF-8",
-    },
-    data: "",
-    timeout: {},
-    success: function (responseData) {
-      emptyBdElement(tBodyObject);
-      createTbodyElement();
-      $(responseData).each(function (i, e) {
-        console.log(i + "," + e);
-        apBdNo[i] = e.documentNo;
-        apBdTitle[i] = e.documentTitle;
-        apBdEmp[i] = e.employee.employee_id;
-        apBdEmpName[i] = e.employee.name;
-        apBdDate[i] = e.draftDate;
-        apBdStatus[i] = e.documentType.documentType;
-        apBdCheck[i] = e.approval.apType.apStatusType;
+      //전체 목록 문서 불러오는 ajax
+      $.ajax({
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url: "/gwback/apboard/selectdocs" + "/" + status,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          contentType: "application/json; charset:UTF-8",
+        },
+        data: "",
+        timeout: {},
+        success: function (responseData) {
+          emptyBdElement(tBodyObject);
+          createTbodyElement();
+          $(responseData).each(function (i, e) {
+            console.log(i + "," + e);
+            apBdNo[i] = e.documentNo;
+            apBdTitle[i] = e.documentTitle;
+            apBdEmp[i] = e.employee.employee_id;
+            apBdEmpName[i] = e.employee.name;
+            apBdDate[i] = e.draftDate;
+            apBdStatus[i] = e.documentStatus.documentType;
+            apBdCheck[i] = e.approval.apType.apStatusType;
+          });
+
+          //받아온 데이터 만큼 구성요소 생성
+          for (var i = 0; i < apBdTitle.length; i++) {
+            createApBdElement(i);
+          }
+          $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
+
+          console.log($titleObj);
+
+          $titleObj.click(function (e) {
+            localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
+            var href = $(this).attr("href");
+            console.log(href);
+            switch (href) {
+              case "approval-detail.html":
+                $content.load(href, function (responseTxt, statusTxt, xhr) {
+                  if (statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+                break;
+            }
+            return false;
+          });
+        },
       });
-
-      //받아온 데이터 만큼 구성요소 생성
-      for (var i = 0; i < apBdTitle.length; i++) {
-        createApBdElement(i);
-      }
-      $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
-
-      console.log($titleObj);
-
-      $titleObj.click(function (e) {
-        localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
-        var href = $(this).attr("href");
-        console.log(href);
-        switch (href) {
-          case "approval-detail.html":
-            $content.load(href, function (responseTxt, statusTxt, xhr) {
-              if (statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            });
-            break;
-        }
-        return false;
-      });
-    },
-  });
-    } else {+
+    } else {
       //확인 or 미확인을 선택했을때
-      $.ajax({        
-      "method": "GET",
-	  "transformRequest": [
-	    null
-	  ],
-	  "transformResponse": [
-	    null
-	  ],
-	  "jsonpCallbackParam": "callback",
-	  "url": "http://localhost:8888/gwback/apboard/selectcheck/"+nowStatus+"/"+status,
-	  "headers": {
-	    "Accept": "application/json, text/plain, */*"
-	  },
-	  "data": "",
-	  "timeout": {},
+      $.ajax({
+        method: "GET",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url: "/gwback/approval/selectcheck/" + nowStatus + "/" + status,
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        data: "",
+        timeout: {},
         success: function (responseData) {
           emptyBdElement(tBodyObject);
           createTbodyElement();
           $(responseData).each(function (i, e) {
             apBdNo[i] = e.documentNo;
             apBdTitle[i] = e.documentTitle;
-            apBdEmp[i] = e.employee.employee_id;
+            apBdEmp[i] = e.employee.employeeId;
             apBdEmpName[i] = e.employee.name;
             apBdDate[i] = e.draftDate;
-            apBdStatus[i] = e.documentType.documentType;
-            apBdCheck[i] = e.approval.apType.apStatusType;
+            apBdStatus[i] = e.documentStatus.documentType;
+            apBdCheck[i] = e.approval.apStatus.apType;
           });
 
           for (var i = 0; i < apBdTitle.length; i++) {
@@ -328,7 +333,7 @@ $(function () {
       tdCheck.innerHTML = "확인";
     }
 
-    //내가 올린 문서만 색 다르게 설정
+    //내가 올린 문서만 색 다르게 설정 (처음에만 발동)
     if (
       apBdEmp[i] === localStorage.getItem("loginInfo") &&
       apBdCheck[i] === "확인"
@@ -355,10 +360,9 @@ $(function () {
     transformRequest: [null],
     transformResponse: [null],
     jsonpCallbackParam: "callback",
-    url: "/gwback/apboard/selectdocs" +"/" +status,
+    url: "/gwback/approval/selectdocs/" + status,
     headers: {
       Accept: "application/json, text/plain, */*",
-      contentType: "application/json; charset:UTF-8",
     },
     data: "",
     timeout: {},
@@ -372,7 +376,7 @@ $(function () {
         apBdEmp[i] = e.employee.employeeId;
         apBdEmpName[i] = e.employee.name;
         apBdDate[i] = e.draftDate;
-   		apBdStatus[i] = e.documentStatus.documentType;
+        apBdStatus[i] = e.documentStatus.documentType;
         apBdCheck[i] = e.approval.apStatus.apType;
       });
 

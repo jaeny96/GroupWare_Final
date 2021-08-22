@@ -55,16 +55,16 @@ public class ProcessDocsService {
 	 * @param ap
 	 * @throws UpdateException
 	 */
-	public void decisionAp(Approval ap) throws UpdateException{
-		//dao.updateApproval(ap);
+	public void decisionMyAp(Approval ap) throws UpdateException{
+		dao.updateApproval(ap);
 	}
 	/**
 	 * 승인, 반려를 선택하고 원하면 코멘트도 추가(Agreement-합의용)
 	 * @param ag
 	 * @throws UpdateException
 	 */
-	public void decisionAg(Agreement ag) throws UpdateException{
-		//dao.updateAgreement(ag);
+	public void decisionMyAg(Agreement ag) throws UpdateException{
+		dao.updateAgreement(ag);
 	}
 
 	/**

@@ -6,7 +6,7 @@
 <!--문서를 기안하기 -->
 <insert id="insertDraft" parameterType="document">
 INSERT INTO document (document_no, document_type, employee_id, document_title, document_content) 
-VALUES (#{documentNo}, #{documentStatus.documentType},#{employeeD.employeeId},#{documentTitle},#{documentContent})
+VALUES (#{documentNo}, #{documentStatus.documentType},#{employee.employeeId},#{documentTitle},#{documentContent})
 </insert>
 <!--해당 최대 숫자 가져오기   -->
 <select id="checkMaxNum" resultType="int">

@@ -69,9 +69,11 @@ public class ConfirmDocsController {
 	}
 	//결재 문서 상세 내용 확인
 	
+	
+	
 	//코멘트 내용 확인
 	@GetMapping(value={"/selectcomments/{docsNo}"})
-	public List<Approval> sekectComments(@PathVariable (name="docsNo") Optional<String> optDocsNo,HttpSession session) {
+	public List<Approval> selectComments(@PathVariable (name="docsNo") Optional<String> optDocsNo,HttpSession session) {
 		Map<String,Object> result= new HashMap<String, Object>();
 		List<Approval> list=new ArrayList<Approval>();
 		try {

@@ -37,19 +37,31 @@ class ProcessDocsDAOTest {
 	private ProcessDocsDAO dao;  
 	private Logger log = Logger.getLogger(ProcessDocsDAOTest.class.getName());
 
-//	@Test
-//	void testSelectByDep() throws FindException{
-//		String depTitle = "경영지원실";
-//		List<Employee> emp = new ArrayList<>();
-//		emp = dao.searchByDep(depTitle);
-//		System.out.println(emp);
-//	}
+	@Test
+	void testSelectByDep() throws FindException{
+		String depTitle = "경영지원실";
+		List<Employee> emp = new ArrayList<>();
+		emp = dao.searchByDep(depTitle);
+		System.out.println(emp);
+	}
 	
 	@Test
 	void testUpdateRe() throws UpdateException{
 		dao.updateReference("test1", "DEV002");
 	}
 
-
+	@Test
+	void testUpdateAp() throws UpdateException{
+		Approval ap = new Approval();
+		ap.setApComment("SESESES");
+		ap.setDocumentNo("AC-품의-20210627-0002");
+		ApprovalStatus aps = new ApprovalStatus();
+		aps.setApType("반려");
+		ap.setApStatus(aps);
+		Employee e = new Employee();
+		e.setEmployeeId("DEV001");
+		ap.setEmployee(e);
+		dao.updateApproval(ap);
+	}
 
 }

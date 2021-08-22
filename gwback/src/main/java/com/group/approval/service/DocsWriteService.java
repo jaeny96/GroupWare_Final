@@ -60,36 +60,8 @@ public class DocsWriteService {
 	public void draftReRe(Reference re) throws AddException {
 		dao.draftRe(re);
 	}
-//
-//	/**
-//	 * 사원이름 리스트 조회
-//	 * 
-//	 * @param name
-//	 * @throws FindException
-//	 */
-//	public List<Employee> staff(String word) throws FindException {
-//		return dao.searchByName(word);
-//	}
-//
-//	/**
-//	 * 부서이름 리스트 조회
-//	 * 
-//	 * @param department_title
-//	 * @return
-//	 * @throws FindException
-//	 */
-////	public List<Department> group(String department_title) throws FindException {
-////		return dao.searchByDep(department_title);
-////
-////	}
-//	/**
-//	 * 사원 전체를 조회한다
-//	 * @return 사원 전체 목록
-//	 * @throws FindException
-//	 */
-//	public List<Employee> showAll() throws FindException {
-//		return dao.searchApLineStaff();
-//	}
+
+
 //	
 //	public int chkMaxNum(String document_type) throws FindException{
 //		return dao.chkMaxNum(document_type);
