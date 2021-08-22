@@ -64,10 +64,10 @@ function createSkdElement(i) {
 function init(result) {
   console.log({ result });
 
-  result.forEach(item => {
-    start = new Date(item.skd_start_date);
-    end = new Date(item.skd_end_date);
-    title = item.skd_title;
+  result.forEach((item) => {
+    start = new Date(item.skdStartDate);
+    end = new Date(item.skdEndDate);
+    title = item.skdTitle;
 
     skdContent.push(title);
     skdDate.push(moment(start).format("YY-MM-DD"));
@@ -84,12 +84,12 @@ function createModalValue(result) {
   let jsonStr = JSON.stringify({ result });
   console.log(jsonStr);
   console.log(type);
-  type = result.skd_type;
-  title = result.skd_title;
+  type = result.skdType;
+  title = result.skdTitle;
   console.log(title);
-  start = result.skd_start_date;
-  end = result.skd_start_date;
-  content = result.skd_content;
+  start = result.skdStartDate;
+  end = result.skdStartDate;
+  content = result.skdContent;
 }
 
 var skdTitleDetailSearch;
@@ -99,6 +99,7 @@ var skdContentDetailSearch;
 var skdno;
 function createModal(id) {
   skdno = localStorage.getItem("skdNo");
+  console.log(skdno + "현재skdno");
   var index = localStorage.getItem("searchSkdNoDetail");
 
   var loginedId = localStorage.getItem("loginInfo");
@@ -109,8 +110,8 @@ function createModal(id) {
   const urlSearchParams = new URLSearchParams(window.location.search);
   //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
-  urlParams.id = sid;
-  urlParams.dept_id = dept;
+  //urlParams.id = sid;
+  //urlParams.dept_id = dept;
   console.log(urlParams);
   // console.log(skdTitleDetailSearch);
   var modal = document.getElementById(id);
@@ -150,18 +151,21 @@ function createModal(id) {
     });
   }
   $.ajax({
-    url: "/back/showbydetail",
-    dataType: "json",
-    data: { skd_no: skdno },
+    url: "/gwback/schedule/skdDetail/" + skdno,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
     success: function (responseData) {
       $(responseData).each(function (i, e) {
-        titleValue.innerHTML = e.skd_title;
-        typeValue.innerHTML = e.skd_type.skd_type;
-        StartTimeValue.innerHTML = e.skd_start_date;
-        EndTimeValue.innerHTML = e.skd_end_date;
-        ContentValue.innerHTML = e.skd_content;
+        console.log("선택 결과값" + e);
+        titleValue.innerHTML = e.skdTitle;
+        typeValue.innerHTML = e.skdType.skdType;
+        StartTimeValue.innerHTML = e.skdStartDate;
+        EndTimeValue.innerHTML = e.skdEndDate;
+        ContentValue.innerHTML = e.skdContent;
 
-        localStorage.setItem("skdNo", e.skd_no);
+        localStorage.setItem("skdNo", e.skdNo);
         localStorage.setItem("title", titleValue.innerHTML);
         localStorage.setItem(
           "startDate",
@@ -178,21 +182,31 @@ function createModal(id) {
     },
   });
   $.ajax({
-    url: "/back/showbycontent",
-    dataType: "json",
-    data: urlParams,
+    url:
+      "http://localhost:8888/gwback/schedule/skdContent/" +
+      urlParams.skd_title +
+      "/" +
+      urlParams.skd_content,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    // data: urlParams,
     success: function (responseData) {
+      console.log(responseData);
       $(responseData).each(function (i, e) {
         if (index == i) {
           // console.log(e.skd_title);
           console.log(e);
-          titleValue.innerHTML = e.skd_title;
-          typeValue.innerHTML = e.skd_type.skd_type;
-          StartTimeValue.innerHTML = e.skd_start_date;
-          EndTimeValue.innerHTML = e.skd_end_date;
-          ContentValue.innerHTML = e.skd_content;
+          titleValue.innerHTML = e.skdTitle;
+          console.log(e.skdTitle);
+          typeValue.innerHTML = e.skdType.skdType;
+          StartTimeValue.innerHTML = e.skdStartDate;
+          EndTimeValue.innerHTML = e.skdEndDate;
+          ContentValue.innerHTML = e.skContent;
+          console.log(e.skdContent);
 
-          localStorage.setItem("skdNo", e.skd_no);
+          localStorage.setItem("skdNo", e.skdNo);
           localStorage.setItem("title", titleValue.innerHTML);
           localStorage.setItem(
             "startDate",
@@ -211,19 +225,26 @@ function createModal(id) {
   });
 
   $.ajax({
-    url: "/back/showbydate",
-    dataType: "json",
-    data: urlParams,
+    url:
+      "http://localhost:8888/gwback/schedule/skdDate/" +
+      urlParams.skd_start_date +
+      "/" +
+      urlParams.skd_end_date,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    // data: urlParams,
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         if (index == i) {
           console.log(e);
-          titleValue.innerHTML = e.skd_title;
-          typeValue.innerHTML = e.skd_type.skd_type;
-          StartTimeValue.innerHTML = e.skd_start_date;
-          EndTimeValue.innerHTML = e.skd_end_date;
-          ContentValue.innerHTML = e.skd_content;
-          localStorage.setItem("skdNo", e.skd_no);
+          titleValue.innerHTML = e.skdTitle;
+          typeValue.innerHTML = e.skdType.skdType;
+          StartTimeValue.innerHTML = e.skdStartDate;
+          EndTimeValue.innerHTML = e.skdEndDate;
+          ContentValue.innerHTML = e.skdContent;
+          localStorage.setItem("skdNo", e.skdNo);
           localStorage.setItem("title", titleValue.innerHTML);
           localStorage.setItem(
             "startDate",
@@ -252,15 +273,30 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlSearchParams = new URLSearchParams(window.location.search);
   //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
-  urlParams.id = id;
+  //urlParams.id = id;
 
   console.log({ urlParams });
+  console.log("dddd" + urlParams.skd_content + urlParams.skd_title);
   $.ajax({
-    url: "/back/showbycontent",
-    dataType: "json",
-    data: urlParams,
+    url:
+      "http://localhost:8888/gwback/schedule/skdContent/" +
+      urlParams.skd_title +
+      "/" +
+      urlParams.skd_content,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
     success: function (responseData) {
+      console.log(responseData + "init함수 내용");
       //위에 init함수 호출
+      console.log(
+        "제목내용검색responseData--" +
+          responseData.skdTitle +
+          "내용:" +
+          responseData.skdContent +
+          "타임:"
+      );
       init(responseData);
     },
   });
@@ -276,14 +312,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlSearchParams = new URLSearchParams(window.location.search);
   //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
   const urlParams = Object.fromEntries(urlSearchParams.entries());
-  urlParams.id = id;
-  urlParams.dept_id = dept;
+  //urlParams.id = id;
+  //urlParams.dept_id = dept;
 
   console.log({ urlParams });
   $.ajax({
-    url: "/back/showbydate",
-    dataType: "json",
-    data: urlParams,
+    url:
+      "http://localhost:8888/gwback/schedule/skdDate/" +
+      urlParams.start_date +
+      "/" +
+      urlParams.end_date,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
     success: function (responseData) {
       //위에 init함수 호출
       init(responseData);

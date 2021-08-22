@@ -67,13 +67,13 @@ class ScheduleDAOOracleTest {
 	}
 	@Test
 	void skdByContent() throws FindException{
-		String skd_title = "휴가";
-		String skd_content = "휴가";
+		String skd_title = "회의";
+		String skd_content = "회의";
 		Employee em = new Employee();
 		em.setEmployeeId("MSD002");
 		Schedule sc = new Schedule(em, skd_title, skd_content);
 		List<Schedule> list = dao.skdByContent(sc);
-		int expectedSize =1;
+		int expectedSize =3;
 		assertTrue(expectedSize==list.size());
 	}
 	@Test

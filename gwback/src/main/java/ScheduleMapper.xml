@@ -6,11 +6,11 @@
 
 <!-- 전체일정검색 -->
 <select id="SkdList" resultType="schedule" parameterType="employee">
-SELECT skd_no, skd_type, skd_title, skd_start_date,skd_end_date, skd_share
+SELECT skd_no, skd_type "skdType.skdType", skd_title, skd_start_date,skd_end_date, skd_share
 FROM schedule 
 WHERE employee_id=#{employeeId} AND skd_share ='p'
 UNION ALL 
-SELECT skd_no, skd_type, skd_title, skd_start_date, skd_end_date, skd_share 
+SELECT skd_no, skd_type "skdType.skdType", skd_title, skd_start_date, skd_end_date, skd_share 
 FROM schedule
 WHERE employee_id like '${department.departmentId}%' and skd_share = 't'
 ORDER BY skd_start_date ASC
@@ -19,11 +19,11 @@ ORDER BY skd_start_date ASC
 
 <!-- 기간검색 -->
 <select id="skdPeriodList" resultType="schedule" parameterType="java.util.HashMap">
-SELECT skd_no, skd_type, skd_title, skd_content,skd_start_date,skd_end_date, skd_share
+SELECT skd_no, skd_type "skdType.skdType", skd_title, skd_content, skd_start_date, skd_end_date, skd_share
 FROM schedule
 WHERE employee_id=#{emp} AND skd_share ='p' AND skd_start_date BETWEEN #{sdate} AND #{edate} 
 UNION ALL
-SELECT skd_no, skd_type, skd_title,skd_content,skd_start_date,skd_end_date, skd_share 
+SELECT skd_no, skd_type "skdType.skdType", skd_title, skd_content, skd_start_date, skd_end_date, skd_share 
 FROM schedule
 WHERE employee_id like '${dpt}%' and skd_share = 't' AND skd_start_date 
 BETWEEN #{sdate} AND #{edate} ORDER BY skd_start_date ASC
@@ -31,7 +31,7 @@ BETWEEN #{sdate} AND #{edate} ORDER BY skd_start_date ASC
 
 <!-- 팀 일정 조회 -->
 <select id="skdByTeam" resultType="schedule" parameterType="string">
-SELECT skd_type, skd_title, skd_start_date, 'yyyy-mm-dd hh24:mi', skd_end_date, 'yyyy-mm-dd hh24:mi' 
+SELECT skd_type "skdType.skdType", skd_title, skd_start_date, skd_end_date
 FROM schedule
 WHERE employee_id IN (SELECT employee_id FROM employee WHERE department_id =#{skd_dpt_id})
 AND skd_share='t'
@@ -39,20 +39,23 @@ AND skd_share='t'
 
 <!-- 개인 일정 조회 -->
 <select id="skdPersonal" resultType="schedule" parameterType="string">
-SELECT skd_type, skd_title,skd_start_date, skd_end_date
+SELECT skd_type "skdType.skdType", skd_title, skd_start_date, skd_end_date
 FROM schedule
 WHERE employee_id= #{employeeId} AND skd_share='p'
 </select>
 
 <!-- 내용검색 -->
+
 <select id="skdByContent" resultType="schedule" parameterType="schedule">
-SELECT skd_no, skd_type, skd_title, skd_content, skd_start_date, skd_end_date, skd_share
+SELECT skd_no, skd_type "skdType.skdType", skd_title, skd_content, skd_start_date, skd_end_date, skd_share
 FROM schedule 
-WHERE employee_id= #{skdId.employeeId} AND (skd_title like '%${skdTitle}%' OR skd_content like '$%{skdContent}%')
+WHERE employee_id= #{skdId.employeeId} AND (skd_title like '%${skdTitle}%' OR skd_content like '%${skdContent}%')
 </select>
+
+
 <!-- 상세 일정 검색 -->
 <select id="skdDetail" resultType="schedule" parameterType="int">
-SELECT skd_type,skd_title,skd_content,skd_date,skd_start_date, skd_end_date, skd_share
+SELECT skd_type "skdType.skdType",skd_title,skd_content,skd_date,skd_start_date, skd_end_date, skd_share
 FROM schedule
 WHERE skd_no=#{skd_no}
 </select>

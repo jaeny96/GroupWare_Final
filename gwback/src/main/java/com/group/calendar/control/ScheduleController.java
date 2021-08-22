@@ -40,7 +40,7 @@ public class ScheduleController {
 	//String id = session.getAttribute("id").toString();
 		Employee emp = new Employee();
 		Department dept = new Department();
-		String id = "MSD002";
+		String id = "MSD003";
 		dept.setDepartmentId("MSD");
 		emp.setEmployeeId(id);
 		emp.setDepartment(dept);
@@ -55,8 +55,8 @@ public class ScheduleController {
 		}
 		return map;
 	}
-	@GetMapping("/skdDate")
-	public Object skdDate(String sdate, String edate /*,HttpSession session*/) {
+	@GetMapping("/skdDate/{sdate}/{edate}")
+	public Object skdDate(@PathVariable String sdate, @PathVariable String edate ,HttpSession session) {
 		//String id = session.getAttribute("id").toString();
 		String id = "SEC002";
 		Department dept = new Department();
@@ -91,7 +91,7 @@ public class ScheduleController {
 	}
 	@GetMapping("/skdPersonal")
 	public Object skdPersonal() {
-		String id = "MSD002";
+		String id = "MSD003";
 		 Map<String,Object>map = new HashMap<>();
 		 try {
 			List<Schedule> list = service.findSkdPersonal(id);
@@ -103,8 +103,8 @@ public class ScheduleController {
 		}
 		 return map;
 	}
-	@GetMapping("/skdContent")
-	public Object skdContent(String title, String content /*,HttpSession session*/) {
+	@GetMapping("/skdContent/{title}/{content}")
+	public Object skdContent(@PathVariable String title, @PathVariable String content ,HttpSession session) {
 		//String id = session.getAttribute("id").toString();
 		String id = "MSD003";
 		Employee em = new Employee();

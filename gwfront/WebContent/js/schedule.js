@@ -45,7 +45,7 @@ $(function () {
         method: "GET",
         transformRequest: [null],
         transformResponse: [null],
-        url: "http://localhost:8888/gwback/schedule/allSkd",
+        url: "/gwback/schedule/allSkd",
         jsonpCallbackParam: "callback",
         data: "",
         success: function (result) {
@@ -171,22 +171,37 @@ $(function () {
                  * calendarType : 출장, 업무 등 일정종류
                  * teamOrPersonal : 개인 or 팀 일정
                  */
-                var skdInsertUrl = "/back/addschedule";
+                var skdInsertUrl = "/gwback/schedule/addSkd";
+
                 $.ajax({
                   url: skdInsertUrl,
-                  method: "post",
-                  datatype: "json",
-                  data: {
-                    title: skdInputTitle.val(),
-                    content: skdInputContent.val(),
-                    start:
-                      skdInputStartDate.val() + " " + skdInputStartTime.val(),
-                    end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
-                    allDay: false,
-                    backgroundColor: "#ffc107",
-                    calendarType: skdInputTypeValue,
-                    teamOrPersonal: teamOrPersonalOption,
+                  method: "POST",
+                  transformRequest: [null],
+                  transformResponse: [null],
+                  jsonpCallbackParam: "callback",
+                  headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json;charset=utf-8",
                   },
+                  data:
+                    '{\n"skdType": "' +
+                    skdInputTypeValue +
+                    '", \n"skdTitle":"' +
+                    skdInputTitle.val() +
+                    '",\n"skdContent":"' +
+                    skdInputContent.val() +
+                    '",  \n"skdStartDate":"' +
+                    skdInputStartDate.val() +
+                    " " +
+                    skdInputStartTime.val() +
+                    '",\n"skdEndDate":"' +
+                    skdInputEndDate.val() +
+                    " " +
+                    skdInputEndTime.val() +
+                    '",\n"skdShare":"' +
+                    teamOrPersonalOption +
+                    '"\n}',
+
                   success: function () {
                     alert("일정이 추가되었습니다");
                     loadSchedule();
@@ -218,25 +233,37 @@ $(function () {
                 );
                 console.log("team type" + skdInputTypeValue);
 
-                var skdInsertUrl = "/back/addschedule";
+                var skdInsertUrl = "/gwback/schedule/addSkd";
                 console.log(skdInputTitle.val() + skdInputContent.val());
 
                 $.ajax({
                   url: skdInsertUrl,
-                  method: "post",
-                  datatype: "json",
-                  data: {
-                    title: skdInputTitle.val(),
-                    content: skdInputContent.val(),
-                    start:
-                      skdInputStartDate.val() + " " + skdInputStartTime.val(),
-                    end: skdInputEndDate.val() + " " + skdInputEndTime.val(),
-                    allDay: false,
-                    backgroundColor: "#28a745",
-
-                    calendarType: skdInputTypeValue,
-                    teamOrPersonal: teamOrPersonalOption,
+                  method: "POST",
+                  transformRequest: [null],
+                  transformResponse: [null],
+                  jsonpCallbackParam: "callback",
+                  headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json;charset=utf-8",
                   },
+                  data:
+                    '{\n"skdType": "' +
+                    skdInputTypeValue +
+                    '", \n"skdTitle":"' +
+                    skdInputTitle.val() +
+                    '",\n"skdContent":"' +
+                    skdInputContent.val() +
+                    '",  \n"skdStartDate":"' +
+                    skdInputStartDate.val() +
+                    " " +
+                    skdInputStartTime.val() +
+                    '",\n"skdEndDate":"' +
+                    skdInputEndDate.val() +
+                    " " +
+                    skdInputEndTime.val() +
+                    '",\n"skdShare":"' +
+                    teamOrPersonalOption +
+                    '"\n}',
 
                   success: function () {
                     alert("일정이 추가되었습니다");
@@ -246,9 +273,9 @@ $(function () {
                     //     "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(6) > a"
                     //   )
                     // );
-                    // $(
-                    //   "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(6) > a"
-                    // ).trigger("click");
+                    $(
+                      "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(6) > a"
+                    ).trigger("click");
                     // $(function () {
                     //   $("#scheduleMenu")
                     //     .click(function () {
@@ -288,7 +315,7 @@ $(function () {
           var id = loginedId;
           var dept = loginedDept;
           $.ajax({
-            url: "http://localhost:8888/gwback/schedule/allSkd",
+            url: "/gwback/schedule/allSkd",
             method: "GET",
             transformRequest: [null],
             transformResponse: [null],
@@ -340,7 +367,7 @@ $(function () {
           var loginedDept = loginedId.substring(0, 3);
           var dept = loginedDept;
           $.ajax({
-            url: "http://localhost:8888/gwback/schedule/skdTeam",
+            url: "/gwback/schedule/skdTeam",
             method: "GET",
             transformRequest: [null],
             transformResponse: [null],
@@ -380,7 +407,7 @@ $(function () {
           var id = loginedId;
 
           $.ajax({
-            url: "http://localhost:8888/gwback/schedule/skdPersonal",
+            url: "/gwback/schedule/skdPersonal",
             method: "GET",
             transformRequest: [null],
             transformResponse: [null],
@@ -543,7 +570,7 @@ function createModal(id) {
     });
   }
   $.ajax({
-    url: "http://localhost:8888/gwback/schedule/skdDetail/" + skdno,
+    url: "/gwback/schedule/skdDetail/" + skdno,
     method: "GET",
     transformRequest: [null],
     transformResponse: [null],
@@ -595,8 +622,10 @@ var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
  * 일정 수정 함수
  */
 $(function () {
+  //var clickedskdNo;
   //경로
-  var backSkdModify = "/back/modifyschedule";
+  var backSkdModify =
+    "/gwback/schedule/modify/" + localStorage.getItem("skdNo");
 
   //var modifySkdFormObj = $("#modifySkdContent");
   var modifySkdSubmitBtn = $("button.modifySkdSubmit"); //수정 버튼
@@ -630,6 +659,7 @@ $(function () {
 
   //수정 버튼 클릭 시 이벤트
   $("#skdModifyBtn").click(function () {
+    //clickedskdNo = localStorage.getItem("skdNo")
     //일정 상세 내역 클릭 시 localStorage에 저장된 내역들을 불러와 변수에 지정
     var UpdatePreTitleValue = localStorage.getItem("title");
     var UpdatePreStartDate = localStorage.getItem("startDate");
@@ -662,18 +692,33 @@ $(function () {
     if (teamOrPersonalOption == "p") {
       $.ajax({
         url: backSkdModify,
-        method: "post",
-        data: {
-          title: skdUpdateTitle.val(),
-          content: skdUpdateContent.val(),
-          start: skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
-          end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
-          allDay: false,
-          backgroundColor: "#ffc107",
-          calendarType: skdUpdateTypeValue,
-          teamOrPersonal: teamOrPersonalOption,
-          skd_no: currentSkdNo,
+        method: "PUT",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json;charset=utf-8",
         },
+        data:
+          '{\n"skdType": "' +
+          skdUpdateTypeValue +
+          '", \n"skdTitle":"' +
+          skdUpdateTitle.val() +
+          '",\n"skdContent":"' +
+          skdUpdateContent.val() +
+          '",  \n"skdStartDate":"' +
+          skdUpdateStartDate.val() +
+          " " +
+          skdUpdateStartTime.val() +
+          '",\n"skdEndDate":"' +
+          skdUpdateEndDate.val() +
+          " " +
+          skdUpdateEndTime.val() +
+          '",\n"skdShare":"' +
+          teamOrPersonalOption +
+          '"\n}',
+
         success: function () {
           window.alert("일정이 변경되었습니다");
           //scheduleMenu로 돌아가는 트리거 이벤트
@@ -697,18 +742,32 @@ $(function () {
     } else if (teamOrPersonalOption == "t") {
       $.ajax({
         url: backSkdModify,
-        method: "post",
-        data: {
-          title: skdUpdateTitle.val(),
-          content: skdUpdateContent.val(),
-          start: skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
-          end: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
-          allDay: false,
-          backgroundColor: "#28a745",
-          calendarType: skdUpdateTypeValue,
-          teamOrPersonal: teamOrPersonalOption,
-          skd_no: currentSkdNo,
+        method: "PUT",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json;charset=utf-8",
         },
+        data:
+          '{\n"skdType": "' +
+          skdUpdateTypeValue +
+          '", \n"skdTitle":"' +
+          skdUpdateTitle.val() +
+          '",\n"skdContent":"' +
+          skdUpdateContent.val() +
+          '",  \n"skdStartDate":"' +
+          skdUpdateStartDate.val() +
+          " " +
+          skdUpdateStartTime.val() +
+          '",\n"skdEndDate":"' +
+          skdUpdateEndDate.val() +
+          " " +
+          skdUpdateEndTime.val() +
+          '",\n"skdShare":"' +
+          teamOrPersonalOption +
+          '"\n}',
         success: function () {
           window.alert("일정이 변경되었습니다");
           loadSchedule();
@@ -746,15 +805,18 @@ $(function () {
   console.log("현재 skd_no" + currSkdNo);
 
   //servelt 경로
-  var backurlDeleteSkd = "/back/deleteschedule";
+  var backurlDeleteSkd = "/gwback/schedule/remove/" + currSkdNo;
 
   //SQL에서 일정번호만 있으면 삭제되는 구조라 skd_no만 보냄
   skdDeleteBtn.addEventListener("click", function (e) {
     $.ajax({
       url: backurlDeleteSkd,
-      method: "get",
-      data: {
-        skd_no: currSkdNo,
+      method: "DELETE",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
       },
       success: function () {
         alert("일정이 삭제되었습니다!");

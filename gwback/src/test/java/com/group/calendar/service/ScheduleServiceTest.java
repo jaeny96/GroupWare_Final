@@ -55,7 +55,6 @@ class ScheduleServiceTest {
 	}
 	
 	@Test
-	//내용검색이 안됨... why..?
 	void findByContentTest() throws FindException {
 		String skd_title = "회의";
 		String skd_content = "회의";
