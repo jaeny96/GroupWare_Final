@@ -183,28 +183,21 @@ $(function () {
                     Accept: "application/json, text/plain, */*",
                     "Content-Type": "application/json;charset=utf-8",
                   },
-                  data:
-                    '{\n"skdType": "' +
-                    skdInputTypeValue +
-                    '", \n"skdTitle":"' +
-                    skdInputTitle.val() +
-                    '",\n"skdContent":"' +
-                    skdInputContent.val() +
-                    '",  \n"skdStartDate":"' +
-                    skdInputStartDate.val() +
-                    " " +
-                    skdInputStartTime.val() +
-                    '",\n"skdEndDate":"' +
-                    skdInputEndDate.val() +
-                    " " +
-                    skdInputEndTime.val() +
-                    '",\n"skdShare":"' +
-                    teamOrPersonalOption +
-                    '"\n}',
+                  data: JSON.stringify({
+                    skdType: skdInputTypeValue,
+                    skdTitle: skdInputTitle.val(),
+                    skdContent: skdInputContent.val(),
+                    skdStartDate:
+                      skdInputStartDate.val() + " " + skdInputStartTime.val(),
+                    skdEndDate:
+                      skdInputEndDate.val() + " " + skdInputEndTime.val(),
+                    skdShare: teamOrPersonalOption,
+                  }),
 
                   success: function () {
                     alert("일정이 추가되었습니다");
-                    loadSchedule();
+                    location.reload();
+                    //loadSchedule();
                   },
                   error: function (request, status, error) {
                     alert(
@@ -246,36 +239,29 @@ $(function () {
                     Accept: "application/json, text/plain, */*",
                     "Content-Type": "application/json;charset=utf-8",
                   },
-                  data:
-                    '{\n"skdType": "' +
-                    skdInputTypeValue +
-                    '", \n"skdTitle":"' +
-                    skdInputTitle.val() +
-                    '",\n"skdContent":"' +
-                    skdInputContent.val() +
-                    '",  \n"skdStartDate":"' +
-                    skdInputStartDate.val() +
-                    " " +
-                    skdInputStartTime.val() +
-                    '",\n"skdEndDate":"' +
-                    skdInputEndDate.val() +
-                    " " +
-                    skdInputEndTime.val() +
-                    '",\n"skdShare":"' +
-                    teamOrPersonalOption +
-                    '"\n}',
+                  data: JSON.stringify({
+                    skdType: skdInputTypeValue,
+                    skdTitle: skdInputTitle.val(),
+                    skdContent: skdInputContent.val(),
+                    skdStartDate:
+                      skdInputStartDate.val() + " " + skdInputStartTime.val(),
+                    skdEndDate:
+                      skdInputEndDate.val() + " " + skdInputEndTime.val(),
+                    skdShare: teamOrPersonalOption,
+                  }),
 
                   success: function () {
                     alert("일정이 추가되었습니다");
-                    loadSchedule();
+                    location.reload();
+                    //loadSchedule();
                     // console.log(
                     //   $(
                     //     "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(6) > a"
                     //   )
                     // );
-                    $(
-                      "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(6) > a"
-                    ).trigger("click");
+                    // $(
+                    //   "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(6) > a"
+                    // ).trigger("click");
                     // $(function () {
                     //   $("#scheduleMenu")
                     //     .click(function () {
@@ -700,29 +686,21 @@ $(function () {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json;charset=utf-8",
         },
-        data:
-          '{\n"skdType": "' +
-          skdUpdateTypeValue +
-          '", \n"skdTitle":"' +
-          skdUpdateTitle.val() +
-          '",\n"skdContent":"' +
-          skdUpdateContent.val() +
-          '",  \n"skdStartDate":"' +
-          skdUpdateStartDate.val() +
-          " " +
-          skdUpdateStartTime.val() +
-          '",\n"skdEndDate":"' +
-          skdUpdateEndDate.val() +
-          " " +
-          skdUpdateEndTime.val() +
-          '",\n"skdShare":"' +
-          teamOrPersonalOption +
-          '"\n}',
+        data: JSON.stringify({
+          skdType: skdUpdateTypeValue,
+          skdTitle: skdUpdateTitle.val(),
+          skdContent: skdUpdateContent.val(),
+          skdStartDate:
+            skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
+          skdEndDate: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
+          skdShare: teamOrPersonalOption,
+        }),
 
         success: function () {
           window.alert("일정이 변경되었습니다");
           //scheduleMenu로 돌아가는 트리거 이벤트
-          loadSchedule();
+          //loadSchedule();
+          location.reload();
         },
         error: function (request, status, error) {
           alert(
@@ -750,27 +728,20 @@ $(function () {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json;charset=utf-8",
         },
-        data:
-          '{\n"skdType": "' +
-          skdUpdateTypeValue +
-          '", \n"skdTitle":"' +
-          skdUpdateTitle.val() +
-          '",\n"skdContent":"' +
-          skdUpdateContent.val() +
-          '",  \n"skdStartDate":"' +
-          skdUpdateStartDate.val() +
-          " " +
-          skdUpdateStartTime.val() +
-          '",\n"skdEndDate":"' +
-          skdUpdateEndDate.val() +
-          " " +
-          skdUpdateEndTime.val() +
-          '",\n"skdShare":"' +
-          teamOrPersonalOption +
-          '"\n}',
+        data: JSON.stringify({
+          skdType: skdUpdateTypeValue,
+          skdTitle: skdUpdateTitle.val(),
+          skdContent: skdUpdateContent.val(),
+          skdStartDate:
+            skdUpdateStartDate.val() + " " + skdUpdateStartTime.val(),
+
+          skdEndDate: skdUpdateEndDate.val() + " " + skdUpdateEndTime.val(),
+          skdShare: teamOrPersonalOption,
+        }),
         success: function () {
           window.alert("일정이 변경되었습니다");
-          loadSchedule();
+          //loadSchedule();
+          location.reload();
         },
         error: function (request, status, error) {
           alert(
@@ -808,7 +779,7 @@ $(function () {
   var backurlDeleteSkd = "/gwback/schedule/remove/" + currSkdNo;
 
   //SQL에서 일정번호만 있으면 삭제되는 구조라 skd_no만 보냄
-  skdDeleteBtn.addEventListener("click", function (e) {
+  skdDeleteBtn.addEventListener("click", function () {
     $.ajax({
       url: backurlDeleteSkd,
       method: "DELETE",
@@ -820,9 +791,10 @@ $(function () {
       },
       success: function () {
         alert("일정이 삭제되었습니다!");
-        loadSchedule();
+        location.reload();
+        // loadSchedule();
       },
     });
-    e.preventDefault();
+    // e.preventDefault();
   });
 });

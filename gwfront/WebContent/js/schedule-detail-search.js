@@ -12,6 +12,7 @@ var typeValue = typeObj.querySelector("td.skdDetailInputData");
 //console.log(typeValue);
 var titleObj = document.getElementById("skdDetailTitle");
 var titleValue = titleObj.querySelector("td.skdDetailInputData");
+console.log(titleValue);
 
 var StartTimeObj = document.getElementById("skdDetailStartTime");
 var StartTimeValue = StartTimeObj.querySelector("td.skdDetailInputData");
@@ -23,7 +24,7 @@ var EndTimeValue = EndTimeObj.querySelector("td.skdDetailInputData");
 //console.log(EndTimeValue);
 var ContentObj = document.getElementById("skdDetailContent");
 var ContentValue = ContentObj.querySelector("td.skdDetailInputData");
-
+console.log(ContentValue);
 var type = typeValue.innerHTML;
 //typeValue.innerHTML = "회의";
 var title = titleValue.innerText;
@@ -34,6 +35,7 @@ var content = ContentValue.innerText;
 var skdDate = [];
 var skdTime = [];
 var skdContent = [];
+var skdNoArr = [];
 
 //표만들기
 function createSkdElement(i) {
@@ -48,9 +50,12 @@ function createSkdElement(i) {
   a.setAttribute("href", "#");
   a.addEventListener("click", function (e) {
     localStorage.setItem("searchSkdNoDetail", e.target.id);
+    console.log(e.target.id);
+    localStorage.setItem("skdNo", e.target.classList[0]);
     createModal("skdDetail");
   });
   a.setAttribute("id", i);
+  a.setAttribute("class", skdNoArr[i]);
   a.innerText = skdContent[i];
   //자식에 부모달아주기
   tdContent.appendChild(a);
@@ -61,9 +66,9 @@ function createSkdElement(i) {
 }
 
 //일정개수만큼 표를 생성하여 데이터 넣는 함수
-function init(result) {
+function init(result, check) {
   console.log({ result });
-
+  console.log(check);
   result.forEach((item) => {
     start = new Date(item.skdStartDate);
     end = new Date(item.skdEndDate);
@@ -73,6 +78,8 @@ function init(result) {
     skdDate.push(moment(start).format("YY-MM-DD"));
     //9:00 AM ~ 10:00 AM의 형태로 보여주는 moment함수
     skdTime.push(moment(start).format("LT") + " ~ " + moment(end).format("LT"));
+    skdNoArr.push(item.skdNo);
+    console.log(skdNoArr);
   });
   for (var i = 0; i < skdDate.length; i++) {
     createSkdElement(i);
@@ -151,114 +158,24 @@ function createModal(id) {
     });
   }
   $.ajax({
-    url: "/gwback/schedule/skdDetail/" + skdno,
+    url: "/gwback/schedule/skdDetail/" + localStorage.getItem("skdNo"),
     method: "GET",
     transformRequest: [null],
     transformResponse: [null],
     jsonpCallbackParam: "callback",
-    success: function (responseData) {
-      $(responseData).each(function (i, e) {
-        console.log("선택 결과값" + e);
-        titleValue.innerHTML = e.skdTitle;
-        typeValue.innerHTML = e.skdType.skdType;
-        StartTimeValue.innerHTML = e.skdStartDate;
-        EndTimeValue.innerHTML = e.skdEndDate;
-        ContentValue.innerHTML = e.skdContent;
-
-        localStorage.setItem("skdNo", e.skdNo);
-        localStorage.setItem("title", titleValue.innerHTML);
-        localStorage.setItem(
-          "startDate",
-          StartTimeValue.innerHTML.slice(0, 10)
-        );
-        localStorage.setItem(
-          "startTime",
-          StartTimeValue.innerHTML.slice(11, 16)
-        );
-        localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
-        localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
-        localStorage.setItem("content", ContentValue.innerHTML);
-      });
-    },
-  });
-  $.ajax({
-    url:
-      "http://localhost:8888/gwback/schedule/skdContent/" +
-      urlParams.skd_title +
-      "/" +
-      urlParams.skd_content,
-    method: "GET",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
-    // data: urlParams,
-    success: function (responseData) {
-      console.log(responseData);
-      $(responseData).each(function (i, e) {
-        if (index == i) {
-          // console.log(e.skd_title);
-          console.log(e);
-          titleValue.innerHTML = e.skdTitle;
-          console.log(e.skdTitle);
-          typeValue.innerHTML = e.skdType.skdType;
-          StartTimeValue.innerHTML = e.skdStartDate;
-          EndTimeValue.innerHTML = e.skdEndDate;
-          ContentValue.innerHTML = e.skContent;
-          console.log(e.skdContent);
-
-          localStorage.setItem("skdNo", e.skdNo);
-          localStorage.setItem("title", titleValue.innerHTML);
-          localStorage.setItem(
-            "startDate",
-            StartTimeValue.innerHTML.slice(0, 10)
-          );
-          localStorage.setItem(
-            "startTime",
-            StartTimeValue.innerHTML.slice(11, 16)
-          );
-          localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
-          localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
-          localStorage.setItem("content", ContentValue.innerHTML);
-        }
-      });
-    },
-  });
-
-  $.ajax({
-    url:
-      "http://localhost:8888/gwback/schedule/skdDate/" +
-      urlParams.skd_start_date +
-      "/" +
-      urlParams.skd_end_date,
-    method: "GET",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
-    // data: urlParams,
-    success: function (responseData) {
-      $(responseData).each(function (i, e) {
-        if (index == i) {
-          console.log(e);
-          titleValue.innerHTML = e.skdTitle;
-          typeValue.innerHTML = e.skdType.skdType;
-          StartTimeValue.innerHTML = e.skdStartDate;
-          EndTimeValue.innerHTML = e.skdEndDate;
-          ContentValue.innerHTML = e.skdContent;
-          localStorage.setItem("skdNo", e.skdNo);
-          localStorage.setItem("title", titleValue.innerHTML);
-          localStorage.setItem(
-            "startDate",
-            StartTimeValue.innerHTML.slice(0, 10)
-          );
-          localStorage.setItem(
-            "startTime",
-            StartTimeValue.innerHTML.slice(11, 16)
-          );
-          localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
-          localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
-          localStorage.setItem("content", ContentValue.innerHTML);
-        }
-      });
+    success: function (e) {
+      titleValue.innerHTML = e.skdTitle;
+      typeValue.innerHTML = e.skdType.skdType;
+      StartTimeValue.innerHTML = e.skdStartDate;
+      EndTimeValue.innerHTML = e.skdEndDate;
+      ContentValue.innerHTML = e.skdContent;
+      //localStorage.setItem("skdNo", e.skdNo);
+      localStorage.setItem("title", titleValue.innerHTML);
+      localStorage.setItem("startDate", StartTimeValue.innerHTML.slice(0, 10));
+      localStorage.setItem("startTime", StartTimeValue.innerHTML.slice(11, 16));
+      localStorage.setItem("endDate", EndTimeValue.innerHTML.slice(0, 10));
+      localStorage.setItem("endTime", EndTimeValue.innerHTML.slice(11, 16));
+      localStorage.setItem("content", ContentValue.innerHTML);
     },
   });
 }
@@ -290,14 +207,8 @@ document.addEventListener("DOMContentLoaded", function () {
     success: function (responseData) {
       console.log(responseData + "init함수 내용");
       //위에 init함수 호출
-      console.log(
-        "제목내용검색responseData--" +
-          responseData.skdTitle +
-          "내용:" +
-          responseData.skdContent +
-          "타임:"
-      );
-      init(responseData);
+      console.log(responseData);
+      init(responseData, "내용검색");
     },
   });
 });
@@ -328,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
     jsonpCallbackParam: "callback",
     success: function (responseData) {
       //위에 init함수 호출
-      init(responseData);
+      init(responseData, "날짜검색");
     },
   });
 });
