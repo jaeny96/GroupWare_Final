@@ -62,8 +62,9 @@ $(function () {
   //댓글 내용 값 들어갈 arr
   var cmContent = new Array();
 
-  //댓글 삭제 시 사용할 url
-  var backurlDeleteCm = "/back/removeboardcomment";
+  //댓글 삭제 시 사용할 backurl
+  //var backurlDeleteCm = "/back/removeboardcomment";
+  var backurlDeleteCm = "http://localhost:8888/gwback/boardcomment/removecm";
 
   //뒤로가기 버튼 클릭 시 게시판 메뉴 클릭 trigger 이벤트 발생
   function boardPageGoClickHandler() {
@@ -78,8 +79,8 @@ $(function () {
   //댓글 삭제 클릭 핸들러
   function cmDeleteClickHandler(e) {
     $.ajax({
-      url: backurlDeleteCm,
-      method: "get",
+      url: backurlDeleteCm + bdNo + cmNo,
+      method: "delete",
       data: {
         removeTargetCmNo: e.target.id,
         removeTargetBdNo: bdDetailBdNo,
@@ -206,26 +207,29 @@ $(function () {
 
   //board-detail에서 사용할 backurl
   //게시글 상세 내용 조회 관련
-  var backurlBdDetail = "/back/showbddetail";
+  //var backurlBdDetail = "/back/showbddetail";
+  var backurlBdDetail = "http://localhost:8888/gwback/board/";
   //게시글 내 댓글 조회 관련
-  var backurlCm = "/back/showboardcomment";
+  //var backurlCm = "/back/showboardcomment";
+  var backurlCm = "http://localhost:8888/gwback/boardcomment/showbdcm";
   //게시글 내 댓글 등록 관련
-  var backurlAddCm = "/back/addboardcomment";
+  //var backurlAddCm = "/back/addboardcomment";
+  var backurlAddCm = "http://localhost:8888/gwback/boardcomment/addbdcm";
 
   //게시글 상세 내용 get
   $.ajax({
-    url: backurlBdDetail,
+    url: backurlBdDetail + bdNo,
     method: "get",
     data: {
       bdNo: bdDetailBdNo,
     },
     success: function (responseData) {
-      bdDetailBdNo = responseData.bd_no;
-      bdDetailTitle = responseData.bd_title;
+      bdDetailBdNo = responseData.bdNo;
+      bdDetailTitle = responseData.bdTitle;
       bdDetailWriter = responseData.writer.name;
-      bdDetailWriterId = responseData.writer.employee_id;
-      bdDetailDate = responseData.bd_date;
-      bdDetailContent = responseData.bd_content;
+      bdDetailWriterId = responseData.writer.employeeId;
+      bdDetailDate = responseData.bdDate;
+      bdDetailContent = responseData.bdContent;
       //게시글 내용 대입하는 함수 호출
       insertBdDatailElement();
     },
@@ -233,7 +237,7 @@ $(function () {
 
   //게시글 내 댓글 정보 get
   $.ajax({
-    url: backurlCm,
+    url: backurlCm + bdNo,
     method: "get",
     data: {
       bdNo: bdDetailBdNo,
@@ -241,10 +245,10 @@ $(function () {
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         cmNo[i] = e.cm_no;
-        cmContent[i] = e.cm_content;
-        cmWriter[i] = e.cm_writer.name;
-        cmWrtierId[i] = e.cm_writer.employee_id;
-        cmDate[i] = e.cm_date;
+        cmContent[i] = e.cmContent;
+        cmWriter[i] = e.cmWriter.name;
+        cmWrtierId[i] = e.cmWriter.employeeId;
+        cmDate[i] = e.cmDate;
       });
 
       //함수 호출
@@ -325,13 +329,14 @@ $(function () {
   });
 
   //게시글 제거 시 사용할 backurl
-  var backurlRemoveBd = "/back/removeboard";
+  //var backurlRemoveBd = "/back/removeboard";
+  var backurlRemoveBd = "http://localhost:8888/gwback/board/removebd";
 
   //게시글 삭제 버튼 클릭 시 이벤트 발생
   $deleteBtnObj.click(function (e) {
     $.ajax({
-      url: backurlRemoveBd,
-      method: "get",
+      url: backurlRemoveBd + bdNo,
+      method: "delete",
       data: {
         removeTargetBdNo: bdDetailBdNo,
         removeWriterId: currentLoginId,

@@ -16,8 +16,12 @@ $(function () {
   var contentObjInAdd = document.querySelector("div.note-editable");
 
   //board-register 시 사용할 backurl
-  var backurlAddBoard = "/back/addboard";
-  var backurlFileUpLoadInBd = "/back/boardfileupload";
+  //게시글 작성하기
+  //var backurlAddBoard = "/back/addboard";
+  var backurlAddBoard = "http://localhost:8888/gwback/board/addboard";
+  //파일 업로드하기
+  var backurlFileUpLoadInBd =
+    "http://localhost:8888/gwback/board/fileuploadinbd";
 
   //게시글 등록 submit 이벤트 핸들러
   function addBdFormSubmitHandler(e) {

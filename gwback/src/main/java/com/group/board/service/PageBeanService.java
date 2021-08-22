@@ -16,8 +16,11 @@ import com.group.exception.FindException;
 public class PageBeanService {
 	@Autowired
 	private BoardDAO dao;
-	private static PageBeanService service;
-
+	
+	/**
+	 * 총 페이지수 조회
+	 * @return
+	 */
 	public int selectTotalPage() {
 		int totalPage=0;
 		int temp=PageBean.CNT_PER_PAGE;
@@ -35,6 +38,11 @@ public class PageBeanService {
 		
 		return totalPage;
 	}
+	/**
+	 * 페이지를 4개씩 묶음
+	 * @param PageGroup
+	 * @return
+	 */
 	public List<Integer> selectPageGroup(int PageGroup) {
 		int totalPage=0;
 		int totalGroupNum=0;

@@ -10,6 +10,7 @@ public class PageBean<T> {
 	 * 페이지 별 보여줄 목록 수
 	 */
 	public static final int CNT_PER_PAGE = 10; // static 객체 생성 없이, final 값 변경 못하게
+//	public static final int CNT_PER_PAGE = 4; // serviceTest, controller url테스트용
 	private List<T> list;
 
 	/**

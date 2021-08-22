@@ -14,7 +14,8 @@ import com.group.exception.RemoveException;
 public class BoardCommentService {
 	@Autowired
 	private BoardCommentDAO dao;
-	private static BoardCommentService service;
+	@Autowired
+	private BoardCommentService service;
 
 	/**
 	 * 특정 게시글에 대한 댓글목록을 조회한다
@@ -22,8 +23,8 @@ public class BoardCommentService {
 	 * @return 댓글 목록
 	 * @throws FindException
 	 */
-	public List<BoardComment> showCm(String bd_no) throws FindException {
-		return dao.selectAll(bd_no);
+	public List<BoardComment> showCm(String bdNo) throws FindException {
+		return dao.selectAll(bdNo);
 	}
 
 	/**
@@ -57,6 +58,7 @@ public class BoardCommentService {
 		List<BoardComment> cmList;
 		try {
 			cmList = service.showCm(cm.getBdNo());
+			System.out.println(cmList.size());
 			BoardComment compare = cmList.get(cmList.size()-cm.getCmNo());
 			if(compare.getCmWriter().getEmployeeId().equals(cm.getCmWriter().getEmployeeId())) {
 				dao.delete(cm);

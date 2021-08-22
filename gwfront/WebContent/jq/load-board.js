@@ -52,13 +52,17 @@ $(function () {
 
   //게시글 목록 페이지에서 사용할 backurl
   //게시글 목록 보여주기
-  var backurlBdPage = "/back/showbdpage";
+  //var backurlBdPage = "/back/showbdpage";
+  var backurlBdPage = "http://localhost:8888/gwback/board/bdpage";
   //게시글 검색 결과 보여주기
-  var backurlBdSearch = "/back/searchboard";
+  //var backurlBdSearch = "/back/searchboard";
+  var backurlBdSearch = "http://localhost:8888/gwback/board/searchboard";
   //현재 페이지그룹 보여주기
-  var backurlPage = "/back/showpagegroup";
+  //var backurlPage = "/back/showpagegroup";
+  var backurlPage = "http://localhost:8888/gwback/board/pagegroup";
   //총 페이지 수 보여주기
-  var backurlTotalPage = "/back/showtotalpage";
+  //var backurlTotalPage = "/back/showtotalpage";
+  var backurlTotalPage = "http://localhost:8888/gwback/board/totalpage";
 
   //검색 카테고리 지정 시 이벤트 처리하는 핸들러
   function categoryHandler(e) {
@@ -82,7 +86,7 @@ $(function () {
     } else {
       //카테고리 지정 후 데이터 전송
       $.ajax({
-        url: backurlBdSearch,
+        url: backurlBdSearch + category + word,
         method: "get",
         //카테고리 종류와 검색 단어 전송
         data: {
@@ -95,10 +99,10 @@ $(function () {
           //tbody 객체 재 생성
           createTbodyElement();
           $(responseData).each(function (i, e) {
-            bdNo[i] = e.bd_no;
-            bdTitle[i] = e.bd_title;
+            bdNo[i] = e.bdNo;
+            bdTitle[i] = e.bdTitle;
             bdWriter[i] = e.writer.name;
-            bdDate[i] = e.bd_date;
+            bdDate[i] = e.bdDate;
           });
           //게시글 생성하는 함수 호출
           //검색은 페이지 빈 설정하지 않았으므로 1페이지로 설정
@@ -272,10 +276,10 @@ $(function () {
         //tbody 재생성
         createTbodyElement();
         $(responseData).each(function (i, e) {
-          bdNo[i] = e.bd_no;
-          bdTitle[i] = e.bd_title;
+          bdNo[i] = e.bdNo;
+          bdTitle[i] = e.bdTitle;
           bdWriter[i] = e.writer.name;
-          bdDate[i] = e.bd_date;
+          bdDate[i] = e.bdDate;
         });
         //게시글 목록 생성하는 함수 호출
         for (var i = 0; i < bdNo.length; i++) {

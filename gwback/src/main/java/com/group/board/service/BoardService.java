@@ -47,8 +47,8 @@ public class BoardService {
 	 * @return 게시글의 상세 정보
 	 * @throws FindException
 	 */
-	public Board showBdDetail(String bd_no) throws FindException {
-		return dao.selectBdInfo(bd_no);
+	public Board showBdDetail(String bdNo) throws FindException {
+		return dao.selectBdInfo(bdNo);
 	}
 
 	/**
@@ -67,7 +67,6 @@ public class BoardService {
 
 	/**
 	 * 게시글을 수정한다
-	 * 
 	 * @param bd 변경할 내용 담고 있는 객체
 	 * @throws ModifyException 로그인한 사용자가 글을 작성한 사원인지 비교하는 조건 필요 - 어디서? 서비스에서 할지 후에
 	 *                         할지 고민중
@@ -76,13 +75,12 @@ public class BoardService {
 		if (!"".equals(bd.getBdTitle()) && bd.getBdTitle() != null) {
 			dao.update(bd);
 		} else {
-			System.out.println("제목이 입력되지 않았습니다");
+			System.out.println("게시글바꼈죵");
 		}
 	}
 
 	/**
 	 * 게시글을 삭제한다
-	 * 
 	 * @param bd 삭제할 게시글 정보 담은 객체
 	 * @throws RemoveException 로그인한 사용자가 글을 작성한 사원인지 비교하는 조건 필요 - 어디서? 서비스에서 할지 후에
 	 *                         할지 고민중

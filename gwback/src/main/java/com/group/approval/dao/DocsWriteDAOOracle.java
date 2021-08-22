@@ -232,45 +232,6 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		}
 		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
 	}
-//
-//	// 2-2. 부서이름을 검색해 결재선에 넣을 사원이 속한 조직을 조회한다
-//	public List<Department> searchByDep(String word) throws FindException {
-//		// DB연결
-//		Connection con = null;
-//		try {
-//			con = MyConnection.getConnection();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new FindException(e.getMessage());
-//		}
-//		String searchByDepSQL = "SELECT department_title\r\n" + "FROM department \r\n"
-//				+ "where department_title like ?";
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		List<Department> list = new ArrayList<>();
-//		try {
-//			pstmt = con.prepareStatement(searchByDepSQL);
-//			pstmt.setString(1, "%" + word + "%");
-//			rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				Department dep = new Department();
-//				String department_title = rs.getString("department_title");
-//				dep.setDepartment_title(department_title);
-//
-//				list.add(dep);
-//			}
-//			if (list.size() == 0) {
-//				throw new FindException("해당 부서가 없습니다");
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new FindException(e.getMessage());
-//		} finally {
-//			// DB연결해제
-//			MyConnection.close(con, pstmt, rs);
-//		}
-//		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
-//	}
 
 	// 3. 전체 사원의 이름, 부서 정보 갖고오기
 	@Override

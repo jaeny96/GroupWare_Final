@@ -34,20 +34,24 @@ class BoardDAOOracleTest {
 	private Logger log = Logger.getLogger(BoardDAOOracleTest.class.getName());	
 	@Test
 	void testSelectAll() throws Exception {
-		int expectedSize = 9;
+		int expectedSize = 10;
 		List<Board> bdlist = dao.selectAll();
 		log.info(bdlist.size());
 		assertTrue(expectedSize == bdlist.size());
 	}
 
 	@Test
-	void testSelectAllPage() {
+	void testSelectAllPage() throws Exception {
 		int currentPage = 1;
+		int expectedSize = 10;
+		List<Board> bdlist = dao.selectAll(currentPage);
+		log.info(bdlist.size());
+		assertTrue(expectedSize == bdlist.size());
 	}
 	
 	@Test
 	void testSelectByWord() throws Exception {
-		int expectedSize = 7;
+		int expectedSize = 5;
 		String category = "name";
 		String word = "권보아";
 		List<Board> bdlist = dao.selectByWord(category, word);
@@ -60,20 +64,18 @@ class BoardDAOOracleTest {
 	void testSelectBdInfo() throws FindException {
 		String bdNo = "BD1";
 		Board bd = dao.selectBdInfo(bdNo);		
-		String expectedTitleName = "안녕하세요";
+		String expectedTitleName = "수정해보자";
 		
 		assertEquals(expectedTitleName, bd.getBdTitle());
 
 	}
 	@Test
 	void testInsert() throws Exception {
-		String bdNo = "BD13";
 		String id = "DEV005";
-		String bdTitle = "오라클테스트";
-		String bdContent = "오라클테스트입니다";
+		String bdTitle = "Oracle테스트";
+		String bdContent = "Oracle테스트입니다";
 		
 		Board bd = new Board();
-		bd.setBdNo(bdNo);
 		Employee e = new Employee();
 		e.setEmployeeId(id);
 		bd.setWriter(e);

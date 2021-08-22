@@ -40,13 +40,13 @@ class BoardCommentDAOOracleTest {
 	@Test
 	void testInsert() throws Exception {
 		String bdNo = "BD1";
-		int cmNo = 4;
+		//int cmNo = 4;
 		String id = "MSD002";
-		String cmContent = "이렇게 되는 게 없을수가";
+		String cmContent = "뭐지?";
 		
 		BoardComment cm = new BoardComment();
 		cm.setBdNo(bdNo);
-		cm.setCmNo(cmNo);
+		//cm.setCmNo(cmNo);
 		Employee e = new Employee();
 		e.setEmployeeId(id);
 		cm.setCmWriter(e);
@@ -55,17 +55,17 @@ class BoardCommentDAOOracleTest {
 	}
 	@Test
 	void testDelete() throws RemoveException {
-		String bdNo = "BD1";
-		int cmNo = 2;
+		String bdNo = "BD2";
+		int cmNo = 4;
 		String id = "MSD002";
 		
-		BoardComment bdcm = new BoardComment();
-		bdcm.setBdNo(bdNo);
-		bdcm.setCmNo(cmNo);		
+		BoardComment cm = new BoardComment();
+		cm.setBdNo(bdNo);
+		cm.setCmNo(cmNo);		
 		Employee e = new Employee();
 		e.setEmployeeId(id);
-		bdcm.setCmWriter(e);
-		dao.delete(bdcm);
+		cm.setCmWriter(e);
+		dao.delete(cm);
 				
 	}
 }

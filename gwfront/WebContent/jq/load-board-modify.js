@@ -29,13 +29,14 @@ $(function () {
   contentObjInModi.innerHTML = originBdContentInModi;
 
   //게시글 수정 시 사용할 backurl
-  var backurlModiBdDetail = "/back/changeboarddetail";
+  //var backurlModiBdDetail = "/back/changeboarddetail";
+  var backurlModiBdDetail = "http://localhost:8888/gwback/board/modifybd";
 
   //게시글 수정 form submit 이벤트 핸들러
   function modifyBdSubmitHandler(e) {
     $.ajax({
-      url: backurlModiBdDetail,
-      method: "post",
+      url: backurlModiBdDetail + bdNo,
+      method: "put",
       data: {
         modiBdTargetNo: bdTargetNoInModi,
         modiBdTitle: titleObjInModi.value,

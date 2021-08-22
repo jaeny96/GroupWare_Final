@@ -50,7 +50,7 @@ public class BoardDAOOracle implements BoardDAO {
 			HashMap<String, Integer> map = new HashMap<>();
 			map.put("cnt_per_page", cnt_per_page);
 			map.put("currentPage", currentPage);
-			List<Board> bdlist = session.selectList("com.group.board.dto.BoardMapper.selectAllPage");
+			List<Board> bdlist = session.selectList("com.group.board.dto.BoardMapper.selectAllPage", map);
 			if (bdlist.size() == 0) {
 				throw new FindException("게시글이 없습니다");
 			}

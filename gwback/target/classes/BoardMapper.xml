@@ -41,7 +41,9 @@ WHERE ${category} LIKE '%${word}%'
 ORDER BY bd_no desc
 </select>
 <select id="selectBdInfo" parameterType="java.lang.String" resultType="board">
-SELECT *
+SELECT bd_no, bd_title, bd_content, bd_date,
+   b.employee_id AS "writer.employee_id",
+   name AS "writer.name"
 FROM board b
 JOIN employee e ON b.employee_id = e.employee_id
 WHERE b.bd_no = #{bdNo}

@@ -5,7 +5,7 @@
 <mapper namespace="com.group.board.dto.BoardCommentMapper">
 <!-- 특정 게시글에 대한 모든 댓글 조회 -->
 <select id="selectAll" resultType="boardcomment">
-SELECT * 
+SELECT cm.bd_no, cm_no, cm.employee_id "cmWriter.employeeId", name AS "cmWriter.name", cm_content, cm_date
 FROM boardcomment cm
 JOIN employee e ON cm.employee_id = e.employee_id
 JOIN board b ON cm.bd_no = b.bd_no
