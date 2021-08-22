@@ -40,7 +40,7 @@ public class MainService {
 	//	pwd = "ceo1234";
 		Employee emp = dao.selectById(id);
 	//	System.out.println(emp.getEmployeeId());
-	//	System.out.println(emp.getPassword());
+		System.out.println(emp);
 		if (!emp.getPassword().equals(pwd)) {
 			throw new FindException("로그인에 실패하였습니다");
 		}

@@ -41,14 +41,14 @@ class EmployeeDAOOracleTest {
 		assertEquals(empId, emp.get(0).getEmployeeId());	
 	}
 	
-	//@Test
+	@Test
 	void testSelectByDep() throws FindException {
 		
 
-		List<Employee> emp = dao.selectByDep("CEO");
+		List<Employee> emp = dao.selectByDep("DEV");
 	
-		String empId="CEO001";
-		String expectedEmpName = "권보아";
+		String empId="DEV001";
+		String expectedEmpName = "임창균";
 		assertEquals(expectedEmpName, emp.get(0).getName());	
 	
 	}	
@@ -67,21 +67,21 @@ class EmployeeDAOOracleTest {
 		assertEquals(expectedEmpName, emp.get(0).getName());	
 	}
 	
-	@Test
-	void selectInfoTest() throws FindException {
-		
-		Employee emp = new Employee();
-		emp.setName("권보아");
-		emp.setEmployeeId("CEO001");
-		Employee e = dao.selectInfo(emp);
-	
-		//예상하는 결괏값
-		String empId = "CEO001";
-		String expectedEmpName = "권보아";
-		String expectedDep = "CEO";
-		
-		assertEquals(expectedEmpName, emp.getName());	
-	}
-	
+	//@Test
+//	void selectInfoTest() throws FindException {
+//		
+//		Employee emp = new Employee();
+//		emp.setName("권보아");
+//		emp.setEmployeeId("CEO001");
+////		Employee e = dao.selectInfo(emp);
+//	
+//		//예상하는 결괏값
+//		String empId = "CEO001";
+//		String expectedEmpName = "권보아";
+//		String expectedDep = "CEO";
+//		
+//		assertEquals(expectedEmpName, emp.getName());	
+//	}
+//	
 	
 }

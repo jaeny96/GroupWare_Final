@@ -27,9 +27,9 @@ class EmployeeLeaveServiceTest {
 	private EmployeeLeaveService service;
 	private Logger log = Logger.getLogger(EmployeeLeaveServiceTest.class.getName());
 	
-	@Test
+	//@Test
 	void detailTest() throws FindException {
-		String id = "DEV001";
+		String id = "CEO001";
 	
 		EmployeeLeave empleave = service.showDetail(id);
 		System.out.println(empleave);
@@ -41,7 +41,7 @@ class EmployeeLeaveServiceTest {
 	void updateTest() throws ModifyException {
 		  String id = "CEO001";
 //	      String password = "ceo1234";
-	      String phoneNum="010-1234-5678";
+	      String phoneNum="010-1234-1234";
 	      
 	      Employee emp = new Employee();
 	      emp.setEmployeeId(id);

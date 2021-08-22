@@ -41,6 +41,7 @@ public class DepartmentController {
 			return dep;
 		} catch (FindException e) {
 			result.put("status", -1);
+			result.put("msg", e.getMessage());
 			e.printStackTrace();
 			return result;
 		}

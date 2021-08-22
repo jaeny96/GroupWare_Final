@@ -1,5 +1,6 @@
 package com.group.mypage.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.group.employee.dto.Employee;
@@ -11,8 +12,10 @@ import com.group.mypage.dto.EmployeeLeave;
 @Service
 public class EmployeeLeaveService {
 	
+	@Autowired
 	private EmployeeLeaveDAO dao;
-	private static EmployeeLeaveService service;
+	@Autowired
+	private EmployeeLeaveService service;
 
 	/**
 	 * 로그인 한 사원의 상세정보를 마이페이지에서 조회한다
@@ -22,7 +25,7 @@ public class EmployeeLeaveService {
 	 * @throws FindException
 	 */
 	public EmployeeLeave showDetail(String id) throws FindException {
-		System.out.println("service"+dao.selectById(id));
+		//System.out.println("service"+dao.selectById(id));
 		return dao.selectById(id);
 	}
 

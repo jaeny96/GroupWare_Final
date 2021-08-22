@@ -93,27 +93,27 @@ $(function () {
   //사원 상세 불러오기 +{id}
   var backurlEmpDetail = "http://localhost:8888/gwback/employee/";
   //사원명으로 검색한 결과 불러오기 +{word}
-  var backurlSearchEmp = "http://localhost:8888/gwback/employee/";
+  var backurlSearchEmp = "http://localhost:8888/gwback/employee/search/";
 
   //사원 클릭 시 클릭 이벤트 핸들러
   function empClickHandler(e) {
     console.log(e.target.id);
     var empInfoArr = e.target.id.split("/");
     $.ajax({
-      url: backurlEmpDetail,
+      url: backurlEmpDetail+empInfoArr[0],
       method: "get",
       data: {
         empId: empInfoArr[0],
         empName: empInfoArr[1],
       },
       success: function (responseData) {
-        console.log(responseData.name);
+        console.log(responseData);
         detailName = responseData.name;
-        detailPosition = responseData.position.position_title;
-        detailEmployeeId = responseData.employee_id;
-        detailDepartment = responseData.department.department_title;
-        detailJob = responseData.job.job_title;
-        detailPhone = responseData.phone_number;
+        detailPosition = responseData.position.positionTitle;
+        detailEmployeeId = responseData.employeeId;
+        detailDepartment = responseData.department.departmentTitle;
+        detailJob = responseData.job.jobTitle;
+        detailPhone = responseData.phoneNumber;
         detailEmail = responseData.email;
         openTargetModal("." + empInfoArr[0] + "openDetail", "modalDetail");
       },
@@ -229,7 +229,7 @@ $(function () {
     //배열 초기화
     emptyElement();
     $.ajax({
-      url: backurlDeptEmp,
+      url: backurlDeptEmp+dept,
       method: "get",
       data: {
         deptId: dept,
@@ -237,8 +237,8 @@ $(function () {
       success: function (responseData) {
         $(responseData).each(function (i, e) {
           empArr[i] = e.name;
-          positionArr[i] = e.position.position_title;
-          empIdArr[i] = e.employee_id;
+          positionArr[i] = e.position.positionTitle;
+          empIdArr[i] = e.employeeId;
         });
         //cardBody 생성
         createCardBody();
@@ -293,10 +293,12 @@ $(function () {
     url: backurlDept,
     method: "get",
     success: function (responseData) {
+      //console.log(responseData);
       $(responseData).each(function (i, e) {
-        deptArr[i] = e.department_title;
+        deptArr[i] = e.departmentTitle;
         deptCntArr[i] = e.count;
-        deptIdArr[i] = e.department_id;
+        deptIdArr[i] = e.departmentId;
+        //console.log(deptArr[i]);
       });
       //부서 li생성하는 함수 호출
       for (var i = 0; i < deptArr.length; i++) {
@@ -311,9 +313,10 @@ $(function () {
     method: "get",
     success: function (responseData) {
       $(responseData).each(function (i, e) {
+        //console.log(responseData);
         empArr[i] = e.name;
-        positionArr[i] = e.position.position_title;
-        empIdArr[i] = e.employee_id;
+        positionArr[i] = e.position.positionTitle;
+        empIdArr[i] = e.employeeId;
       });
       for (var i = 0; i < empArr.length; i++) {
         //사원 3명씩 감싸는 객체 생성
@@ -333,7 +336,7 @@ $(function () {
     //'검색한 단어'의 검색 결과
     empHeaderObj.innerText = "'" + wordObj.value + "'의 검색 결과";
     $.ajax({
-      url: backurlSearchEmp,
+      url: backurlSearchEmp+ wordObj.value,
       method: "post",
       data: {
         word: wordObj.value,
@@ -341,8 +344,8 @@ $(function () {
       success: function (responseData) {
         $(responseData).each(function (i, e) {
           empArr[i] = e.name;
-          positionArr[i] = e.position.position_title;
-          empIdArr[i] = e.employee_id;
+          positionArr[i] = e.position.positionTitle;
+          empIdArr[i] = e.employeeId;
         });
         //cardBody 생성
         createCardBody();

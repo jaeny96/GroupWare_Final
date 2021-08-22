@@ -5,9 +5,26 @@
 <mapper namespace="com.group.employee.EmployeeLeaveMapper">
  
 <resultMap id="employeeLeaveMap" type="employeeleave">
-   <association property="employee" javaType="employee" autoMapping="true"></association>
+   <association property="employee" javaType="employee" autoMapping="true">
+	   	<association property="position" javaType="position" autoMapping="true">
+		<result property="positionId" column="position_id"/>
+		<result property="positionTitle" column="position_title"/>
+	</association>
+	<association property="job" javaType="job" autoMapping="true">
+	<result property="jobId" column="job_id"/>
+	<result property="jobTitle" column="job_title"/>
+</association>
+ <association property="department" javaType="department" autoMapping="true">
+	<result property="departmentId" column="department_id"/>
+	<result property="departmentTitle" column="department_title"/>
+	<result property="managerId" column="manager_id"/>
+</association> 
+   </association>
    <association property="leave" javaType="leave" autoMapping="true"></association>
-
+<!--  <association property="position" javaType="position" autoMapping="true"></association>
+<association property="job" javaType="job" autoMapping="true"></association>
+<association property="department" javaType="department" autoMapping="true"></association>
+ -->
 </resultMap>
 <select id="selectById" resultMap="employeeLeaveMap">
 SELECT   *

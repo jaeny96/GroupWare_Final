@@ -2,6 +2,8 @@ package com.group.employee.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Employee {
 	
 		private String employeeId;
@@ -11,6 +13,7 @@ public class Employee {
 		private Position position;
 		private String phoneNumber;
 		private String email;
+		@JsonFormat(pattern="yy/MM/dd",  timezone="Asia/Seoul")
 		private Date hireDate;
 		private int enabled;
 		private String password;

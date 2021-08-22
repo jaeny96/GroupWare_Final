@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -85,22 +86,7 @@ public class EmployeeController {
 			return result;
 		}
 	}
-//	{
-//		  "method": "GET",
-//		  "transformRequest": [
-//		    null
-//		  ],
-//		  "transformResponse": [
-//		    null
-//		  ],
-//		  "jsonpCallbackParam": "callback",
-//		  "url": "http://localhost:8888/gwback/employee/byDept/DEV",
-//		  "headers": {
-//		    "Accept": "application/json, text/plain, */*"
-//		  },
-//		  "data": "",
-//		  "timeout": {}
-//		}
+
 	/**
 	 * 사원을 검색한다
 	 * @param word 검색 단어
@@ -108,7 +94,7 @@ public class EmployeeController {
 	 * @throws FindException
 	 */
 	
-	@GetMapping("/search/{word}")
+	@PostMapping("/search/{word}")
 	@ResponseBody
 	public Object searchEmpByWord(@PathVariable String word) {
 		Map<String, Object> result = new HashMap<>();
@@ -128,22 +114,6 @@ public class EmployeeController {
 		}
 	}
 
-//	{
-//		  "method": "GET",
-//		  "transformRequest": [
-//		    null
-//		  ],
-//		  "transformResponse": [
-//		    null
-//		  ],
-//		  "jsonpCallbackParam": "callback",
-//		  "url": "http://localhost:8888/gwback/employee/search/현우",
-//		  "headers": {
-//		    "Accept": "application/json, text/plain, */*"
-//		  },
-//		  "data": "",
-//		  "timeout": {}
-//		}
 	
 	/**
 	 * 특정 사원의 상세 정보를 조회한다
@@ -168,21 +138,5 @@ public class EmployeeController {
 		}
 
 	}
-	
-//	{
-//		  "method": "GET",
-//		  "transformRequest": [
-//		    null
-//		  ],
-//		  "transformResponse": [
-//		    null
-//		  ],
-//		  "jsonpCallbackParam": "callback",
-//		  "url": "http://localhost:8888/gwback/employee/CEO001",
-//		  "headers": {
-//		    "Accept": "application/json, text/plain, */*"
-//		  },
-//		  "data": "",
-//		  "timeout": {}
-//		}
+
 }

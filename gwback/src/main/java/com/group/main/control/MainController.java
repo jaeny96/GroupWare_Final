@@ -71,7 +71,6 @@ public class MainController {
 		
 	}
 
-
 	@GetMapping("/chkLogin")
 	public Map<String,Integer> chkLogin(HttpSession session) {
 		Map<String, Integer> map = new HashMap<>();

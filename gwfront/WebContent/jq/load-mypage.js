@@ -128,25 +128,29 @@ $(function () {
   }
 
   //mypage에서 사용할 backurl
-  var backurlProfile = "/back/showmyprofile";
-  var backurlChangePh = "/back/changemyphonenum";
-  var backurlChangePwd = "/back/changemypwd";
+  var backurlProfile = "http://localhost:8888/gwback/mypage/detail";
+  var backurlChangePh = "http://localhost:8888/gwback/mypage/updatePhone";
+  var backurlChangePwd = "http://localhost:8888/gwback/mypage/updatePwd";
 
   //로그인한 사원 정보 get
   $.ajax({
     url: backurlProfile,
     method: "get",
+    dataType: "json",
     success: function (responseData) {
-      empName = responseData.employee.name;
-      position = responseData.employee.position.position_title;
-      employeeId = responseData.employee.employee_id;
-      department = responseData.employee.department.department_title;
-      job = responseData.employee.job.job_title;
-      phone = responseData.employee.phone_number;
-      email = responseData.employee.email;
-      password = responseData.employee.password;
-      myGrantDays = responseData.leave.grant_days;
-      myRemainDays = responseData.leave.remain_days;
+      //console.log(responseData);
+      //console.log(responseData.responseData);
+
+     empName = responseData.responseData.employee.name;
+      position = responseData.responseData.employee.position.positionTitle;
+      employeeId = responseData.responseData.employee.employeeId;
+      department = responseData.responseData.employee.department.departmentTitle;
+      job = responseData.responseData.employee.job.jobTitle;
+      phone = responseData.responseData.employee.phoneNumber;
+      email = responseData.responseData.employee.email;
+      password = responseData.responseData.employee.password;
+      myGrantDays = responseData.responseData.leave.grantDays;
+      myRemainDays = responseData.responseData.leave.remainDays;
 
       insertElement();
     },
@@ -154,16 +158,20 @@ $(function () {
 
   //핸드폰 번호 변경 시 submit 이벤트 핸들러
   function modiPhSubmitHandler(e) {
+    console.log(modifyPhoneNumObj.value);
     if (phone == modifyPhoneNumObj.value) {
       alert("변경하려는 연락처가 기존 연락처와 같습니다.");
     } else {
       $.ajax({
         url: backurlChangePh,
-        method: "post",
-        data: {
-          modiPhone: modifyPhoneNumObj.value,
-        },
+        method: "put",
+        dataType : "json",
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({
+          phoneNumber: modifyPhoneNumObj.value,
+        }),
         success: function () {
+          //console.log(data);
           alert("연락처가 변경되었습니다");
           //해당 페이지 재로딩
           $(
@@ -200,11 +208,12 @@ $(function () {
         if (modifyPwdObj.value == chkModifyPwdObj.value) {
           $.ajax({
             url: backurlChangePwd,
-            method: "post",
-            data: {
-              modiPwd: modifyPwdObj.value,
-              chkModiPwd: chkModifyPwdObj.value,
-            },
+            method: "put",
+            dataType : "json",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+              password: modifyPwdObj.value
+            }),
             success: function () {
               alert("비밀번호가 변경되었습니다");
               //해당 페이지 재로딩

@@ -30,10 +30,10 @@ class EmployeeLeaveDAOOracleTest {
 	//@Test
 	void selectByIdTest() throws FindException {
 		
-		String id = "DEV001";
+		String id = "CEO001";
 		EmployeeLeave empLeave= dao.selectById(id);
 		
-		String expectedName = "임창균";
+		String expectedName = "권보아";
 		assertEquals(expectedName, empLeave.getEmployee().getName());
 	}
 

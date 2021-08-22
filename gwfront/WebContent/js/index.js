@@ -90,10 +90,14 @@ jQuery(document).ready(function ($) {
     $.ajax({
       url: backurl,
       method: "post",
-      data: {
+      headers: {
+        "Accept": "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8"
+      },
+      data: JSON.stringify({
         employeeId: $("form.form input[name=id]").val(),
         password: $("form.form input[name=pwd]").val(),
-      },
+      }),
       success: function (responseObj) {
         //로그인 성공 시
         if (responseObj.status == 1) {
@@ -106,7 +110,11 @@ jQuery(document).ready(function ($) {
       },
       //오류 발생 시
       error: function (request, status, error) {
+       
+
         alert(
+          jQuery.type($("form.form input[name=id]").val())+
+          jQuery.type($("form.form input[name=pwd]").val())+
           "code:" +
             request.status +
             "\n" +

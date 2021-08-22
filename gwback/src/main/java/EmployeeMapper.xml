@@ -4,7 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group.employee.EmployeeMapper">
 
-<select id="selectAll" resultType="employee">
+<resultMap id="employeeMap" type="employee">
+	<result property="employeeId" column="employee_id"/>
+	<result property="name" column="name"/>
+	<result property="phoneNumber" column="phone_number"/>
+	<result property="email" column="email"/>
+	<result property="hireDate" column="hire_date"/>
+	<result property="password" column="password"/>
+	<result property="enabled" column="enabled"/>
+<association property="position" javaType="position" autoMapping="true">
+	<result property="positionId" column="position_id"/>
+	<result property="positionTitle" column="position_title"/>
+</association>
+<association property="job" javaType="job" autoMapping="true">
+	<result property="jobId" column="job_id"/>
+	<result property="jobTitle" column="job_title"/>
+</association>
+ <association property="department" javaType="department" autoMapping="true">
+	<result property="departmentId" column="department_id"/>
+	<result property="departmentTitle" column="department_title"/>
+	<result property="managerId" column="manager_id"/>
+</association> 
+</resultMap>
+
+
+<select id="selectAll" resultMap="employeeMap">
 SELECT * FROM department d
 JOIN employee e ON d.department_id = e.department_id
 JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id
@@ -12,7 +36,7 @@ WHERE enabled=1
 ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id
 </select>
 
-<select id="selectByDep" parameterType="string" resultType="employee">
+<select id="selectByDep" parameterType="string" resultMap="employeeMap">
 SELECT * FROM department d
 JOIN employee e ON d.department_id = e.department_id
 JOIN position p ON e.position_id=p.position_id
@@ -21,7 +45,7 @@ WHERE d.department_id=#{d.department_id} AND enabled=1
 ORDER BY p.position_id, employee_id
 </select>
 
-<select id="selectByWord" parameterType="string" resultType="employee">
+<select id="selectByWord" parameterType="string" resultMap="employeeMap">
 SELECT * FROM department d
 JOIN employee e ON d.department_id = e.department_id
 JOIN position p ON e.position_id = p.position_id 
@@ -30,7 +54,7 @@ WHERE name LIKE '%${word}%' AND enabled=1
 ORDER BY department_title, p.position_id, employee_id
 </select>
 
-<select id="selectInfo" parameterType="string" resultType="employee">
+<select id="selectInfo" parameterType="string" resultMap="employeeMap">
 SELECT *
 FROM employee e
 JOIN department d ON (e.department_id = d.department_id)
