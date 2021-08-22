@@ -105,6 +105,7 @@ function createApLineTable(target) {
       tdTitle.setAttribute("rowspan", "3");
       tdTitle.setAttribute("class", "font-weight-bolder text-center");
       tdTitle.setAttribute("style", "width: 12%; background-color: #f6f6f6");
+      tdTitle.innerHTML = "결재";
       tr.appendChild(tdTitle);
     }
     for (var j = 0; j < 4; j++) {
@@ -118,11 +119,11 @@ function createApLineTable(target) {
       }
 
       if (i == 1) {
-        td.setAttribute("id", "apApprovalStep" + i);
+        td.setAttribute("id", "apApprovalStep" + j);
       }
 
       if (i == 2) {
-        td.classList.add("apApprovalStepName" + i);
+        td.classList.add("apApprovalStepName" + j);
       }
 
       tr.appendChild(td);
@@ -464,6 +465,78 @@ function ACTemplate(target) {
   target.prepend(table);
 }
 
+function insertApLineTable() {
+  //모달창 객체 가져옴
+  var modalApLineSettingObj = document.querySelector(
+    "div#modalApprovalSetting"
+  );
+  //모달창 내 결재 테이블 객체 가져옴
+  var modalApTableObj = modalApLineSettingObj.querySelector(
+    "table#approvalNameList"
+  );
+  //결재선 0번에 관한 tr과 td 객체 가져옴
+  var modalApZeroObj = modalApTableObj.querySelector("tbody>tr:first-child");
+  var modalApZeroNameObj = modalApZeroObj.querySelector("td:last-child");
+  //결재선 1번에 관한 tr과 td 객체 가져옴
+  var modalApFirstObj = modalApTableObj.querySelector("tbody>tr:nth-child(2)");
+  var modalApFirstNameObj = modalApFirstObj.querySelector("td:last-child");
+  //결재선 2번에 관한 tr과 td 객체 가져옴
+  var modalApSecondObj = modalApTableObj.querySelector("tbody>tr:nth-child(3)");
+  var modalApSecondNameObj = modalApSecondObj.querySelector("td:last-child");
+  //결재선 3번에 관한 tr과 td 객체 가져옴
+  var modalApThirdObj = modalApTableObj.querySelector("tbody>tr:last-child");
+  var modalApThirdNameObj = modalApThirdObj.querySelector("td:last-child");
+
+  //모달창 내 합의 div객체 및 버튼 객체 가져옴
+  var modalAgObj = document.querySelector("div#agreementBox");
+  var modalAgNameObj = modalAgObj.querySelector("button#agreementBoxBtn");
+  //모달창 내 참조 div객체 및 버튼 객체 가져옴
+  var modalReObj = document.querySelector("div#referenceBox");
+  var modalReNameObj = modalReObj.querySelector("button#referenceBoxBtn");
+  //모달 결재선 저장 버튼
+  var apSetApLineSaveBtnObj = document.querySelector("button#apSettingSave");
+
+  var docApZeroNameObj = document.querySelector("td.apApprovalStepName0");
+  var docApFirstNameObj = document.querySelector("td.apApprovalStepName1");
+  var docApSecondNameObj = document.querySelector("td.apApprovalStepName2");
+  var docApThirdNameObj = document.querySelector("td.apApprovalStepName3");
+  var docAgNameObj = document.querySelector("td.apAgreementName");
+  var docReNameObj = document.querySelector("td.apReferenceName");
+
+  function modalSetApLineSubmitHandler() {
+    modalApLineSettingObj.classList.add("hidden");
+    docApZeroNameObj.innerText = "";
+    docApFirstNameObj.innerText = "";
+    docApSecondNameObj.innerText = "";
+    docApThirdNameObj.innerText = "";
+    docAgNameObj.innerText = "";
+    docReNameObj.innerText = "";
+
+    docApZeroNameObj.innerText = modalApZeroNameObj.innerText;
+    docApZeroNameObj.setAttribute("id", loginInfoIdObj.innerText);
+    docApFirstNameObj.innerText = modalApFirstNameObj.innerText;
+    docApFirstNameObj.setAttribute(
+      "id",
+      modalApFirstNameObj.getAttribute("id")
+    );
+    docApSecondNameObj.innerText = modalApSecondNameObj.innerText;
+    docApSecondNameObj.setAttribute(
+      "id",
+      modalApSecondNameObj.getAttribute("id")
+    );
+    docApThirdNameObj.innerText = modalApThirdNameObj.innerText;
+    docApThirdNameObj.setAttribute(
+      "id",
+      modalApThirdNameObj.getAttribute("id")
+    );
+    docAgNameObj.innerText = modalAgNameObj.innerText;
+    docAgNameObj.setAttribute("id", modalAgNameObj.getAttribute("id"));
+    docReNameObj.innerText = modalReNameObj.innerText;
+    docReNameObj.setAttribute("id", modalReNameObj.getAttribute("id"));
+  }
+  apSetApLineSaveBtnObj.addEventListener("click", modalSetApLineSubmitHandler);
+}
+
 $(function () {
   //문서 종류 select 객체
   var $selectObj = $("#documentTypeSelect");
@@ -505,12 +578,14 @@ $(function () {
         lang: "ko-KR", // 한글 설정
       });
       if (templateType == "SR") {
-        SRTemplate($("div.note-editing-area"));
+        SRTemplate($("div.note-editable"));
       } else if (templateType == "LE") {
-        LETemplate($("div.note-editing-area"));
+        LETemplate($("div.note-editable"));
       } else if (templateType == "AC") {
-        ACTemplate($("div.note-editing-area"));
+        ACTemplate($("div.note-editable"));
       }
+      insertApLineTable();
+      draft();
     } else {
       //'선택'일때
       $apLineBtnObj.attr("style", "display: none");
@@ -525,3 +600,141 @@ $(function () {
     }
   });
 });
+
+function draft() {
+  //----기안 관련 js 시작----
+
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
+  var loginInfoNameObj = document.querySelector(
+    "div.profileDropdown span.loginName"
+  );
+  //기안1
+  var $apBtn = $("button#draftComplete");
+  console.log($apBtn);
+  //결재문서 작성폼
+  // var apFormObj = document.querySelector("form#addApform");
+  //결재문서 종류
+  var apDocsTypeObj = $("select#documentTypeSelect option:selected").html();
+  //결재문서 제목
+  var apDocsTitleObj = document.querySelector("input#inputtitle");
+  //결재문서 내용
+  var apDocsContentObj = document.querySelector("div.note-editable");
+  console.log(apDocsContentObj);
+  //결재문서 작성 사원번호
+  // var apDocsEmpIdObj = localStorage.getItem("loginInfo");
+  //0단계 결재자 이름칸
+  var apZeroStepName = document.querySelector("td.apApprovalStepName0");
+  // var apZeroStepNumber = document.querySelector("td.zeroLine");
+  //1단계 결재자 이름칸
+  var apOneStepName = document.querySelector("td.apApprovalStepName1");
+  // var apOneStepNumber = document.querySelector("td.oneLine");
+  //2단계 결재자 이름칸
+  var apTwoStepName = document.querySelector("td.apApprovalStepName2");
+  // var apTwoStepNumber = document.querySelector("td.twoLine");
+  //3단계 결재자 이름칸
+  var apThreeStepName = document.querySelector("td.apApprovalStepName3");
+  // var apThreeStepNumber = document.querySelector("td.threeLine");
+  //합의자 이름칸
+  var apAgreementStepName = document.querySelector("td.apAgreementName");
+  //참조자 이름칸
+  var apReferenceStepName = document.querySelector("td.apReferenceName");
+
+  // var apLineId = [0, 1, 2, 3];
+  // var apLineEmpId = [
+  //   apZeroStepName.getAttribute("id"),
+  //   apOneStepName.getAttribute("id"),
+  //   apTwoStepName.getAttribute("id"),
+  //   apThreeStepName.getAttribute("id"),
+  // ];
+  var aglineEmpId;
+  var relineEmpId;
+
+  var backurlApAddDocs = "http://localhost:8888/gwback/approval/draft/";
+
+  function docFirst() {
+    // var apLineId = [0, 1, 2, 3];
+    var type = localStorage.getItem("templateType");
+    var apLineEmpId = [
+      apZeroStepName.getAttribute("id"),
+      apOneStepName.getAttribute("id"),
+      apTwoStepName.getAttribute("id"),
+      apThreeStepName.getAttribute("id"),
+    ];
+    var count = 0;
+    if (apZeroStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    if (apOneStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    if (apTwoStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    if (apThreeStepName.getAttribute("id") != null) {
+      count += 1;
+    }
+    var apLine = new Array();
+    //"approvals":[{"employee":{"employeeId":"DEV001"},"apStep":0},{"employee":{"employeeId":"DEV002"},"apStep":1}],
+    //"approvals\":[{\"employee\":{\"employeeId\":\"DEV001\"},\"apStep\":0},{\"employee\":{\"employeeId\":\"DEV002\"},\"apStep\":1}],
+    for (var i = 0; i < count; i++) {
+      apLine[i] = {
+        employee: { employeeId: apLineEmpId[i].trim() },
+        apStep: i,
+      };
+    }
+
+    var relineEmpId = apReferenceStepName.getAttribute("id");
+    aglineEmpId = apAgreementStepName.getAttribute("id");
+
+    // console.log(apDocsTypeObj);
+    // console.log(apDocsTitleObj.value);
+    // console.log(apDocsContentObj.innerText);
+    // console.log(loginInfoIdObj.innerText);
+    // console.log(apLine);
+    // console.log(aglineEmpId);
+    // console.log(relineEmpId);
+
+    // console.log($("select#documentTypeSelect option:selected").html());
+    $.ajax({
+      url: backurlApAddDocs + type,
+      method: "post",
+      contentType: "application/json",
+      data: JSON.stringify({
+        documentStatus: apDocsTypeObj.trim(),
+        documentTitle: apDocsTitleObj.value.trim(),
+        documentContent: apDocsContentObj.innerText.trim(),
+        employee: { employeeId: loginInfoIdObj.innerText.trim() },
+        approvals: apLine,
+        // addApLineStep: apLineId,
+        agreement: { employee: { employeeId: aglineEmpId.trim() } },
+        reference: { employee: { employeeId: relineEmpId.trim() } },
+      }),
+      success: function () {
+        alert("기안이 완료되었습니다.");
+        //메뉴 이동 시 변경 될 부분
+        var $content = $("div.wrapper>div.main>main.content");
+        // console.log($content);
+        // $("#apAllLink").click(function () {
+        var href = "approval-board.html";
+        // console.log("click 됨!");
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+        // });
+        // var $apMenuFirstDropDownAObj = $("a.apMenu");
+        // var $apMenuFirstDropDownItemObj = $("ul#docMenuFirst");
+        // var $docListDropDownMenuAObj = $("a.docListDropDownMenu");
+        // var $docListDropDownMenuItemObj = $("ul#docList");
+      },
+    });
+  }
+
+  function addApFormSubmitHandler(e) {
+    docFirst();
+  }
+
+  $apBtn.click(addApFormSubmitHandler);
+}

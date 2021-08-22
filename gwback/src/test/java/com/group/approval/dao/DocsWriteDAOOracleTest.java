@@ -18,6 +18,7 @@ import com.group.approval.dto.ApprovalStatus;
 import com.group.approval.dto.Document;
 import com.group.approval.dto.DocumentType;
 import com.group.approval.dto.Reference;
+import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
@@ -103,5 +104,20 @@ class DocsWriteDAOOracleTest {
 		int expectedMaxNum = 5;
 		assertEquals(expectedMaxNum, maxNum);
 		 
+	}
+	
+	@Test
+	void selectDeptTest() throws FindException{
+		List<Department> deptList = dao.selectDept();
+		int expectedDeptSize = 8;
+		assertEquals(expectedDeptSize, deptList.size());
+	}
+
+	@Test
+	void selectEmpByDeptTest() throws FindException{
+		String deptId = "DEV";
+		List<Employee> empList = dao.selectEmpByDept(deptId);
+		int expectedEmpSize = 4;
+		assertEquals(expectedEmpSize, empList.size());
 	}
 }

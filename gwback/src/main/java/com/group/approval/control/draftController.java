@@ -4,10 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,19 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group.approval.dto.Approval;
 import com.group.approval.dto.Document;
 import com.group.approval.service.DocsWriteService;
+import com.group.employee.dto.Department;
+import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.main.control.MainController;
 
 @RestController
-@RequestMapping("/approval/*")
+@RequestMapping("/approval/draft/*")
 public class draftController {
 	private Logger log = Logger.getLogger(MainController.class.getClass());
 
 	@Autowired
 	private DocsWriteService service;
 
-	@PostMapping(value = "/draft/{type}")
+	@PostMapping(value = "/{type}")
 	public Map<String, Object> draft(@PathVariable String type, @RequestBody Document d) {
 		Map<String, Object> map = new HashMap<>();
 		try {
@@ -50,9 +54,11 @@ public class draftController {
 			
 			System.out.println(d);
 			service.complete(d);
+			map.put("status", 1);
 		} catch (FindException | AddException e ) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			map.put("status", -1);
+			map.put("msg", e.getMessage());
 		}
 		return map;
 	}
@@ -79,5 +85,33 @@ public class draftController {
 			result = "" + docNum;
 		}
 		return result;
+	}
+	
+	@GetMapping("/apLine")
+	public Object showDept(){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			List<Department> deptList = service.deptList();
+			return deptList;
+		} catch (FindException e ) {
+			e.printStackTrace();
+			map.put("status", -1);
+			map.put("msg", e.getMessage());
+			return map;
+		}
+	}
+
+	@GetMapping(value="/apLine/{deptId}")
+	public Object showEmpByDept(@PathVariable String deptId){
+		Map<String, Object> map = new HashMap<>();
+		try {
+			List<Employee> empList = service.empList(deptId);
+			return empList;
+		} catch (FindException e ) {
+			e.printStackTrace();
+			map.put("status", -1);
+			map.put("msg", e.getMessage());
+			return map;
+		}
 	}
 }

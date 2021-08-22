@@ -1,7 +1,7 @@
 <!-- <!DOCTYPE html>
 <html lang="ko"> -->
-  <!-- <head> -->
-    <!-- <meta charset="utf-8" />
+<!-- <head> -->
+<!-- <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
@@ -20,93 +20,91 @@
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
     <title>앙큼개발그룹웨어 | AdminKit Demo</title> -->
-    <!-- <script src="js/app.js"></script>
+<!-- <script src="js/app.js"></script>
     <script src="jq/load-post-detail.js"></script> -->
-    <script src="jq/load-document-template.js"></script>
-    <!-- <link href="css/app.css" rel="stylesheet" /> -->
-    <style>
-      .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .modal_overlay {
-        background-color: rgba(0, 0, 0, 0.18);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-      }
-      .modal_content {
-        position: relative;
-        top: 0px;
-        background-color: white;
-        padding: 25px 0px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 10px;
-        width: 800px;
-        height: 800px;
-      }
-      .hidden {
-        display: none;
-      }
-      #content_box {
-        width: 300px;
-      }
-      .dropbtn {
-        background-color: #641f85;
-        color: white;
-        padding: 10px 16px 10px 16px;
-        margin-bottom: 10px;
-        font-size: 16px;
-        border: none;
-        border-radius: 0.3rem;
-      }
+<!-- <link href="css/app.css" rel="stylesheet" /> -->
+<style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal_overlay {
+    background-color: rgba(0, 0, 0, 0.18);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+  .modal_content {
+    position: relative;
+    top: 0px;
+    background-color: white;
+    padding: 25px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    width: 800px;
+    height: 800px;
+  }
+  .hidden {
+    display: none;
+  }
+  #content_box {
+    width: 300px;
+  }
+  .dropbtn {
+    background-color: #641f85;
+    color: white;
+    padding: 10px 16px 10px 16px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 0.3rem;
+  }
 
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #f1f1f1;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
 
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-      }
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
 
-      .dropdown-content a:hover {
-        background-color: #ddd;
-      }
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
 
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
 
-      .dropdown:hover .dropbtn {
-        background-color: #4d0d49;
-      }
-    </style>
-    <!-- <script src="jq/approval-draft-register.js"></script> -->
-  <!-- </head> -->
-  <!-- <body> -->
-    <!-- <div class="wrapper">
+  .dropdown:hover .dropbtn {
+    background-color: #4d0d49;
+  }
+</style>
+<!-- </head> -->
+<!-- <body> -->
+<!-- <div class="wrapper">
       <div class="main">
         <main class="content"> -->
-    <div class="container-fluid p-0">
-      <!-- <svg
+<div class="container-fluid p-0">
+  <!-- <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
@@ -120,508 +118,382 @@
               <path
                 d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
               ></path> -->
-      <!-- <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+  <!-- <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
             </svg> -->
-      <h1 class="fa feather-clipboard activity h3 mb-3">전자결재</h1>
-      <hr />
-      <div class="container-fluid p-0">
-        <div class="row">
-          <div class="col-lg-2"></div>
-          <div class="col-lg-8">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title font-weight-bolder">기본설정</h5>
-              </div>
-              <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="mb-3 col-md-6">
-                      <label class="form-label" for="document_select"
-                        >문서종류</label
-                      >
-                      <select
-                        class="documentTypeSelect"
-                        name="document_type"
-                        id="documentTypeSelect"
-                        style="width: 60%; border: 1px solid #ced4da"
-                      >
-                        <option value="#" selected>선택</option>
-                        <option value="SR">지출</option>
-                        <option value="CR">회람</option>
-                        <option value="BC">업무</option>
-                        <option value="AC">품의</option>
-                        <option value="LE">휴가</option>
-                        <option value="BC">연락</option>
-                      </select>
-                    </div>
-
-                    <!-- onchange="if(this.value) location.href=(this.value);" -->
-                    <div class="mb-3 col-md-6">
-                      <label
-                        class="form-label"
-                        for="inputWriter"
-                        style="margin-right: 20px"
-                        >작성자</label
-                      >
-                      <span id="docWriterLoginName"></span>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <div class="card">
-              <!-- <div class="card-header">
-                <h5 class="card-title mb-0 font-weight-bolder">결재선</h5>
-              </div> -->
-              <div class="card-body apLineCard">
-                <div class="row">
-                  <div class="mb-3 col-md-6">
-                    <label
-                      name="approvaldocs-title"
-                      class="form-label"
-                      for="document_select"
-                      style="margin-right: 20px"
-                      ><strong>결재선</strong></label
-                    >
-                    <button
-                      id="approvalSetting"
-                      type="button"
-                      class="btn btn-approvalsetting ml-3"
-                      style="display: none"
-                    >
-                      결재선 설정
-                    </button>
-                  </div>
-                </div>
-                <h5 class="card-title text-muted">
-                  문서 종류 선택 시 결재선이 노출됩니다
-                </h5>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-header postDetailCardHeader">
-                <h5 class="card-title mb-0 font-weight-bolder">상세입력</h5>
-              </div>
-              <div class="card-body apPostDetail">
-                <h5 class="card-title text-muted">
-                  문서 종류 선택 시 상세 입력이 노출됩니다
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-2"></div>
-        </div>
-      </div>
-    </div>
-    <!--결재선 설정 모달창 시작 -->
-    <!-- advice :modal div 의 클래스에 hidden을 추가, 제거함으로써 모달 효과를 낼 수 있습니다. -->
-    <div class="modal hidden" id="modalApprovalSetting">
-      <!-- advice : 화면 바깥을 클릭해도 꺼질 수 있도록 modal overlay를 설정했습니다. 관련 함수는 modalOutput.html에 존재합니다. -->
-      <div class="modal_overlay"></div>
-      <!-- advice: 내용은 여기에 담깁니다 -->
-      <div class="modal_content">
+  <h1 class="fa feather-clipboard activity h3 mb-3">전자결재</h1>
+  <hr />
+  <div class="container-fluid p-0">
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-8">
         <div class="card">
           <div class="card-header">
-            <h2 class="font-weight-bolder" style="color: #641f85">
-              결재선 설정
-            </h2>
+            <h5 class="card-title font-weight-bolder">기본설정</h5>
           </div>
-          <nav
-            class="navbar navbar-expand navbar-light navbar-bg"
-            id="apSearchStaffBar"
-          >
-            <form class="d-none d-sm-inline-block">
-              <div
-                class="input-group input-group-navbar"
-                id="searchApprovalBox"
-              >
-                <input
-                  type="text"
-                  id="searchApLinePart"
-                  onkeyup="filter()"
-                  placeholder="이름을 검색하세요."
-                  style="border: 1px solid #ced4da"
-                />
-                <button class="btn" type="button" id="searchApprovalBtn">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="feather feather-search align-middle"
+          <div class="card-body">
+            <form>
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label class="form-label" for="document_select"
+                    >문서종류</label
                   >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                </button>
+                  <select
+                    class="documentTypeSelect"
+                    name="document_type"
+                    id="documentTypeSelect"
+                    style="width: 60%; border: 1px solid #ced4da"
+                  >
+                    <option value="#" selected>선택</option>
+                    <option value="SR">지출</option>
+                    <option value="CR">회람</option>
+                    <option value="BC">업무</option>
+                    <option value="AC">품의</option>
+                    <option value="LE">휴가</option>
+                    <option value="BC">연락</option>
+                  </select>
+                </div>
+
+                <!-- onchange="if(this.value) location.href=(this.value);" -->
+                <div class="mb-3 col-md-6">
+                  <label
+                    class="form-label"
+                    for="inputWriter"
+                    style="margin-right: 20px"
+                    >작성자</label
+                  >
+                  <span id="docWriterLoginName"></span>
+                </div>
               </div>
             </form>
-          </nav>
-          <div class="card-body">
-            <!-- <form class="apLineSelectForm"> -->
-            <div class="container-fluid p-0">
-              <div class="row">
-                <!--사원목록 시작-->
-                <div class="col-4">
-                  <div class="card">
-                    <div class="card-header">
-                      <h5 class="font-weight-bolder card-title mb-0">
-                        사원목록
-                      </h5>
-                    </div>
-                    <div class="card-body" id="apLineCardbody">
-                      <div
-                        style="
-                          overflow-x: hidden;
-                          overflow-y: auto;
-                          width: 240px;
-                          height: 430px;
-                        "
-                      >
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineCeo"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          대표이사<span class="fa fa-sort-down"></span>
-                        </button>
-                        <table class="table mb-0" style="width: 200px">
-                          <tbody class="CEOTbody"></tbody>
-                        </table>
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineDev"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          기획개발실 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table
-                          class="table mb-0"
-                          id="devTable"
-                          style="width: 200px"
-                        >
-                          <tbody class="DEVTbody"></tbody>
-                        </table>
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineMsd"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          경영지원실 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table
-                          class="table mb-0"
-                          id="msdTable"
-                          style="width: 200px"
-                        >
-                          <tbody class="MSDTbody"></tbody>
-                        </table>
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineSvc"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          서비스운영실 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table class="table mb-0" style="width: 200px">
-                          <tbody class="SVCTbody"></tbody>
-                        </table>
+          </div>
+        </div>
 
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineIfr"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          인프라운영실 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table class="table mb-0" style="width: 200px">
-                          <tbody class="IFRTbody"></tbody>
-                        </table>
-
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineSal"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          영업부 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table class="table mb-0" style="width: 200px">
-                          <tbody class="SALTbody"></tbody>
-                        </table>
-                        <button
-                          type="button"
-                          class="btn btn-success text-left apLineBin"
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          사업부 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table class="table mb-0" style="width: 200px">
-                          <tbody class="BINTbody"></tbody>
-                        </table>
-                        <button
-                          type="button"
-                          class="
-                            btn btn-success
-                            text-left
-                            agreementBoxBtn
-                            apLineSec
-                          "
-                          style="width: 200px"
-                          id="agreementBoxBtn"
-                        >
-                          정보보안실 <span class="fa fa-sort-down"></span>
-                        </button>
-                        <table class="table mb-0" style="width: 200px">
-                          <tbody class="SECTbody"></tbody>
-                        </table>
-                      </div>
-                    </div>
-                    <!--사원목록끝-->
-                  </div>
-                </div>
-
-                <div class="col-2 text-center">
-                  <div
-                    class="btn-group btn-group-lg mb-3"
-                    role="group"
-                    aria-label="Large button group"
-                    style="margin-top: 130px"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-outline-primary"
-                      id="modalBtnApproval"
-                    >
-                      결재 >
-                    </button>
-                  </div>
-                  <br />
-                  <div
-                    class="btn-group btn-group-lg mb-3"
-                    role="group"
-                    aria-label="Large button group"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-outline-primary"
-                      id="modalBtnAgreement"
-                    >
-                      합의 >
-                    </button>
-                  </div>
-                  <br />
-                  <div
-                    class="btn-group btn-group-lg mb-3"
-                    role="group"
-                    aria-label="Large button group"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-outline-primary"
-                      id="modalBtnReference"
-                    >
-                      참조 >
-                    </button>
-                  </div>
-                  <br />
-                </div>
-
-                <div class="col-6">
-                  <div class="card-header">
-                    <h5 class="font-weight-bolder" class="card-title">
-                      결재순서
-                    </h5>
-                  </div>
-                  <div class="card">
-                    <div class="col-12">
-                      <div class="card">
-                        <table
-                          class="table table-striped table-hover table-bordered"
-                          id="approvalNameList"
-                        >
-                          <tbody>
-                            <tr>
-                              <td class="font-weight-bolder" style="width: 15%">
-                                0
-                              </td>
-                              <td style="width: 20%">결재</td>
-                              <td id="staffZero" style="width: 65%"></td>
-                            </tr>
-                            <tr>
-                              <td class="font-weight-bolder" tyle="width: 15%">
-                                1
-                              </td>
-                              <td style="width: 20%">결재</td>
-                              <td id="staffOne" style="width: 65%"></td>
-                            </tr>
-                            <tr>
-                              <td class="font-weight-bolder" style="width: 15%">
-                                2
-                              </td>
-                              <td style="width: 20%">결재</td>
-                              <td id="staffTwo" style="width: 65%"></td>
-                            </tr>
-                            <tr>
-                              <td class="font-weight-bolder" style="width: 15%">
-                                3
-                              </td>
-                              <td style="width: 20%">결재</td>
-                              <td id="staffThree" style="width: 65%"></td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                  <h5 class="card-title mb-0">합의</h5>
-                  <div
-                    class="border text-sm text-muted p-2 mt-1"
-                    id="agreementBox"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      id="agreementBoxBtn"
-                    ></button>
-                  </div>
-                  <h5 class="card-title mb-0" style="margin-top: 10px">참조</h5>
-                  <div
-                    class="border text-sm text-muted p-2 mt-1"
-                    id="referenceBox"
-                  >
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      id="referenceBoxBtn"
-                    ></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="mb-2 row">
-              <div style="margin: 10px 0; text-align: center; margin: 10px">
-                <button class="btn btn-outline-primary" id="apSettingSave">
-                  저장
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  id="apSettingCancel"
+        <div class="card">
+          <!-- <div class="card-header">
+                <h5 class="card-title mb-0 font-weight-bolder">결재선</h5>
+              </div> -->
+          <div class="card-body apLineCard">
+            <div class="row">
+              <div class="mb-3 col-md-6">
+                <label
+                  name="approvaldocs-title"
+                  class="form-label"
+                  for="document_select"
+                  style="margin-right: 20px"
+                  ><strong>결재선</strong></label
                 >
-                  취소
+                <button
+                  id="approvalSetting"
+                  type="button"
+                  class="btn btn-approvalsetting ml-3"
+                  style="display: none"
+                >
+                  결재선 설정
                 </button>
               </div>
             </div>
-            <!-- </form> -->
+            <h5 class="card-title text-muted">
+              문서 종류 선택 시 결재선이 노출됩니다
+            </h5>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header postDetailCardHeader">
+            <h5 class="card-title mb-0 font-weight-bolder">상세입력</h5>
+          </div>
+          <div class="card-body apPostDetail">
+            <h5 class="card-title text-muted">
+              문서 종류 선택 시 상세 입력이 노출됩니다
+            </h5>
           </div>
         </div>
       </div>
+      <div class="col-lg-2"></div>
     </div>
+  </div>
+</div>
+<!--결재선 설정 모달창 시작 -->
+<!-- advice :modal div 의 클래스에 hidden을 추가, 제거함으로써 모달 효과를 낼 수 있습니다. -->
+<div class="modal hidden" id="modalApprovalSetting">
+  <!-- advice : 화면 바깥을 클릭해도 꺼질 수 있도록 modal overlay를 설정했습니다. 관련 함수는 modalOutput.html에 존재합니다. -->
+  <div class="modal_overlay"></div>
+  <!-- advice: 내용은 여기에 담깁니다 -->
+  <div class="modal_content">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="font-weight-bolder" style="color: #641f85">결재선 설정</h2>
+      </div>
+      <nav
+        class="navbar navbar-expand navbar-light navbar-bg"
+        id="apSearchStaffBar"
+      >
+        <form class="d-none d-sm-inline-block">
+          <div class="input-group input-group-navbar" id="searchApprovalBox">
+            <input
+              type="text"
+              id="searchApLinePart"
+              onkeyup="filter()"
+              placeholder="이름을 검색하세요."
+              style="border: 1px solid #ced4da"
+            />
+            <button class="btn" type="button" id="searchApprovalBtn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-search align-middle"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </nav>
+      <div class="card-body">
+        <!-- <form class="apLineSelectForm"> -->
+        <div class="container-fluid p-0">
+          <div class="row">
+            <!--사원목록 시작-->
+            <div class="col-4">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="font-weight-bolder card-title mb-0">사원목록</h5>
+                </div>
+                <div class="card-body" id="apLineCardbody">
+                  <div
+                    style="
+                      overflow-x: hidden;
+                      overflow-y: auto;
+                      width: 240px;
+                      height: 430px;
+                    "
+                  ></div>
+                </div>
+              </div>
+            </div>
 
-    <!--결재선 설정 모달창 끝 -->
-    <script>
-      var docDraftWriterObj = document.querySelector("span#docWriterLoginName");
-      //현재 로그인한 사용자의 이름
-      var loginInfoNameObj = document.querySelector(
-        "div.profileDropdown span.loginName"
-      );
-      console.log(docDraftWriterObj);
-      console.log(loginInfoNameObj);
-      docDraftWriterObj.innerHTML = loginInfoNameObj.innerText;
+            <div class="col-2 text-center">
+              <div
+                class="btn-group btn-group-lg mb-3"
+                role="group"
+                aria-label="Large button group"
+                style="margin-top: 130px"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  id="modalBtnApproval"
+                >
+                  결재 >
+                </button>
+              </div>
+              <br />
+              <div
+                class="btn-group btn-group-lg mb-3"
+                role="group"
+                aria-label="Large button group"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  id="modalBtnAgreement"
+                >
+                  합의 >
+                </button>
+              </div>
+              <br />
+              <div
+                class="btn-group btn-group-lg mb-3"
+                role="group"
+                aria-label="Large button group"
+              >
+                <button
+                  type="button"
+                  class="btn btn-outline-primary"
+                  id="modalBtnReference"
+                >
+                  참조 >
+                </button>
+              </div>
+              <br />
+            </div>
 
-      var modal = document.getElementById("modalApprovalSetting");
-      var overlay = modal.querySelector("div.modal_overlay");
-      // console.log(overlay);
-      var openBtn = document.getElementById("approvalSetting");
-      // const saveBtn = modal.querySelector("button#apSettingSave");
-      var saveBtn = modal.querySelector("button#apSettingSave");
+            <div class="col-6">
+              <div class="card-header">
+                <h5 class="font-weight-bolder" class="card-title">결재순서</h5>
+              </div>
+              <div class="card">
+                <div class="col-12">
+                  <div class="card">
+                    <table
+                      class="table table-striped table-hover table-bordered"
+                      id="approvalNameList"
+                    >
+                      <tbody>
+                        <tr>
+                          <td class="font-weight-bolder" style="width: 15%">
+                            0
+                          </td>
+                          <td style="width: 20%">결재</td>
+                          <td id="staffZero" style="width: 65%"></td>
+                        </tr>
+                        <tr>
+                          <td class="font-weight-bolder" tyle="width: 15%">
+                            1
+                          </td>
+                          <td style="width: 20%">결재</td>
+                          <td id="staffOne" style="width: 65%"></td>
+                        </tr>
+                        <tr>
+                          <td class="font-weight-bolder" style="width: 15%">
+                            2
+                          </td>
+                          <td style="width: 20%">결재</td>
+                          <td id="staffTwo" style="width: 65%"></td>
+                        </tr>
+                        <tr>
+                          <td class="font-weight-bolder" style="width: 15%">
+                            3
+                          </td>
+                          <td style="width: 20%">결재</td>
+                          <td id="staffThree" style="width: 65%"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <h5 class="card-title mb-0">합의</h5>
+              <div class="border text-sm text-muted p-2 mt-1" id="agreementBox">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  id="agreementBoxBtn"
+                ></button>
+              </div>
+              <h5 class="card-title mb-0" style="margin-top: 10px">참조</h5>
+              <div class="border text-sm text-muted p-2 mt-1" id="referenceBox">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  id="referenceBoxBtn"
+                ></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div style="margin: 10px 0; text-align: center; margin: 10px">
+            <button class="btn btn-outline-primary" id="apSettingSave">
+              저장
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="apSettingCancel"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
+</div>
 
-      var cancelBtn = modal.querySelector("button#apSettingCancel");
+<!--결재선 설정 모달창 끝 -->
+<script>
+  var docDraftWriterObj = document.querySelector("span#docWriterLoginName");
+  //현재 로그인한 사용자의 이름
+  var loginInfoNameObj = document.querySelector(
+    "div.profileDropdown span.loginName"
+  );
+  // console.log(docDraftWriterObj);
+  // console.log(loginInfoNameObj);
+  docDraftWriterObj.innerHTML = loginInfoNameObj.innerText;
 
-      const openModal = () => {
-        modal.classList.remove("hidden");
-      };
+  var modal = document.getElementById("modalApprovalSetting");
+  var overlay = modal.querySelector("div.modal_overlay");
+  // console.log(overlay);
+  var openBtn = document.getElementById("approvalSetting");
+  // const saveBtn = modal.querySelector("button#apSettingSave");
+  var saveBtn = modal.querySelector("button#apSettingSave");
 
-      const cancelModal = () => {
-        modal.classList.add("hidden");
-      };
+  var cancelBtn = modal.querySelector("button#apSettingCancel");
 
-      const saveModal = () => {
-        window.confirm(
-          "현재 레이어에서 설정한대로 결재 순서가 결정됩니다. 마지막 결재자로 설정된 사용자가 마지막으로 결재하기 원한다면, 다시 한 번 확인해주세요. 계속하시겠습니까?"
-        );
-      };
+  const openModal = () => {
+    modal.classList.remove("hidden");
+  };
 
-      openBtn.addEventListener("click", openModal);
-      overlay.addEventListener("click", cancelModal);
+  const cancelModal = () => {
+    modal.classList.add("hidden");
+  };
 
-      saveBtn.addEventListener("click", saveModal);
-      cancelBtn.addEventListener("click", cancelModal);
+  const saveModal = () => {
+    window.confirm(
+      "현재 레이어에서 설정한대로 결재 순서가 결정됩니다. 마지막 결재자로 설정된 사용자가 마지막으로 결재하기 원한다면, 다시 한 번 확인해주세요. 계속하시겠습니까?"
+    );
+  };
 
-      //결재선 모달창 검색기능
-      function filter() {
-        let search = document
-          .getElementById("searchApLinePart")
-          .value.toLowerCase();
-        let listInner = document.getElementsByClassName("listInner");
+  openBtn.addEventListener("click", openModal);
+  overlay.addEventListener("click", cancelModal);
 
-        for (let i = 0; i < listInner.length; i++) {
-          city = listInner[i].getElementsByClassName("apStaffName");
-          if (city[0].innerHTML.toLowerCase().indexOf(search) != -1) {
-            listInner[i].style.display = "flex";
-          } else {
-            listInner[i].style.display = "none";
-          }
-        }
+  saveBtn.addEventListener("click", saveModal);
+  cancelBtn.addEventListener("click", cancelModal);
+
+  //결재선 모달창 검색기능
+  function filter() {
+    let search = document
+      .getElementById("searchApLinePart")
+      .value.toLowerCase();
+    let listInner = document.getElementsByClassName("listInner");
+
+    for (let i = 0; i < listInner.length; i++) {
+      city = listInner[i].getElementsByClassName("apStaffName");
+      if (city[0].innerHTML.toLowerCase().indexOf(search) != -1) {
+        listInner[i].style.display = "flex";
+      } else {
+        listInner[i].style.display = "none";
       }
-      //사원목록 테이블의 row클릭 시 해당 row 색 변경
-      function getNameForApLine(target) {
-        var cardbodyApLine = target.parentNode.parentNode.parentNode;
-        var trApLine = cardbodyApLine.getElementsByTagName("tr");
+    }
+  }
+  //사원목록 테이블의 row클릭 시 해당 row 색 변경
+  function getNameForApLine(target) {
+    var cardbodyApLine = target.parentNode.parentNode.parentNode;
+    var trApLine = cardbodyApLine.getElementsByTagName("tr");
 
-        var backColorApLine = "#ffffff";
-        var textColorApLine = "black";
-        var orgBColorApLine = "#8977ad";
-        var orgTColorApLine = "#ffffff";
+    var backColorApLine = "#ffffff";
+    var textColorApLine = "black";
+    var orgBColorApLine = "#8977ad";
+    var orgTColorApLine = "#ffffff";
 
-        for (var i = 0; i < trApLine.length; i++) {
-          if (trApLine[i] != target) {
-            trApLine[i].style.backgroundColor = backColorApLine;
-            trApLine[i].style.color = textColorApLine;
-          } else {
-            trApLine[i].style.backgroundColor = orgBColorApLine;
-            trApLine[i].style.color = orgTColorApLine;
-            var tdApLine = trApLine[i].getElementsByTagName("td");
-          }
-        }
+    for (var i = 0; i < trApLine.length; i++) {
+      if (trApLine[i] != target) {
+        trApLine[i].style.backgroundColor = backColorApLine;
+        trApLine[i].style.color = textColorApLine;
+      } else {
+        trApLine[i].style.backgroundColor = orgBColorApLine;
+        trApLine[i].style.color = orgTColorApLine;
+        var tdApLine = trApLine[i].getElementsByTagName("td");
       }
-    </script>
-    <!-- </main>
+    }
+  }
+</script>
+<!-- </main>
       </div>
     </div> -->
-
-    <script src="js/ceo-aplineemplist.js"></script>
-    <script src="js/msd-aplineemplist.js"></script>
-    <script src="js/dev-aplineemplist.js"></script>
-    <script src="js/svc-aplineemplist.js"></script>
-    <script src="js/ifr-aplineemplist.js"></script>
-    <script src="js/sal-aplineemplist.js"></script>
-    <script src="js/bin-aplineemplist.js"></script>
-    <script src="js/sec-aplineemplist.js"></script>
-    <script src="js/post-approvalline-modal.js"></script>
-  <!-- </body>
+<!-- <script  src="src/main.js"></script>  -->
+<script src="jq/load-draft-apLine-modal.js"></script>
+<script src="jq/load-draft-apLine.js"></script>
+<script src="jq/load-draft-template.js"></script>
+<!-- </body>
 </html> -->

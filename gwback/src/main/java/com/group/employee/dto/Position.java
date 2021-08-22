@@ -1,37 +1,37 @@
 package com.group.employee.dto;
 
 public class Position {
-	private int position_id;
-	private String position_title;
+	private int positionId;
+	private String positionTitle;
 	
 	public Position() {
 	}
 
-	public Position(int position_id, String position_title) {
+	public Position(int positionId, String positionTitle) {
 		super();
-		this.position_id = position_id;
-		this.position_title = position_title;
+		this.positionId = positionId;
+		this.positionTitle = positionTitle;
 	}
 
-	public int getPosition_id() {
-		return position_id;
+	public int getPositionId() {
+		return positionId;
 	}
 
-	public void setPosition_id(int position_id) {
-		this.position_id = position_id;
+	public void setPositionId(int positionId) {
+		this.positionId = positionId;
 	}
 
-	public String getPosition_title() {
-		return position_title;
+	public String getPositionTitle() {
+		return positionTitle;
 	}
 
-	public void setPosition_title(String position_title) {
-		this.position_title = position_title;
+	public void setPositionTitle(String positionTitle) {
+		this.positionTitle = positionTitle;
 	}
 
 	@Override
 	public String toString() {
-		return "Position [position_id=" + position_id + ", position_title=" + position_title + "]";
+		return "Position [positionId=" + positionId + ", positionTitle=" + positionTitle + "]";
 	}
 	
 	

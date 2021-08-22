@@ -38,28 +38,25 @@ var modalAgNameObj = modalAgObj.querySelector("button#agreementBoxBtn");
 var modalReObj = document.querySelector("div#referenceBox");
 var modalReNameObj = modalReObj.querySelector("button#referenceBoxBtn");
 
-var docApZeroNameObj = document.querySelector("td.apApprovalStepName0");
-var docApFirstNameObj = document.querySelector("td.apApprovalStepName1");
-var docApSecondNameObj = document.querySelector("td.apApprovalStepName2");
-var docApThirdNameObj = document.querySelector("td.apApprovalStepName3");
-var docAgNameObj = document.querySelector("td.apAgreementName");
-var docReNameObj = document.querySelector("td.apReferenceName");
-
 //현재 로그인한 사용자의 이름
 var loginInfoNameObj = document.querySelector(
   "div.profileDropdown span.loginName"
 );
 var loginInfoIdObj = document.querySelector("div.profileDropdown span.loginId");
+console.log(loginInfoIdObj);
 //모달창 내 사원 관련 table td 객체 모두 가져옴
 var apStaffName = document.querySelectorAll("div#apLineCardbody table td");
-console.log(apStaffName);
+// console.log(apStaffName);
 
 //모달창 내 form 객체 가져옴
 // var apSetApLineFormObj = document.querySelector("form.apLineSelectForm");
+
 var apSetApLineSaveBtnObj = document.querySelector("button#apSettingSave");
 //staffName 클릭 시 클릭 핸들러, localStorage의 값을 타겟의 innerText값(이름값)으로 설정
 function apStaffNameClickHandler(e) {
+  // console.log(e.target.id);
   localStorage.setItem("apLineName", e.target.innerText);
+  localStorage.setItem("apLineId", e.target.id);
 }
 
 //이벤트 적용
@@ -80,24 +77,51 @@ var apStep = 1;
 
 //로그인한 사원을 작성자로 보고 0번째 결재자를 자신의 이름으로 설정
 modalApStepNameArr[0].innerHTML = loginInfoNameObj.innerText;
-
+modalApStepNameArr[0].setAttribute("id", loginInfoIdObj.innerText);
+localStorage.setItem("apLineName", loginInfoNameObj.innerText);
+localStorage.setItem("apLineId", loginInfoIdObj.innerText);
 //결재 버튼 클릭 시 클릭핸들러
 //apLineName의 값이 undefined일때는 추가 x, apStep이 4여도 추가 x
 //apStep이 4미만이면서 사용자가 선택한 사원이 있는 경우에만 추가하고 apStep 증가
 function modalApBtnClickHandler() {
-  console.log(apStep);
+  var apChkBool = true;
   if (localStorage.getItem("apLineName") == undefined) {
     alert("선택한 사원이 없습니다");
   } else {
     if (apStep == 4) {
       alert("더이상 추가할 수 없습니다");
     } else {
-      modalApStepNameArr[apStep].innerHTML = localStorage.getItem("apLineName");
-      modalApStepNameArr[apStep].setAttribute(
-        "id",
-        localStorage.getItem("apLineId")
-      );
-      apStep += 1;
+      //결재, 합의 ,참조 테이블에 같은 사번의 사원이 추가되었는지 확인
+      for (var i = 0; i < apStep; i++) {
+        if (
+          modalApStepNameArr[i].getAttribute("id") ==
+          localStorage.getItem("apLineId")
+        ) {
+          apChkBool = false;
+        }
+      }
+      if (
+        modalAgNameObj.getAttribute("id") == localStorage.getItem("apLineId")
+      ) {
+        apChkBool = false;
+      }
+      if (
+        modalReNameObj.getAttribute("id") == localStorage.getItem("apLineId")
+      ) {
+        apChkBool = false;
+      }
+      //같은 사번의 사원이 없을 때 추가
+      if (apChkBool) {
+        modalApStepNameArr[apStep].innerHTML =
+          localStorage.getItem("apLineName");
+        modalApStepNameArr[apStep].setAttribute(
+          "id",
+          localStorage.getItem("apLineId")
+        );
+        apStep += 1;
+      } else {
+        alert("이미 선택된 사원입니다");
+      }
     }
   }
 }
@@ -106,14 +130,35 @@ function modalApBtnClickHandler() {
 //localStorage apLineName의 값이 undefined일때 추가 x
 //이미 해당 버튼 내에 이름이 있는 경우에 추가 x
 function modalAgBtnClickHandler() {
+  var agChkBool = true;
   if (localStorage.getItem("apLineName") == undefined) {
     alert("선택한 사원이 없습니다");
   } else {
-    if (modalAgNameObj.innerText == "") {
-      modalAgNameObj.innerText = localStorage.getItem("apLineName");
-      modalAgNameObj.setAttribute("id", localStorage.getItem("apLineId"));
+    //결재, 합의 ,참조 테이블에 같은 사번의 사원이 추가되었는지 확인
+    for (var i = 0; i < apStep; i++) {
+      if (
+        modalApStepNameArr[i].getAttribute("id") ==
+        localStorage.getItem("apLineId")
+      ) {
+        agChkBool = false;
+      }
+    }
+    if (modalAgNameObj.getAttribute("id") == localStorage.getItem("apLineId")) {
+      agChkBool = false;
+    }
+    if (modalReNameObj.getAttribute("id") == localStorage.getItem("apLineId")) {
+      agChkBool = false;
+    }
+    //같은 사번의 사원이 없을 때 추가
+    if (agChkBool) {
+      if (modalAgNameObj.innerText == "") {
+        modalAgNameObj.innerText = localStorage.getItem("apLineName");
+        modalAgNameObj.setAttribute("id", localStorage.getItem("apLineId"));
+      } else {
+        alert("이미 선택한 사원이 있습니다");
+      }
     } else {
-      alert("이미 선택한 사원이 있습니다");
+      alert("이미 선택된 사원입니다");
     }
   }
 }
@@ -122,14 +167,35 @@ function modalAgBtnClickHandler() {
 //localStorage apLineName의 값이 undefined일때 추가 x
 //이미 해당 버튼 내에 이름이 있는 경우에 추가 x
 function modalReBtnClickHandler() {
+  var reChkBool = true;
   if (localStorage.getItem("apLineName") == undefined) {
     alert("선택한 사원이 없습니다");
   } else {
-    if (modalReNameObj.innerText == "") {
-      modalReNameObj.innerText = localStorage.getItem("apLineName");
-      modalReNameObj.setAttribute("id", localStorage.getItem("apLineId"));
+    //결재, 합의 ,참조 테이블에 같은 사번의 사원이 추가되었는지 확인
+    for (var i = 0; i < apStep; i++) {
+      if (
+        modalApStepNameArr[i].getAttribute("id") ==
+        localStorage.getItem("apLineId")
+      ) {
+        reChkBool = false;
+      }
+    }
+    if (modalAgNameObj.getAttribute("id") == localStorage.getItem("apLineId")) {
+      reChkBool = false;
+    }
+    if (modalReNameObj.getAttribute("id") == localStorage.getItem("apLineId")) {
+      reChkBool = false;
+    }
+    //같은 사번의 사원이 없을 때 추가
+    if (reChkBool) {
+      if (modalReNameObj.innerText == "") {
+        modalReNameObj.innerText = localStorage.getItem("apLineName");
+        modalReNameObj.setAttribute("id", localStorage.getItem("apLineId"));
+      } else {
+        alert("이미 선택한 사원이 있습니다");
+      }
     } else {
-      alert("이미 선택한 사원이 있습니다");
+      alert("이미 선택된 사원입니다");
     }
   }
 }
@@ -137,6 +203,8 @@ function modalReBtnClickHandler() {
 //합의자 이름이 있는 버튼 클릭 시 클릭 핸들러
 //innerText를 초기화해줌
 function modalAgNameBtnClickHandler() {
+  console.log(modalAgNameObj);
+  modalAgNameObj.removeAttribute("id");
   modalAgNameObj.innerText = "";
 }
 
@@ -144,32 +212,7 @@ function modalAgNameBtnClickHandler() {
 //innerText를 초기화해줌
 function modalReNameBtnClickHandler() {
   modalReNameObj.innerText = "";
-}
-
-function modalSetApLineSubmitHandler() {
-  modalApLineSettingObj.classList.add("hidden");
-  docApZeroNameObj.innerText = "";
-  docApFirstNameObj.innerText = "";
-  docApSecondNameObj.innerText = "";
-  docApThirdNameObj.innerText = "";
-  docAgNameObj.innerText = "";
-  docReNameObj.innerText = "";
-
-  docApZeroNameObj.innerText = modalApZeroNameObj.innerText;
-  docApZeroNameObj.setAttribute("id", loginInfoIdObj.innerText);
-  docApFirstNameObj.innerText = modalApFirstNameObj.innerText;
-  docApFirstNameObj.setAttribute("id", modalApFirstNameObj.getAttribute("id"));
-  docApSecondNameObj.innerText = modalApSecondNameObj.innerText;
-  docApSecondNameObj.setAttribute(
-    "id",
-    modalApSecondNameObj.getAttribute("id")
-  );
-  docApThirdNameObj.innerText = modalApThirdNameObj.innerText;
-  docApThirdNameObj.setAttribute("id", modalApThirdNameObj.getAttribute("id"));
-  docAgNameObj.innerText = modalAgNameObj.innerText;
-  docAgNameObj.setAttribute("id", modalAgNameObj.getAttribute("id"));
-  docReNameObj.innerText = modalReNameObj.innerText;
-  docReNameObj.setAttribute("id", modalReNameObj.getAttribute("id"));
+  modalReNameObj.removeAttribute("id");
 }
 
 //합의, 참조자 이름 있는 버튼 클릭 핸들러 addEvent
@@ -180,5 +223,3 @@ modalReNameObj.addEventListener("click", modalReNameBtnClickHandler);
 modalApBtnObj.addEventListener("click", modalApBtnClickHandler);
 modalAgBtnObj.addEventListener("click", modalAgBtnClickHandler);
 modalReBtnObj.addEventListener("click", modalReBtnClickHandler);
-
-apSetApLineSaveBtnObj.addEventListener("click", modalSetApLineSubmitHandler);

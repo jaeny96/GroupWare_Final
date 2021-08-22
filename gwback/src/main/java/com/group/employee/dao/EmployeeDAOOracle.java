@@ -47,7 +47,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				emp.setDepartment(d);
 				
 				Position p = new Position();
-				p.setPosition_title(rs.getString("position_title"));
+				p.setPositionTitle(rs.getString("position_title"));
 				emp.setPosition(p);
 				
 				Job j = new Job();
@@ -100,7 +100,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				emp.setDepartment(d);
 				
 				Position p = new Position();
-				p.setPosition_title(rs.getString("position_title"));
+				p.setPositionTitle(rs.getString("position_title"));
 				emp.setPosition(p);
 				
 				Job j = new Job();
@@ -155,7 +155,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				emp.setDepartment(d);
 				
 				Position p = new Position();
-				p.setPosition_title(rs.getString("position_title"));
+				p.setPositionTitle(rs.getString("position_title"));
 				emp.setPosition(p);
 				
 				Job j = new Job();
@@ -210,7 +210,7 @@ public class EmployeeDAOOracle implements EmployeeDAO {
 				clickEmp.setDepartment(d);
 				
 				Position p = new Position();
-				p.setPosition_title(rs.getString("position_title"));
+				p.setPositionTitle(rs.getString("position_title"));
 				clickEmp.setPosition(p);
 				
 				Job j = new Job();
