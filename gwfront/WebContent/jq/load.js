@@ -397,7 +397,7 @@ $(function () {
   //메뉴 객체 클릭 이벤트 발생 시
   $menuObj.click(function (e) {
     //sidebar-item 활성화 모두 풀기(없애기)
-    $menuObj.closest("li").attr("class", "sidebar-item");
+    $menuObj.closest("li").attr("class", "sidebar-item mb-2");
     //클릭된현재객체의 href속성값 얻기 : .attr('href');
     var href = $(this).attr("href");
 
@@ -408,7 +408,7 @@ $(function () {
       case "employee.html":
       case "mypage.html":
         //클릭한 객체의 sidebar-item만 활성화 시키기
-        $(this).closest("li").attr("class", "sidebar-item active");
+        $(this).closest("li").attr("class", "sidebar-item mb-2 active");
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -421,7 +421,7 @@ $(function () {
   //작성하기 메뉴 클릭 이벤트
   $apMenuObj.click(function (e) {
     //sidebar-item 활성화 모두 풀기
-    $apMenuObj.closest("li").attr("class", "sidebar-item");
+    $apMenuObj.closest("li").attr("class", "sidebar-item mb-2");
     //클릭된현재객체의 href속성값 얻기 : .attr('href');
     var href = $(this).attr("href");
 
@@ -435,7 +435,7 @@ $(function () {
         // case "post-detail-contact.html":
         //클릭한 객체의 sidebar-item만 활성화 시키기
         // if (href == "post.html") {
-        $(this).closest("li").attr("class", "sidebar-item active");
+        $(this).closest("li").attr("class", "sidebar-item mb-2 active");
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -463,7 +463,7 @@ $(function () {
 
   //전자결재 문서함 메뉴 클릭 이벤트
   $apDocMenuObj.click(function (e) {
-    $apDocMenuObj.closest("li").attr("class", "sidebar-item");
+    $apDocMenuObj.closest("li").attr("class", "sidebar-item mb-2");
     //클릭된현재객체의 href속성값 얻기 : .attr('href');
     var href = $(this).attr("href");
 
@@ -473,7 +473,7 @@ $(function () {
       case "approval-board-ok.html":
       case "approval-board-no.html":
         //클릭한 객체의 sidebar-item만 활성화 시키기
-        $(this).closest("li").attr("class", "sidebar-item active");
+        $(this).closest("li").attr("class", "sidebar-item mb-2 active");
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);

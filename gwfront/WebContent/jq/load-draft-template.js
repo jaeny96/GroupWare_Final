@@ -466,6 +466,9 @@ function ACTemplate(target) {
 }
 
 function insertApLineTable() {
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
   //모달창 객체 가져옴
   var modalApLineSettingObj = document.querySelector(
     "div#modalApprovalSetting"
@@ -601,60 +604,41 @@ $(function () {
   });
 });
 
+//----기안 관련 js 시작----
 function draft() {
-  //----기안 관련 js 시작----
-
   var loginInfoIdObj = document.querySelector(
     "div.profileDropdown span.loginId"
   );
   var loginInfoNameObj = document.querySelector(
     "div.profileDropdown span.loginName"
   );
-  //기안1
+  //기안
   var $apBtn = $("button#draftComplete");
-  console.log($apBtn);
-  //결재문서 작성폼
-  // var apFormObj = document.querySelector("form#addApform");
   //결재문서 종류
   var apDocsTypeObj = $("select#documentTypeSelect option:selected").html();
   //결재문서 제목
   var apDocsTitleObj = document.querySelector("input#inputtitle");
   //결재문서 내용
   var apDocsContentObj = document.querySelector("div.note-editable");
-  console.log(apDocsContentObj);
-  //결재문서 작성 사원번호
-  // var apDocsEmpIdObj = localStorage.getItem("loginInfo");
   //0단계 결재자 이름칸
   var apZeroStepName = document.querySelector("td.apApprovalStepName0");
-  // var apZeroStepNumber = document.querySelector("td.zeroLine");
   //1단계 결재자 이름칸
   var apOneStepName = document.querySelector("td.apApprovalStepName1");
-  // var apOneStepNumber = document.querySelector("td.oneLine");
   //2단계 결재자 이름칸
   var apTwoStepName = document.querySelector("td.apApprovalStepName2");
-  // var apTwoStepNumber = document.querySelector("td.twoLine");
   //3단계 결재자 이름칸
   var apThreeStepName = document.querySelector("td.apApprovalStepName3");
-  // var apThreeStepNumber = document.querySelector("td.threeLine");
   //합의자 이름칸
   var apAgreementStepName = document.querySelector("td.apAgreementName");
   //참조자 이름칸
   var apReferenceStepName = document.querySelector("td.apReferenceName");
 
-  // var apLineId = [0, 1, 2, 3];
-  // var apLineEmpId = [
-  //   apZeroStepName.getAttribute("id"),
-  //   apOneStepName.getAttribute("id"),
-  //   apTwoStepName.getAttribute("id"),
-  //   apThreeStepName.getAttribute("id"),
-  // ];
   var aglineEmpId;
   var relineEmpId;
 
   var backurlApAddDocs = "http://localhost:8888/gwback/approval/draft/";
 
   function docFirst() {
-    // var apLineId = [0, 1, 2, 3];
     var type = localStorage.getItem("templateType");
     var apLineEmpId = [
       apZeroStepName.getAttribute("id"),
@@ -676,8 +660,6 @@ function draft() {
       count += 1;
     }
     var apLine = new Array();
-    //"approvals":[{"employee":{"employeeId":"DEV001"},"apStep":0},{"employee":{"employeeId":"DEV002"},"apStep":1}],
-    //"approvals\":[{\"employee\":{\"employeeId\":\"DEV001\"},\"apStep\":0},{\"employee\":{\"employeeId\":\"DEV002\"},\"apStep\":1}],
     for (var i = 0; i < count; i++) {
       apLine[i] = {
         employee: { employeeId: apLineEmpId[i].trim() },
@@ -685,51 +667,50 @@ function draft() {
       };
     }
 
-    var relineEmpId = apReferenceStepName.getAttribute("id");
+    relineEmpId = apReferenceStepName.getAttribute("id");
     aglineEmpId = apAgreementStepName.getAttribute("id");
 
-    // console.log(apDocsTypeObj);
-    // console.log(apDocsTitleObj.value);
-    // console.log(apDocsContentObj.innerText);
-    // console.log(loginInfoIdObj.innerText);
-    // console.log(apLine);
-    // console.log(aglineEmpId);
-    // console.log(relineEmpId);
+    if (apLineEmpId[0] != undefined && apLineEmpId[0] != "") {
+      if (apDocsTitleObj.value != undefined && apDocsTitleObj.value != "") {
+        $.ajax({
+          url: backurlApAddDocs + type,
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({
+            documentStatus: apDocsTypeObj.trim(),
+            documentTitle: apDocsTitleObj.value.trim(),
+            documentContent: apDocsContentObj.innerText.trim(),
+            employee: { employeeId: loginInfoIdObj.innerText.trim() },
+            approvals: apLine,
+            agreement: { employee: { employeeId: aglineEmpId.trim() } },
+            reference: { employee: { employeeId: relineEmpId.trim() } },
+          }),
+          success: function () {
+            alert("기안이 완료되었습니다.");
+            //메뉴 이동 시 변경 될 부분
+            var $content = $("div.wrapper>div.main>main.content");
+            var href = "approval-board.html";
 
-    // console.log($("select#documentTypeSelect option:selected").html());
-    $.ajax({
-      url: backurlApAddDocs + type,
-      method: "post",
-      contentType: "application/json",
-      data: JSON.stringify({
-        documentStatus: apDocsTypeObj.trim(),
-        documentTitle: apDocsTitleObj.value.trim(),
-        documentContent: apDocsContentObj.innerText.trim(),
-        employee: { employeeId: loginInfoIdObj.innerText.trim() },
-        approvals: apLine,
-        // addApLineStep: apLineId,
-        agreement: { employee: { employeeId: aglineEmpId.trim() } },
-        reference: { employee: { employeeId: relineEmpId.trim() } },
-      }),
-      success: function () {
-        alert("기안이 완료되었습니다.");
-        //메뉴 이동 시 변경 될 부분
-        var $content = $("div.wrapper>div.main>main.content");
-        // console.log($content);
-        // $("#apAllLink").click(function () {
-        var href = "approval-board.html";
-        // console.log("click 됨!");
-        $content.load(href, function (responseTxt, statusTxt, xhr) {
-          if (statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
+            $("ul#docMenuFirst a")
+              .closest("li")
+              .attr("class", "sidebar-item mb-2");
+            $("ul#docList").attr("style", "display:block");
+            $("ul#docList > li:nth-child(1)").attr(
+              "class",
+              "sidebar-item mb-2 active"
+            );
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+          },
         });
-        // });
-        // var $apMenuFirstDropDownAObj = $("a.apMenu");
-        // var $apMenuFirstDropDownItemObj = $("ul#docMenuFirst");
-        // var $docListDropDownMenuAObj = $("a.docListDropDownMenu");
-        // var $docListDropDownMenuItemObj = $("ul#docList");
-      },
-    });
+      } else {
+        alert("제목이 입력되지 않았습니다");
+      }
+    } else {
+      alert("결재선이 지정되지 않았습니다");
+    }
   }
 
   function addApFormSubmitHandler(e) {

@@ -121,10 +121,15 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 				}
 			}
 			if (d.getAgreement() != null) {
-				draftAg(session, d.getAgreement());
+				if (!"agreementBoxBtn".equals(d.getAgreement().getEmployee().getEmployeeId())) {
+
+					draftAg(session, d.getAgreement());
+				}
 			}
 			if (d.getReference() != null) {
-				draftRe(session, d.getReference());
+				if (!"referenceBoxBtn".equals(d.getReference().getEmployee().getEmployeeId())) {
+					draftRe(session, d.getReference());
+				}
 			}
 		} catch (Exception e) {
 			session.rollback(); // 롤백

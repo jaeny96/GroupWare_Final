@@ -27,7 +27,7 @@ import com.group.main.control.MainController;
 
 @RestController
 @RequestMapping("/approval/draft/*")
-public class draftController {
+public class DraftController {
 	private Logger log = Logger.getLogger(MainController.class.getClass());
 
 	@Autowired

@@ -1,5 +1,4 @@
 localStorage.removeItem("apLineName");
-
 //모달창 객체 가져옴
 var modalApLineSettingObj = document.querySelector("div#modalApprovalSetting");
 //모달창 내 결재 버튼 객체 가져옴

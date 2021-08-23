@@ -11877,6 +11877,7 @@ body {
   margin-bottom: 0;
   list-style: none;
   flex-grow: 1;
+  font-size: 1.15em;
 }
 .sidebar-link,
 a.sidebar-link {
@@ -11930,7 +11931,7 @@ a.sidebar-link svg {
 .sidebar-dropdown .sidebar-link {
   padding: 0.625rem 1.5rem 0.625rem 3.25rem;
   font-weight: 400;
-  font-size: 90%;
+  /* font-size: 90%; */
   border-left: 0;
   color: #adb5bd;
   background: transparent;

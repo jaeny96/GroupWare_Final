@@ -430,15 +430,15 @@
 
   var cancelBtn = modal.querySelector("button#apSettingCancel");
 
-  const openModal = () => {
+  var openModal = () => {
     modal.classList.remove("hidden");
   };
 
-  const cancelModal = () => {
+  var cancelModal = () => {
     modal.classList.add("hidden");
   };
 
-  const saveModal = () => {
+  var saveModal = () => {
     window.confirm(
       "현재 레이어에서 설정한대로 결재 순서가 결정됩니다. 마지막 결재자로 설정된 사용자가 마지막으로 결재하기 원한다면, 다시 한 번 확인해주세요. 계속하시겠습니까?"
     );

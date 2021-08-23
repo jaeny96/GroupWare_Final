@@ -1,16 +1,14 @@
-//부서 아이디 -- 임의의 데이터
-// var deptId = ["CEO", "DEV"];
+//부서 아이디
 var deptId = new Array();
-//부서 이름 -- 임의의 데이터
-// var deptName = ["대표이사", "기획개발실"];
+//부서 이름
 var deptName = new Array();
 //부서 Obj 내 추가할 buttonClass 명
 var buttonClassName = new Array();
 //부서 Obj 내 추가할 tbodyClass 명
 var tBodyClassName = new Array();
-
+//해당 사원이름 붙일 테이블 명
 var tableTarget = new Array();
-
+//부서별 사원 조회할 backurl
 var backurlEmp = new Array();
 
 function setClassName(i, value) {
@@ -49,7 +47,6 @@ var apLineStaffDept = new Array();
 var tbody = document.querySelector(".CEOTbody");
 
 function apStaffNameClickHandler(e) {
-  //   alert(e.target);
   localStorage.setItem("apLineName", e.target.innerText);
   localStorage.setItem("apLineId", e.target.id);
 }
@@ -113,13 +110,10 @@ function showEmpByDept(url) {
       tableTarget = [];
       //스태프 부서번호
       $(responseData).each(function (i, e) {
-        console.log(e);
         apLineStaffName[i] = e.name;
         apLineStaffId[i] = e.employeeId;
         apLineStaffDept[i] = e.department.departmentId;
       });
-      // console.log(apListStaffDept);
-      //div#apLineCardbody>div>table>tbody." + deptId[i] + "Tbody"
 
       for (var j = 0; j < apLineStaffDept.length; j++) {
         tableTarget[j] = $(
