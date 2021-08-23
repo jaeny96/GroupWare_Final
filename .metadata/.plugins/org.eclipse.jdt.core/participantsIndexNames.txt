@@ -1,3 +1,0 @@
-INDEX VERSION 1.131
-C:\Users\JISU\Desktop\JAVAW_OJS\GroupWare_Final\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3821620441.index
-\gwback\src\main\java
