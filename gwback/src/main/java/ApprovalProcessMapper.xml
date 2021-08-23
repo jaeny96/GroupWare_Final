@@ -3,24 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group.approval.ApprovalProcessMapper">
-<!-- 결재선 부서관련 검색 -->
-<select id="searchByDep" resultType="employee">
-SELECT e.name, e.employee_id, d.department_id "department.departmentId", d.department_title "department.departmentTitle"
-FROM department d JOIN employee e ON d.department_id = e.department_id
-JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id
-WHERE d.department_title=#{depTitle} AND enabled=1 ORDER BY p.position_id, employee_id
-</select>
-<!-- 전체 결재선 검색  -->
-<select id="searchApLine" resultType="employee">
-SELECT e.name, d.department_title "department.departmentId"FROM department d
-JOIN employee e ON d.department_id = e.department_id
-JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id
-WHERE enabled=1
-ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id
-</select>
 <!-- 참조자는 참조를 승인한다 --> 
-<update id="updateRe" parameterType="java.util.HashMap">
-UPDATE reference SET ap_type='승인' WHERE document_no=#{docsNo} AND employee_id=#{docsId}
+<update id="updateRe" parameterType="reference">
+UPDATE reference SET ap_type='승인' WHERE document_no=#{documentNo} AND employee_id=#{employee.employeeId}
 </update>
 <!-- 결재 승인처리 + 코멘트를 남긴다 -->
 <update id="updateAp" parameterType="approval">
@@ -29,7 +14,15 @@ WHERE document_no=#{documentNo} and employee_id=#{employee.employeeId}
 </update>
 <!-- 합의 승인처리 + 코멘트를 남긴다-->
 <update id="updateAg" parameterType="agreement">
-UPDATE agreement SET ap_type=#{apStatus.apType}, ap_date=SYSTIMESTAMP, ap_comment=#{apComment}
+UPDATE agreement SET ap_type=#{agStatus.apType}, ap_date=SYSTIMESTAMP, ap_comment=#{apComment}
 WHERE document_no=#{documentNo} and employee_id=#{employee.employeeId}
 </update>
+<!-- 합의 프로시저 -->
+<select id="audmitProcedure" statementType="CALLABLE"  parameterType="java.util.HashMap">
+{call AUDMIT(#{docsNo},#{id})}
+</select>
+<!-- 반려 프로시저 -->
+<select id="refuseProcedure" statementType="CALLABLE"  parameterType="java.util.HashMap">
+{call REFUSE(#{docsNo},#{id})}
+</select>
 </mapper>

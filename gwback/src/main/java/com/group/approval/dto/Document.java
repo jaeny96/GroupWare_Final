@@ -66,6 +66,14 @@ public class Document {
 		return state;
 	}
 
+	public Approval getApproval() {
+		return approval;
+	}
+
+	public void setApproval(Approval approval) {
+		this.approval = approval;
+	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
@@ -134,13 +142,7 @@ public class Document {
 		this.reference = reference;
 	}
 
-	public Approval getApproval() {
-		return approval;
-	}
-
-	public void setApproval(Approval approval) {
-		this.approval = approval;
-	}
+	
 
 	public List<Approval> getApprovals() {
 		return approvals;
@@ -155,7 +157,17 @@ public class Document {
 		return "Document [state=" + state + ", documentNo=" + documentNo + ", documentTitle="
 				+ documentTitle + ", documentContent=" + documentContent + ", draftDate=" + draftDate
 				+ ", documentStatus=" + documentStatus + ", employee=" + employee + ", agreement=" + agreement
-				+ ", reference=" + reference + ", approval=" + approval + ", approvals=" + approvals + "]";
+				+ ", reference=" + reference +"approval="+approval+ ", approvals=" + approvals + "]";
+	}
+
+
+
+
+
+
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

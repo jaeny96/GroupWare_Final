@@ -81,30 +81,6 @@ public class ConfirmDocsService {
    public List<Document> findMySearch(String id,String searchType,String search) throws SearchException{
 	   return dao.selectBySearchAll(id, searchType, search);   
    }
-//   
-//   /**6.
-//    * 문서에 대해 내용으로 검색할 수 있다.
-//    * @param id 로그인한 사용자 id
-//    * @param content 내용 검색시 입력값
-//    * @param 사이드바 전체 / 대기 / 승인 / 반려 값
-//    * @return 사용자가 입력한 검색어에 일치하는 목록 
-//    * @throws FindException
-//    * @throws SearchException 
-//    */ 
-//   public List<Document> findMySearchContent(String id,String content,String status) throws FindException, SearchException{
-//      List<Document> lists=null;
-//      if(status.equals("")) {
-//         lists=dao.selectBySearchContent(id, content);
-//      }else if(status.equals("대기")){
-//         lists=dao.selectBySearchContentWait(id, content);
-//      }else if(status.equals("승인")){
-//         lists=dao.selectBySearchContentOk(id, content);
-//      }else if(status.equals("반려")) {
-//         lists=dao.selectBySearchContentNo(id, content);
-//      }
-//      return lists;
-//   }
-//   
- 
+
 
 }

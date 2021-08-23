@@ -68,7 +68,19 @@ public class ConfirmDocsController {
 		return list;	
 	}
 	//결재 문서 상세 내용 확인
-	
+	@GetMapping(value={"/docsdetail/{docsNo}"})
+	public Document selecDocsDetail(@PathVariable (name="docsNo") Optional<String> optDocsNo) {
+		//List<Document> list=new ArrayList<Document>();
+		Document list=new Document();
+		try {
+			if(optDocsNo.isPresent()) {
+				list =service.findDocsDetail(optDocsNo.get());
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}		
+		return list;	
+	}
 	
 	
 	//코멘트 내용 확인

@@ -54,30 +54,32 @@ class ConfirmDocsDAOTest {
 //	}
 //	
 
-//	@Test
-//	void testSelectByDocsDetail() throws FindException {
-//		log.error("testSelectByNo메서드호출 error");
-//		String docsNo="LE-휴가-20210624-0001";
-//		Document d = dao.selectByDocsDetail(docsNo);//DB검색 결과
-//		List<Approval> apps = d.getApprovals();
-//		int expectedAppsSize = 4;
-//		assertTrue(expectedAppsSize==apps.size());
-//		
-//		for(Approval ap: apps) {
-//		Employee id = new Employee();
-//		id.setEmployeeId(ap.getEmployee().getEmployeeId());
-//		String apId =id.getEmployeeId();
-//		String apName =ap.getEmployee().getName();
-//		String apType=ap.getApStatus().getApType();
-//		int apStep = ap.getApStep();
-//		Date apDate = ap.getApDate();
-//		//자동 매핑되려면 기본 db의 컬럼값과 같게해야된다
-//		//collection-> assertion은  has-a관계설정
-//		//봐야할 것 !! dto수정하기 
-//		System.out.println(apId+"/"+apName+"/"+apType+"/"+apStep+"/"+apDate);
-//		}
-//		
-//	}
+	@Test
+	void testSelectByDocsDetail() throws FindException {
+		log.error("testSelectByNo메서드호출 error");
+		String docsNo="LE-휴가-20210624-0001";
+		
+		
+		Document d = dao.selectByDocsDetail(docsNo);//DB검색 결과
+		System.out.println(d);
+		List<Approval> apps = d.getApprovals();
+		int expectedAppsSize = 4;
+		assertTrue(expectedAppsSize==apps.size());
+		
+		for(Approval ap: apps) {
+		Employee id = new Employee();
+		String apId =id.getEmployeeId();
+		String apName =ap.getEmployee().getName();
+		String apType=ap.getApStatus().getApType();
+		int apStep = ap.getApStep();
+		Date apDate = ap.getApDate();
+		//자동 매핑되려면 기본 db의 컬럼값과 같게해야된다
+		//collection-> assertion은  has-a관계설정
+		//봐야할 것 !! dto수정하기 
+		System.out.println(apId+"/"+apName+"/"+apType+"/"+apStep+"/"+apDate);
+		}
+		
+	}
 //	
 //	@Test
 //	void testSelectByComments() throws FindException {
@@ -90,13 +92,13 @@ class ConfirmDocsDAOTest {
 //	
 
 	
-	@Test
-	void testSelectBySearch() throws SearchException {
-		log.error("testSelectBySearch메서드호출 error");
-		//id,status,search
-		String id = "DEV001";
-		List<Document> list = dao.selectBySearchAll(id,"content","휴가");//DB검색 결과
-		System.out.println(id+"의 검색값 : "+ list);
-		System.out.println(list.size());
-	}
+//	@Test
+//	void testSelectBySearch() throws SearchException {
+//		log.error("testSelectBySearch메서드호출 error");
+//		//id,status,search
+//		String id = "DEV001";
+//		List<Document> list = dao.selectBySearchAll(id,"content","휴가");//DB검색 결과
+//		System.out.println(id+"의 검색값 : "+ list);
+//		System.out.println(list.size());
+//	}
 }

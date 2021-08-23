@@ -4,43 +4,57 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.group.approval.ApprovalConfirmMapper">
 <resultMap type="document" id="documentMap" autoMapping="true">
-     <id  column="document_no"  property="documentNo"/>
-     <result column="document_title" property="documentTitle"/>
-     <result column="document_content" property="documentContent"/>
-     <result column="draft_date" property="draftDate"/>
-     <association property="documentStatus" javaType="DocumentType" autoMapping="true">
-   		<id  column="document_type"  property="documentType"/>	
+    <id column="document_no" property="documentNo"/>
+	<association property="employee" javaType="Employee">
+		 <result column="e.id" property="employeeId"/>
+		  <result column="e.name" property="name"/>
+		<association property="department" javaType="Department">
+		     	<result column="ed.department_title" property="departmentTitle"/>
+		     </association>
+		</association> 
+     <association property="documentStatus" javaType="DocumentType" >
+   		<result  column="d.document_type"  property="documentType"/>  		
      </association>
-	<association property="reference" javaType="Reference" autoMapping="true">
-		<id property="documentNo" column="document_no"/>
-		<association property="reStatus"  javaType="ApprovalStatus" autoMapping="true">
-			<id property="apType" column="ap_type"/>
+	<association property="reference" javaType="Reference" >	
+		<association property="reStatus"  javaType="ApprovalStatus">
+		  <result column="r.ap_type" property="apType"/>
 		</association>
- 		<association property="employee" javaType="Employee" autoMapping="true">
-		     <result property="employeeId" column="employee_id"/>
-	 	 <result property="name" column="name"/>
+ 		<association property="employee" javaType="Employee" >
+		  <result column="re.name" property="name"/>
 		</association> 
 	</association>
-		<collection property="approvals" ofType="Approval" autoMapping="true">
-	   <association property="employee" javaType="Employee" autoMapping="true">
-	     <result property="employeeId" column="employee_id"/>
-	 	 <result property="name" column="name"/>
+	<association property="agreement" javaType="Agreement" >
+		<result column="ag.ap_date" property="apDate"/>
+		<association property="agStatus" javaType="ApprovalStatus">
+	   	  <result  column="ag.ap_type"  property="apType"/>
 	   </association>
-	   <association property="apStatus" javaType="ApprovalStatus" autoMapping="true"></association>
+		<association property="employee" javaType="Employee" >
+	     <result  column="age.name"  property="name"/>
+	   </association>
+	</association>
+	 <collection property="approvals" ofType="Approval" >
+		<result  column="ap.ap_step"  property="apStep"/>
+		<result  column="ap.ap_date"  property="apDate"/>
+	  <association property="employee" javaType="Employee" >
+	     <result  column="ape.name"  property="name"/>
+	   </association>
+	   <association property="apStatus" javaType="ApprovalStatus" >
+	   	  <result  column="ap.ap_type"  property="apType"/>
+	   </association>
 	</collection>
 </resultMap>  
+
 
 <!-- 결재선 상세 -->
 <select id="selectByDocsDetail" resultMap="documentMap">
 SELECT 
-d.document_no, d.document_title,d.document_content ,d.draft_date,e.employee_id,e.name,
-ap.ap_date, ap.ap_type, ap.ap_step, --approval
-ape.name
-, ag.ap_date,ag.ap_type,
-age.name
-,r.ap_type
-,re.name
+d.document_no, d.document_title,d.document_content,d.document_type "d.document_type",d.draft_date,
+e.employee_id "e.id",e.name "e.name",ed.department_title "ed.department_title",
+ap.ap_date "ap.ap_date", ap.ap_type "ap.ap_type", ap.ap_step "ap.ap_step", ape.name "ape.name"
+, ag.ap_date "ag.ap_date",ag.ap_type "ag.ap_type",age.name "age.name"
+,r.ap_type "r.ap_type",re.name "re.name"
 FROM document d JOIN employee e ON (d.employee_id = e.employee_id)
+JOIN department ed ON (e.department_id = ed.department_id) 
 JOIN approval ap ON  ( d.document_no = ap.document_no)
 JOIN employee ape ON (ap.employee_id = ape.employee_id)
 LEFT JOIN agreement ag ON  ( d.document_no = ag.document_no)

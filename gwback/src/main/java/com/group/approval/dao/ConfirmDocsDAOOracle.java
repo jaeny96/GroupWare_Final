@@ -22,6 +22,37 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 	private SqlSessionFactory sessionFactory;
 
 	/**
+	 * 사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
+	 * @param docsNo
+	 * @throws FindException
+	 */
+	@Override
+	public Document selectByDocsDetail(String docsNo) throws FindException {
+
+		SqlSession session = null;
+		
+		try {
+			//List<Document> list = new ArrayList<>();
+			Document d ;
+			session = sessionFactory.openSession();
+			d=session.selectOne("com.group.approval.ApprovalConfirmMapper.selectByDocsDetail", docsNo);
+			
+			
+			
+
+			return d;
+		}catch(Exception e) {
+			e.printStackTrace();
+			throw new FindException(e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+
+	}
+	
+	/**
 	 * (전체)사용자는 확인/미확인 문서를 선택해서 볼 수 있다.
 	 * @return 확인/미확인한 문서 목록
 	 * @param id,check
@@ -111,36 +142,7 @@ public class ConfirmDocsDAOOracle implements ConfirmDocsDAO {
 		}
 	}
 	
-	/**
-	 * 사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
-	 * @param docsNo
-	 * @throws FindException
-	 */
-	@Override
-	public Document selectByDocsDetail(String docsNo) throws FindException {
 
-		SqlSession session = null;
-		
-		try {
-			Document list ;
-			
-			session = sessionFactory.openSession();
-		
-			list=session.selectOne("com.group.approval.ApprovalConfirmMapper.selectByDocsDetail", docsNo);
-			System.out.println(list);
-			
-
-			return list;
-		}catch(Exception e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}finally {
-			if(session != null) {
-				session.close();
-			}
-		}
-
-	}
 
 	/**
 	 * 사용자는 결재 문서를 선택했을 때, 해당 문서의 코멘트 정보를 확인할 수 있다.

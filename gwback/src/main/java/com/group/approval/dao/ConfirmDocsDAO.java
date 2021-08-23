@@ -9,6 +9,13 @@ import com.group.exception.SearchException;
 import com.group.employee.dto.Employee;
 
 public interface ConfirmDocsDAO {
+	
+	/**
+	 *  사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
+	 * @param docsNo
+	 * @throws FindException
+	 */
+	Document selectByDocsDetail(String docsNo) throws FindException;
 
 	/**
 	 * (전체)사용자는 확인/미확인 문서를 선택해서 볼 수 있다.
@@ -33,12 +40,7 @@ public interface ConfirmDocsDAO {
 	 */
 	List<Approval> selectByMyClick(String id, String docsNo) throws FindException;
 
-	/**
-	 *  사용자는 결재 문서를 선택했을 때, 해당 문서의 상세 내용정보를 확인할 수 있다. (내용+결재선)
-	 * @param docsNo
-	 * @throws FindException
-	 */
-	Document selectByDocsDetail(String docsNo) throws FindException;
+
 
 
 	/**

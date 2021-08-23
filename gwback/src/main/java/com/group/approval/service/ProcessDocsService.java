@@ -21,66 +21,57 @@ import com.group.exception.UpdateException;
 public class ProcessDocsService {
 	@Autowired
 	private ProcessDocsDAO dao;
-	
-	/**
-	 * 부서로 사원 조회
-	 * 
-	 * @param name
-	 * @throws FindException
-	 */
-	public List<Employee> findByEmpDep(String depTitle) throws FindException {
-		return dao.searchByDep(depTitle);
-	}
 
-	/**
-	 * 사원 전체를 조회한다
-	 * @return 사원 전체 목록
-	 * @throws FindException
-	 */
-	public List<Employee> showAll() throws FindException {
-		return dao.searchApLineStaff();
-	}
 	
 	/**
-	 * 참조자의 참조 승인
+	 * 참조자의 참조 승인 (Refrence-참조)
 	 * @param R
 	 * @throws UpdateException
 	 */
-	public void decisionMyRe(String documentNo, String documentId) throws UpdateException{
-		dao.updateReference(documentNo,documentId);
+	public void decisionMyRe(Reference re) throws UpdateException{
+		dao.updateReference(re);
 	}
+	
 	
 	/**
 	 * 승인, 반려를 선택하고 원하면 코멘트도 추가(Approval-결재용)
 	 * @param ap
 	 * @throws UpdateException
 	 */
-	public void decisionMyAp(Approval ap) throws UpdateException{
-		dao.updateApproval(ap);
+	public void decisionMyAp(Approval ap,String status) throws UpdateException{
+		if(status.equals("audmit")) {
+			dao.updateAudmitAp(ap);
+		}else if(status.equals("refuse")) {
+			dao.updateRefuseAp(ap);
+		}
 	}
 	/**
 	 * 승인, 반려를 선택하고 원하면 코멘트도 추가(Agreement-합의용)
 	 * @param ag
 	 * @throws UpdateException
 	 */
-	public void decisionMyAg(Agreement ag) throws UpdateException{
-		dao.updateAgreement(ag);
+	public void decisionMyAg(Agreement ag,String status) throws UpdateException{
+		if(status.equals("audmit")) {
+			dao.updateAudmitAg(ag);
+		}else if(status.equals("refuse")) {
+			dao.updateRefuseAg(ag);
+		}
 	}
 
-	/**
-	 * 결재자 전원이 승인 처리 시, 문서 상태 승인으로
-	 * @param document_no, id
-	 * @throws ModifyException
-	 */
-	public void FinalAudmit(String document_no,String id) throws ModifyException{
-		//dao.documentAudmit(document_no, id);
-	}
-	/**
-	 * 결재자 중 한명이라도 반려 처리 시, 문서 상태 반려로
-	 * @param document_no, id
-	 * @throws ModifyException
-	 */
-	public void FinalRefuse(String document_no,String id) throws ModifyException{
-		//dao.documentRefuse(document_no, id);
-	}
+//	/**
+//	 * 결재자 전원이 승인 처리 시, 문서 상태 승인으로
+//	 * @param document_no, id
+//	 * @throws ModifyException
+//	 */
+//	public void FinalAudmit(String document_no,String id) throws ModifyException{
+//		dao.documentAudmit(document_no, id);
+//	}
+//	/**
+//	 * 결재자 중 한명이라도 반려 처리 시, 문서 상태 반려로
+//	 * @param document_no, id
+//	 * @throws ModifyException
+//	 */
+//	public void FinalRefuse(String document_no,String id) throws ModifyException{
+//		dao.documentRefuse(document_no, id);
+//	}
 }

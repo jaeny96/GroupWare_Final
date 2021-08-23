@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
+import com.group.approval.dto.Reference;
 import com.group.approval.service.ProcessDocsService;
 import com.group.employee.dto.Employee;
 import com.group.exception.UpdateException;
@@ -33,42 +34,13 @@ public class ProcessDocsController {
 	private Logger log = Logger.getLogger(ProcessDocsController.class);
 
 	
-	//해당 부서 사원 모두 들고온다. 
-	@GetMapping("/selectbydep/{depTitle}")
-	public List<Employee> selectByDep(@PathVariable (name="depTitle") Optional<String> optDepTitle) {
-		List<Employee> list=new ArrayList<>();
-		try {
-			if(optDepTitle.isPresent()) {
-				list = service.findByEmpDep(optDepTitle.get());
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}		
-		return list;	
-	}
-	
-	//사원 모두 들고온다. 
-	@GetMapping("/searchapline")
-	public List<Employee> selectAllemp() {
-		List<Employee> list=new ArrayList<>();
-		try {
-			list = service.showAll();
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}		
-		return list;	
-	}
-	
 	//참조자는 참조를 승인한다. 
-	@PutMapping("/updatere/{docsNo}")
-	public Map<String, Object> updateRe(HttpSession session,@PathVariable(name="docsNo") Optional<String> docsNoOpt) {
+	@PutMapping("/updatere")
+	public Map<String, Object> updateRe(@RequestBody Reference re) {
 		Map<String, Object> result = new HashMap<>();
-		String id = "DEV002";
 		try {
-			if(docsNoOpt.isPresent()) {
-			service.decisionMyRe(docsNoOpt.get(),id);
+			service.decisionMyRe(re);
 			result.put("status", 1);
-			}
 		} catch (UpdateException e) {
 			e.printStackTrace();
 			result.put("status", 0);
@@ -78,13 +50,15 @@ public class ProcessDocsController {
 	}
 	
 	//결재자 승인한다. 
-	@PutMapping("/updateap")
-	public Map<String, Object> updateAp(@RequestBody Approval ap) {
+	@PutMapping("/updateap/{status}")
+	public Map<String, Object> updateAp(@RequestBody Approval ap,@PathVariable(name="status") Optional<String> statusOpt) {
 		
 		Map<String, Object> result = new HashMap<>();
 		try {
-			service.decisionMyAp(ap);
-			result.put("status", 1);
+			if(statusOpt.isPresent()) {
+				service.decisionMyAp(ap,statusOpt.get());
+				result.put("status", 1);
+			}
 		} catch (UpdateException e) {
 			e.printStackTrace();
 			result.put("status", 0);
@@ -94,13 +68,15 @@ public class ProcessDocsController {
 	}
 	
 	//합의자 승인한다. 
-	@PutMapping("/updateag")
-	public Map<String, Object> updateAg(@RequestBody Agreement ag) {
+	@PutMapping("/updateag/{status}")
+	public Map<String, Object> updateAg(@RequestBody Agreement ag,@PathVariable(name="status") Optional<String> statusOpt) {
 		
 		Map<String, Object> result = new HashMap<>();
 		try {
-			service.decisionMyAg(ag);
-			result.put("status", 1);
+			if(statusOpt.isPresent()) {
+				service.decisionMyAg(ag,statusOpt.get());
+				result.put("status", 1);
+			}
 		} catch (UpdateException e) {
 			e.printStackTrace();
 			result.put("status", 0);

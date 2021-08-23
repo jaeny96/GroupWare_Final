@@ -120,7 +120,8 @@ $(function () {
     data: "",
     timeout: {},
     success: function (responseObj) {
-      myCheckId = responseObj.employee.name;
+      console.log(responseObj);
+      myCheckId = responseObj[0].employee.name;
       console.log(myCheckId);
     },
   });
@@ -264,7 +265,10 @@ $(function () {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json;charset=utf-8",
         },
-        data: "",
+        data: JSON.stringify({
+          documentNo: tmpDocsBdNo,
+          employeeId: myCheckId,
+        }),
         timeout: {},
         success: function () {
           alert("참조 확인하셨습니다 !");
@@ -289,41 +293,45 @@ $(function () {
 
   //문서 상세정보 데이터 가지고오는 ajax
   $.ajax({
-    url: "/back/showdocsdetail",
-    method: "get",
-    data: {
-      docsNo: tmpDocsBdNo,
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    url: "/gwback/approval/docsdetail/" + tmpDocsBdNo,
+    headers: {
+      Accept: "application/json, text/plain, */*",
     },
+    data: "",
+    timeout: {},
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         //문서 정보 받아오기
-        apDocsTitle[i] = e.document_title;
-        apDocsType[i] = e.document_type.document_type;
-        apDocsNo[i] = e.document_no;
-        apDocsDep[i] = e.employee.department.department_title;
+        apDocsTitle[i] = e.documentTitle;
+        apDocsType[i] = e.documentStatus.documentType;
+        apDocsNo[i] = e.documentNo;
+        apDocsDep[i] = e.employee.department.departmentTitle;
+        apDocsWriter[i] = e.employee.employeeId;
         apDocsWriter[i] = e.employee.name;
-        apDocsDate[i] = e.draft_date;
-        apDocsContent[i] = e.document_content;
+        apDocsDate[i] = e.draftDate;
+        apDocsContent[i] = e.documentContent;
 
-        //
-        apDocsApName0[i] = e.approvals[0].employee_id.name;
+        apDocsApName0[i] = e.approvals[0].employee.name;
         apDocsApType0[i] = "승인"; // 결재자 0번은 무조건 승인처리하므로, 고정값 입력
-        apDocsApDate0[i] = e.approvals[0].ap_ap_date;
-        apDocsApName1[i] = e.approvals[1].employee_id.name;
-        apDocsApType1[i] = e.approvals[1].ap_type.apStatus_type;
-        apDocsApDate1[i] = e.approvals[1].ap_ap_date;
-        apDocsApName2[i] = e.approvals[2].employee_id.name;
-        apDocsApType2[i] = e.approvals[2].ap_type.apStatus_type;
-        apDocsApDate2[i] = e.approvals[2].ap_ap_date;
-        apDocsApName3[i] = e.approvals[3].employee_id.name;
-        apDocsApType3[i] = e.approvals[3].ap_type.apStatus_type;
-        apDocsApDate3[i] = e.approvals[3].ap_ap_date;
+        apDocsApDate0[i] = e.approvals[0]?.apDate;
+        apDocsApName1[i] = e.approvals[1]?.employee?.name;
+        apDocsApType1[i] = e.approvals[1]?.apStatus?.apType;
+        apDocsApDate1[i] = e.approvals[1]?.apDate;
+        apDocsApName2[i] = e.approvals[2]?.employee?.name;
+        apDocsApType2[i] = e.approvals[2]?.apStatus?.apType;
+        apDocsApDate2[i] = e.approvals[2]?.apDate;
+        apDocsApName3[i] = e.approvals[3]?.employee?.name;
+        apDocsApType3[i] = e.approvals[3]?.apStatus?.apType;
+        apDocsApDate3[i] = e.approvals[3]?.apDate;
 
-        apDocsAgName[i] = e.agreement.employee_id.name;
-        apDocsAgType[i] = e.agreement.ag_ap_type.apStatus_type;
-
-        apDocsReName[i] = e.reference.employee_id.name;
-        apDocsReType[i] = e.reference.re_ap_type.apStatus_type;
+        apDocsAgName[i] = e.agreement?.employee?.name;
+        apDocsAgType[i] = e.agreement?.agStatus?.apType;
+        apDocsReName[i] = e.reference?.employee?.name;
+        apDocsReType[i] = e.reference?.reStatus?.apType;
       });
 
       for (var i = 0; i < apDocsType.length; i++) {
