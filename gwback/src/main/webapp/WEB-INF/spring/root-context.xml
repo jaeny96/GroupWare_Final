@@ -65,5 +65,4 @@
 <context:component-scan base-package="com.group.employee.service"/>
 <context:component-scan base-package="com.group.main.service"/>
 <context:component-scan base-package="com.group.mypage.service"/>
-
 </beans>

@@ -2,19 +2,31 @@ package com.group.approval.dto;
 
 public class ApprovalStatus {
 
-	private String apStatus_type;
+	private String apType;
 
-	public String getApStatus_type() {
-		return apStatus_type;
+	
+	public ApprovalStatus() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setApStatus_type(String ap_type) {
-		this.apStatus_type = ap_type;
+	public ApprovalStatus(String apType) {
+		super();
+		this.apType = apType;
+	}
+
+	
+
+	public String getApType() {
+		return apType;
+	}
+
+	public void setApType(String apType) {
+		this.apType = apType;
 	}
 
 	@Override
 	public String toString() {
-		return "ApprovalStatus [ap_type=" + apStatus_type + "]";
+		return "ApprovalStatus [apStatusType=" + apType + "]";
 	}
-	
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.group.approval.dto.Document;
@@ -26,7 +24,6 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.service.MainService;
-import com.group.mypage.dto.EmployeeLeave;
 
 @RestController
 @RequestMapping("/main/*")
@@ -35,43 +32,34 @@ public class MainController {
 
 	@Autowired
 	private MainService service;
-	
-	/**
-	 * 로그인
-	 * @param session
-	 * @param emp
-	 * @return
-	 */
+
 	@PostMapping("/login")
-	public Map<String, Object> login(HttpSession session, @RequestBody Employee emp){
-		Map<String, Object> map = new HashMap<>();
-		
-		session.removeAttribute("loginInfo");
-		String id = emp.getEmployeeId();
-		String pwd = emp.getPassword();
-		
-		try {
-			Employee loginInfo = service.login(id, pwd);
-			session.setAttribute("id", loginInfo.getEmployeeId());
-			session.setAttribute("pwd", loginInfo.getPassword());
-			session.setAttribute("dept", loginInfo.getDepartment());
-			System.out.println(loginInfo.getEmployeeId());
-			System.out.println(loginInfo.getPassword());
-			System.out.println( loginInfo.getDepartment());
-			
-			map.put("status", 1);
-			return map;
-		
-		} catch (FindException e) {
-			e.printStackTrace();
-			map.put("status", -1);
-			map.put("msg", e.getMessage());
-			return map;
-		}
-		
+	 public Map<String, Object> login(HttpSession session, @RequestBody Employee emp){
+	      Map<String, Object> map = new HashMap<>();
+	      
+	      session.removeAttribute("loginInfo");
+	      try {
+	         Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
+	         session.setAttribute("id", loginInfo.getEmployeeId());
+	         session.setAttribute("pwd", loginInfo.getPassword());
+	         session.setAttribute("dept", loginInfo.getDepartment());
+	         System.out.println(loginInfo.getEmployeeId());
+	         System.out.println(loginInfo.getPassword());
+	         System.out.println( loginInfo.getDepartment());
+	         
+	         map.put("status", 1);
+	         return map;
+	      
+	      } catch (FindException e) {
+	         e.printStackTrace();
+	         map.put("status", -1);
+	         map.put("msg", e.getMessage());
+	         return map;
+	      }
 	}
 
-	@GetMapping("/chkLogin")
+	
+	@GetMapping("/chk-login")
 	public Map<String,Integer> chkLogin(HttpSession session) {
 		Map<String, Integer> map = new HashMap<>();
 		int status;
@@ -154,7 +142,7 @@ public class MainController {
 		return map;
 	}
 
-	@GetMapping("/todaySkd")
+	@GetMapping("/today-skd")
 	public Object getTodaySkdList(/* HttpServletRequest request */) {
 		Employee emp = new Employee();
 		Department dept = new Department();

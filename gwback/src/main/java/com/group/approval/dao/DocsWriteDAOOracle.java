@@ -6,13 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
 import com.group.approval.dto.ApprovalStatus;
 import com.group.approval.dto.Document;
-import com.group.approval.dto.DocumentType;
 import com.group.approval.dto.Reference;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
@@ -22,354 +26,158 @@ import com.group.employee.dto.Position;
 import com.group.employee.dto.Department;
 import com.group.sql.MyConnection;
 
+@Repository("docsWriteDAO")
 public class DocsWriteDAOOracle implements DocsWriteDAO {
-	public DocsWriteDAOOracle() throws Exception {
-		// JDBC드라이버로드
-		Class.forName("oracle.jdbc.driver.OracleDriver");
+	@Autowired
+	private SqlSessionFactory sqlSessionFactory;
 
-	}
-
-	// 1. 문서기안
-	public void draft(Document d) throws AddException {
-		// DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-			 System.out.println("success");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-
-		String draftSQL = "INSERT INTO document (document_no, document_type, employee_id, document_title, document_content)\r\n"
-				+ "VALUES (?, ?, ?, ?, ?)";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(draftSQL);
-			System.out.println(pstmt);
-			pstmt.setString(1, d.getDocumentNo());
-			pstmt.setString(2, d.getDocumentType().getDocumentType());
-			pstmt.setString(3, d.getEmployee().getEmployeeId());
-			pstmt.setString(4, d.getDocumentTitle());
-			pstmt.setString(5, d.getDocumentContent());
-			System.out.println("여긴 오라클 "+d);
-			int rowcnt = pstmt.executeUpdate();
-			System.out.println("안녕");
-			if (rowcnt == 1) {
-				System.out.println("문서기안 완료");
-			} else {
-				System.out.println("문서기안 실패");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("연결실패");
-			return;
-		} finally {
-			MyConnection.close(con, pstmt, null);
-		}
-	}
-
-	@Override
-	public void draftAp(Approval ap) throws AddException {
-		// DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-			// System.out.println("success");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-//		System.out.println("오라클쓰으으 "+ap);
-		String apType = "";
-		try {
-			if(ap.getAp_type().getApStatus_type()!=null) {
-				apType="승인";
-			}
-		}catch(NullPointerException e) {
-				ApprovalStatus as = new ApprovalStatus();
-				as.setApStatus_type("대기");
-				ap.setAp_type(as);			
-				apType=ap.getAp_type().getApStatus_type();			
-		}
-		String draftSQL = "INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (?, ?,?,?)";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, ap.getDocument_no().getDocumentNo());
-			pstmt.setString(2, ap.getEmployee_id().getEmployeeId());
-			pstmt.setString(3, apType);
-			pstmt.setInt(4, ap.getAp_step());
-//			System.out.println("여긴 오라클 "+ap);
-			int rowcnt = pstmt.executeUpdate();
-//			System.out.println("안녕");
-			if (rowcnt == 1) {
-				System.out.println("문서기안 완료");
-			} else {
-				System.out.println("문서기안 실패");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("연결실패");
-			return;
-		} finally {
-			MyConnection.close(con, pstmt, null);
-		}
-
-	}
-
-	@Override
-	public void draftAg(Agreement ag) throws AddException {// DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-			// System.out.println("success");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-
-		String draftSQL = "INSERT INTO agreement (document_no, employee_id, ap_type) VALUES (?,?,'대기')";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, ag.getDocument_no().getDocumentNo());
-			pstmt.setString(2, ag.getEmployee_id().getEmployeeId());
-			int rowcnt = pstmt.executeUpdate();
-			if (rowcnt == 1) {
-				System.out.println("문서기안 완료");
-			} else {
-				System.out.println("문서기안 실패");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("연결실패");
-			return;
-		} finally {
-			MyConnection.close(con, pstmt, null);
-		}
-
-	}
-
-	@Override
-	public void draftRe(Reference re) throws AddException {// DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-			// System.out.println("success");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new AddException(e.getMessage());
-		}
-
-		String draftSQL = "INSERT INTO reference (document_no, employee_id,ap_type) VALUES (?, ?,'대기')";
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, re.getDocument_no().getDocumentNo());
-			pstmt.setString(2, re.getEmployee_id().getEmployeeId());
-			int rowcnt = pstmt.executeUpdate();
-			if (rowcnt == 1) {
-				System.out.println("문서기안 완료");
-			} else {
-				System.out.println("문서기안 실패");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("연결실패");
-			return;
-		} finally {
-			MyConnection.close(con, pstmt, null);
-		}
-	}
-
-	// 2-1. 사원이름을 검색해 결재선에 넣을 사원을 조회한다
-	public List<Employee> searchByName(String deptName) throws FindException {
-		// DB연결
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-
-		String searchByNameSQL = "SELECT e.name, e.employee_id, d.department_id, d.department_title \r\n"
-				+ "FROM department d\r\n" + "JOIN employee e ON d.department_id = e.department_id\r\n"
-				+ "JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n"
-				+ "WHERE d.department_title=? AND enabled=1\r\n" + "ORDER BY p.position_id, employee_id";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Employee> list = new ArrayList<>();
-		try {
-			pstmt = con.prepareStatement(searchByNameSQL);
-			pstmt.setString(1, deptName);
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				Employee em = new Employee();
-//				String name = rs.getString("name");
-				em.setEmployeeId(rs.getString("employee_id"));
-				em.setName(rs.getString("name"));
-				Department dept = new Department();
-				dept.setDepartmentId(rs.getString("department_id"));
-				dept.setDepartmentTitle(rs.getString("department_title"));
-				em.setDepartment(dept);
-				list.add(em);
-			}
-			if (list.size() == 0) {
-				throw new FindException("해당 사원이 없습니다");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			// DB연결해제
-			MyConnection.close(con, pstmt, rs);
-		}
-		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
-	}
-
-	// 3. 전체 사원의 이름, 부서 정보 갖고오기
-	@Override
-	public List<Employee> searchApLineStaff() throws FindException {
-		Connection con = null;
-		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-		String selectNameDepSQL = "SELECT e.name, department_title\r\n" + "FROM department d\r\n"
-				+ "JOIN employee e ON d.department_id = e.department_id\r\n"
-				+ "JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id\r\n"
-				+ "WHERE enabled=1\r\n"
-				+ "ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id";
-		System.out.println(selectNameDepSQL);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<Employee> empList = new ArrayList<Employee>();
-		try {
-			pstmt = con.prepareStatement(selectNameDepSQL);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				Employee emp = new Employee();
-				emp.setEmployeeId(rs.getString("employee_id"));
-				emp.setName(rs.getString("name"));
-				Department d = new Department();
-				d.setDepartmentId(rs.getString("department_id"));
-				d.setDepartmentTitle(rs.getString("department_title"));
-				emp.setDepartment(d);
-				Position p = new Position();
-				p.setPositionTitle(rs.getString("position_title"));
-				emp.setPosition(p);
-				Job j = new Job();
-				j.setJobTitle(rs.getString("job_title"));
-				emp.setJob(j);
-				emp.setPhoneNumber(rs.getString("phone_number"));
-				emp.setEmail(rs.getString("email"));
-
-				empList.add(emp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, rs);
-		}
-		return empList;
-	}
-	
+	// 1. 문서 번호 최대값 구하기
 	@Override
 	public int chkMaxNum(String document_type) throws FindException {
-		Connection con = null;
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new FindException(e.getMessage());
-		}
-		String selectChkMaxNumSQL = "SELECT MAX(SUBSTR(document_no,-4)) FROM document WHERE SUBSTR(document_no,4,2)=?";
-//		System.out.println(selectChkMaxNumSQL);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int maxNum = 0;
-		try {
-			pstmt = con.prepareStatement(selectChkMaxNumSQL);
-			pstmt.setString(1, document_type);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				maxNum = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sqlSessionFactory.openSession();
+			int maxNum = session.selectOne("com.group.approval.ApprovalWriteMapper.checkMaxNum", document_type);
+			return maxNum;
+		} catch (Exception e) {
 			throw new FindException(e.getMessage());
 		} finally {
-			MyConnection.close(con, pstmt, rs);
+			if (session != null) {
+				session.close();
+			}
 		}
-		return maxNum;
-	}
-
-	public static void main(String[] args) throws Exception {
-//		//1.기안하기test
-//		Scanner sc = new Scanner(System.in);
-//		System.out.println("문서번호: ");
-//		String noValue = sc.nextLine();
-//		DocumentType type = new DocumentType();
-//		type.setDocument_type("휴가");
-//		Employee em = new Employee();
-//		em.setEmployee_id("DEV002");
-//		System.out.println("제목: ");
-//		String TitleValue = sc.nextLine();
-//		System.out.println("내용: ");
-//		String ContValue = sc.nextLine();
-//		try {
-//			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
-//			Document d = new Document(noValue, type, em, TitleValue, ContValue);
-//			dao.draft(d);
-//		} catch (FindException e) {
-//			e.getMessage();
-//		}
-
-//		// 2-1.사원명으로 사원검색하기
-//		String word = "김";
-//		System.out.println("\"" + word + "\"단어를 포함한 사원목록");
-//		try {
-//			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
-//			List<Employee> list = dao.searchByName(word);
-//			for (Employee em : list) {
-//				System.out.println(em.getName());
-//			}
-//		} catch (FindException e) {
-//			System.out.println(e.getMessage());
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-
-//		//2-2.부서명으로 부서검색하기
-//		String word = "롸";
-//		System.out.println("\"" + word + "\"단어를 포함한 부서목록");
-//		try {
-//			DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
-//			List<Department> list = dao.searchByDep(word);
-//			for (Department dep : list) {
-//				System.out.println(dep.department_title);
-//			}
-//		} catch (FindException e) {
-//			System.out.println(e.getMessage());
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-		
-//		String document_type= "지출";
-//		DocsWriteDAOOracle dao = new DocsWriteDAOOracle();
-//		int maxCnt = dao.chkMaxNum(document_type);
-//		System.out.println(maxCnt);
 
 	}
 
+	// 2-1. 문서기안
+	@Override
+	public void draftDoc(SqlSession session, Document d) throws AddException {
+		try {
+			session.insert("com.group.approval.ApprovalWriteMapper.insertDraft", d);
+
+		} catch (Exception e) {
+			throw new AddException(e.getMessage());
+		}
+	}
+
+	// 2-2. 결재자 등록
+	@Override
+	public void draftAp(SqlSession session, Approval ap) throws AddException {
+		String apType = "";
+		try {
+			ApprovalStatus aps = new ApprovalStatus();
+			if (ap.getApStep() == 0) {
+				apType = "승인";
+			} else {
+				apType = "대기";
+			}
+			aps.setApType(apType);
+			ap.setApStatus(aps);
+			session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAp", ap);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AddException(e.getMessage());
+		}
+	}
+
+	// 2-3. 합의자 등록
+	@Override
+	public void draftAg(SqlSession session, Agreement ag) throws AddException {
+		try {
+			session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAg", ag);
+		} catch (Exception e) {
+			throw new AddException(e.getMessage());
+		}
+	}
+
+	// 2-4. 참조자 등록
+	@Override
+	public void draftRe(SqlSession session, Reference re) throws AddException {
+		try {
+			session.insert("com.group.approval.ApprovalWriteMapper.insertDraftRe", re);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 2. 기안하기 트랜잭션 처리
+	@Override
+	@Transactional(rollbackFor = AddException.class)
+	public void draft(Document d) throws AddException {
+		SqlSession session = null;
+		try {
+			// session 객체가 jdbc의 Connection과 같은 역할을 해줌
+			session = sqlSessionFactory.openSession();
+			draftDoc(session, d);
+			for (Approval ap : d.getApprovals()) {
+				if ("staffOne".equals(ap.getEmployee().getEmployeeId())
+						|| "staffTwo".equals(ap.getEmployee().getEmployeeId())
+						|| "staffThree".equals(ap.getEmployee().getEmployeeId())) {
+
+				} else {
+					draftAp(session, ap);
+				}
+			}
+			if (d.getAgreement() != null) {
+				if (!"agreementBoxBtn".equals(d.getAgreement().getEmployee().getEmployeeId())) {
+
+					draftAg(session, d.getAgreement());
+				}
+			}
+			if (d.getReference() != null) {
+				if (!"referenceBoxBtn".equals(d.getReference().getEmployee().getEmployeeId())) {
+					draftRe(session, d.getReference());
+				}
+			}
+		} catch (Exception e) {
+			session.rollback(); // 롤백
+			throw new AddException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+	}
+
+	// 3. 전체 부서 목록 조회
+	@Override
+	public List<Department> selectDept() throws FindException {
+		SqlSession session = null;
+		try {
+			// session 객체가 jdbc의 Connection과 같은 역할을 해줌
+			session = sqlSessionFactory.openSession();
+			List<Department> deptList = session.selectList("com.group.approval.ApprovalWriteMapper.selectDept");
+			return deptList;
+		} catch (Exception e) {
+			session.rollback(); // 롤백
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
+
+	// 4. 부서별 사원 목록 조회
+	@Override
+	public List<Employee> selectEmpByDept(String deptId) throws FindException {
+		SqlSession session = null;
+		try {
+			// session 객체가 jdbc의 Connection과 같은 역할을 해줌
+			session = sqlSessionFactory.openSession();
+			List<Employee> empList = session.selectList("com.group.approval.ApprovalWriteMapper.selectEmpByDept",
+					deptId);
+			return empList;
+		} catch (Exception e) {
+			session.rollback(); // 롤백
+			throw new FindException(e.getMessage());
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 }

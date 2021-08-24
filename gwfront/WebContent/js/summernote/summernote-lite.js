@@ -11902,7 +11902,8 @@
             },
             {
               key: "showVideoDialog",
-              value: function showVideoDialog /* text */() {
+              value: function showVideoDialog() /* text */
+              {
                 var _this2 = this;
 
                 return external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.Deferred(

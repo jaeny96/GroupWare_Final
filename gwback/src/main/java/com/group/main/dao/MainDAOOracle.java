@@ -251,7 +251,7 @@ public class MainDAOOracle implements MainDAO {
 		
 		try {
 			session = sqlSessionFactory.openSession();
-			List<Schedule> skdList = session.selectList("com.group.main.MainPageMapper.selectTodaySkd");
+			List<Schedule> skdList = session.selectList("com.group.main.MainPageMapper.selectTodaySkd",emp);
 			return skdList;
 		}catch (Exception e) {
 			throw new FindException(e.getMessage());
