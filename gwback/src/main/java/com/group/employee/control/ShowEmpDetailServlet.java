@@ -22,25 +22,25 @@ public class ShowEmpDetailServlet extends HttpServlet {
 	//사원 상세정보 조회
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String id = request.getParameter("empId");
-		String name = request.getParameter("empName");
-		EmployeeService service;
-		ServletContext sc = getServletContext();
-		EmployeeService.envProp = sc.getRealPath(sc.getInitParameter("env"));
-		service = EmployeeService.getInstance();
-
-		try {
-			Employee empInfo = new Employee();
-			empInfo.setEmployeeId(id);
-			empInfo.setName(name);
-			Employee emp = service.showDetail(empInfo);
-			ObjectMapper mapper = new ObjectMapper();
-			String jsonStr = mapper.writeValueAsString(emp);
-			response.setContentType("application/json;charset=utf-8");
-			response.getWriter().print(jsonStr);
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
+//		String id = request.getParameter("empId");
+//		String name = request.getParameter("empName");
+//		EmployeeService service;
+//		ServletContext sc = getServletContext();
+//		EmployeeService.envProp = sc.getRealPath(sc.getInitParameter("env"));
+//		service = EmployeeService.getInstance();
+//
+//		try {
+//			Employee empInfo = new Employee();
+//			empInfo.setEmployee_id(id);
+//			empInfo.setName(name);
+//			Employee emp = service.showDetail(empInfo);
+//			ObjectMapper mapper = new ObjectMapper();
+//			String jsonStr = mapper.writeValueAsString(emp);
+//			response.setContentType("application/json;charset=utf-8");
+//			response.getWriter().print(jsonStr);
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
