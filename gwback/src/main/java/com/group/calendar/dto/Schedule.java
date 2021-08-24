@@ -12,11 +12,11 @@ public class Schedule {
 	public ScheduleType skdType;
 	public String skdTitle;
 	public String skdContent;
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	public Timestamp skdDate;
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	public Timestamp skdStartDate;
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm", timezone = "Asia/Seoul")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	public Timestamp skdEndDate;
 	public String skdShare;
 
