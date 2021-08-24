@@ -34,9 +34,6 @@ $(function () {
 
   //게시글 수정 form submit 이벤트 핸들러
   function modifyBdSubmitHandler(e) {
-    alert(backurlModiBdDetail + "/" + bdTargetNoInModi);
-    alert(titleObjInModi.value);
-    alert(contentObjInModi.innerText);
     $.ajax({
       url: backurlModiBdDetail + "/" + bdTargetNoInModi,
       method: "PUT",

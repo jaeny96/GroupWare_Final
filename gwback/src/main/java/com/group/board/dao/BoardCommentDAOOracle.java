@@ -30,9 +30,6 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 		try {
 			session = sqlSessionFactory.openSession();
 			List<BoardComment> cmList = session.selectList("com.group.board.dto.BoardCommentMapper.selectAll", bdNo);
-			System.out.println("---------");
-			System.out.println(bdNo);
-			System.out.println(cmList.size());
 			if (cmList.size() == 0) {
 				throw new FindException("댓글이 없습니다");
 			}

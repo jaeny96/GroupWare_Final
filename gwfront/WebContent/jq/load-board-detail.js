@@ -244,7 +244,6 @@ $(function () {
     },
     success: function (responseData) {
       $(responseData).each(function (i, e) {
-        // console.log(e);
         cmNo[i] = e?.cmNo;
         cmContent[i] = e?.cmContent;
         cmWriter[i] = e?.cmWriter?.name;
