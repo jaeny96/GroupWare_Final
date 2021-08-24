@@ -121,6 +121,11 @@ $(function () {
       openTargetModal("#" + targetAId, "modalPhone");
       // openTargetModal("#modifyPhoneBtn", "modalPhone");
     }
+
+    if (targetAId == "openProfile") {
+      openTargetModal("#" + targetAId, "modalProfile");
+      // openTargetModal("#modifyPhoneBtn", "modalPhone");
+    }
   }
 
   for (var i = 0; i < targetObj.length; i++) {
@@ -141,10 +146,11 @@ $(function () {
       //console.log(responseData);
       //console.log(responseData.responseData);
 
-     empName = responseData.responseData.employee.name;
+      empName = responseData.responseData.employee.name;
       position = responseData.responseData.employee.position.positionTitle;
       employeeId = responseData.responseData.employee.employeeId;
-      department = responseData.responseData.employee.department.departmentTitle;
+      department =
+        responseData.responseData.employee.department.departmentTitle;
       job = responseData.responseData.employee.job.jobTitle;
       phone = responseData.responseData.employee.phoneNumber;
       email = responseData.responseData.employee.email;
@@ -156,6 +162,57 @@ $(function () {
     },
   });
 
+  //프로필 사진 변경 submit 이벤트
+  //#postProfile > div> button
+  $(
+    // "#modalProfile > div > div.modal_content > div > div.card-body.h-100.cardBody > div > form > div:nth-child(2) > button"
+    // "#postProfile > div> button"
+    // ).click(function () {
+    "#postProfile"
+  ).submit(function () {
+    var url = "http://localhost:8888/gwback/mypage/updateProfile"; //updateProfile
+    alert("프로필 수정 -0: url=" + url);
+    let formData = new FormData($("#postProfile")[0]);
+    console.log("-----------------");
+    console.log(formData);
+    console.log("-----------------");
+    formData.forEach(function (value, key) {
+      console.log(key + ":" + value);
+    });
+    console.log("-----------------");
+    $.ajax({
+      url: url, //mypage/updateProfile
+      method: "post",
+      //,
+      enctype: "multipart/form-data",
+      processData: false,
+      contentType: false,
+      // dataType: "json",
+      // contentType: "application/json; charset=utf-8",
+      data: formData,
+       success: function () {
+         alert("ajax 요청 성공");
+        // $('#myProfileImg').attr('src','C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload\\'+'');
+         //img태그영역찾아서 src속성값을 이 파일명 
+
+      },
+      
+      error: function (request, status, error) {
+        alert(
+          "code:" +
+            request.status +
+            "\n" +
+            "message:" +
+            request.responseText +
+            "\n" +
+            "error:" +
+            error
+        );
+      }
+    });
+    return false; //이걸왜?
+  });
+
   //핸드폰 번호 변경 시 submit 이벤트 핸들러
   function modiPhSubmitHandler(e) {
     console.log(modifyPhoneNumObj.value);
@@ -165,8 +222,8 @@ $(function () {
       $.ajax({
         url: backurlChangePh,
         method: "put",
-        dataType : "json",
-        contentType: 'application/json; charset=utf-8',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
         data: JSON.stringify({
           phoneNumber: modifyPhoneNumObj.value,
         }),
@@ -209,10 +266,10 @@ $(function () {
           $.ajax({
             url: backurlChangePwd,
             method: "put",
-            dataType : "json",
-            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
             data: JSON.stringify({
-              password: modifyPwdObj.value
+              password: modifyPwdObj.value,
             }),
             success: function () {
               alert("비밀번호가 변경되었습니다");

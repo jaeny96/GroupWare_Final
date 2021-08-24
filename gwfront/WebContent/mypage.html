@@ -41,8 +41,9 @@
             height="128"
           />
           <div class="modifyProfileBtnGroup">
-            <!-- 										<a class="btn btn-primary btn-sm mdGroup" id="openProfile">프로필
-											변경</a> -->
+            <a class="btn btn-primary btn-sm mdGroup" id="openProfile"
+            >프로필사진 변경</a
+          >
             <a class="btn btn-primary btn-sm mdGroup" id="openPwd"
               >비밀번호 변경</a
             >
@@ -111,7 +112,8 @@
 <!-- </main>
       </div>
     </div> -->
-<!-- 	<div id="modalProfile">
+    <!-- 프로필 변경 모달-->
+ 	<div id="modalProfile">
 		<div class="modal hidden">
 			<div class="modal_overlay"></div>
 			<div class="modal_content">
@@ -124,25 +126,32 @@
 					</div>
 					<div class="card-body h-100 cardBody">
 						<div style="text-align: center; margin: 10px 0">
-							<img src="img/avatars/avatar-4.jpg" alt="Christina Mason"
+							<img src="img/avatars/avatar-4.jpg" alt="Christina Mason" id="myProfileImg"
 								class="img-fluid rounded-circle mb-2" width="128" height="128"
 								style="text-align: center" />
-							<form class="modiImg">
+
+							<!-- <form class="modiImg" method="post" id="postProfile" enctype="multipart/form-data">
+                <input type="file" name="profileFile" id="profileFile" />
 								<div class="d-flex align-items-start" id="modifyProfileImg">
 									<div class="flex-grow-1 ml-3 mb-2 mt-3">
-										<input type="file" name="modiImg" id="modiImg" />
 									</div>
 								</div>
 								<div style="text-align: center; margin: 10px 0">
 									<button class="btn btn-secondary okBtn">확인</button>
 								</div>
 							</form>
+               -->
+               <form id="postProfile">
+                 <input type="file" name="profileFile">
+                 <button>확인</button>
+               </form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div> 
+
 <div id="modalPwd">
   <div class="modal hidden">
     <div class="modal_overlay"></div>

@@ -37,7 +37,7 @@ class EmployeeLeaveDAOOracleTest {
 		assertEquals(expectedName, empLeave.getEmployee().getName());
 	}
 
-		@Test
+		//@Test
 	   void updateTest() throws ModifyException{
 	      String id = "CEO001";
 	      String password = "ceo1234";
@@ -50,4 +50,5 @@ class EmployeeLeaveDAOOracleTest {
 	      dao.update(emp);
 	   }
 
+		
 }

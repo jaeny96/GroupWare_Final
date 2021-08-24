@@ -1,15 +1,15 @@
 $(function () {
   //메뉴 이동 시 변경 될 부분
   var $content = $("div.wrapper>div.main>main.content");
- // 로그인 여부 확인
-  var backurlCheckLogined = "/back/checkedlogined";
-  var backurlCheckLogined = "http://localhost:8888/gwback/main/chkLogin";
-  $.ajax({
-    url: backurlCheckLogined,
-    method: "get",
-    success: function (responseData) {
-      //로그인 되어있을 경우
-      if (responseData.status == 1) {
+//  // 로그인 여부 확인
+//   var backurlCheckLogined = "/back/checkedlogined";
+//   var backurlCheckLogined = "http://localhost:8888/gwback/main/chkLogin";
+//   $.ajax({
+//     url: backurlCheckLogined,
+//     method: "get",
+//     success: function (responseData) {
+//       //로그인 되어있을 경우
+//       if (responseData.status == 1) {
   //게시판 관련 로컬 정보 미리 저장
  // 현재 페이지, 현재 페이지 그룹 관련
   localStorage.setItem("bdCurrPage", 1);
@@ -496,15 +496,15 @@ $(function () {
     }
     return false;
   });
-  }else {
-    alert("접근하기 위해 로그인이 필요합니다.");
-    location.href = "http://localhost:8888/front";
-  }
-  },
- // 로그인 x 면 로그인 페이지로 이동
-  error: function (request, status, error) {
-    alert("접근하기 위해 로그인이 필요합니다.");
-    location.href = "http://localhost:8888/front";
-  },
-  });
+//   }else {
+//     alert("접근하기 위해 로그인이 필요합니다.");
+//     location.href = "http://localhost:8888/gwfront/";
+//   }
+//   },
+//  // 로그인 x 면 로그인 페이지로 이동
+//   error: function (request, status, error) {
+//     alert("접근하기 위해 로그인이 필요합니다.");
+//     location.href = "http://localhost:8888/gwfront/";
+//   },
+//   });
 });
