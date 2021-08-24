@@ -164,12 +164,7 @@ $(function () {
 
   //프로필 사진 변경 submit 이벤트
   //#postProfile > div> button
-  $(
-    // "#modalProfile > div > div.modal_content > div > div.card-body.h-100.cardBody > div > form > div:nth-child(2) > button"
-    // "#postProfile > div> button"
-    // ).click(function () {
-    "#postProfile"
-  ).submit(function () {
+  $("#postProfile").submit(function () {
     var url = "http://localhost:8888/gwback/mypage/updateProfile"; //updateProfile
     alert("프로필 수정 -0: url=" + url);
     let formData = new FormData($("#postProfile")[0]);
@@ -191,11 +186,20 @@ $(function () {
       // contentType: "application/json; charset=utf-8",
       data: formData,
        success: function () {
-         alert("ajax 요청 성공");
-        // $('#myProfileImg').attr('src','C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload\\'+'');
-         //img태그영역찾아서 src속성값을 이 파일명 
-
-      },
+        // alert("ajax 요청 성공");
+        $('#profileImgPage').attr('src',"img/avatars/MSD002.jpg");
+        //모달 속 프로필이미지 바꾸기
+        $('#profileImgModal').attr('src',"img/avatars/MSD002.jpg");
+        alert('재로딩');
+         //재로딩
+        //  $(
+        //   "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(2) > a"
+        // ).trigger("click");
+        //페이지 프로필 바꾸기 
+ 
+      }
+  
+      ,
       
       error: function (request, status, error) {
         alert(

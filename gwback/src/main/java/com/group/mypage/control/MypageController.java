@@ -2,6 +2,7 @@ package com.group.mypage.control;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,10 +105,10 @@ public class MypageController {
 		}
 	}
 	
-	@RequestMapping("/a")
-	public void test() {
-		log.info("a");
-	}
+//	@RequestMapping("/a")
+//	public void test() {
+//		log.info("a");
+//	}
 	@PostMapping("/updateProfile")
 	public void profileMapping(
 			@RequestPart MultipartFile profileFile,
@@ -115,6 +116,7 @@ public class MypageController {
 			) {
 		//업로드되는 프로필 사진의 이름은 id와 같도록 한다. 
 		String fileName = (String) session.getAttribute("id");
+		System.out.println("id"+fileName);
 		//String fileName = "1";
 		log.error("profileFile"+profileFile.getSize());
 		//이게 있나? 
@@ -127,23 +129,38 @@ public class MypageController {
 			log.error("업로드 실제 경로 생성" + uploadPath);
 			new File(uploadPath).mkdir();
 		}
-		
+		//받아온 파일이 null이 아니라면
 		if(profileFile!=null) {
 			//오리지널 이름 
 			String profileFileName = profileFile.getOriginalFilename();
+			
+			//확장자 따로 떼어내기
+			String[] extensionArray= profileFileName.split("[.]");
+			String extension = extensionArray[1];			
+					
+			
 			//System.out.println("파일의 오리지널 이름"+profileFileName);
+//			System.out.println(profileFileName);
+//			System.out.println(extensionArray.length +" extensionArray.length");
+			
+			//확장자 불러오기 
+			//System.out.println("extension"+extension);
 			
 			//파일 이름이 ""가 아니고, 바이트 사이즈가 0이 아니라면
 			if(!"".equals(profileFileName)&&profileFile.getSize()!=0) {
 				System.out.println("파일이름"+profileFileName + " 사이즈: "+profileFile.getSize());
-				
-				File file = new File(uploadPath, fileName);
+			
+				//파일의 경로와 파일의 이름 
+				File file = new File(uploadPath, fileName+"."+extension);
+				log.error("uploadPath "+uploadPath+ "fileName" +"." + extension);
 				//이런식으로 별도 파일(upload)에다가 하나 더 파일을 복사해놓고, javascript에서 계속 사진을 받아오는 방법이 있다 
-				File backup = new File("C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload",fileName);
-						
+				//File backup = new File("C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload",fileName);
+					
+				
 				try {
 					FileCopyUtils.copy(profileFile.getBytes(), file);
-					FileCopyUtils.copy(profileFile.getBytes(), backup);
+				//	FileCopyUtils.copy(profileFile.getBytes(), backup);
+					log.error("파일 업로드 완료");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
