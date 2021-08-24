@@ -1,187 +1,218 @@
 package com.group.approval.dao;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.group.approval.dto.Agreement;
-import com.group.approval.dto.Approval;
-import com.group.approval.dto.ApprovalStatus;
-import com.group.approval.dto.Document;
-import com.group.approval.dto.Reference;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.UpdateException;
+import com.group.approval.dto.Agreement;
+import com.group.approval.dto.Approval;
+import com.group.approval.dto.Reference;
 import com.group.employee.dto.Employee;
-import com.group.sql.MyConnection;
 
+@Repository("ProcessDocsDAO")
 public class ProcessDocsDAOOracle implements ProcessDocsDAO {
+	
+	@Autowired
+	private SqlSessionFactory sessionFactory;
 
+	
+	/**
+	 *  참조자는 참조를 승인한다.  (Reference : 참조)
+	 * @param re
+	 * @throws UpdateException
+	 */
 	@Override
-	// 사용자는 버튼을 클릭하면 승인or반려할지를 선택하고, 코멘트를 남길 수 있다. (결재승인테이블)
-	public void updateApproval(Approval ap) throws UpdateException {
-		// DB연결
-		Connection con = null;
+	public void updateReference(Reference re) throws UpdateException {
+		SqlSession session = null;
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new UpdateException(e.getMessage());
-		}
-
-		// ap_type, ap_date, ap_comment가 수정돼야 함
-		String updateApprovalSQL = "UPDATE approval SET ap_type=?, ap_date=SYSTIMESTAMP, ap_comment=?\r\n"
-				+ "WHERE document_no=? and employee_id=?";
-
-		PreparedStatement pstmt = null;
-
-		try {
-			pstmt = con.prepareStatement(updateApprovalSQL);
-			pstmt.setString(1, ap.getAp_type().getApStatus_type());
-			pstmt.setString(2, ap.getAp_ap_comment());
-			pstmt.setString(3, ap.getDocument_no().getDocument_no());
-			pstmt.setString(4, ap.getEmployee_id().getEmployee_id());
-			int cnt = pstmt.executeUpdate();
-			if (cnt == 1) {
-				System.out.println("결재완료");
-			} else {
-				System.out.println(cnt);
-				throw new UpdateException("입력양식을 확인해주세요");
+			System.out.println(re);
+			session = sessionFactory.openSession();
+			map.put("docsNo", re.getDocumentNo()); 
+			map.put("id", re.getEmployee().getEmployeeId());
+			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateRe", re);
+			session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
+			if(rowcnt == 0) {
+				throw new UpdateException("참조 승인처리에 실패했습니다.");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new UpdateException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, null);
-		}
 
+		}catch(Exception e) {
+			throw new UpdateException(e.getMessage());
+		}finally {
+			session.close();
+		}
 	}
+	
+	
 
-	// 사용자는 버튼을 클릭하면 승인or반려할지를 선택하고, 코멘트를 남길 수 있다. (합의승인테이블)
+
+	/**
+	 *  결재자는 승인 + 코멘트를 남길 수 있다. (Approval : 결재)
+	 * 
+	 * @param ap
+	 * @throws UpdateException
+	 */
 	@Override
-	public void updateAgreement(Agreement ag) throws UpdateException {
-		// DB연결
-		Connection con = null;
+	public void updateAudmitAp(Approval ap) throws UpdateException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-			con.setAutoCommit(false);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new UpdateException(e.getMessage());
-		}
-		// ap_type, ap_date, ap_comment가 수정돼야 함
-		String updateAgreementSQL = "UPDATE agreement SET ap_type=?, ap_date=SYSTIMESTAMP, ap_comment=?\r\n"
-				+ "WHERE document_no=? and employee_id=?";
-
-		PreparedStatement pstmt = null;
-
-		try {
-			pstmt = con.prepareStatement(updateAgreementSQL);
-			pstmt.setString(1, ag.getAg_ap_type().getApStatus_type());
-			pstmt.setString(2, ag.getAg_ap_comment());
-			pstmt.setString(3, ag.getDocument_no().getDocument_no());
-			pstmt.setString(4, ag.getEmployee_id().getEmployee_id());
-			int cnt = pstmt.executeUpdate();
-			if (cnt == 1) {
-				System.out.println("합의결재 완료");
-			} else {
-				System.out.println(cnt);
-				throw new UpdateException("입력양식을 확인해주세요");
+			session = sessionFactory.openSession();
+			map.put("docsNo", ap.getDocumentNo()); 
+			map.put("id", ap.getEmployee().getEmployeeId());
+			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAp", ap);
+			session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
+			if(rowcnt == 0) {
+				throw new UpdateException("결재 승인처리에 실패했습니다.");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		
+		}catch(Exception e) {
 			throw new UpdateException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, null);
+		}finally {
+			session.close();
 		}
-
 	}
 
+	
+	/**
+	 *  결재자는 반려 + 코멘트를 남길 수 있다. (Approval : 결재)
+	 * 
+	 * @param ap
+	 * @throws UpdateException
+	 */
 	@Override
-	// 참조자의 참조 승인 선택
-	public void updateReference(Reference R) throws UpdateException {
-		// DB연결
-		Connection con = null;
+	public void updateRefuseAp(Approval ap) throws UpdateException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		SqlSession session = null;
 		try {
-			con = MyConnection.getConnection();
-			// con.setAutoCommit(false);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new UpdateException(e.getMessage());
-		}
-		String updateReferenceSQL = "UPDATE reference SET ap_type='승인' WHERE document_no=? AND employee_id=?";
-		PreparedStatement pstmt = null;
-
-		try {
-			pstmt = con.prepareStatement(updateReferenceSQL);
-			// pstmt.setString(1, R.getRe_ap_type().getApStatus_type());
-			pstmt.setString(1, R.getDocument_no().getDocument_no());
-			pstmt.setString(2, R.getEmployee_id().getEmployee_id());
-			int cnt = pstmt.executeUpdate();
-			if (cnt == 1) {
-				System.out.println("참조확인 완료");
-			} else {
-				System.out.println(cnt);
-				throw new UpdateException("승인 처리가 실패되었습니다.");
+			session = sessionFactory.openSession();
+			map.put("docsNo", ap.getDocumentNo()); 
+			map.put("id", ap.getEmployee().getEmployeeId());
+			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAp", ap);
+			session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
+			if(rowcnt == 0) {
+				throw new UpdateException("결재 승인처리에 실패했습니다.");
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		}catch(Exception e) {
 			throw new UpdateException(e.getMessage());
-		} finally {
-			MyConnection.close(con, pstmt, null);
+		}finally {
+			session.close();
 		}
-
 	}
-
+	
+	/**
+	 *  합의자는 승인 + 코멘트를 남길 수 있다. (Agreement : 합의 )
+	 * 
+	 * @param ag
+	 * @throws UpdateException
+	 */
 	@Override
-	// 모두 승인처리를 할 경우, 최종 상태를 '승인'으로
-	public void documentAudmit(String document_no, String id) throws ModifyException {
-		// DB연결
-		Connection con = null;
+	public void updateAudmitAg(Agreement ag) throws UpdateException {
+		SqlSession session = null;
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		String audmitCallSQL = "call audmit(?,?)";
-		CallableStatement cstmt = null;
-		try {
-			cstmt = con.prepareCall(audmitCallSQL);
-			cstmt.setString(1, document_no);
-			cstmt.setString(2, id);
-			cstmt.execute();
-
-			System.out.println("승인 프로시저가 호출되었습니다");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sessionFactory.openSession();
+			map.put("docsNo", ag.getDocumentNo()); 
+			map.put("id", ag.getEmployee().getEmployeeId());
+			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
+			session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
+			
+			if(rowcnt == 0) {
+				throw new UpdateException("합의 승인처리에 실패했습니다.");
+			}
+		}catch(Exception e) {
+			throw new UpdateException(e.getMessage());
+		}finally {
+			session.close();
 		}
 	}
 
+
+	/**
+	 *  합의자는 반려 + 코멘트를 남길 수 있다. (Agreement : 합의 )
+	 * 
+	 * @param ag
+	 * @throws UpdateException
+	 */
 	@Override
-	// 한 명이라도 반려 할 경우, 최종 상태는 '반려'
-	public void documentRefuse(String document_no, String id) throws ModifyException {
-		// DB연결
-		Connection con = null;
+	public void updateRefuseAg(Agreement ag) throws UpdateException {
+		SqlSession session = null;
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			con = MyConnection.getConnection();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		String refuseCallSQL = "call refuse(?,?)";
-		CallableStatement cstmt = null;
-		try {
-			cstmt = con.prepareCall(refuseCallSQL);
-			cstmt.setString(1, document_no);
-			cstmt.setString(2, id);
-			cstmt.execute();
-
-			System.out.println("반려 프로시저가 호출되었습니다");
-		} catch (SQLException e) {
-			e.printStackTrace();
+			session = sessionFactory.openSession();
+			map.put("docsNo", ag.getDocumentNo()); 
+			map.put("id", ag.getEmployee().getEmployeeId());
+			session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
+			session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
+			
+		}catch(Exception e) {
+			throw new UpdateException(e.getMessage());
+		}finally {
+			session.close();
 		}
 	}
+
+
+
+
+//	/**
+//	 * 모두 승인처리를 내리면,최종 문서 상태의 값을 '승인'으로 바꾼다.
+//	 * @param docsNo, id
+//	 * @throws ModifyException
+//	 */
+//	@Override
+//	public void documentAudmit(String docsNo, String id) throws UpdateException {
+//		SqlSession session = null;
+//		
+//
+//		try {
+//			System.out.println("합의 프로시저 호출 ");
+//			session = sessionFactory.openSession();
+//	
+//			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
+//			if(rowcnt == 0) {
+//				throw new UpdateException("합의 프로시저 처리에 실패했습니다.");
+//			}
+//		}catch(Exception e) {
+//			throw new UpdateException(e.getMessage());
+//		}finally {
+//			session.close();
+//		}
+//	
+//	}
+//
+//	/**
+//	 * 한명이라도 반려시 '반려'로 변경한다.
+//	 * @param docsNo, id
+//	 * @throws ModifyException
+//	 */
+//	@Override
+//	public void documentRefuse(String docsNo, String id) throws UpdateException {
+//		SqlSession session = null;
+//		Map<String, Object> map = new HashMap<String, Object>();
+//
+//		try {
+//			session = sessionFactory.openSession();
+//			System.out.println("반려 프로시저 호출 ");
+//			map.put("docsNo", docsNo); 
+//			map.put("id", id);
+//			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
+//			if(rowcnt == 0) {
+//				throw new UpdateException("반려 프로시저 처리에 실패했습니다.");
+//			}
+//		}catch(Exception e) {
+//			throw new UpdateException(e.getMessage());
+//		}finally {
+//			session.close();
+//		}
+//	}
 }

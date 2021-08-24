@@ -2,48 +2,51 @@ package com.group.board.dto;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.group.employee.dto.Employee;
 
 public class Board {
-	public String bd_no;
+	public String bdNo;
 
 	// 게시판은 작성자를 가질 수 있다
 	private Employee writer;
-	private String bd_title;
-	private String bd_content;
-	private Timestamp bd_date;
+	private String bdTitle;
+	private String bdContent;
+	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
+	private Timestamp bdDate;
 
 	// 게시판은 여러개의 댓글을 가질 수 있다
-	public List<BoardComment> bd_comments;
+	public List<BoardComment> bdComments;
 
 	public Board() {
 	}
 
-	public Board(String bd_no, Employee writer) {
-		this(bd_no, writer, null, null, null, null);
+	public Board(String bdNo, Employee writer) {
+		this(bdNo, writer, null, null, null, null);
 	}
 
-	public Board(String bd_no, Employee writer, String bd_title, Timestamp bd_date) {
-		this(bd_no, writer, bd_title, null, bd_date, null);
+	public Board(String bdNo, Employee writer, String bdTitle, Timestamp bdDate) {
+		this(bdNo, writer, bdTitle, null, bdDate, null);
 	}
 
-	public Board(String bd_no, Employee writer, String bd_title, String bd_content, Timestamp bd_date,
-			List<BoardComment> bd_comments) {
+	public Board(String bdNo, Employee writer, String bdTitle, String bdContent, Timestamp bdDate,
+			List<BoardComment> bdComments) {
 		super();
-		this.bd_no = bd_no;
+		this.bdNo = bdNo;
 		this.writer = writer;
-		this.bd_title = bd_title;
-		this.bd_content = bd_content;
-		this.bd_date = bd_date;
-		this.bd_comments = bd_comments;
+		this.bdTitle = bdTitle;
+		this.bdContent = bdContent;
+		this.bdDate = bdDate;
+		this.bdComments = bdComments;
 	}
 
-	public String getBd_no() {
-		return bd_no;
+	public String getBdNo() {
+		return bdNo;
 	}
 
-	public void setBd_no(String bd_no) {
-		this.bd_no = bd_no;
+	public void setBdNo(String bdNo) {
+		this.bdNo = bdNo;
 	}
 
 	public Employee getWriter() {
@@ -54,42 +57,42 @@ public class Board {
 		this.writer = writer;
 	}
 
-	public String getBd_title() {
-		return bd_title;
+	public String getBdTitle() {
+		return bdTitle;
 	}
 
-	public void setBd_title(String bd_title) {
-		this.bd_title = bd_title;
+	public void setBdTitle(String bdTitle) {
+		this.bdTitle = bdTitle;
 	}
 
-	public String getBd_content() {
-		return bd_content;
+	public String getBdContent() {
+		return bdContent;
 	}
 
-	public void setBd_content(String bd_content) {
-		this.bd_content = bd_content;
+	public void setBdContent(String bdContent) {
+		this.bdContent = bdContent;
 	}
 
-	public Timestamp getBd_date() {
-		return bd_date;
+	public Timestamp getBdDate() {
+		return bdDate;
 	}
 
-	public void setBd_date(Timestamp bd_date) {
-		this.bd_date = bd_date;
+	public void setBdDate(Timestamp bdDate) {
+		this.bdDate = bdDate;
 	}
 
-	public List<BoardComment> getBd_comments() {
-		return bd_comments;
+	public List<BoardComment> getBdComments() {
+		return bdComments;
 	}
 
-	public void setBd_comments(List<BoardComment> bd_comments) {
-		this.bd_comments = bd_comments;
+	public void setBdComments(List<BoardComment> bdComments) {
+		this.bdComments = bdComments;
 	}
 
 	@Override
 	public String toString() {
-		return "Board [bd_no=" + bd_no + ", writer=" + writer + ", bd_title=" + bd_title + ", bd_content=" + bd_content
-				+ ", bd_date=" + bd_date + ", bd_comments=" + bd_comments + "]";
+		return "Board [bdNo=" + bdNo + ", writer=" + writer + ", bdTitle=" + bdTitle + ", bdContent=" + bdContent
+				+ ", bdDate=" + bdDate + ", bdComments=" + bdComments + "]";
 	}
 
 }

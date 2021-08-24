@@ -16,20 +16,31 @@ $(function () {
   var contentObjInAdd = document.querySelector("div.note-editable");
 
   //board-register 시 사용할 backurl
-  var backurlAddBoard = "/back/addboard";
-  var backurlFileUpLoadInBd = "/back/boardfileupload";
+  //게시글 작성하기
+  //var backurlAddBoard = "/back/addboard";
+  var backurlAddBoard = "http://localhost:8888/gwback/board/addboard";
+  //파일 업로드하기
+  var backurlFileUpLoadInBd =
+    "http://localhost:8888/gwback/board/fileuploadinbd";
 
   //게시글 등록 submit 이벤트 핸들러
   function addBdFormSubmitHandler(e) {
     $.ajax({
       url: backurlAddBoard,
       method: "post",
-      data: {
-        addBdWriter: loginInfoNameObj.innerText,
-        addBdWriterId: loginInfoIdObj.innerText,
-        addBdTitle: titleObjInAdd.value,
-        addBdContent: contentObjInAdd.innerText,
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8",
       },
+      data: JSON.stringify({
+        bdWriter: loginInfoNameObj.innerText,
+        bdWriterId: loginInfoIdObj.innerText,
+        bdTitle: titleObjInAdd.value,
+        bdContent: contentObjInAdd.innerText,
+      }),
       success: function () {
         //제목이 작성되지 않았으면 등록 x
         if (titleObjInAdd.value == "" || titleObjInAdd.value == null) {

@@ -6,41 +6,60 @@ import com.group.employee.dto.Employee;
 
 public class Reference {
 
-	private Document document_no;
-	private Employee employee_id;
-	private ApprovalStatus re_ap_type;
+	private String documentNo;
+	private Employee employee;
+	private ApprovalStatus reStatus;
 	
 	
-	public Document getDocument_no() {
-		return document_no;
-	}
-	public void setDocument_no(Document document_no) {
-		this.document_no = document_no;
+	public Reference() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public Employee getEmployee_id() {
-		return employee_id;
+
+	public Reference(String documentNo, Employee employee, ApprovalStatus reStatus) {
+		super();
+		this.documentNo = documentNo;
+		this.employee = employee;
+		this.reStatus = reStatus;
 	}
-	public void setEmployee_id(Employee employee_id) {
-		this.employee_id = employee_id;
+
+
+	public String getDocumentNo() {
+		return documentNo;
 	}
-	public ApprovalStatus getRe_ap_type() {
-		return re_ap_type;
+
+
+	public void setDocumentNo(String documentNo) {
+		this.documentNo = documentNo;
 	}
-	public void setRe_ap_type(ApprovalStatus re_ap_type) {
-		this.re_ap_type = re_ap_type;
+
+
+	public Employee getEmployee() {
+		return employee;
 	}
+
+
+	public void setEmployee(Employee employeeRe) {
+		this.employee = employeeRe;
+	}
+
+
+	public ApprovalStatus getReStatus() {
+		return reStatus;
+	}
+
+
+	public void setReStatus(ApprovalStatus reStatus) {
+		this.reStatus = reStatus;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Reference [document_no=" + document_no + ", employee_id=" + employee_id + ", re_ap_type=" + re_ap_type
-				+ "]";
+		return "Reference [documentNo=" + documentNo + ", employee=" + employee + ", reStatus=" + reStatus + "]";
 	}
-	
 
 
-	
-	
-	
-	
 	
 }

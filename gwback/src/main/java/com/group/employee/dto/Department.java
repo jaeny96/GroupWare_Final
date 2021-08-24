@@ -1,5 +1,4 @@
 package com.group.employee.dto;
-
 public class Department {
 	private String departmentId;
 	private String departmentTitle;
