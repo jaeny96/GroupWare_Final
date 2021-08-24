@@ -2,6 +2,16 @@ package com.group.approval.dto;
 
 public class DocumentType {
 	private String documentType;
+	
+	public DocumentType() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DocumentType(String documentType) {
+		super();
+		this.documentType = documentType;
+	}
 
 	public String getDocumentType() {
 		return documentType;

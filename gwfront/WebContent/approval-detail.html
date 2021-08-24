@@ -243,7 +243,7 @@
           </div>
         </div>
         <div class="card-body">
-          <div class="text-center">
+          <div class="text-center commentObj">
             <button class="btn ap-btn-outline-purple text-center" type="menu">
               <img
                 id="apCommentOkImg"
@@ -265,33 +265,40 @@
               />
             </button>
           </div>
-          <div class="mb-3 row">
-            <label
-              class="basicMent"
-              style="margin-top: 20px"
-              id="apCommentInput "
-              ><h4 class="font-weight-bolder">코멘트를 작성해주세요</h4></label
-            ><br />
-            <div class="commentArea">
-              <textarea class="form-control" rows="5"></textarea>
+          <form class="commentForm" method="post" action="#">
+            <div class="mb-3 row">
+              <label class="basicMent" style="margin-top: 20px"
+                ><h4 class="font-weight-bolder">
+                  코멘트를 작성해주세요
+                </h4></label
+              ><br />
+              <div class="commentArea">
+                <textarea
+                  class="form-control apCommentInput"
+                  rows="5"
+                ></textarea>
+              </div>
             </div>
-          </div>
 
-          <div class="mb-3 row">
-            <div style="text-align: center; margin: 10px 0">
-              <button
-                type="submit"
-                class="btn ap-btn-outline-purple"
-                id="apCommentConfirmBtn"
-              >
-                저장
-              </button>
+            <div class="mb-3 row">
+              <div style="text-align: center; margin: 10px 0">
+                <button
+                  type="button"
+                  class="btn ap-btn-outline-purple"
+                  id="apStatusConfirmBtn"
+                >
+                  저장
+                </button>
 
-              <button class="btn btn-secondary cancel" id="apCommentCancelBtn">
-                취소
-              </button>
+                <button
+                  class="btn btn-secondary cancel"
+                  id="apCommentCancelBtn"
+                >
+                  취소
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
