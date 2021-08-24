@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.approval.ApprovalWriteMapper">
+<!--문서를 기안하기 -->
+<insert id="insertDraft" parameterType="document">
+INSERT INTO document (document_no, document_type, employee_id, document_title, document_content) 
+VALUES (#{documentNo}, #{documentStatus.documentType},#{employee.employeeId},#{documentTitle},#{documentContent})
+</insert>
+<!--해당 최대 숫자 가져오기   -->
+<select id="checkMaxNum" resultType="int">
+SELECT MAX(SUBSTR(document_no,-4)) FROM document WHERE SUBSTR(document_no,4,2)=#{documentStatus.documentType}
+</select>
+<!-- approval을 기안하기 -->
+<insert id="insertDraftAp" parameterType="document">
+INSERT INTO approval (document_no, employee_id,ap_type,ap_step) VALUES (#{documentNo},#{employee.employeeId},#{apStatus.apType},#{apStep})
+</insert>
+<!-- agreement를 기안하기 -->
+<insert id="insertDraftAg" parameterType="agreement">
+INSERT INTO agreement (document_no, employee_id, ap_type) VALUES (#{documentNo},#{employee.employeeId},'대기')
+</insert>
+<!-- reference를 기안하기 -->
+<insert id="insertDraftRe" parameterType="reference">
+INSERT INTO reference (document_no, employee_id,ap_type) VALUES (#{documentNo},#{employee.employeeId},'대기')
+</insert>
+</mapper>

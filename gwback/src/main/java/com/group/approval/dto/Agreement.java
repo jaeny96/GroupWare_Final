@@ -2,54 +2,74 @@ package com.group.approval.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.group.employee.dto.Employee;
 
 public class Agreement {
 
-	private Document document_no;
-	private Employee employee_id;
-	private ApprovalStatus ag_ap_type;
-	private Date ag_ap_date;
-	private String ag_ap_comment;
+	private String documentNo;
+	@JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
+	private Date apDate;
+	private String apComment;
+	private Employee employee;
+	private ApprovalStatus agStatus;
 	
-	public Document getDocument_no() {
-		return document_no;
+	
+	
+	public Agreement() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public void setDocument_no(Document document_no) {
-		this.document_no = document_no;
+	
+	
+	public Agreement(String documentNo, Date apDate, String apComment, Employee employee, ApprovalStatus agStatus) {
+		super();
+		this.documentNo = documentNo;
+		this.apDate = apDate;
+		this.apComment = apComment;
+		this.employee = employee;
+		this.agStatus = agStatus;
 	}
 
-	public Employee getEmployee_id() {
-		return employee_id;
+
+	public String getDocumentNo() {
+		return documentNo;
 	}
-	public void setEmployee_id(Employee employee_id) {
-		this.employee_id = employee_id;
+	public void setDocumentNo(String documentNo) {
+		this.documentNo = documentNo;
 	}
-	public ApprovalStatus getAg_ap_type() {
-		return ag_ap_type;
+	public Date getApDate() {
+		return apDate;
 	}
-	public void setAg_ap_type(ApprovalStatus ag_ap_type) {
-		this.ag_ap_type = ag_ap_type;
+	public void setApDate(Date apDate) {
+		this.apDate = apDate;
 	}
-	public Date getAg_ap_date() {
-		return ag_ap_date;
+	public String getApComment() {
+		return apComment;
 	}
-	public void setAg_ap_date(Date ag_ap_date) {
-		this.ag_ap_date = ag_ap_date;
+	public void setApComment(String apComment) {
+		this.apComment = apComment;
 	}
-	public String getAg_ap_comment() {
-		return ag_ap_comment;
+	public Employee getEmployee() {
+		return employee;
 	}
-	public void setAg_ap_comment(String ag_ap_comment) {
-		this.ag_ap_comment = ag_ap_comment;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
+	public ApprovalStatus getAgStatus() {
+		return agStatus;
+	}
+	public void setAgStatus(ApprovalStatus agStatus) {
+		this.agStatus = agStatus;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Agreement [document_no=" + document_no + ", employee_id=" + employee_id + ", ag_ap_type=" + ag_ap_type
-				+ ", ag_ap_date=" + ag_ap_date + ", ag_ap_comment=" + ag_ap_comment + "]";
+		return "Agreement [documentNo=" + documentNo + ", apDate=" + apDate + ", apComment=" + apComment + ", employee="
+				+ employee + ", agStatus=" + agStatus + "]";
 	}
 	
-	
-	
+
 	
 }
