@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,7 +59,7 @@ public class ScheduleController {
 	@GetMapping("/skdDate/{sdate}/{edate}")
 	public Object skdDate(@PathVariable String sdate, @PathVariable String edate ,HttpSession session) {
 		//String id = session.getAttribute("id").toString();
-		String id = "SEC002";
+		String id = "MSD003";
 		Department dept = new Department();
 		dept.setDepartmentId("SEC");
         Employee em = new Employee(id, null, dept, null, null, null, null, null, 1, null);
@@ -157,6 +158,7 @@ public class ScheduleController {
 	}
 	@PutMapping("/modify/{no}")
 	public Map<String, Object> modify(@PathVariable int no,@RequestBody Schedule s){
+		log.error(s+"스케줄s");
 		Map<String, Object> map = new HashMap<>();
 		String id = "MSD003";
 		Employee em = new Employee();
@@ -165,6 +167,7 @@ public class ScheduleController {
 		s.setSkdNo(no);
 		try {
 			service.modifySkd(s);
+			
 		} catch (ModifyException e) {
 			e.printStackTrace();
 			map.put("status", -1);
