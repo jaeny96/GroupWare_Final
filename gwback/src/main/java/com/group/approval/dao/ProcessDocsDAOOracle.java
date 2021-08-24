@@ -151,12 +151,9 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			session = sessionFactory.openSession();
 			map.put("docsNo", ag.getDocumentNo()); 
 			map.put("id", ag.getEmployee().getEmployeeId());
-			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
+			session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
 			session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
 			
-			if(rowcnt == 0) {
-				throw new UpdateException("합의 승인처리에 실패했습니다.");
-			}
 		}catch(Exception e) {
 			throw new UpdateException(e.getMessage());
 		}finally {

@@ -105,8 +105,8 @@ $(function () {
   var apDocsReName = new Array(); //참조자 이름
   var apDocsReType = new Array(); //참조자 승인여부
 
-  var myCheckId = null; // 내가 승인할 위치인지 확인하기 위해 만든 변수
-
+  var myCheckName = null; // 내가 승인할 위치인지 확인하기 위해 만든 변수
+  var myCheckId = null; //내 로그인 아이디
   //내가 승인해야할 부분 받아오기 ajax
   $.ajax({
     method: "GET",
@@ -121,33 +121,34 @@ $(function () {
     timeout: {},
     success: function (responseObj) {
       console.log(responseObj);
-      myCheckId = responseObj[0].employee.name;
-      console.log(myCheckId);
+      myCheckName = responseObj[0].employee.name;
+      myCheckId = responseObj[0].employee.employeeId;
+      console.log(myCheckName);
     },
   });
 
   //상세내용 구성요소 채우기 관련 함수 시작
   function createApBdElement(i) {
     //문서정보 채우기
-    tdDetailType.innerText = apDocsType;
-    tdDetailNo.innerText = apDocsNo;
-    tdDetailDep.innerText = apDocsDep;
-    tdDetailWriter.innerText = apDocsWriter;
-    tdDetailDate.innerText = apDocsDate;
-    divDetailTitle.innerText = apDocsTitle;
-    divDetailContent.innerText = apDocsContent;
+    tdDetailType.innerHTML = apDocsType;
+    tdDetailNo.innerHTML = apDocsNo;
+    tdDetailDep.innerHTML = apDocsDep;
+    tdDetailWriter.innerHTML = apDocsWriter;
+    tdDetailDate.innerHTML = apDocsDate;
+    divDetailTitle.innerHTML = apDocsTitle;
+    divDetailContent.innerHTML = apDocsContent;
 
     // 결재 관련
     //결재선 이름 채우기
-    tdApStep0Name.innerText = apDocsApName0;
-    tdApStep1Name.innerText = apDocsApName1;
-    tdApStep2Name.innerText = apDocsApName2;
-    tdApStep3Name.innerText = apDocsApName3;
+    tdApStep0Name.innerHTML = apDocsApName0;
+    tdApStep1Name.innerHTML = apDocsApName1;
+    tdApStep2Name.innerHTML = apDocsApName2;
+    tdApStep3Name.innerHTML = apDocsApName3;
     //결재선 승인날짜 채우기
-    divApStep0Date.innerText = apDocsApDate0;
-    divApStep1Date.innerText = apDocsApDate1;
-    divApStep2Date.innerText = apDocsApDate2;
-    divApStep3Date.innerText = apDocsApDate3;
+    divApStep0Date.innerHTML = apDocsApDate0;
+    divApStep1Date.innerHTML = apDocsApDate1;
+    divApStep2Date.innerHTML = apDocsApDate2;
+    divApStep3Date.innerHTML = apDocsApDate3;
 
     tdApStep0Name.appendChild(divApStep0Date);
     tdApStep1Name.appendChild(divApStep1Date);
@@ -156,7 +157,7 @@ $(function () {
 
     //결재 관련 승인여부에 따라, 알맞은 이미지 부여하기
     //결재자 0
-    if (apDocsApType0 == "대기" && myCheckId === apDocsApName0.toString()) {
+    if (apDocsApType0 == "대기" && myCheckName === apDocsApName0.toString()) {
       apStep0Obj.appendChild(buttonTag);
     } else if (apDocsApType0 == "대기") {
       apStep0Obj.innerText = "대기중";
@@ -168,7 +169,7 @@ $(function () {
       apStep0Obj.appendChild(imgTag);
     }
     //결재자 1
-    if (apDocsApType1 == "대기" && myCheckId === apDocsApName1.toString()) {
+    if (apDocsApType1 == "대기" && myCheckName === apDocsApName1.toString()) {
       apStep1Obj.appendChild(buttonTag1);
     } else if (apDocsApType1 == "대기") {
       apStep1Obj.innerText = "대기중";
@@ -180,7 +181,7 @@ $(function () {
       apStep1Obj.appendChild(imgTag1);
     }
     //결재자 2
-    if (apDocsApType2 == "대기" && myCheckId === apDocsApName2.toString()) {
+    if (apDocsApType2 == "대기" && myCheckName === apDocsApName2.toString()) {
       apStep2Obj.appendChild(buttonTag2);
     } else if (apDocsApType2 == "대기") {
       apStep2Obj.innerHTML = "대기중";
@@ -192,7 +193,7 @@ $(function () {
       apStep2Obj.appendChild(imgTag2);
     }
     //결재자 3
-    if (apDocsApType3 == "대기" && myCheckId === apDocsApName3.toString()) {
+    if (apDocsApType3 == "대기" && myCheckName === apDocsApName3.toString()) {
       apStep3Obj.appendChild(buttonTag3);
     } else if (apDocsApType3 == "대기") {
       apStep3Obj.innerText = "대기중";
@@ -205,10 +206,10 @@ $(function () {
     }
 
     //힙의 이름 채우기
-    tdAgName.innerText = apDocsAgName;
-    console.log(myCheckId === apDocsAgName.toString());
+    tdAgName.innerHTML = apDocsAgName;
+    console.log(myCheckName === apDocsAgName.toString());
     //합의 관련 승인여부에 따라, 알맞은 이미지 부여하기
-    if (apDocsAgType == "대기" && myCheckId === apDocsAgName.toString()) {
+    if (apDocsAgType == "대기" && myCheckName === apDocsAgName.toString()) {
       tdAgName.appendChild(agButtonTag);
     } else if (apDocsAgType == "반려") {
       agImgTag.src = "img/icons/no.png";
@@ -219,7 +220,7 @@ $(function () {
     }
 
     //참조 이름 채우기
-    tdReName.innerText = apDocsReName;
+    tdReName.innerHTML = apDocsReName;
     //참조 관련 승인여부에 따라, 알맞은 이미지 부여하기
     if (apDocsReType == "대기") {
       spanTag.style.color = "#dfd5f5";
@@ -250,9 +251,9 @@ $(function () {
   var currentLoginId = loginInfoIdObj.innerText;
   //참조 버튼 클릭시 알림창 + ajax 처리
   $("#apReferenceName").click(function () {
-    console.log(myCheckId);
+    console.log(myCheckName);
     console.log(apDocsReName.toString());
-    if (apDocsReType == "대기" && myCheckId === apDocsReName.toString()) {
+    if (apDocsReType == "대기" && myCheckName === apDocsReName.toString()) {
       console.log("조건 클릭");
       //ajax 관련 내용 넣기
       $.ajax({
@@ -267,13 +268,19 @@ $(function () {
         },
         data: JSON.stringify({
           documentNo: tmpDocsBdNo,
-          employeeId: myCheckId,
+          employee: { employeeId: myCheckId },
         }),
         timeout: {},
         success: function () {
           alert("참조 확인하셨습니다 !");
           spanTag.style.color = "#6A0888";
           spanTag.setAttribute("class", "fa fa-check");
+          var $content = $("div.wrapper>div.main>main.content");
+          var href = "approval-detail.html";
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
         },
         error: function (request, status, error) {
           alert(
@@ -400,10 +407,19 @@ $(function () {
 
   // 모달 관련
   var modal = document.getElementById("modalApprovalComment"); //모달 전체 객체
-  var confirmBtn = document.getElementById("apCommentConfirmBtn"); //저장버튼
+  var confirmBtn = document.querySelector("#apStatusConfirmBtn"); //저장버튼
+  console.log(confirmBtn);
   var cancelBtn = document.getElementById("apCommentCancelBtn"); //취소버튼
 
-  const openModal = () => {
+  const openModal = (e) => {
+    console.log(e.target.id);
+    if (e.target.id == "apCommentConfirmBtn") {
+      //결재 버튼 클릭시 작동
+      apForm();
+    } else if (e.target.id == "approvalCommentBtn") {
+      //합의 버튼 클릭시 작동
+      agForm();
+    }
     modal.classList.remove("hidden");
   };
 
@@ -411,15 +427,145 @@ $(function () {
     modal.classList.add("hidden");
   };
 
-  const confirmModal = () => {
-    window.alert("확인완료 되었습니다.");
-  };
-
   buttonTag.addEventListener("click", openModal);
   buttonTag1.addEventListener("click", openModal);
   buttonTag2.addEventListener("click", openModal);
   buttonTag3.addEventListener("click", openModal);
   agButtonTag.addEventListener("click", openModal); //버튼을 띄워줄려면, 만든건 직접적으로 클릭 이벤트
-  confirmBtn.addEventListener("click", confirmModal);
+
+  //승인 모달 관련 값 체크함수
+  function audmitBtnHandler(e) {
+    console.log(e.target);
+    console.log(e.target.id);
+    if (e.target.id == "apCommentOkImg") {
+      //승인 선택시
+      audmitStatus = "audmit";
+      myStatus = "승인";
+      console.log("승인 클릭");
+    } else if (e.target.id == "apCommentNoImg") {
+      //반려 선택시
+      audmitStatus = "refuse";
+      myStatus = "반려";
+      console.log("반려 클릭");
+    }
+  }
+  //코멘트 관련 클릭 발동
+  var okBtn = $("#apCommentOkImg");
+  var noBtn = $("#apCommentNoImg");
+  console.log(okBtn);
+
+  console.log(noBtn);
+  okBtn.click(audmitBtnHandler);
+  noBtn.click(audmitBtnHandler);
+
+  //문장 받아오기
+  var commentTextArea = $("#apCommentInput");
+  var lines = commentTextArea.value.split("\n");
+
+  //문단과, 태그 처리
+  var resultString = "<p>";
+  for (var i = 0; i < lines.length; i++) {
+    resultString += lines[i] + "<br />";
+  }
+  resultString += "</p>";
+  //결재자의 승인요망을 클릭하면 작동하는 함수
+  function apForm() {
+    console.log(resultString);
+    confirmBtn.addEventListener("click", function (e) {
+      if (audmitStatus == "" && myStatus == "") {
+        //승인 타입 선택 안하면 작동
+        alert("승인 타입을 선택하세요.");
+      } else {
+        $.ajax({
+          method: "PUT",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: "/gwback/approval/updateap/" + audmitStatus,
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          data: JSON.stringify({
+            documentNo: tmpDocsBdNo,
+            apComment: resultString,
+            employee: { employeeId: myCheckId },
+            agStatus: { apType: myStatus },
+          }),
+          timeout: {},
+          success: function (responseData) {
+            alert("승인 요망이 확인되었습니다");
+            var $content = $("div.wrapper>div.main>main.content");
+            var href = "approval-detail.html";
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+          },
+          error: function (request, status, error) {
+            alert(
+              "code:" +
+                request.status +
+                "\n" +
+                "message:" +
+                request.responseText +
+                "\n" +
+                "error:" +
+                error
+            );
+          },
+        });
+      }
+    });
+  }
+  //합의자의 승인요망을 클릭하면 작동하는 함수
+  function agForm() {
+    confirmBtn.addEventListener("click", function (e) {
+      //코멘트 보내는
+      if (audmitStatus == "" && myStatus == "") {
+        alert("승인 타입을 선택하세요.");
+      } else {
+        $.ajax({
+          method: "PUT",
+          transformRequest: [null],
+          transformResponse: [null],
+          jsonpCallbackParam: "callback",
+          url: "/gwback/approval/updateag/" + audmitStatus,
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          data: JSON.stringify({
+            documentNo: tmpDocsBdNo,
+            apComment: resultString,
+            employee: { employeeId: myCheckId },
+            agStatus: { apType: myStatus },
+          }),
+          timeout: {},
+          success: function (responseData) {
+            alert("승인 요망이 확인되었습니다");
+            var $content = $("div.wrapper>div.main>main.content");
+            var href = "approval-detail.html";
+            $content.load(href, function (responseTxt, statusTxt, xhr) {
+              if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+          },
+          error: function (request, status, error) {
+            alert(
+              "code:" +
+                request.status +
+                "\n" +
+                "message:" +
+                request.responseText +
+                "\n" +
+                "error:" +
+                error
+            );
+          },
+        });
+      }
+    });
+  }
   cancelBtn.addEventListener("click", cancelModal);
 });

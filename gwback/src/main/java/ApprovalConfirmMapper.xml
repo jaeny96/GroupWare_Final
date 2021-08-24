@@ -55,13 +55,13 @@ ap.ap_date "ap.ap_date", ap.ap_type "ap.ap_type", ap.ap_step "ap.ap_step", ape.n
 ,r.ap_type "r.ap_type",re.name "re.name"
 FROM document d JOIN employee e ON (d.employee_id = e.employee_id)
 JOIN department ed ON (e.department_id = ed.department_id) 
-JOIN approval ap ON  ( d.document_no = ap.document_no)
+JOIN approval ap ON  ( d.document_no = ap.document_no )
 JOIN employee ape ON (ap.employee_id = ape.employee_id)
 LEFT JOIN agreement ag ON  ( d.document_no = ag.document_no)
 LEFT JOIN employee age ON (ag.employee_id = age.employee_id)
 LEFT JOIN reference r ON ( d.document_no = r.document_no)
 LEFT JOIN employee re ON (r.employee_id = re.employee_id)
-WHERE d.document_no=#{docsNo}
+WHERE d.document_no=#{docsNo} order by ap.ap_step
 </select> 
 <!-- 확인 /미확인 - 전체-->
 <select id="selectByCheckAll" parameterType="java.util.HashMap" resultType="document">

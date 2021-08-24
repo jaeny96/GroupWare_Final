@@ -73,6 +73,8 @@ public class ProcessDocsController {
 		
 		Map<String, Object> result = new HashMap<>();
 		try {
+		System.out.println("합의자 "+ag);
+		System.out.println(statusOpt.get());
 			if(statusOpt.isPresent()) {
 				service.decisionMyAg(ag,statusOpt.get());
 				result.put("status", 1);
@@ -84,5 +86,6 @@ public class ProcessDocsController {
 		}
 		return result;
 	}
+	
 	
 }
