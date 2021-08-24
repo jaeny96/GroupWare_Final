@@ -679,7 +679,7 @@ function draft() {
           data: JSON.stringify({
             documentStatus: apDocsTypeObj.trim(),
             documentTitle: apDocsTitleObj.value.trim(),
-            documentContent: apDocsContentObj.innerText.trim(),
+            documentContent: apDocsContentObj.innerHTML.trim(),
             employee: { employeeId: loginInfoIdObj.innerText.trim() },
             approvals: apLine,
             agreement: { employee: { employeeId: aglineEmpId.trim() } },

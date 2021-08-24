@@ -67,5 +67,4 @@ class MainDAOOracleTest {
 		int expectedBdListSize = 1;
 		assertEquals(expectedBdListSize, skdList.size());
 	}
-
 }

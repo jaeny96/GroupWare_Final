@@ -1,9 +1,12 @@
 $(function () {
+  var $mainProfileImg = $("img#mainProfileImg");
+  // console.log($mainProfileImg);
+
+  $mainProfileImg.attr("src", "img/avatars/avatar-2.jpg");
   //메뉴 이동 시 변경 될 부분
   var $content = $("div.wrapper>div.main>main.content");
   //로그인 여부 확인
-  // var backurlCheckLogined = "/back/checkedlogined";
-  // var backurlCheckLogined = "http://localhost:8888/gwback/main/chkLogin";
+  // var backurlCheckLogined = "http://localhost:8888/gwback/main/chk-login";
   // $.ajax({
   //   url: backurlCheckLogined,
   //   method: "get",
@@ -116,7 +119,7 @@ $(function () {
   //휴가정보
   var backurlLeave = "http://localhost:8888/gwback/main/leave";
   //오늘의일정
-  var backurlSkd = "http://localhost:8888/gwback/main/todaySkd";
+  var backurlSkd = "http://localhost:8888/gwback/main/today-skd";
   //로그아웃
   var backurlLogout = "http://localhost:8888/gwback/main/logout";
   //로그아웃 버튼 객체
@@ -132,6 +135,7 @@ $(function () {
   $.ajax({
     url: backurlProfile,
     method: "get",
+    "Content-Type": "application/json",
     success: function (responseData) {
       mainLoginId = responseData.employeeId;
       mainLoginName = responseData.name;
@@ -427,14 +431,6 @@ $(function () {
 
     switch (href) {
       case "post.html":
-        // case "post-detail-spending.html":
-        // case "post-detail-circular.html":
-        // case "post-detail-business.html":
-        // case "post-detail-account.html":
-        // case "post-detail-leave.html":
-        // case "post-detail-contact.html":
-        //클릭한 객체의 sidebar-item만 활성화 시키기
-        // if (href == "post.html") {
         $(this).closest("li").attr("class", "sidebar-item mb-2 active");
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
@@ -442,22 +438,6 @@ $(function () {
         });
         break;
     }
-    // else {
-    //   //작성하기에 select 옵션 '선택' 아닐 때 summernote미리 등록
-    //   $content.load(href, function (responseTxt, statusTxt, xhr) {
-    //     $("#summernote").summernote({
-    //       height: 600, // 에디터 높이
-    //       minHeight: null, // 최소 높이
-    //       maxHeight: null, // 최대 높이
-    //       focus: true, // 에디터 로딩후 포커스를 맞출지 여부
-    //       lang: "ko-KR", // 한글 설정
-    //       placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
-    //     });
-    //     if (statusTxt == "error")
-    //       alert("Error: " + xhr.status + ": " + xhr.statusText);
-    //   });
-    // }
-    // }
     return false;
   });
 

@@ -17,8 +17,8 @@
 		<property name="driverClassName"
 			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="jdbcUrl"
-			value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:XE" />
-		<property name="username" value="groupware" />
+			value="jdbc:log4jdbc:oracle:thin:@groupware.ckdq94s70hvq.ap-northeast-2.rds.amazonaws.com:1521:ORCL" />
+		<property name="username" value="admin" />
 		<property name="password" value="groupware" />
 		<property name="minimumIdle" value="1" />
 	</bean>

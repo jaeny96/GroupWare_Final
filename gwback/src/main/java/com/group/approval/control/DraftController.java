@@ -87,7 +87,7 @@ public class DraftController {
 		return result;
 	}
 	
-	@GetMapping("/apLine")
+	@GetMapping("/ap-line")
 	public Object showDept(){
 		Map<String, Object> map = new HashMap<>();
 		try {
@@ -101,7 +101,7 @@ public class DraftController {
 		}
 	}
 
-	@GetMapping(value="/apLine/{deptId}")
+	@GetMapping(value="/ap-line/{deptId}")
 	public Object showEmpByDept(@PathVariable String deptId){
 		Map<String, Object> map = new HashMap<>();
 		try {

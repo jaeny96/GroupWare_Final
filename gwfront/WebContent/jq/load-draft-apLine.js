@@ -66,7 +66,7 @@ function createApLineElement(staffName, staffId, target) {
 $(function () {
   var $divTarget = $("div#apLineCardbody>div");
   //--ajax : 부서번호 및 부서명 가져오기
-  var backurlDept = "http://localhost:8888/gwback/approval/draft/apLine";
+  var backurlDept = "http://localhost:8888/gwback/approval/draft/ap-line";
   $.ajax({
     url: backurlDept,
     method: "get",
@@ -90,7 +90,7 @@ $(function () {
       //--부서별 사원 가져오기
       for (var i = 0; i < deptId.length; i++) {
         backurlEmp[i] =
-          "http://localhost:8888/gwback/approval/draft/apLine/" + deptId[i];
+          "http://localhost:8888/gwback/approval/draft/ap-line/" + deptId[i];
       }
       for (var i = 0; i < deptId.length; i++) {
         showEmpByDept(backurlEmp[i]);

@@ -59,7 +59,7 @@ public class MainController {
 	}
 
 	
-	@GetMapping("/chkLogin")
+	@GetMapping("/chk-login")
 	public Map<String,Integer> chkLogin(HttpSession session) {
 		Map<String, Integer> map = new HashMap<>();
 		int status;
@@ -142,7 +142,7 @@ public class MainController {
 		return map;
 	}
 
-	@GetMapping("/todaySkd")
+	@GetMapping("/today-skd")
 	public Object getTodaySkdList(/* HttpServletRequest request */) {
 		Employee emp = new Employee();
 		Department dept = new Department();
