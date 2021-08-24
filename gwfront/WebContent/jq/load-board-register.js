@@ -28,12 +28,19 @@ $(function () {
     $.ajax({
       url: backurlAddBoard,
       method: "post",
-      data: {
-        addBdWriter: loginInfoNameObj.innerText,
-        addBdWriterId: loginInfoIdObj.innerText,
-        addBdTitle: titleObjInAdd.value,
-        addBdContent: contentObjInAdd.innerText,
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8",
       },
+      data: JSON.stringify({
+        bdWriter: loginInfoNameObj.innerText,
+        bdWriterId: loginInfoIdObj.innerText,
+        bdTitle: titleObjInAdd.value,
+        bdContent: contentObjInAdd.innerText,
+      }),
       success: function () {
         //제목이 작성되지 않았으면 등록 x
         if (titleObjInAdd.value == "" || titleObjInAdd.value == null) {

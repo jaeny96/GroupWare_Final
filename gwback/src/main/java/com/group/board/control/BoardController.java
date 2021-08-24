@@ -36,12 +36,12 @@ public class BoardController {
 	 * @param currentPage
 	 * @return
 	 */
-	@GetMapping("/bdpage")
-	public Object getBdpage(/* HttpSession session */) {
+	@GetMapping(value = "/bdpage/{currentpage}")
+	public Object getBdpage(@PathVariable int currentpage) {
 		Map<String, Object> map = new HashMap<>();
-		int currentPage = 1;
 		try {
-			List<Board> bdList = service.showBdAll(currentPage);
+			List<Board> bdList = service.showBdAll(currentpage);
+			//System.out.println("in getCurrentpage:" + bdList);
 			return bdList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,11 +56,9 @@ public class BoardController {
 	 * @param category, word
 	 * @return 카테고리와 단어의 키워드 해당하는 게시글 목록
 	 */
-	//이친구는..테스트를 어떻게 해줘야하지..?
 	@GetMapping("/searchboard/{category}/{word}")
-	public Object getSearchboard(String category, String word) {
+	public Object getSearchboard(@PathVariable String category, @PathVariable String word) {
 		Map<String, Object> map = new HashMap<>();
-		
 		try {
 			List<Board> bdList = service.searchBd(category, word);
 			if (bdList.size() == 0) {
@@ -78,16 +76,16 @@ public class BoardController {
 	}
 
 	/**
-	 * 페이지 그룹당 보여주는 페이지수
+	 * 페이지 그룹당 5개씩 보여줌
 	 * @param int PageGroup
 	 * @return list
 	 */
-	@GetMapping("/pagegroup")
-	public Object getPagegroup() {
+	@GetMapping(value = "/pagegroup/{pagegroupno}")
+	public Object getPagegroup(@PathVariable int pagegroupno) {
 		Map<String, Object> map = new HashMap<>();
-		int PageGroup = 1;
+		//int PageGroup = 1;
 		try {
-			List<Integer> list = beanservice.selectPageGroup(PageGroup);
+			List<Integer> list = beanservice.selectPageGroup(pagegroupno);
 			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,7 +121,7 @@ public class BoardController {
 	@PostMapping("/addboard")
 	public Object getAddboard(@RequestBody Board bd) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "DEV004";
+		String id = "MSD002";
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
 		bd.setWriter(emp);
@@ -151,14 +149,14 @@ public class BoardController {
 	 * @return
 	 */
 	@PutMapping("/modifybd/{bdNo}")
-	public Object getModifybd(@RequestBody Board bd) {
+	public Object getModifybd(@PathVariable String bdNo,@RequestBody Board bd) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "DEV005";
-		String bdNo = "BD3";
+		String id = "MSD002";
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
 		bd.setWriter(emp);
 		bd.setBdNo(bdNo);
+		System.out.println(bdNo);
 		try {
 			service.modifyBd(bd);
 		} catch (Exception e) {
@@ -169,13 +167,16 @@ public class BoardController {
 		return map;
 	}
 
-	// 게시글 상세조회
+	/**
+	 * 게시글상세조회
+	 * @param bdNo
+	 * @return
+	 */
 	@GetMapping("/{bdNo}")
 	public Object getBddetail(@PathVariable String bdNo) {
 		Map<String, Object> result = new HashMap<>();
 		Board bd = new Board();
 		bd.setBdNo(bdNo);
-
 		try {
 			Board bdDetail = service.showBdDetail(bdNo);
 			return bdDetail;
@@ -190,7 +191,7 @@ public class BoardController {
 	@DeleteMapping("/removebd/{bdNo}")
 	public Map<String, Object> getRemovebd(@PathVariable String bdNo) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "SEC002";
+		String id = "MSD002";
 		Board bd = new Board();
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);

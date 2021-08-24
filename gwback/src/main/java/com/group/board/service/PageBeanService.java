@@ -39,7 +39,7 @@ public class PageBeanService {
 		return totalPage;
 	}
 	/**
-	 * 페이지를 4개씩 묶음
+	 * 페이지를 x개씩 묶음
 	 * @param PageGroup
 	 * @return
 	 */

@@ -39,7 +39,7 @@ $(function () {
   //현재 페이지 기본 세팅 =1
   var currentPage = localStorage.getItem("bdCurrPage");
   //페이지 별 보여줄 게시글 갯수
-  var cnt_per_page = 10;
+  var cnt_per_page = 5;
   //페이지 그룹 당 보여주는 페이지 수
   var cnt_per_page_group = 4;
 
@@ -86,13 +86,20 @@ $(function () {
     } else {
       //카테고리 지정 후 데이터 전송
       $.ajax({
-        url: backurlBdSearch + category + word,
+        url: backurlBdSearch + "/" + bdSearchCategory + "/" + searchObj.value,
         method: "get",
-        //카테고리 종류와 검색 단어 전송
-        data: {
-          bdSearchCategory: bdSearchCategory,
-          bdSearchWord: searchObj.value,
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
         },
+        timeout: {},
+        //카테고리 종류와 검색 단어 전송
+        // data: JSON.stringify({
+        //   bdSearchCategory: bdSearchCategory,
+        //   bdSearchWord: searchObj.value,
+        // }),
         success: function (responseData) {
           //현재 있는 tbody 제거 및 arr 값 초기화
           emptyBdElement(tBodyObj);
@@ -230,9 +237,9 @@ $(function () {
         );
         //페이지 그룹 반환 하는 ajax
         $.ajax({
-          url: backurlPage,
+          url: backurlPage + "/" + localStorage.getItem("bdCurrPageGroup"),
           method: "get",
-          data: { nthPageGroup: localStorage.getItem("bdCurrPageGroup") },
+          //data: { nthPageGroup: localStorage.getItem("bdCurrPageGroup") },
           success: function (responseData) {
             //페이지 그룹 객체 제거
             removeElement(pageGroupObj);
@@ -264,12 +271,15 @@ $(function () {
   function loadCurrentBoard() {
     //해당 페이지에 해당하는 게시글 목록 불러오는 ajax
     $.ajax({
-      url: backurlBdPage,
-      method: "get",
-      data: {
-        //현재 페이지 전송
-        bdCurrentPage: currentPage,
+      method: "GET",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      url: backurlBdPage + "/" + currentPage,
+      headers: {
+        Accept: "application/json, text/plain, */*",
       },
+      timeout: {},
       success: function (responseData) {
         //게시글 목록 tbody 제거 및 배열 초기화
         emptyBdElement(tBodyObj);
@@ -291,7 +301,8 @@ $(function () {
         );
         //게시글 제목 객체 클릭 시 이벤트 발생
         $titleObj.click(function (e) {
-          localStorage.setItem("bdNumber", e.target.id);
+          localStorage.setItem("bdNumber", e.target.id); //글번호
+
           //클릭된현재객체의 href속성값 얻기 : .attr('href');
           var href = $(this).attr("href");
           switch (href) {
@@ -484,10 +495,10 @@ $(function () {
 
   //페이지 그룹 반환 하는 ajax
   $.ajax({
-    url: backurlPage,
+    url: backurlPage + "/" + 1,
     method: "get",
+    contentType: "application/json",
     //첫 화면 페이지 그룹 : 1
-    data: { nthPageGroup: 1 },
     success: function (responseData) {
       $(responseData).each(function (i, e) {
         pageGroup[i] = e;
@@ -506,6 +517,7 @@ $(function () {
   $.ajax({
     url: backurlTotalPage,
     method: "get",
+    contentType: "application/json",
     success: function (responseData) {
       totalPage = responseData;
     },

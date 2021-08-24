@@ -34,14 +34,26 @@ $(function () {
 
   //게시글 수정 form submit 이벤트 핸들러
   function modifyBdSubmitHandler(e) {
+    alert(backurlModiBdDetail + "/" + bdTargetNoInModi);
+    alert(titleObjInModi.value);
+    alert(contentObjInModi.innerText);
     $.ajax({
-      url: backurlModiBdDetail + bdNo,
-      method: "put",
-      data: {
-        modiBdTargetNo: bdTargetNoInModi,
-        modiBdTitle: titleObjInModi.value,
-        modiBdContent: contentObjInModi.innerText,
+      url: backurlModiBdDetail + "/" + bdTargetNoInModi,
+      method: "PUT",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8",
       },
+      // data: data,
+      timeout: {},
+      data: JSON.stringify({
+        // modiBdTargetNo: bdTargetNoInModi,
+        bdTitle: titleObjInModi.value,
+        bdContent: contentObjInModi.innerText,
+      }),
       success: function () {
         //제목이 입력되지 않으면 수정 x
         if (titleObjInModi.value == "" || titleObjInModi.value == null) {
@@ -49,9 +61,9 @@ $(function () {
         } else {
           alert("게시글이 변경되었습니다");
           //게시글 수정 후 재로딩
-          $(
-            '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
-          ).trigger("click");
+          // $(
+          //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
+          // ).trigger("click");
         }
       },
       error: function (request, status, error) {

@@ -79,13 +79,16 @@ $(function () {
   //댓글 삭제 클릭 핸들러
   function cmDeleteClickHandler(e) {
     $.ajax({
-      url: backurlDeleteCm + bdNo + cmNo,
-      method: "delete",
-      data: {
-        removeTargetCmNo: e.target.id,
-        removeTargetBdNo: bdDetailBdNo,
-        removeCmWriterId: currentLoginId,
+      url: backurlDeleteCm + "/" + bdDetailBdNo + "/" + cmNo,
+      method: "DELETE",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
       },
+      data: "",
+      timeout: {},
       success: function (responseData) {
         alert("댓글이 삭제되었습니다!");
         //댓글 삭제 후 재로딩
@@ -211,18 +214,15 @@ $(function () {
   var backurlBdDetail = "http://localhost:8888/gwback/board/";
   //게시글 내 댓글 조회 관련
   //var backurlCm = "/back/showboardcomment";
-  var backurlCm = "http://localhost:8888/gwback/boardcomment/showbdcm";
+  var backurlCm = "http://localhost:8888/gwback/boardcomment/";
   //게시글 내 댓글 등록 관련
   //var backurlAddCm = "/back/addboardcomment";
   var backurlAddCm = "http://localhost:8888/gwback/boardcomment/addbdcm";
 
   //게시글 상세 내용 get
   $.ajax({
-    url: backurlBdDetail + bdNo,
+    url: backurlBdDetail + "/" + bdDetailBdNo,
     method: "get",
-    data: {
-      bdNo: bdDetailBdNo,
-    },
     success: function (responseData) {
       bdDetailBdNo = responseData.bdNo;
       bdDetailTitle = responseData.bdTitle;
@@ -237,38 +237,50 @@ $(function () {
 
   //게시글 내 댓글 정보 get
   $.ajax({
-    url: backurlCm + bdNo,
+    url: backurlCm + "/" + bdDetailBdNo,
     method: "get",
     data: {
       bdNo: bdDetailBdNo,
     },
     success: function (responseData) {
       $(responseData).each(function (i, e) {
-        cmNo[i] = e.cm_no;
-        cmContent[i] = e.cmContent;
-        cmWriter[i] = e.cmWriter.name;
-        cmWrtierId[i] = e.cmWriter.employeeId;
-        cmDate[i] = e.cmDate;
+        // console.log(e);
+        cmNo[i] = e?.cmNo;
+        cmContent[i] = e?.cmContent;
+        cmWriter[i] = e?.cmWriter?.name;
+        cmWrtierId[i] = e?.cmWriter?.employeeId;
+        cmDate[i] = e?.cmDate;
       });
 
       //함수 호출
-      for (var i = 0; i < cmContent.length; i++) {
-        createCmElement(i);
+      if (cmNo[0] != undefined) {
+        for (var i = 0; i < cmContent.length; i++) {
+          createCmElement(i);
+        }
       }
     },
   });
 
   //댓글 등록 클릭 핸들러
   function cmRegisterClickHandler(e) {
+    var datajsObj = {};
+    datajsObj.cmContent = cmTextAreaObj.value; //js객체의 프로퍼티 이름= 값대입
+    datajsObj.cmWriter = {};
+    datajsObj.cmWriter.employeeId = currentLoginId;
+
+    var data = JSON.stringify(datajsObj); //js객체를 json문자열로 변환
     $.ajax({
-      url: backurlAddCm,
-      method: "post",
-      data: {
-        addTargetBdNo: bdDetailBdNo,
-        addCmWriter: currentLoginEmp,
-        addCmWriterId: currentLoginId,
-        addCmContent: cmTextAreaObj.value,
+      method: "POST",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      url: backurlAddCm + "/" + bdDetailBdNo,
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8",
       },
+      data: data,
+      timeout: {},
       success: function (responseData) {
         alert("댓글이 추가되었습니다!");
         //게시글 상세 페이지 재로딩
@@ -335,12 +347,18 @@ $(function () {
   //게시글 삭제 버튼 클릭 시 이벤트 발생
   $deleteBtnObj.click(function (e) {
     $.ajax({
-      url: backurlRemoveBd + bdNo,
+      url: backurlRemoveBd + "/" + bdDetailBdNo,
       method: "delete",
-      data: {
-        removeTargetBdNo: bdDetailBdNo,
-        removeWriterId: currentLoginId,
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
       },
+      // data: JSON.stringify({
+      //   removeTargetBdNo: bdDetailBdNo,
+      //   removeWriterId: currentLoginId,
+      // }),
       success: function (responseData) {
         alert("게시글이 삭제되었습니다!");
         $(

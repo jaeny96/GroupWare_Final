@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.employee.DepartmentMapper">
+
+<!-- <resultMap id="employeeMap" type="employee">
+	<result column="enabled" property="enabled"></result>
+</resultMap>
+
+<resultMap id="departmentMap" type="department">
+	<result column="departmentId" property="department_id"></result>
+	<result column="departmentTitle" property="department_title"></result>
+	<collection property="count" resultMap="employeeMap"></collection>
+</resultMap> -->
+
+<select id="selectDep" resultType="department">
+SELECT d.department_id, d.department_title, count(*) "count"
+FROM employee e JOIN department d ON (e.department_id = d.department_id)
+WHERE enabled=1 
+GROUP BY d.department_id, d.department_title
+ORDER BY DECODE(department_id,'CEO',1), d.department_title
+</select>
+
+</mapper>  

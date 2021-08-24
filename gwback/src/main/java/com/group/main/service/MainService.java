@@ -1,8 +1,9 @@
 package com.group.main.service;
 
-import java.io.FileInputStream;
 import java.util.List;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.group.approval.dto.Document;
 import com.group.board.dto.Board;
@@ -11,35 +12,11 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.dao.MainDAO;
-
+@Service
 public class MainService {
+	@Autowired
 	private MainDAO dao;
-	private static MainService service;
-	public static String envProp;
 
-	private MainService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("mainDAO");
-//			System.out.println(className);
-			/*
-			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
-			 */
-			Class c = Class.forName(className); // JVM에 로드
-			dao = (MainDAO) c.newInstance(); // 객체 생성
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static MainService getInstance() {
-		if(service==null) {
-			service = new MainService();
-		}
-		return service;
-	}
 
 	/**
 	 * 로그인한 사원의 프로필을 조회한다
@@ -59,7 +36,11 @@ public class MainService {
 	 * @throws FindException
 	 */
 	public Employee login(String id, String pwd) throws FindException {
+		//id = "CEO001";
+	//	pwd = "ceo1234";
 		Employee emp = dao.selectById(id);
+	//	System.out.println(emp.getEmployeeId());
+		System.out.println(emp);
 		if (!emp.getPassword().equals(pwd)) {
 			throw new FindException("로그인에 실패하였습니다");
 		}

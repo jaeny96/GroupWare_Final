@@ -39,10 +39,10 @@ class BoardCommentDAOOracleTest {
 	}
 	@Test
 	void testInsert() throws Exception {
-		String bdNo = "BD1";
+		String bdNo = "BD47";
 		//int cmNo = 4;
 		String id = "MSD002";
-		String cmContent = "뭐지?";
+		String cmContent = "댓글테스트";
 		
 		BoardComment cm = new BoardComment();
 		cm.setBdNo(bdNo);
@@ -55,9 +55,9 @@ class BoardCommentDAOOracleTest {
 	}
 	@Test
 	void testDelete() throws RemoveException {
-		String bdNo = "BD2";
-		int cmNo = 4;
-		String id = "MSD002";
+		String bdNo = "BD37";
+		int cmNo = 1;
+		String id = "DEV003";
 		
 		BoardComment cm = new BoardComment();
 		cm.setBdNo(bdNo);

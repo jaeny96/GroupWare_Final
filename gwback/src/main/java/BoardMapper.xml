@@ -9,7 +9,9 @@ SELECT *
 FROM (
 	SELECT rownum rn, a.*
 	FROM (
-	 SELECT *
+	 SELECT bd_no, bd_title, bd_content, bd_date,
+   b.employee_id AS "writer.employee_id",
+   name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
 	 ORDER BY bd_date desc ) a
@@ -22,7 +24,9 @@ select *
 FROM (
 	SELECT rownum rn, a.*
 	FROM (
-	 SELECT *
+	 SELECT bd_no, bd_title, bd_content, bd_date,
+   b.employee_id AS "writer.employee_id",
+   name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
 	 ORDER BY bd_date desc ) a

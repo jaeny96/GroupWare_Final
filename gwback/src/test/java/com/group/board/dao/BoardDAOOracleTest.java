@@ -34,7 +34,7 @@ class BoardDAOOracleTest {
 	private Logger log = Logger.getLogger(BoardDAOOracleTest.class.getName());	
 	@Test
 	void testSelectAll() throws Exception {
-		int expectedSize = 10;
+		int expectedSize = 4;
 		List<Board> bdlist = dao.selectAll();
 		log.info(bdlist.size());
 		assertTrue(expectedSize == bdlist.size());
@@ -43,7 +43,7 @@ class BoardDAOOracleTest {
 	@Test
 	void testSelectAllPage() throws Exception {
 		int currentPage = 1;
-		int expectedSize = 10;
+		int expectedSize = 4;
 		List<Board> bdlist = dao.selectAll(currentPage);
 		log.info(bdlist.size());
 		assertTrue(expectedSize == bdlist.size());
@@ -51,7 +51,7 @@ class BoardDAOOracleTest {
 	
 	@Test
 	void testSelectByWord() throws Exception {
-		int expectedSize = 5;
+		int expectedSize = 2;
 		String category = "name";
 		String word = "권보아";
 		List<Board> bdlist = dao.selectByWord(category, word);

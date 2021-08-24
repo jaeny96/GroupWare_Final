@@ -265,10 +265,10 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				Position p = new Position();
-				p.setPosition_title(rs.getString("position_title"));
+				p.setPositionTitle(rs.getString("position_title"));
 				emp.setPosition(p);
 				Job j = new Job();
-				j.setJob_title(rs.getString("job_title"));
+				j.setJobTitle(rs.getString("job_title"));
 				emp.setJob(j);
 				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));

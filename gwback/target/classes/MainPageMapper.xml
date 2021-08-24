@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.main.MainPageMapper">
+	<select id="selectById" resultType="employee">
+      SELECT employee_id "employeeId", name, password, department_id "department.department_id"
+      FROM employee
+      WHERE employee_id=#{id}
+	</select>
+	<select id="selectLeave" resultType="leave">
+		SELECT employee_id "employeeId", grant_days, (grant_days-remain_days), remain_days
+		FROM leave
+		WHERE employee_id=#{id}
+	</select>
+	<select id="selectExpectedDoc" resultType="document">
+		SELECT document_no,document_title,draft_date
+		FROM (
+			SELECT rownum rn, a.*
+			FROM (
+					(
+					SELECT 
+					d.document_title,d.document_no, draft_date, a.employee_id,ap_type
+					FROM 
+					approval a JOIN document d ON a.document_no=d.document_no
+					WHERE 
+					a.employee_id=#{id} AND ap_type='대기'
+					)
+					UNION ALL
+					(
+					SELECT 
+					d.document_title,d.document_no, draft_date, ag.employee_id,ap_type
+					FROM 
+					agreement ag JOIN document d ON ag.document_no=d.document_no
+					WHERE 
+					ag.employee_id=#{id} AND ap_type='대기'
+					) 
+				ORDER BY draft_date asc
+				) a
+			)
+		WHERE rn BETWEEN 1 AND 5
+	</select>
+	<select id="selectRecentBoard" resultType="board">
+		SELECT bd_no, bd_title,employee_id "writer.employee_id",bd_date
+		FROM (
+			SELECT rownum rn, b.*
+			FROM (
+				SELECT * 
+				FROM board 
+				ORDER BY bd_date desc) b
+			)
+		WHERE rn BETWEEN 1 AND 5
+	</select>
+	<select id="selectTodaySkd" resultType="schedule">
+		SELECT skd_start_date ,skd_title
+		FROM (
+			SELECT skd_start_date ,skd_title,
+			row_number() OVER 
+				(
+				PARTITION BY e.employee_id 
+				ORDER BY skd_start_date ASC
+				) rn
+			FROM schedule s 
+				JOIN employee e ON s.employee_id=e.employee_id
+				JOIN department d ON e.department_id=d.department_id
+			WHERE 
+			((d.department_id=#{department.departmentId} AND s.skd_share='t') 
+			OR 
+			(s.employee_id=#{employeeId} AND s.skd_share='p'))
+			AND 
+			to_char(skd_start_date,'yyyy-mm-dd')
+			=
+			to_char(sysdate,'yyyy-mm-dd'))
+			WHERE rn BETWEEN 1 AND 5
+	</select>
+</mapper>

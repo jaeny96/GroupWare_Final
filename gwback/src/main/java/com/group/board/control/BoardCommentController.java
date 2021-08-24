@@ -28,7 +28,7 @@ public class BoardCommentController {
 	private BoardCommentService service;
 
 	// 게시글 내 댓글 조회
-	@GetMapping("/showbdcm/{bdNo}")
+	@GetMapping("/{bdNo}")
 	public Object getShowbdcm(@PathVariable String bdNo) {
 		Map<String, Object> map = new HashMap<>();
 		try {
@@ -47,18 +47,15 @@ public class BoardCommentController {
 	}
 
 	// 댓글 등록
-	@PostMapping("/addbdcm")
-	public Object getBoardcm(@RequestBody BoardComment cm) {
+	@PostMapping("/addbdcm/{bdNo}")
+	public Map<String, Object> addBoardcm(@PathVariable String bdNo, @RequestBody BoardComment cm) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "DEV003";
-		String bdNo = "BD37";
-		Board bd = new Board();
-		bd.setBdNo(bdNo);
-		Employee emp = new Employee();
-		emp.setEmployeeId(id);
-		cm.setCmWriter(emp);
 		try {
-			service.addCm(cm);;
+			cm.setBdNo(bdNo);
+			Employee emp = new Employee();
+			emp.setEmployeeId("MSD002");
+			cm.setCmWriter(emp);
+			service.addCm(cm);
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", -1);
@@ -66,20 +63,19 @@ public class BoardCommentController {
 		}
 		return map;
 	}
-	//외않되!!!(댓글이 없습니다?)
 	// 댓글 삭제
 	@DeleteMapping("/removecm/{bdNo}/{cmNo}")
-	public Map<String, Object> getRemovebd(@RequestBody BoardComment cm) {
+	public Map<String, Object> getRemovebd(@PathVariable String bdNo, @PathVariable int cmNo) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "SVC008";
-		String bdNo = "BD35";
-		int cmNo = 1;
+		String id = "MSD002";
 		Board bd = new Board();
 		bd.setBdNo(bdNo);
 		Employee emp = new Employee();
+		BoardComment cm = new BoardComment();
 		emp.setEmployeeId(id);
 		cm.setCmWriter(emp);
 		cm.setCmNo(cmNo);
+		cm.setBdNo(bdNo);	//boardcomment.dto에도 bdNo가 있기 때문에 따로 set을 해줘야 함 
 		try {
 			service.removeCm(cm);;
 		} catch (Exception e) {

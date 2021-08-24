@@ -43,7 +43,7 @@ public class BoardDAOOracle implements BoardDAO {
 
 	@Override
 	public List<Board> selectAll(int currentPage) throws FindException {
-		int cnt_per_page = 10;
+		int cnt_per_page = 5;
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession();
@@ -89,7 +89,7 @@ public class BoardDAOOracle implements BoardDAO {
 			session = sqlSessionFactory.openSession();
 			Board bd = session.selectOne("com.group.board.dto.BoardMapper.selectBdInfo", bdNo);
 			if (bd == null) {
-				throw new FindException("게시글이 없습니다");
+				throw new FindException("게시글이 없습니다, BdInfo메서드 에러메시지");
 			}
 			return bd;
 		} catch (Exception e) {
