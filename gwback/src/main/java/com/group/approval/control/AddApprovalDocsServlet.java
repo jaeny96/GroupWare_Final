@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
@@ -52,14 +51,14 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			String addApDocsNo=docTypeCode+"-"+addApDocsType+"-"+today()+"-"+docNumber;
 
 			Document document = new Document();
-			document.setDocument_no(addApDocsNo);
-			document.setDocument_title(addApDocsTitle);
-			document.setDocument_content(addApDocsContent);
+			document.setDocumentNo(addApDocsNo);
+			document.setDocumentTitle(addApDocsTitle);
+			document.setDocumentContent(addApDocsContent);
 			DocumentType dtype = new DocumentType();
-			dtype.setDocument_type(addApDocsType);
-			document.setDocument_type(dtype);
+			dtype.setDocumentType(addApDocsType);
+			document.setDocumentType(dtype);
 			Employee emp = new Employee();
-			emp.setEmployee_id(addApWriterId);
+			emp.setEmployeeId(addApWriterId);
 			document.setEmployee(emp);
 			
 			service.complete(document);
@@ -70,10 +69,10 @@ public class AddApprovalDocsServlet extends HttpServlet {
 				}else {
 					Approval approval = new Approval();
 					Document apDocNo = new Document();
-					apDocNo.setDocument_no(addApDocsNo);
+					apDocNo.setDocumentNo(addApDocsNo);
 					approval.setDocument_no(apDocNo);
 					Employee apEmp = new Employee();
-					apEmp.setEmployee_id(addApLineEmpIdArr[i]);
+					apEmp.setEmployeeId(addApLineEmpIdArr[i]);
 					approval.setEmployee_id(apEmp);
 					approval.setAp_step(Integer.parseInt(addApLineStepArr[i]));
 					if(i==0) {
@@ -89,10 +88,10 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			if (addAgLineEmpId != null && !"".equals(addAgLineEmpId) && !"agreementBoxBtn".equals(addAgLineEmpId)) {
 				Agreement agreement = new Agreement();
 				Document agDocNo = new Document();
-				agDocNo.setDocument_no(addApDocsNo);
+				agDocNo.setDocumentNo(addApDocsNo);
 				agreement.setDocument_no(agDocNo);
 				Employee agEmp = new Employee();
-				agEmp.setEmployee_id(addAgLineEmpId);
+				agEmp.setEmployeeId(addAgLineEmpId);
 				agreement.setEmployee_id(agEmp);
 
 				service.completeAgRegister(agreement);
@@ -101,15 +100,18 @@ public class AddApprovalDocsServlet extends HttpServlet {
 			if (addReLineEmpId != null && !"".equals(addReLineEmpId) && !"referenceBoxBtn".equals(addReLineEmpId)) {
 				Reference reference = new Reference();
 				Document reDocNo = new Document();
-				reDocNo.setDocument_no(addApDocsNo);
+				reDocNo.setDocumentNo(addApDocsNo);
 				reference.setDocument_no(reDocNo);
 				Employee reEmp = new Employee();
-				reEmp.setEmployee_id(addReLineEmpId);
+				reEmp.setEmployeeId(addReLineEmpId);
 				reference.setEmployee_id(reEmp);
 
 				service.completeReRegister(reference);
 			}
-		} catch (AddException | FindException e) {
+		} catch (AddException  e) {
+			e.printStackTrace();
+		} catch (FindException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

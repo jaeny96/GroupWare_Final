@@ -48,11 +48,11 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		try {
 			pstmt = con.prepareStatement(draftSQL);
 			System.out.println(pstmt);
-			pstmt.setString(1, d.getDocument_no());
-			pstmt.setString(2, d.getDocument_type().getDocument_type());
-			pstmt.setString(3, d.getEmployee().getEmployee_id());
-			pstmt.setString(4, d.getDocument_title());
-			pstmt.setString(5, d.getDocument_content());
+			pstmt.setString(1, d.getDocumentNo());
+			pstmt.setString(2, d.getDocumentType().getDocumentType());
+			pstmt.setString(3, d.getEmployee().getEmployeeId());
+			pstmt.setString(4, d.getDocumentTitle());
+			pstmt.setString(5, d.getDocumentContent());
 			System.out.println("여긴 오라클 "+d);
 			int rowcnt = pstmt.executeUpdate();
 			System.out.println("안녕");
@@ -98,8 +98,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, ap.getDocument_no().getDocument_no());
-			pstmt.setString(2, ap.getEmployee_id().getEmployee_id());
+			pstmt.setString(1, ap.getDocument_no().getDocumentNo());
+			pstmt.setString(2, ap.getEmployee_id().getEmployeeId());
 			pstmt.setString(3, apType);
 			pstmt.setInt(4, ap.getAp_step());
 //			System.out.println("여긴 오라클 "+ap);
@@ -136,8 +136,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, ag.getDocument_no().getDocument_no());
-			pstmt.setString(2, ag.getEmployee_id().getEmployee_id());
+			pstmt.setString(1, ag.getDocument_no().getDocumentNo());
+			pstmt.setString(2, ag.getEmployee_id().getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
 				System.out.println("문서기안 완료");
@@ -170,8 +170,8 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = con.prepareStatement(draftSQL);
-			pstmt.setString(1, re.getDocument_no().getDocument_no());
-			pstmt.setString(2, re.getEmployee_id().getEmployee_id());
+			pstmt.setString(1, re.getDocument_no().getDocumentNo());
+			pstmt.setString(2, re.getEmployee_id().getEmployeeId());
 			int rowcnt = pstmt.executeUpdate();
 			if (rowcnt == 1) {
 				System.out.println("문서기안 완료");
@@ -212,11 +212,11 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			while (rs.next()) {
 				Employee em = new Employee();
 //				String name = rs.getString("name");
-				em.setEmployee_id(rs.getString("employee_id"));
+				em.setEmployeeId(rs.getString("employee_id"));
 				em.setName(rs.getString("name"));
 				Department dept = new Department();
-				dept.setDepartment_id(rs.getString("department_id"));
-				dept.setDepartment_title(rs.getString("department_title"));
+				dept.setDepartmentId(rs.getString("department_id"));
+				dept.setDepartmentTitle(rs.getString("department_title"));
 				em.setDepartment(dept);
 				list.add(em);
 			}
@@ -232,45 +232,6 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 		}
 		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
 	}
-//
-//	// 2-2. 부서이름을 검색해 결재선에 넣을 사원이 속한 조직을 조회한다
-//	public List<Department> searchByDep(String word) throws FindException {
-//		// DB연결
-//		Connection con = null;
-//		try {
-//			con = MyConnection.getConnection();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new FindException(e.getMessage());
-//		}
-//		String searchByDepSQL = "SELECT department_title\r\n" + "FROM department \r\n"
-//				+ "where department_title like ?";
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		List<Department> list = new ArrayList<>();
-//		try {
-//			pstmt = con.prepareStatement(searchByDepSQL);
-//			pstmt.setString(1, "%" + word + "%");
-//			rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				Department dep = new Department();
-//				String department_title = rs.getString("department_title");
-//				dep.setDepartment_title(department_title);
-//
-//				list.add(dep);
-//			}
-//			if (list.size() == 0) {
-//				throw new FindException("해당 부서가 없습니다");
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			throw new FindException(e.getMessage());
-//		} finally {
-//			// DB연결해제
-//			MyConnection.close(con, pstmt, rs);
-//		}
-//		return list; // return 구문은 try블럭 뒤에 놓든, finally 뒤에 놓든 결과는 같다.
-//	}
 
 	// 3. 전체 사원의 이름, 부서 정보 갖고오기
 	@Override
@@ -297,19 +258,19 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 
 			while (rs.next()) {
 				Employee emp = new Employee();
-				emp.setEmployee_id(rs.getString("employee_id"));
+				emp.setEmployeeId(rs.getString("employee_id"));
 				emp.setName(rs.getString("name"));
 				Department d = new Department();
-				d.setDepartment_id(rs.getString("department_id"));
-				d.setDepartment_title(rs.getString("department_title"));
+				d.setDepartmentId(rs.getString("department_id"));
+				d.setDepartmentTitle(rs.getString("department_title"));
 				emp.setDepartment(d);
 				Position p = new Position();
-				p.setPosition_title(rs.getString("position_title"));
+				p.setPositionTitle(rs.getString("position_title"));
 				emp.setPosition(p);
 				Job j = new Job();
-				j.setJob_title(rs.getString("job_title"));
+				j.setJobTitle(rs.getString("job_title"));
 				emp.setJob(j);
-				emp.setPhone_number(rs.getString("phone_number"));
+				emp.setPhoneNumber(rs.getString("phone_number"));
 				emp.setEmail(rs.getString("email"));
 
 				empList.add(emp);

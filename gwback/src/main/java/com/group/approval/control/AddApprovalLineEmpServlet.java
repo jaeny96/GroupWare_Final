@@ -35,10 +35,10 @@ public class AddApprovalLineEmpServlet extends HttpServlet {
 			}else {
 				Approval approval = new Approval();
 				Document apDocNo = new Document();
-				apDocNo.setDocument_no(addApDocsNo);
+				apDocNo.setDocumentNo(addApDocsNo);
 				approval.setDocument_no(apDocNo);
 				Employee apEmp = new Employee();
-				apEmp.setEmployee_id(addApLineEmpIdArr[i]);
+				apEmp.setEmployeeId(addApLineEmpIdArr[i]);
 				approval.setAp_step(Integer.parseInt(addApLineStepArr[i]));					
 				try {
 					System.out.println("또 한번 기대");

@@ -1,8 +1,9 @@
 $(function () {
   //메뉴 이동 시 변경 될 부분
   var $content = $("div.wrapper>div.main>main.content");
-  //로그인 여부 확인
+  // 로그인 여부 확인
   var backurlCheckLogined = "/back/checkedlogined";
+  var backurlCheckLogined = "http://localhost:8888/gwback/main/chkLogin";
   $.ajax({
     url: backurlCheckLogined,
     method: "get",
@@ -10,7 +11,7 @@ $(function () {
       //로그인 되어있을 경우
       if (responseData.status == 1) {
         //게시판 관련 로컬 정보 미리 저장
-        //현재 페이지, 현재 페이지 그룹 관련
+        // 현재 페이지, 현재 페이지 그룹 관련
         localStorage.setItem("bdCurrPage", 1);
         localStorage.setItem("bdCurrPageGroup", 1);
 
@@ -107,11 +108,39 @@ $(function () {
         //오늘의 일정 일정 제목값이 들어갈 arr
         var mainSkdTitle = new Array();
 
+        //ajax요청 시 사용할 backurl 선언
+        //프로필 정보
+        var backurlProfile = "http://localhost:8888/gwback/main/profile";
+        //결재예정문서
+        var backurlAp = "http://localhost:8888/gwback/main/document";
+        //최근게시글
+        var backurlBd = "http://localhost:8888/gwback/main/board";
+        //휴가정보
+        var backurlLeave = "http://localhost:8888/gwback/main/leave";
+        //오늘의일정
+        var backurlSkd = "http://localhost:8888/gwback/main/todaySkd";
+        //로그아웃
+        var backurlLogout = "http://localhost:8888/gwback/main/logout";
+        //로그아웃 버튼 객체
+        var logoutBtnObj = document.querySelector("a.logoutBtn");
+
         //프로필 정보를 채우는 역할의 함수
         function insertProfileInfo() {
           mainLoginIdObj.innerHTML = mainLoginId;
           mainLoginNameObj.innerHTML = mainLoginName;
         }
+
+        //프로필 정보 get
+        $.ajax({
+          url: backurlProfile,
+          method: "get",
+          success: function (responseData) {
+            mainLoginId = responseData.employeeId;
+            mainLoginName = responseData.name;
+            //함수 호출
+            insertProfileInfo();
+          },
+        });
 
         //결재예정문서의 정보 및 tr/td 객체들을 생성해주는 역할의 함수
         function createMainApElement(i) {
@@ -154,6 +183,44 @@ $(function () {
           mainApTBodyObj.appendChild(tr);
         }
 
+        //결재예정문서 정보 get
+        $.ajax({
+          url: backurlAp,
+          method: "get",
+          success: function (responseData) {
+            $(responseData).each(function (i, e) {
+              mainApId[i] = e.documentNo;
+              mainApTitle[i] = e.documentTitle;
+              mainApDate[i] = e.draftDate;
+            });
+            //함수 호출
+            for (var i = 0; i < mainApId.length; i++) {
+              createMainApElement(i);
+            }
+            //결재예정문서 제목 객체
+            $titleObj = $(".card-body tbody.mainApTbody tr td:nth-child(2) a");
+
+            //결재예정문서 제목 객체 클릭 시 이벤트 발생
+            $titleObj.click(function (e) {
+              e.preventDefault();
+              //클릭시 a링크에 담겨있는 문서값 저장
+              localStorage.setItem("apDocumentNum", e.target.id);
+              var href = $(this).attr("href");
+
+              switch (href) {
+                case "approval-detail.html":
+                  //컨텐트에 로드
+                  $content.load(href, function (responseTxt, statusTxt, xhr) {
+                    if (statusTxt == "error")
+                      alert("Error: " + xhr.status + ": " + xhr.statusText);
+                  });
+                  break;
+              }
+              return false;
+            });
+          },
+        });
+
         //최근게시글 관련 정보 및 tr/td 객체들을 생성해주는 역할의 함수
         function createMainBdElement(i) {
           //tr객체 생성
@@ -189,121 +256,16 @@ $(function () {
           mainBdTBodyObj.appendChild(tr);
         }
 
-        //로그인한 사원의 휴가 정보를 채우는 역할의 함수
-        function insertMainLeaveElement() {
-          //부여된 휴가일 값 대입
-          mainGrantDaysObj.innerHTML = mainGrantLeave + "일";
-          //사용한 휴가일 값 대입
-          mainUseDaysObj.innerHTML = mainGrantLeave - mainRemainLeave + "일";
-          //남은 휴가일 값 대입
-          mainRemainDaysObj.innerHTML = mainRemainLeave + "일";
-        }
-
-        //오늘의일정 관련 정보 및 tr/td 객체들을 생성해주는 역할의 함수
-        function createMainSkdElement(i) {
-          //tr객체 생성
-          var tr = document.createElement("tr");
-          //오늘의일정 시간값이 들어갈 td객체 생성
-          var tdSkdDate = document.createElement("td");
-          //오늘의일정 시간값을 가운데로 맞춰주는 center 태그 생성
-          var tdSkdDateCenter = document.createElement("center");
-          //값 대입
-          tdSkdDateCenter.innerHTML = mainSkdDate[i];
-          //생성해놓은 center 태그 시간값td태그에 append
-          tdSkdDate.appendChild(tdSkdDateCenter);
-
-          //오늘의일정 제목값이 들어갈 td객체 생성
-          var tdSkdTitle = document.createElement("td");
-          //값 대입
-          tdSkdTitle.innerHTML = mainSkdTitle[i];
-          //스타일 적용
-          tdSkdTitle.setAttribute("style", "width:80%");
-
-          //tr 객체에 순서대로 append
-          tr.appendChild(tdSkdDate);
-          tr.appendChild(tdSkdTitle);
-
-          //결재예정문서 tbody객체에 해당 tr append
-          mainSkdTBodyObj.appendChild(tr);
-        }
-
-        //로그아웃 버튼 객체
-        var logoutBtnObj = document.querySelector("a.logoutBtn");
-
-        //ajax요청 시 사용할 backurl 선언
-        //프로필 정보
-        var backurlProfile = "/back/showmainpageprofile";
-        //결재예정문서
-        var backurlAp = "/back/showmainpageap";
-        //최근게시글
-        var backurlBd = "/back/showmainpagebd";
-        //휴가정보
-        var backurlLeave = "/back/showmainpageleave";
-        //오늘의일정
-        var backurlSkd = "/back/showmainpageskd";
-        //로그아웃
-        var backurlLogout = "/back/logout";
-
-        //프로필 정보 get
-        $.ajax({
-          url: backurlProfile,
-          method: "get",
-          success: function (responseData) {
-            mainLoginId = responseData.employee_id;
-            mainLoginName = responseData.name;
-            //함수 호출
-            insertProfileInfo();
-          },
-        });
-
-        //결재예정문서 정보 get
-        $.ajax({
-          url: backurlAp,
-          method: "get",
-          success: function (responseData) {
-            $(responseData).each(function (i, e) {
-              mainApId[i] = e.document_no;
-              mainApTitle[i] = e.document_title;
-              mainApDate[i] = e.draft_date;
-            });
-            //함수 호출
-            for (var i = 0; i < mainApId.length; i++) {
-              createMainApElement(i);
-            }
-            //결재예정문서 제목 객체
-            $titleObj = $(".card-body tbody.mainApTbody tr td:nth-child(2) a");
-
-            //결재예정문서 제목 객체 클릭 시 이벤트 발생
-            $titleObj.click(function (e) {
-              e.preventDefault();
-              //클릭시 a링크에 담겨있는 문서값 저장
-              localStorage.setItem("apDocumentNum", e.target.id);
-              var href = $(this).attr("href");
-
-              switch (href) {
-                case "approval-detail.html":
-                  //컨텐트에 로드
-                  $content.load(href, function (responseTxt, statusTxt, xhr) {
-                    if (statusTxt == "error")
-                      alert("Error: " + xhr.status + ": " + xhr.statusText);
-                  });
-                  break;
-              }
-              return false;
-            });
-          },
-        });
-
         //최근게시글 정보 get
         $.ajax({
           url: backurlBd,
           method: "get",
           success: function (responseData) {
             $(responseData).each(function (i, e) {
-              mainBdId[i] = e.bd_no;
-              mainBdTitle[i] = e.bd_title;
-              mainBdWriter[i] = e.writer.name;
-              mainBdDate[i] = e.bd_date;
+              mainBdId[i] = e.bdNo;
+              mainBdTitle[i] = e.bdTitle;
+              mainBdWriter[i] = e.writer.employeeId;
+              mainBdDate[i] = e.bdDate;
             });
 
             //함수 호출
@@ -337,17 +299,55 @@ $(function () {
           },
         });
 
+        //로그인한 사원의 휴가 정보를 채우는 역할의 함수
+        function insertMainLeaveElement() {
+          //부여된 휴가일 값 대입
+          mainGrantDaysObj.innerHTML = mainGrantLeave + "일";
+          //사용한 휴가일 값 대입
+          mainUseDaysObj.innerHTML = mainGrantLeave - mainRemainLeave + "일";
+          //남은 휴가일 값 대입
+          mainRemainDaysObj.innerHTML = mainRemainLeave + "일";
+        }
+
         //휴가정보 get
         $.ajax({
           url: backurlLeave,
           method: "get",
           success: function (responseData) {
-            mainGrantLeave = responseData.grant_days;
-            mainRemainLeave = responseData.remain_days;
+            mainGrantLeave = responseData.grantDays;
+            mainRemainLeave = responseData.remainDays;
             //함수 호출
             insertMainLeaveElement();
           },
         });
+
+        //오늘의일정 관련 정보 및 tr/td 객체들을 생성해주는 역할의 함수
+        function createMainSkdElement(i) {
+          //tr객체 생성
+          var tr = document.createElement("tr");
+          //오늘의일정 시간값이 들어갈 td객체 생성
+          var tdSkdDate = document.createElement("td");
+          //오늘의일정 시간값을 가운데로 맞춰주는 center 태그 생성
+          var tdSkdDateCenter = document.createElement("center");
+          //값 대입
+          tdSkdDateCenter.innerHTML = mainSkdDate[i];
+          //생성해놓은 center 태그 시간값td태그에 append
+          tdSkdDate.appendChild(tdSkdDateCenter);
+
+          //오늘의일정 제목값이 들어갈 td객체 생성
+          var tdSkdTitle = document.createElement("td");
+          //값 대입
+          tdSkdTitle.innerHTML = mainSkdTitle[i];
+          //스타일 적용
+          tdSkdTitle.setAttribute("style", "width:80%");
+
+          //tr 객체에 순서대로 append
+          tr.appendChild(tdSkdDate);
+          tr.appendChild(tdSkdTitle);
+
+          //결재예정문서 tbody객체에 해당 tr append
+          mainSkdTBodyObj.appendChild(tr);
+        }
 
         //오늘의일정 정보 get
         $.ajax({
@@ -355,9 +355,9 @@ $(function () {
           method: "get",
           success: function (responseData) {
             $(responseData).each(function (i, e) {
-              mainSkdId[i] = e.skd_no;
-              mainSkdTitle[i] = e.skd_title;
-              mainSkdDate[i] = e.skd_date;
+              mainSkdId[i] = e.skdNo;
+              mainSkdTitle[i] = e.skdTitle;
+              mainSkdDate[i] = e.skdDate;
             });
             //함수 호출
             for (var i = 0; i < mainSkdId.length; i++) {
@@ -373,13 +373,15 @@ $(function () {
             method: "get",
             success: function (responseData) {
               //로그인 페이지로 이동
-              location.href = "http://localhost:8888/front";
+              location.href = "http://localhost:8888/gwfront/";
             },
           });
         }
 
         //로그아웃 버튼 클릭 이벤트 등록
         logoutBtnObj.addEventListener("click", logoutBtnClickHandler);
+
+        //-----메뉴 로드 시작-----
 
         //sidebar menu Obj 찾기
         var $menuObj = $(
@@ -398,7 +400,6 @@ $(function () {
         $menuObj.click(function (e) {
           //sidebar-item 활성화 모두 풀기(없애기)
           $menuObj.closest("li").attr("class", "sidebar-item");
-
           //클릭된현재객체의 href속성값 얻기 : .attr('href');
           var href = $(this).attr("href");
 
@@ -428,36 +429,37 @@ $(function () {
 
           switch (href) {
             case "post.html":
-            case "post-detail-spending.html":
-            case "post-detail-circular.html":
-            case "post-detail-business.html":
-            case "post-detail-account.html":
-            case "post-detail-leave.html":
-            case "post-detail-contact.html":
+              // case "post-detail-spending.html":
+              // case "post-detail-circular.html":
+              // case "post-detail-business.html":
+              // case "post-detail-account.html":
+              // case "post-detail-leave.html":
+              // case "post-detail-contact.html":
               //클릭한 객체의 sidebar-item만 활성화 시키기
-              if (href == "post.html") {
-                $(this).closest("li").attr("class", "sidebar-item active");
-                $content.load(href, function (responseTxt, statusTxt, xhr) {
-                  if (statusTxt == "error")
-                    alert("Error: " + xhr.status + ": " + xhr.statusText);
-                });
-              } else {
-                //작성하기에 select 옵션 '선택' 아닐 때 summernote미리 등록
-                $content.load(href, function (responseTxt, statusTxt, xhr) {
-                  $("#summernote").summernote({
-                    height: 600, // 에디터 높이
-                    minHeight: null, // 최소 높이
-                    maxHeight: null, // 최대 높이
-                    focus: true, // 에디터 로딩후 포커스를 맞출지 여부
-                    lang: "ko-KR", // 한글 설정
-                    placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
-                  });
-                  if (statusTxt == "error")
-                    alert("Error: " + xhr.status + ": " + xhr.statusText);
-                });
-              }
+              // if (href == "post.html") {
+              $(this).closest("li").attr("class", "sidebar-item active");
+              $content.load(href, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "error")
+                  alert("Error: " + xhr.status + ": " + xhr.statusText);
+              });
               break;
           }
+          // else {
+          //   //작성하기에 select 옵션 '선택' 아닐 때 summernote미리 등록
+          //   $content.load(href, function (responseTxt, statusTxt, xhr) {
+          //     $("#summernote").summernote({
+          //       height: 600, // 에디터 높이
+          //       minHeight: null, // 최소 높이
+          //       maxHeight: null, // 최대 높이
+          //       focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+          //       lang: "ko-KR", // 한글 설정
+          //       placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+          //     });
+          //     if (statusTxt == "error")
+          //       alert("Error: " + xhr.status + ": " + xhr.statusText);
+          //   });
+          // }
+          // }
           return false;
         });
 
@@ -498,13 +500,13 @@ $(function () {
         });
       } else {
         alert("접근하기 위해 로그인이 필요합니다.");
-        location.href = "http://localhost:8888/front";
+        location.href = "http://localhost:8888/gwfront/";
       }
     },
-    //로그인 x 면 로그인 페이지로 이동
+    // 로그인 x 면 로그인 페이지로 이동
     error: function (request, status, error) {
       alert("접근하기 위해 로그인이 필요합니다.");
-      location.href = "http://localhost:8888/front";
+      location.href = "http://localhost:8888/gwfront/";
     },
   });
 });

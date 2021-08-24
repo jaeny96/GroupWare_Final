@@ -35,10 +35,8 @@
 	      <constructor-arg ref="hikariConfig" />      
 	</bean> 
     
-
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
 		  id="sqlSessionFactory2">
-<!-- 		  <qualifier value="Underscore"></qualifier> -->
 <!-- 		<property name="dataSource"      ref="dataSource"></property> -->
 		<property name="dataSource"      ref="dataSource2"></property>
 		<property name="configLocation"  value="classpath:mybatis-group-config.xml"/>
@@ -56,11 +54,13 @@
 	
 <context:annotation-config/>
 <context:component-scan base-package="com.group.approval.dao"/>
+<context:component-scan base-package="com.group.board.dao"/>
 <context:component-scan base-package="com.group.calendar.dao"/>
 <context:component-scan base-package="com.group.employee.dao"/>
 <context:component-scan base-package="com.group.main.dao"/>
 <context:component-scan base-package="com.group.mypage.dao"/>
 <context:component-scan base-package="com.group.approval.service"/>
+<context:component-scan base-package="com.group.board.service"/>
 <context:component-scan base-package="com.group.calendar.service"/>
 <context:component-scan base-package="com.group.employee.service"/>
 <context:component-scan base-package="com.group.main.service"/>

@@ -93,17 +93,6 @@ public class DocsWriteService {
 	}
 
 	/**
-	 * 부서이름 리스트 조회
-	 * 
-	 * @param department_title
-	 * @return
-	 * @throws FindException
-	 */
-//	public List<Department> group(String department_title) throws FindException {
-//		return dao.searchByDep(department_title);
-//
-//	}
-	/**
 	 * 사원 전체를 조회한다
 	 * @return 사원 전체 목록
 	 * @throws FindException
@@ -118,95 +107,6 @@ public class DocsWriteService {
 	
 	public static void main(String[] args) {
 		   DocsWriteService service = DocsWriteService.getInstance();
-//		      try {
-//				List<Employee> empList = service.staff("경영지원실");
-//				for(Employee e : empList) {
-//					System.out.println(e);
-//				}
-//			} catch (FindException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		      String word = "김";
-//		      System.out.println("\"" + word + "\"단어를 포함한 사원목록");
-//		      try {
-//		         
-//		         List<Employee> list = service.staff(word);
-//		         for (Employee em : list) {
-//		            System.out.println(em.getName());
-//		         }
-//		      } catch (FindException e) {
-//		         System.out.println(e.getMessage());
-//		      } catch (Exception e) {
-//		         System.out.println(e.getMessage());
-//		      }
-		   
-//		Document document = new Document();
-//		document.setDocument_no("a");
-//		document.setDocument_title("aa");
-//		document.setDocument_content("aaaa");
-//		DocumentType dtype = new DocumentType();
-//		dtype.setDocument_type("지출");
-//		document.setDocument_type(dtype);
-//		Employee emp = new Employee();
-//		emp.setEmployee_id("MSD002");
-//		document.setEmployee(emp);
-//		System.out.println("ac "+document);
-//		
-//		try {
-//			service.complete(document);
-//		} catch (AddException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-//		   Approval ap = new Approval();
-//		   Document d = new Document();
-//		   d.setDocument_no("BC-연락-20210622-0001");
-//		   ap.setDocument_no(d);
-//		   Employee emp = new Employee();
-//		   emp.setEmployee_id("MSD002");
-//		   ap.setEmployee_id(emp);
-//		   ap.setAp_step(2);
-//		   
-//		   try {
-//			service.completeApRegister(ap);
-//		} catch (AddException e) {
-//			e.printStackTrace();
-//		}
-		   
-//		   Agreement ag = new Agreement();
-//		   Document dag = new Document();
-//		   dag.setDocument_no("BC-연락-20210622-0001");
-//		   ag.setDocument_no(dag);
-//		   Employee empag = new Employee();
-//		   empag.setEmployee_id("MSD002");
-//		   ag.setEmployee_id(empag);
-//		   
-//		   try {
-//			service.completeAgRegister(ag);
-//		} catch (AddException e) {
-//			e.printStackTrace();
-//		}
-//		   Reference re = new Reference();
-//		   Document dre = new Document();
-//		   dre.setDocument_no("BC-연락-20210622-0001");
-//		   re.setDocument_no(dre);
-//		   Employee empre = new Employee();
-//		   empre.setEmployee_id("MSD002");
-//		   re.setEmployee_id(empre);
-//		   
-//		   try {
-//			service.completeReRegister(re);
-//		} catch (AddException e) {
-//			e.printStackTrace();
-//		}
-//		   String document_type="지출";
-//		   try {
-//			int cnt = service.chkMaxNum(document_type);
-//			System.out.println(cnt);
-//		} catch (FindException e) {
-//			e.printStackTrace();
-//		}
+
 	}
 }
