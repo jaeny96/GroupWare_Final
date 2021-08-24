@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group.employee.EmployeeLeaveMapper">
+ 
+<resultMap id="employeeLeaveMap" type="employeeleave">
+   <association property="employee" javaType="employee" autoMapping="true">
+	   	<association property="position" javaType="position" autoMapping="true">
+		<result property="positionId" column="position_id"/>
+		<result property="positionTitle" column="position_title"/>
+	</association>
+	<association property="job" javaType="job" autoMapping="true">
+	<result property="jobId" column="job_id"/>
+	<result property="jobTitle" column="job_title"/>
+</association>
+ <association property="department" javaType="department" autoMapping="true">
+	<result property="departmentId" column="department_id"/>
+	<result property="departmentTitle" column="department_title"/>
+	<result property="managerId" column="manager_id"/>
+</association> 
+   </association>
+   <association property="leave" javaType="leave" autoMapping="true"></association>
+<!--  <association property="position" javaType="position" autoMapping="true"></association>
+<association property="job" javaType="job" autoMapping="true"></association>
+<association property="department" javaType="department" autoMapping="true"></association>
+ -->
+</resultMap>
+<select id="selectById" resultMap="employeeLeaveMap">
+SELECT   *
+ FROM employee e 
+JOIN department d ON e.department_id = d.department_id
+JOIN position p ON e.position_id = p.position_id
+JOIN job j ON e.job_id = j.job_id
+JOIN leave l ON l.employee_id = e.employee_id
+WHERE e.employee_id=#{employeeId}
+</select>
+
+<update id="update" parameterType="employee">
+      UPDATE employee
+      <set>
+         <if test="phoneNumber!=null">
+            phone_number=#{phoneNumber}
+         </if>
+         <if test="password!=null">
+            password=#{password}
+         </if>
+      </set>
+      WHERE employee_id=#{employeeId}
+</update>
+
+</mapper>  

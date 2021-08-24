@@ -1,40 +1,19 @@
 package com.group.employee.service;
 
-import java.io.FileInputStream;
 import java.util.List;
-import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.group.employee.dao.EmployeeDAO;
 import com.group.employee.dto.Employee;
 import com.group.exception.FindException;
-
+@Service
 public class EmployeeService {
-	private EmployeeDAO dao;
-	private static EmployeeService service;
-	public static String envProp;
-	
-	private EmployeeService() {
-		Properties env = new Properties();
-		try {
-			env.load(new FileInputStream(envProp));
-			String className = env.getProperty("employeeDAO");
-			/*
-			 * 리플랙션 기법 이용하여 객체 생성 소스코드를 재컴파일하지 않기 위해 리플랙션 기법 이용하는 것임!
-			 */
-			Class c = Class.forName(className); // JVM에 로드
-			dao = (EmployeeDAO) c.newInstance(); // 객체 생성
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	public static EmployeeService getInstance() {
-		if(service==null) {
-			service = new EmployeeService();
-		}
-		return service;
-	}
-	
+	@Autowired
+	private EmployeeDAO dao;
+
 	/**
 	 * 사원 전체를 조회한다
 	 * @return 사원 전체 목록
@@ -71,7 +50,7 @@ public class EmployeeService {
 	 * @throws FindException
 	 * 클릭한 객체의 이름과 사번을 검색해와야함
 	 */
-	public Employee showDetail(Employee emp) throws FindException {
-		return dao.selectInfo(emp);
+	public Employee showDetail(String id) throws FindException {
+		return dao.selectInfo(id);
 	}
 }

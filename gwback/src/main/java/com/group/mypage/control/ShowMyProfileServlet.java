@@ -22,23 +22,23 @@ public class ShowMyProfileServlet extends HttpServlet {
 	//프로필 정보 get
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		String id = session.getAttribute("id").toString();
-
-		EmployeeLeaveService service;
-		ServletContext sc = getServletContext();
-		EmployeeLeaveService.envProp = sc.getRealPath(sc.getInitParameter("env"));
-		service = EmployeeLeaveService.getInstance();
-
-		try {
-			EmployeeLeave el = service.showDetail(id);
-			ObjectMapper mapper = new ObjectMapper();
-			String jsonStr = mapper.writeValueAsString(el);
-			response.setContentType("application/json;charset=utf-8");
-			response.getWriter().print(jsonStr);
-		} catch (FindException e) {
-			e.printStackTrace();
-		}
+//		HttpSession session = request.getSession();
+//		String id = session.getAttribute("id").toString();
+//
+//		EmployeeLeaveService service;
+//		ServletContext sc = getServletContext();
+//		EmployeeLeaveService.envProp = sc.getRealPath(sc.getInitParameter("env"));
+//		service = EmployeeLeaveService.getInstance();
+//
+//		try {
+//			EmployeeLeave el = service.showDetail(id);
+//			ObjectMapper mapper = new ObjectMapper();
+//			String jsonStr = mapper.writeValueAsString(el);
+//			response.setContentType("application/json;charset=utf-8");
+//			response.getWriter().print(jsonStr);
+//		} catch (FindException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
