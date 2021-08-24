@@ -241,27 +241,19 @@ function createModal(id, skdno) {
 
   $("#skdModifyBtn").click(function () {
     var UpdatePreTitleValue = skdinfo.title;
-
-    //localStorage.getItem("title");
     var UpdatePreStartDate = skdinfo.startDate;
-    // localStorage.getItem("startDate");
     var UpdatePreStartTime = skdinfo.startTime;
-    //localStorage.getItem("startTime");
     var skdOriginEndDate = skdinfo.endDate;
-    //localStorage.getItem("endDate");
     var skdOriginEndTime = skdinfo.endTime;
-    //localStorage.getItem("endTime");
-
     var UdpatePreContentValue = skdinfo.content;
-    //localStorage.getItem("content");
 
     //test용 프린트
-    console.log(UpdatePreTitleValue);
-    console.log(UpdatePreStartDate);
-    console.log(UpdatePreStartTime);
-    console.log(skdOriginEndDate);
-    console.log(skdOriginEndTime);
-    console.log(UdpatePreContentValue);
+    // console.log(UpdatePreTitleValue);
+    // console.log(UpdatePreStartDate);
+    // console.log(UpdatePreStartTime);
+    // console.log(skdOriginEndDate);
+    // console.log(skdOriginEndTime);
+    // console.log(UdpatePreContentValue);
 
     //기존 상세내역에 있었던 내용을 input에 넣기
     skdUpdateTitle.attr("value", UpdatePreTitleValue);
@@ -279,6 +271,17 @@ function createModal(id, skdno) {
       console.log("수정클릭" + backSkdModify);
       console.log("skdType:" + skdUpdateTypeValue);
       console.log("title: " + skdUpdateTitle.val());
+      console.log("skdContent: " + skdUpdateContent.val());
+      console.log(
+        "skdStartDate: " +
+          skdUpdateStartDate.val() +
+          " " +
+          skdUpdateStartTime.val()
+      );
+      console.log(
+        "skdEndDate: " + skdUpdateEndDate.val() + " " + skdUpdateEndTime.val()
+      );
+      console.log("skdShare: " + teamOrPersonalOption);
       // alert(
       //   skdUpdateStartTime.val() +
       //     "-" +
@@ -332,7 +335,7 @@ function createModal(id, skdno) {
 
             //scheduleMenu로 돌아가는 트리거 이벤트
             //loadSchedule();
-            //location.reload();
+            location.reload();
           },
           error: function (request, status, error) {
             alert(
@@ -370,9 +373,9 @@ function createModal(id, skdno) {
             skdShare: teamOrPersonalOption,
           }),
           success: function () {
-            window.alert("2일정이 변경되었습니다");
+            window.alert("일정이 변경되었습니다");
             //loadSchedule();
-            // location.reload();
+            location.reload();
           },
           error: function (request, status, error) {
             alert(

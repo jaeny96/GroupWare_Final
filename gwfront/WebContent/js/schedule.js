@@ -656,12 +656,12 @@ $(function () {
       var UdpatePreContentValue = localStorage.getItem("content");
 
       //test용 프린트
-      // console.log(UpdatePreTitleValue);
-      // console.log(UpdatePreStartDate);
-      // console.log(UpdatePreStartTime);
-      // console.log(skdOriginEndDate);
-      // console.log(skdOriginEndTime);
-      // console.log(UdpatePreContentValue);
+      console.log(UpdatePreTitleValue);
+      console.log(UpdatePreStartDate);
+      console.log(UpdatePreStartTime);
+      console.log(skdOriginEndDate);
+      console.log(skdOriginEndTime);
+      console.log(UdpatePreContentValue);
 
       //기존 상세내역에 있었던 내용을 input에 넣기
       skdUpdateTitle.attr("value", UpdatePreTitleValue);
@@ -959,7 +959,7 @@ $(function () {
 
   //servelt 경로
   const removeSkdNo = localStorage.getItem("skdNo");
-  // console.log("현재 삭제 skd_no" + removeSkdNo);
+  console.log("현재 삭제 skd_no" + removeSkdNo);
   //SQL에서 일정번호만 있으면 삭제되는 구조라 skd_no만 보냄
   //skdDeleteBtn.addEventListener("click", function () {
   // $("[class*='deleteBtn']").click(function () {
