@@ -229,6 +229,7 @@ function standatdTemplate(target, type) {
 //지출결의서
 function SRTemplate(target) {
   var table = createTableObj("tableType spending");
+  table.setAttribute("id", "draftContentTable");
   table.innerHTML =
     "<colgroup>" +
     "<col style='width: 12.09%;'>" +
