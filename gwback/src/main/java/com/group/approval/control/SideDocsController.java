@@ -34,8 +34,7 @@ public class SideDocsController {
 	public List<Integer> sideBarCnt(HttpSession session) {
 		List<Integer> apCntList=new ArrayList<Integer>();
 		try {
-			//String id= session.getAttribute("id").toString();//나중에 login받아오는거 보고 바꾸기
-			String id="DEV001";
+			String id = session.getAttribute("id").toString();
 			apCntList.add(0, service.findCntAll(id));
 			apCntList.add(1, service.findCntWait(id));
 			apCntList.add(2, service.findCntOk(id));
@@ -51,7 +50,7 @@ public class SideDocsController {
 	@GetMapping(value={"/selectdocs","/selectdocs/{status}"})
 	public List<Document> sideBarList(@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {	
 		List<Document> list=new ArrayList<Document>();
-		String id="DEV001";
+		String id = session.getAttribute("id").toString();
 		try {
 			if(optStatus.isPresent()) {
 				list =service.findDocsStatus(id,optStatus.get());
