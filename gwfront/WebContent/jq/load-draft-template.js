@@ -246,7 +246,7 @@ var html17;
 
 //지출결의서
 function SRTemplate(target) {
-  var table = createTableObj("tableType spending");
+  var table = createTableObj();
   html1 =
     "<colgroup>" +
     "<col style='width: 12.09%;'>" +
@@ -326,7 +326,7 @@ function SRTemplate(target) {
   html11 =
     "<textarea class='spendingDetailContents' id='inputSpendingDetail' rows='8' cols='80' style='box-sizing:border-box; resize:none; padding: 2px;'>" +
     "</textarea>";
-  html12 = "</td>" + "</tr>" + "</tbody>";
+  html12 = "</td>" + "</tr>" + "</tbody></table>";
   table.innerHTML =
     html1 +
     html2 +
@@ -344,12 +344,12 @@ function SRTemplate(target) {
   target.prepend(table);
 }
 
-//회람
+//휴가
 function LETemplate(target) {
   var p = createPObj();
   p.innerHTML = "<h3 style='font-weight:bold'>휴가계</h3>";
 
-  var table = createTableObj("tableForLeave");
+  var table = createTableObj();
   html1 =
     "<colgroup>" +
     "<col width='100'>" +
@@ -422,7 +422,7 @@ function LETemplate(target) {
     "</label> " + "</td>  " + "</tr>" + "<tr>" + "<th>휴가사유</th>" + "<td>";
   html16 =
     "<textarea class='leaveReason' id='inputLeaveReason' cols='100' style='box-sizing:border-box; resize:none; padding: 2px;'></textarea>";
-  html17 = "</td>" + "<td>" + "</td>" + "</tr>" + "</tbody>";
+  html17 = "</td>" + "<td>" + "</td>" + "</tr>" + "</tbody></table>";
   table.innerHTML =
     html1 +
     html2 +
@@ -448,7 +448,7 @@ function LETemplate(target) {
 
 //품의서
 function ACTemplate(target) {
-  var table = createTableObj("tableForLeave");
+  var table = createTableObj();
   html1 =
     "<colgroup>" +
     "<col width='120'>" +
@@ -494,8 +494,7 @@ function ACTemplate(target) {
     "<th scope='row'>계좌번호</th>" +
     "<td>" +
     "<label>";
-  html7 = "<input type='text' id='inputAccountNum' maxlength='20'>";
-  html8 =
+  html7 =
     "</label>" +
     "</td>" +
     "</tr>" +
@@ -503,8 +502,8 @@ function ACTemplate(target) {
     "<th scope='row'>예금주</th>" +
     "<td>" +
     "<label>";
-  html9 = "<input type='text' id='inputAccountHolder' maxlength='20'>";
-  html10 =
+  html8 = "<input type='text' id='inputAccountHolder' maxlength='20'>";
+  html9 =
     "</label>" +
     "</td>" +
     "</tr>" +
@@ -512,8 +511,8 @@ function ACTemplate(target) {
     "<th scope='row'>송금액</th>" +
     "<td>" +
     "<label>";
-  html11 = "<input type='text' id='inputPrice'>";
-  html12 =
+  html10 = "<input type='text' id='inputPrice'>";
+  html11 =
     "</label>" +
     "</td>" +
     "</tr>" +
@@ -521,9 +520,9 @@ function ACTemplate(target) {
     "<th scope='row'>송금요청일</th>" +
     "<td>" +
     "<label>";
-  html13 =
+  html12 =
     "<input type='text' id='inputRequestDate' style='width:115px;' class='hasDatepicker'> ";
-  html14 = "</label>" + "</td>" + "</tr>" + "</tbody>";
+  html13 = "</label>" + "</td>" + "</tr>" + "</tbody></table>";
   table.innerHTML =
     html1 +
     html2 +
@@ -719,6 +718,7 @@ function draft() {
     var type = localStorage.getItem("templateType");
     var content;
     if (type == "SR") {
+      var html0 = "<table class='tableForSR' id='draftContentTable'>";
       var spendingType;
       if ($("input[name='spending_type']:checked").val() == "P") {
         spendingType = "개인";
@@ -738,6 +738,7 @@ function draft() {
       html9 = "<span>" + $("input#accountNoId").val() + "</span>";
       html11 = "<span>" + $("textarea#inputSpendingDetail").val() + "</span>";
       content =
+        html0 +
         html1 +
         html2 +
         html3 +
@@ -749,8 +750,10 @@ function draft() {
         html9 +
         html10 +
         html11 +
-        html12;
+        html12 +
+        "</table>";
     } else if (type == "LE") {
+      var html0 = "<table class='tableForLE' id='draftContentTable'>";
       html2 = "<span>" + $("input#inputTeam").val() + "</span>";
       html4 = "<span>" + $("input#inputPosition").val() + "</span>";
       html6 = "<span>" + $("input#inputFullName").val() + "</span>";
@@ -760,6 +763,7 @@ function draft() {
       html14 = "<span>" + $("input#inputYourWish").val() + "</span>";
       html16 = "<span>" + $("textarea#inputLeaveReason").val() + "</span>";
       content =
+        html0 +
         html1 +
         html2 +
         html3 +
@@ -777,7 +781,9 @@ function draft() {
         html15 +
         html16 +
         html17;
+      ("</table>");
     } else if (type == "AC") {
+      var html0 = "<table class='tableForAC' id='draftContentTable'>";
       html2 =
         "<span>" +
         $("input#inputRemittanceCustomer").val() +
@@ -790,11 +796,11 @@ function draft() {
         "<span style='margin-left:5px'>" +
         $("input#inputBankName").val() +
         "</span>";
-      html7 = "<span>" + $("input#inputAccountNum").val() + "</span>";
-      html9 = "<span>" + $("input#inputAccountHolder").val() + "</span>";
-      html11 = "<span>" + $("input#inputPrice").val() + "</span>";
-      html13 = "<span>" + $("input#inputRequestDate").val() + "</span>";
+      html8 = "<span>" + $("input#inputAccountHolder").val() + "</span>";
+      html10 = "<span>" + $("input#inputPrice").val() + "</span>";
+      html12 = "<span>" + $("input#inputRequestDate").val() + "</span>";
       content =
+        html0 +
         html1 +
         html2 +
         html3 +
@@ -808,7 +814,7 @@ function draft() {
         html11 +
         html12 +
         html13 +
-        html14;
+        "</table>";
     } else {
       content = apDocsContentObj.innerHTML.trim();
     }

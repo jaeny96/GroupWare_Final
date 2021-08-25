@@ -27,12 +27,14 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 	@Override
 	public int chkMaxNum(String document_type) throws FindException {
 		SqlSession session = null;
+		int maxNum;
 		try {
 			session = sqlSessionFactory.openSession();
-			int maxNum = session.selectOne("com.group.approval.ApprovalWriteMapper.checkMaxNum", document_type);
+			maxNum = session.selectOne("com.group.approval.ApprovalWriteMapper.checkMaxNum", document_type);
 			return maxNum;
 		} catch (Exception e) {
-			throw new FindException(e.getMessage());
+			maxNum=0;
+			return maxNum;
 		} finally {
 			if (session != null) {
 				session.close();
