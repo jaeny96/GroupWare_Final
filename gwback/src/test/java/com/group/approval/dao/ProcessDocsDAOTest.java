@@ -66,62 +66,62 @@ class ProcessDocsDAOTest {
 //		//dao.documentRefuse(ap.getDocumentNo(), ap.getEmployee().getEmployeeId());
 //	}
 
-	@Test 
-	void testUpdateAp() throws UpdateException{
-		ApprovalStatus aps = new ApprovalStatus();
-		Approval ap = new Approval();
-		try {
-		
-			ap.setApComment("sfdsfsfsdfsSㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");
-			ap.setDocumentNo("AC-품의-20210627-0002");
-			aps.setApType("반려");
-			ap.setApStatus(aps);
-			Employee e = new Employee();
-			e.setEmployeeId("DEV001");
-			ap.setEmployee(e);
-		
-			dao.updateApproval(ap);
-			dao.documentRefuse(ap.getDocumentNo(), ap.getEmployee().getEmployeeId());
-			
-		} catch (Exception e) {
-			//aps.setApType("대기");
-			// TODO: handle exception
-		}finally {
-			
-		}
-
-	}
+//	@Test 
+//	void testUpdateAp() throws UpdateException{
+//		ApprovalStatus aps = new ApprovalStatus();
+//		Approval ap = new Approval();
+//		try {
+//		
+//			ap.setApComment("sfdsfsfsdfsSㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ");
+//			ap.setDocumentNo("AC-품의-20210627-0002");
+//			aps.setApType("반려");
+//			ap.setApStatus(aps);
+//			Employee e = new Employee();
+//			e.setEmployeeId("DEV001");
+//			ap.setEmployee(e);
+//		
+//			dao.updateApproval(ap);
+//			dao.documentRefuse(ap.getDocumentNo(), ap.getEmployee().getEmployeeId());
+//			
+//		} catch (Exception e) {
+//			//aps.setApType("대기");
+//			// TODO: handle exception
+//		}finally {
+//			
+//		}
+//
+//	}
 //	
 
-	@Test 
-	void testUpdateAg() throws UpdateException{
-		ApprovalStatus aps = new ApprovalStatus();
-		Agreement ag = new Agreement();
-		try {
-		
-			ag.setApComment("승인이이이야야이우랴ㅣㅟㄹㅇ");
-			ag.setDocumentNo("CR-회람-20210621-0001");
-			aps.setApType("승인");
-			ag.setAgStatus(aps);
-			Employee e = new Employee();
-			e.setEmployeeId("DEV001");
-			ag.setEmployee(e);
-		
-			dao.updateAgreement(ag);
-			
-			//dao.documentRefuse(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
-			dao.documentAudmit(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
-			
-		} catch (Exception e) {
-			//aps.setApType("대기");
-			// TODO: handle exception
-		}finally {
-			
-		
-		}
-	
-
-	}
+//	@Test 
+//	void testUpdateAg() throws UpdateException{
+//		ApprovalStatus aps = new ApprovalStatus();
+//		Agreement ag = new Agreement();
+//		try {
+//		
+//			ag.setApComment("승인이이이야야이우랴ㅣㅟㄹㅇ");
+//			ag.setDocumentNo("CR-회람-20210621-0001");
+//			aps.setApType("승인");
+//			ag.setAgStatus(aps);
+//			Employee e = new Employee();
+//			e.setEmployeeId("DEV001");
+//			ag.setEmployee(e);
+//		
+//			dao.updateAgreement(ag);
+//			
+//			//dao.documentRefuse(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
+//			dao.documentAudmit(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
+//			
+//		} catch (Exception e) {
+//			//aps.setApType("대기");
+//			// TODO: handle exception
+//		}finally {
+//			
+//		
+//		}
+//	
+//
+//	}
 
 
 }

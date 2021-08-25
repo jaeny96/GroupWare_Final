@@ -1,8 +1,26 @@
 $(function () {
+  //부서 메뉴 감싸주는 card Div 객체
+  var $cardObj = $("div#navMenu");
   //옆에 메뉴 객체
   var navObj = document.querySelector("li.navObj");
+  //메뉴 객체의 부서 목록 열어주는 a 태그
+  var navAObj = navObj.querySelector("a");
   //메뉴의 드롭다운 객체
   var ulDeptObj = navObj.querySelector("ul.sidebar-dropdown");
+  //card Div객체의 현재 높이 값
+  var cardObjHeight = $cardObj.height();
+  //부서 기본 값 li 높이 * 부서 수
+  var deptMenuHeight = 40 * 8;
+
+  //클릭이벤트 시 card Div 객체의 높이 값이 달라짐
+  navAObj.addEventListener("click", function () {
+    if (navAObj.getAttribute("aria-expanded") == false) {
+      $cardObj.animate({ height: cardObjHeight + "px" }, 400);
+    } else {
+      $cardObj.animate({ height: cardObjHeight + deptMenuHeight + "px" }, 400);
+      deptMenuHeight = ulDeptObj.offsetHeight;
+    }
+  });
 
   // var $ulDeptObj = $(
   //   "body > div > div > main > div.container-fluid.p-0 > div > div.col-md-4.col-xl-3 > div > div > ul > li > a"
@@ -89,7 +107,7 @@ $(function () {
   //전체 사원 불러오기
   var backurlAllEmp = "http://localhost:8888/gwback/employee/all";
   //부서별 사원 불러오기 +{dep}
-  var backurlDeptEmp = "http://localhost:8888/gwback/employee/byDept/";;
+  var backurlDeptEmp = "http://localhost:8888/gwback/employee/byDept/";
   //사원 상세 불러오기 +{id}
   var backurlEmpDetail = "http://localhost:8888/gwback/employee/";
   //사원명으로 검색한 결과 불러오기 +{word}
@@ -100,7 +118,7 @@ $(function () {
     console.log(e.target.id);
     var empInfoArr = e.target.id.split("/");
     $.ajax({
-      url: backurlEmpDetail+empInfoArr[0],
+      url: backurlEmpDetail + empInfoArr[0],
       method: "get",
       data: {
         empId: empInfoArr[0],
@@ -229,7 +247,7 @@ $(function () {
     //배열 초기화
     emptyElement();
     $.ajax({
-      url: backurlDeptEmp+dept,
+      url: backurlDeptEmp + dept,
       method: "get",
       data: {
         deptId: dept,
@@ -262,7 +280,6 @@ $(function () {
     console.log(e.target.id);
     var depInfoArr = e.target.id.split("/");
     selectEmpElement(e.target.id);
-
   }
 
   //부서 내비게이션 생성 함수
@@ -336,7 +353,7 @@ $(function () {
     //'검색한 단어'의 검색 결과
     empHeaderObj.innerText = "'" + wordObj.value + "'의 검색 결과";
     $.ajax({
-      url: backurlSearchEmp+ wordObj.value,
+      url: backurlSearchEmp + wordObj.value,
       method: "post",
       data: {
         word: wordObj.value,

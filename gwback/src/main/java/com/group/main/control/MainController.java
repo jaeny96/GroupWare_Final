@@ -34,57 +34,56 @@ public class MainController {
 	private MainService service;
 
 	@PostMapping("/login")
-	 public Map<String, Object> login(HttpSession session, @RequestBody Employee emp){
-	      Map<String, Object> map = new HashMap<>();
-	      
-	      session.removeAttribute("loginInfo");
-	      try {
-	         Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
-	         session.setAttribute("id", loginInfo.getEmployeeId());
-	         session.setAttribute("pwd", loginInfo.getPassword());
-	         session.setAttribute("dept", loginInfo.getDepartment());
-	         System.out.println(loginInfo.getEmployeeId());
-	         System.out.println(loginInfo.getPassword());
-	         System.out.println( loginInfo.getDepartment());
-	         
-	         map.put("status", 1);
-	         return map;
-	      
-	      } catch (FindException e) {
-	         e.printStackTrace();
-	         map.put("status", -1);
-	         map.put("msg", e.getMessage());
-	         return map;
-	      }
+	public Map<String, Object> login(HttpSession session, @RequestBody Employee emp) {
+		Map<String, Object> map = new HashMap<>();
+
+		session.removeAttribute("loginInfo");
+		try {
+			Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
+			session.setAttribute("id", loginInfo.getEmployeeId());
+			session.setAttribute("pwd", loginInfo.getPassword());
+			session.setAttribute("dept", loginInfo.getDepartment().getDepartmentId());
+//			System.out.println(loginInfo.getEmployeeId());
+//			System.out.println(loginInfo.getPassword());
+//			System.out.println(loginInfo.getDepartment());
+
+			map.put("status", 1);
+			return map;
+
+		} catch (FindException e) {
+			e.printStackTrace();
+			map.put("status", -1);
+			map.put("msg", e.getMessage());
+			return map;
+		}
 	}
 
-	
 	@GetMapping("/chk-login")
-	public Map<String,Integer> chkLogin(HttpSession session) {
+	public Map<String, Integer> chkLogin(HttpSession session) {
 		Map<String, Integer> map = new HashMap<>();
 		int status;
 		String id = session.getAttribute("id").toString();
-		if(id == null) {
+		if (id == null) {
 			status = 0;
-		}else {
+		} else {
 			status = 1;
 		}
-		map.put("status",status);
+		map.put("status", status);
 		return map;
 	}
 
 	@GetMapping("/logout")
-	public ResponseEntity<String> logout(/* HttpSession session */) {
-//		session.invalidate(); //세션제거
+	public ResponseEntity<String> logout(HttpSession session) {
+		session.invalidate(); // 세션제거
 		ResponseEntity<String> entity = new ResponseEntity<String>(HttpStatus.OK);
 		return entity;
 	}
 
 	@GetMapping("/profile")
-	public Object getProfile(/* HttpSession session */) {
+	public Object getProfile(HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
-//		String id = session.getAttribute("id").toString();
-		String id = "MSD002";
+		String id = session.getAttribute("id").toString();
+//		String id = "MSD002";
 		try {
 			Employee emp = service.showProfile(id);
 			return emp;
@@ -97,10 +96,10 @@ public class MainController {
 	}
 
 	@GetMapping("/leave")
-	public Object getLeave(/* HttpSession session */) {
+	public Object getLeave(HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
-//		String id = session.getAttribute("id").toString();
-		String id = "MSD002";
+		String id = session.getAttribute("id").toString();
+//		String id = "MSD002";
 		try {
 			Leave leave = service.showLeave(id);
 			return leave;
@@ -113,10 +112,10 @@ public class MainController {
 	}
 
 	@GetMapping("/document")
-	public Object getDocExpected(/* HttpSession session */) {
+	public Object getDocExpected(HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
-//		String id = session.getAttribute("id").toString();
-		String id = "MSD002";
+		String id = session.getAttribute("id").toString();
+//		String id = "MSD002";
 		try {
 			List<Document> docList = service.showDocExpected(id);
 			return docList;
@@ -143,11 +142,13 @@ public class MainController {
 	}
 
 	@GetMapping("/today-skd")
-	public Object getTodaySkdList(/* HttpServletRequest request */) {
+	public Object getTodaySkdList(HttpSession session) {
+		String deptId = session.getAttribute("dept").toString();
+		String id = session.getAttribute("id").toString();
 		Employee emp = new Employee();
 		Department dept = new Department();
-		dept.setDepartmentId("MSD");
-		emp.setEmployeeId("MSD002");
+		dept.setDepartmentId(deptId);
+		emp.setEmployeeId(id);
 		emp.setDepartment(dept);
 
 		Map<String, Object> map = new HashMap<>();

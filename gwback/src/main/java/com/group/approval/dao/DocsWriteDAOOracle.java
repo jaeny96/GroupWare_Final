@@ -1,10 +1,5 @@
 package com.group.approval.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -21,10 +16,7 @@ import com.group.approval.dto.Reference;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.employee.dto.Employee;
-import com.group.employee.dto.Job;
-import com.group.employee.dto.Position;
 import com.group.employee.dto.Department;
-import com.group.sql.MyConnection;
 
 @Repository("docsWriteDAO")
 public class DocsWriteDAOOracle implements DocsWriteDAO {

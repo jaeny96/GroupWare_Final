@@ -1,14 +1,5 @@
 package com.group.calendar.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,15 +10,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.group.calendar.dto.Schedule;
-import com.group.calendar.dto.ScheduleType;
-import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.exception.AddException;
 import com.group.exception.DuplicatedException;
 import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
-import com.group.sql.MyConnection;
+
 @Repository("scheduleDAO")
 public class ScheduleDAOOracle implements ScheduleDAO {
 	

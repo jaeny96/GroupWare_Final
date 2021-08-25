@@ -1,4 +1,5 @@
 $(function () {
+  var $content = $("main.content");
   //기존의 게시글 제목값
   var originBdTitleInModi = localStorage.getItem("bdTitle");
   //기존의 게시글 내용값
@@ -58,6 +59,11 @@ $(function () {
         } else {
           alert("게시글이 변경되었습니다");
           //게시글 수정 후 재로딩
+          var href = "board-detail.html";
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
           // $(
           //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
           // ).trigger("click");

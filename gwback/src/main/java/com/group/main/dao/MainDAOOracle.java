@@ -1,10 +1,5 @@
 package com.group.main.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,11 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.group.approval.dto.Document;
 import com.group.board.dto.Board;
 import com.group.calendar.dto.Schedule;
-import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
-import com.group.sql.MyConnection;
 
 @Repository("mainDAO")
 public class MainDAOOracle implements MainDAO {

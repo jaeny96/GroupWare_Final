@@ -1,4 +1,5 @@
 $(function () {
+  var $content = $("main.content");
   //뒤로가기 버튼 객체
   var boardPageGoBtnObj = document.querySelector("button.boardPageGoBtn");
   //로그인한 사원의 아이디 객체
@@ -90,11 +91,17 @@ $(function () {
       data: "",
       timeout: {},
       success: function (responseData) {
+        "board-detail.html";
         alert("댓글이 삭제되었습니다!");
         //댓글 삭제 후 재로딩
-        $(
-          '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
-        ).trigger("click");
+        var href = "board-detail.html";
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+        // $(
+        //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
+        // ).trigger("click");
       },
     });
     e.preventDefault();
@@ -283,9 +290,14 @@ $(function () {
       success: function (responseData) {
         alert("댓글이 추가되었습니다!");
         //게시글 상세 페이지 재로딩
-        $(
-          '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
-        ).trigger("click");
+        var href = "board-detail.html";
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+        // $(
+        //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
+        // ).trigger("click");
       },
     });
     e.preventDefault();
@@ -310,7 +322,6 @@ $(function () {
     "div.wrapper>div.main>main.content div.row div.card-body a.cmDeleteBtn"
   );
 
-  var $content = $("main.content");
   //수정 버튼 클릭 시 클릭 이벤트 발생
   $modifyBtnObj.click(function () {
     //클릭된현재객체의 href속성값 얻기 : .attr('href');

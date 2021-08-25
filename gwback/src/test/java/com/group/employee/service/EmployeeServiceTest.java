@@ -54,15 +54,15 @@ class EmployeeServiceTest {
 		assertEquals(expectedEmpName, emp.get(0).getName());	
 	}
 
-	@Test
-	void showDetailServiceTest() throws FindException{
-		Employee emp = new Employee();
-		emp.setName("권보아");
-		emp.setEmployeeId("CEO001");
-
-		Employee e  =service.showDetail(emp);
-		
-		String expectedEmpName = "권보아";
-		assertEquals(expectedEmpName, emp.getName());	
-	}
+//	@Test
+//	void showDetailServiceTest() throws FindException{
+//		Employee emp = new Employee();
+//		emp.setName("권보아");
+//		emp.setEmployeeId("CEO001");
+//
+//		Employee e  =service.showDetail(emp);
+//		
+//		String expectedEmpName = "권보아";
+//		assertEquals(expectedEmpName, emp.getName());	
+//	}
 }

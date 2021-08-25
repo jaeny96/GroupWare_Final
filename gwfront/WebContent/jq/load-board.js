@@ -2,7 +2,7 @@
 $(function () {
   //현재 몇페이지인지 나타내주는 객체
   var bdPageTitleObj = document.querySelector("h1.h1Title");
-  //카테고리 버튼 객체
+  //카테고리 버튼 객체body > div > div > main > div > form > div > div > div > button
   var $dropDownCategoryBtnObj = $("button.searchBtn");
   //상세 카테고리 객체
   var $categoryObj = $("div.bdCategory");
