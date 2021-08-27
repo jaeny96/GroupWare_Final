@@ -156,56 +156,125 @@ $(function () {
     tdApStep3Name.appendChild(divApStep3Date);
 
     //결재 관련 승인여부에 따라, 알맞은 이미지 부여하기
-    //결재자 0
-    if (apDocsApType0 == "대기" && myCheckName === apDocsApName0.toString()) {
-      apStep0Obj.appendChild(buttonTag);
-    } else if (apDocsApType0 == "대기") {
-      apStep0Obj.innerText = "대기중";
-    } else if (apDocsApType0 == "반려") {
-      imgTag.src = "img/icons/no.png";
-      apStep0Obj.appendChild(imgTag);
-    } else if (apDocsApType0 == "승인") {
-      imgTag.src = "img/icons/yes.png";
-      apStep0Obj.appendChild(imgTag);
+    /*
+  //결재단계처리
+  const confirmPlsBtn = document.querySelector("#apCommentConfirmBtn"); //승인요망버튼
+  //전단계 결재자가 '대기중'일 경우 승인요망 버튼 비활성화
+  //0단계는 무조건 승인처리 되므로 1단계 버튼은 비활성화 불필요, 2단계 버튼부터 시작
+  alert(apStep1Obj.innerText);
+  if (apStep1Obj.innerText == "대기중") {
+    confirmPlsBtn.disabled = true;
+  } else if (
+    apStep1Obj.innerText == "대기중" &&
+    apStep2Obj.innerText == "대기중"
+  ) {
+    confirmPlsBtn.disabled = true;
+  }
+*/
+    var apDocsApTypeArr = [
+      apDocsApType0,
+      apDocsApType1,
+      apDocsApType2,
+      apDocsApType3,
+    ];
+    var apDocsApNameArr = [
+      apDocsApName0,
+      apDocsApName1,
+      apDocsApName2,
+      apDocsApName3,
+    ];
+    var apStepObjArr = [apStep0Obj, apStep1Obj, apStep2Obj, apStep3Obj];
+    var imgTagArr = [imgTag, imgTag1, imgTag2, imgTag3];
+    /*
+  승인, 반려, 대기 
+  로그인한사원명과 결재자이름이 같고 이전 결재타입이 모두 승인인 경우만  승인요망버튼이 보여진다 
+  */
+    var apFlag = true; //결재여부
+    for (var i = 0; i < apDocsApTypeArr.length; i++) {
+      // console.log(
+      //   "---i:" +
+      //     i +
+      //     ", apDocsApTypeArr[i]:" +
+      //     apDocsApTypeArr[i] +
+      //     ", apDocsApNameArr[i].toString():" +
+      //     apDocsApNameArr[i].toString()
+      // );
+      if (apDocsApTypeArr[i] == "대기") {
+        //
+        //이전결재라인이 모두 승인된 경우
+        if (myCheckName === apDocsApNameArr[i].toString()) {
+          if (!apFlag) {
+            //결재 처리가 안 된 경우 버튼 비활성화
+            buttonTag.disabled = true;
+          }
+          //로그인한사원명과 결재자이름이 같으면 버튼 보여주기
+          apStepObjArr[i].appendChild(buttonTag);
+        } else {
+          apStepObjArr[i].innerText = apDocsApTypeArr[i] + "중";
+        }
+        // }
+        apFlag = false;
+      } else {
+        if (apDocsApTypeArr[i] == "반려") {
+          imgTagArr[i].src = "img/icons/no.png";
+          apStepObjArr[i].appendChild(imgTag1);
+        } else if (apDocsApTypeArr[i] == "승인") {
+          imgTagArr[i].src = "img/icons/yes.png";
+          apStepObjArr[i].appendChild(imgTagArr[i]);
+        }
+        apFlag = true;
+      }
     }
-    //결재자 1
-    if (apDocsApType1 == "대기" && myCheckName === apDocsApName1.toString()) {
-      apStep1Obj.appendChild(buttonTag1);
-    } else if (apDocsApType1 == "대기") {
-      apStep1Obj.innerText = "대기중";
-    } else if (apDocsApType1 == "반려") {
-      imgTag1.src = "img/icons/no.png";
-      apStep1Obj.appendChild(imgTag1);
-    } else if (apDocsApType1 == "승인") {
-      imgTag1.src = "img/icons/yes.png";
-      apStep1Obj.appendChild(imgTag1);
-    }
-    //결재자 2
-    if (apDocsApType2 == "대기" && myCheckName === apDocsApName2.toString()) {
-      apStep2Obj.appendChild(buttonTag2);
-    } else if (apDocsApType2 == "대기") {
-      apStep2Obj.innerHTML = "대기중";
-    } else if (apDocsApType2 == "반려") {
-      imgTag2.src = "img/icons/no.png";
-      apStep2Obj.appendChild(imgTag2);
-    } else if (apDocsApType2 == "승인") {
-      imgTag2.src = "img/icons/yes.png";
-      apStep2Obj.appendChild(imgTag2);
-    }
-    //결재자 3
-    if (apDocsApType3 == "대기" && myCheckName === apDocsApName3.toString()) {
-      apStep3Obj.appendChild(buttonTag3);
-    } else if (apDocsApType3 == "대기") {
-      apStep3Obj.innerText = "대기중";
-    } else if (apDocsApType3 == "반려") {
-      imgTag3.src = "img/icons/no.png";
-      apStep3Obj.appendChild(imgTag3);
-    } else if (apDocsApType3 == "승인") {
-      imgTag3.src = "img/icons/yes.png";
-      apStep3Obj.appendChild(imgTag3);
-    }
+    // // 결재자 0
+    // if (apDocsApType0 == "대기" && myCheckName === apDocsApName0.toString()) {
+    //   apStep0Obj.appendChild(buttonTag);
+    // } else if (apDocsApType0 == "대기") {
+    //   apStep0Obj.innerText = "대기중";
+    // } else if (apDocsApType0 == "반려") {
+    //   imgTag.src = "img/icons/no.png";
+    //   apStep0Obj.appendChild(imgTag);
+    // } else if (apDocsApType0 == "승인") {
+    //   imgTag.src = "img/icons/yes.png";
+    //   apStep0Obj.appendChild(imgTag);
+    // }
+    // //결재자 1
+    // if (apDocsApType1 == "대기" && myCheckName === apDocsApName1.toString()) {
+    //   apStep1Obj.appendChild(buttonTag1);
+    // } else if (apDocsApType1 == "대기") {
+    //   apStep1Obj.innerText = "대기중";
+    // } else if (apDocsApType1 == "반려") {
+    //   imgTag1.src = "img/icons/no.png";
+    //   apStep1Obj.appendChild(imgTag1);
+    // } else if (apDocsApType1 == "승인") {
+    //   imgTag1.src = "img/icons/yes.png";
+    //   apStep1Obj.appendChild(imgTag1);
+    // }
+    // //결재자 2
+    // if (apDocsApType2 == "대기" && myCheckName === apDocsApName2.toString()) {
+    //   apStep2Obj.appendChild(buttonTag2);
+    // } else if (apDocsApType2 == "대기") {
+    //   apStep2Obj.innerHTML = "대기중";
+    // } else if (apDocsApType2 == "반려") {
+    //   imgTag2.src = "img/icons/no.png";
+    //   apStep2Obj.appendChild(imgTag2);
+    // } else if (apDocsApType2 == "승인") {
+    //   imgTag2.src = "img/icons/yes.png";
+    //   apStep2Obj.appendChild(imgTag2);
+    // }
+    // //결재자 3
+    // if (apDocsApType3 == "대기" && myCheckName === apDocsApName3.toString()) {
+    //   apStep3Obj.appendChild(buttonTag3);
+    // } else if (apDocsApType3 == "대기") {
+    //   apStep3Obj.innerText = "대기중";
+    // } else if (apDocsApType3 == "반려") {
+    //   imgTag3.src = "img/icons/no.png";
+    //   apStep3Obj.appendChild(imgTag3);
+    // } else if (apDocsApType3 == "승인") {
+    //   imgTag3.src = "img/icons/yes.png";
+    //   apStep3Obj.appendChild(imgTag3);
+    // }
 
-    //힙의 이름 채우기
+    //합의 이름 채우기
     tdAgName.innerHTML = apDocsAgName;
     console.log(myCheckName === apDocsAgName.toString());
     //합의 관련 승인여부에 따라, 알맞은 이미지 부여하기

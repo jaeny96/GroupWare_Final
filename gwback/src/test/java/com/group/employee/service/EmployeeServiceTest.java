@@ -60,7 +60,7 @@ class EmployeeServiceTest {
 		emp.setName("권보아");
 		emp.setEmployeeId("CEO001");
 
-		Employee e  =service.showDetail(emp);
+//		Employee e  =service.showDetail(emp);
 		
 		String expectedEmpName = "권보아";
 		assertEquals(expectedEmpName, emp.getName());	

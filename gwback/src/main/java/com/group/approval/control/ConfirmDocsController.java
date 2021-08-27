@@ -39,7 +39,8 @@ public class ConfirmDocsController {
 			@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {
 		
 		List<Document> list=new ArrayList<Document>();
-		String id="DEV001";
+//		String id="DEV001";
+		String id = session.getAttribute("id").toString();
 		try {
 			if(optStatus.isPresent()) {
 				list =service.findCheckDocs(id,optCheck.get(),optStatus.get());
@@ -57,7 +58,8 @@ public class ConfirmDocsController {
 	public List<Approval> sekectCheckList(@PathVariable (name="docsNo") Optional<String> optDocsNo,HttpSession session) {
 		Map<String,Object> result= new HashMap<String, Object>();
 		List<Approval> list=new ArrayList<Approval>();
-		String id="DEV001";
+//		String id="DEV001";
+		String id = session.getAttribute("id").toString();
 		try {
 			if(optDocsNo.isPresent()) {
 				list =service.findDocsMyCheck(id,optDocsNo.get());
@@ -105,7 +107,8 @@ public class ConfirmDocsController {
 			@PathVariable (name="status") Optional<String> optStatus,HttpSession session) {
 		
 		List<Document> list=new ArrayList<Document>();
-		String id="DEV001";
+//		String id="DEV001";
+		String id = session.getAttribute("id").toString();
 		try {
 			if(optStatus.isPresent()) {
 				list =service.findMySearch(id,optType.get(),optSearch.get(),optStatus.get());

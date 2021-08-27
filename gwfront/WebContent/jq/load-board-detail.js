@@ -79,7 +79,7 @@ $(function () {
   //댓글 삭제 클릭 핸들러
   function cmDeleteClickHandler(e) {
     $.ajax({
-      url: backurlDeleteCm + "/" + bdDetailBdNo + "/" + cmNo,
+      url: backurlDeleteCm + "/" + bdDetailBdNo + "/" + e.target.id,
       method: "DELETE",
       transformRequest: [null],
       transformResponse: [null],

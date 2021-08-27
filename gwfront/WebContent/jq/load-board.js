@@ -68,11 +68,12 @@ $(function () {
   function categoryHandler(e) {
     $categoryObj.hide();
     if (e.target.id == "categoryTitle") {
+      //제목을 클릭한 경우
       $dropDownCategoryBtnObj.html("제목");
       searchObj.setAttribute("placeholder", "제목으로 검색하기");
       bdSearchCategory = "bd_title";
     } else {
-      $dropDownCategoryBtnObj.html("작성자");
+      $dropDownCategoryBtnObj.html("작성자"); //작성자를 클릭한경우
       searchObj.setAttribute("placeholder", "작성자로 검색하기");
       bdSearchCategory = "name";
     }
@@ -108,7 +109,7 @@ $(function () {
           $(responseData).each(function (i, e) {
             bdNo[i] = e.bdNo;
             bdTitle[i] = e.bdTitle;
-            bdWriter[i] = e.writer.name;
+            bdWriter[i] = e.writer?.name;
             bdDate[i] = e.bdDate;
           });
           //게시글 생성하는 함수 호출
