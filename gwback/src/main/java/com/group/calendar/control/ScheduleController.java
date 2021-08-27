@@ -8,7 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,12 +36,14 @@ public class ScheduleController {
 	private ScheduleService service;
 	
 	@GetMapping("/allSkd")
-	public Object allSkd(/*HttpSession session*/){
-	//String id = session.getAttribute("id").toString();
+	public Object allSkd(HttpSession session){
+	String id = session.getAttribute("id").toString();
 		Employee emp = new Employee();
 		Department dept = new Department();
-		String id = "MSD003";
-		dept.setDepartmentId("MSD");
+		//String id = "MSD003";
+		//dept.setDepartmentId("MSD");
+		String deptId = id.substring(0,3);
+		dept.setDepartmentId(deptId);
 		emp.setEmployeeId(id);
 		emp.setDepartment(dept);
 		Map<String,Object>map = new HashMap<>();
@@ -58,10 +59,12 @@ public class ScheduleController {
 	}
 	@GetMapping("/skdDate/{sdate}/{edate}")
 	public Object skdDate(@PathVariable String sdate, @PathVariable String edate ,HttpSession session) {
-		//String id = session.getAttribute("id").toString();
-		String id = "MSD003";
+		String id = session.getAttribute("id").toString();
+		//String id = "MSD003";
 		Department dept = new Department();
-		dept.setDepartmentId("SEC");
+//		dept.setDepartmentId("SEC");
+		String deptId = id.substring(0,3);
+		dept.setDepartmentId(deptId);
         Employee em = new Employee(id, null, dept, null, null, null, null, null, 1, null);
 //        em.setEmployeeId(id);
 //        em.setDepartment(dept);
@@ -77,8 +80,10 @@ public class ScheduleController {
         return map;
 	}
 	@GetMapping("/skdTeam")
-	public Object skdTeam() {
-		String dept = "MSD";
+	public Object skdTeam(HttpSession session) {
+		String id = session.getAttribute("id").toString();
+		//String dept = "MSD";
+		String dept= id.substring(0,3);
 		 Map<String,Object>map = new HashMap<>();
 		 try {
 			List<Schedule> list = service.findSkdTeam(dept);
@@ -91,8 +96,9 @@ public class ScheduleController {
 		 return map;
 	}
 	@GetMapping("/skdPersonal")
-	public Object skdPersonal() {
-		String id = "MSD003";
+	public Object skdPersonal(HttpSession session) {
+		//String id = "MSD003";
+		String id = session.getAttribute("id").toString();
 		 Map<String,Object>map = new HashMap<>();
 		 try {
 			List<Schedule> list = service.findSkdPersonal(id);
@@ -106,8 +112,8 @@ public class ScheduleController {
 	}
 	@GetMapping("/skdContent/{title}/{content}")
 	public Object skdContent(@PathVariable String title, @PathVariable String content ,HttpSession session) {
-		//String id = session.getAttribute("id").toString();
-		String id = "MSD003";
+		String id = session.getAttribute("id").toString();
+		//String id = "MSD003";
 		Employee em = new Employee();
 		em.setEmployeeId(id);
         Schedule skd = new Schedule(em, title, content);
@@ -137,9 +143,10 @@ public class ScheduleController {
 		 return map;
 	}
 	@PostMapping("/addSkd")
-	public Map<String, Object> addSkd(@RequestBody Schedule s){
+	public Map<String, Object> addSkd(@RequestBody Schedule s, HttpSession session){
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD003";
+		//String id = "MSD003";
+		String id = session.getAttribute("id").toString();
 		Employee em = new Employee();
 		em.setEmployeeId(id);
 		s.setSkdId(em);
@@ -157,10 +164,11 @@ public class ScheduleController {
 		return map;
 	}
 	@PutMapping("/modify/{no}")
-	public Map<String, Object> modify(@PathVariable int no,@RequestBody Schedule s){
+	public Map<String, Object> modify(@PathVariable int no,@RequestBody Schedule s,  HttpSession session){
 		log.error(s+"스케줄s");
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD003";
+//		String id = "MSD003";
+		String id = session.getAttribute("id").toString();
 		Employee em = new Employee();
 		em.setEmployeeId(id);
 		s.setSkdId(em);
@@ -176,9 +184,10 @@ public class ScheduleController {
 		return map;
 	}
 	@DeleteMapping("/remove/{no}")
-	public Map<String, Object> remove(@PathVariable int no){
+	public Map<String, Object> remove(@PathVariable int no,HttpSession session){
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD003";
+		//String id = "MSD003";
+		String id = session.getAttribute("id").toString();
 		Schedule s = new Schedule();
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);

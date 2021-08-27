@@ -1,5 +1,5 @@
-let teamOrPersonalOption;
-let skdinfo = {};
+var teamOrPersonalOption;
+var skdinfo = {};
 //로그인정보
 var loginInfoIdObj = document.querySelector("div.profileDropdown span.loginId");
 
@@ -46,9 +46,9 @@ function createSkdElement(i) {
   var a = document.createElement("a");
   a.setAttribute("href", "#");
   a.addEventListener("click", function (e) {
-    localStorage.setItem("searchSkdNoDetail", e.target.id);
-    console.log(e.target.id);
-    localStorage.setItem("skdNo", e.target.classList[0]);
+    // localStorage.setItem("searchSkdNoDetail", e.target.id);
+    // console.log(e.target.id);
+    //localStorage.setItem("skdNo", e.target.classList[0]);
     createModal("skdDetail", e.target.classList[0]); //omj
   });
   a.setAttribute("id", i);
@@ -96,6 +96,14 @@ function createModalValue(result) {
   content = result.skdContent;
 }
 
+var $content = $("div.wrapper>div.main>main.content");
+$("#backToCalendar").click(function () {
+  var href = "schedule.html";
+  $content.load(href, function (responseTxt, statusTxt, xhr) {
+    if (statusTxt == "error")
+      alert("Error: " + xhr.status + ": " + xhr.statusText);
+  });
+});
 var skdTitleDetailSearch;
 var skdContentDetailSearch;
 //modal 만드는 함수
@@ -105,19 +113,19 @@ function createModal(id, skdno) {
   // skdno = localStorage.getItem("skdNo");
   $("div.skdNo").html(skdno);
   console.log(skdno + "현재skdno");
-  var index = localStorage.getItem("searchSkdNoDetail");
+  //var index = localStorage.getItem("searchSkdNoDetail");
 
-  var loginedId = localStorage.getItem("loginInfo");
-  var loginedDept = loginedId.substring(0, 3);
-  var sid = loginedId;
-  var dept = loginedDept;
+  // var loginedId = localStorage.getItem("loginInfo");
+  // var loginedDept = loginedId.substring(0, 3);
+  // var sid = loginedId;
+  // var dept = loginedDept;
   //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
-  const urlSearchParams = new URLSearchParams(window.location.search);
+  // const urlSearchParams = new URLSearchParams(window.location.search);
   //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
-  const urlParams = Object.fromEntries(urlSearchParams.entries());
+  //const urlParams = Object.fromEntries(urlSearchParams.entries());
   //urlParams.id = sid;
   //urlParams.dept_id = dept;
-  console.log(urlParams);
+  // console.log(urlParams);
   // console.log(skdTitleDetailSearch);
   var modal = document.getElementById(id);
   modal.classList.remove("hidden"); //모달열기
@@ -241,11 +249,19 @@ function createModal(id, skdno) {
 
   $("#skdModifyBtn").click(function () {
     var UpdatePreTitleValue = skdinfo.title;
+
+    //localStorage.getItem("title");
     var UpdatePreStartDate = skdinfo.startDate;
+    // localStorage.getItem("startDate");
     var UpdatePreStartTime = skdinfo.startTime;
+    //localStorage.getItem("startTime");
     var skdOriginEndDate = skdinfo.endDate;
+    //localStorage.getItem("endDate");
     var skdOriginEndTime = skdinfo.endTime;
+    //localStorage.getItem("endTime");
+
     var UdpatePreContentValue = skdinfo.content;
+    //localStorage.getItem("content");
 
     //test용 프린트
     // console.log(UpdatePreTitleValue);
@@ -265,43 +281,21 @@ function createModal(id, skdno) {
     // skdUpdateType.val(UdpatePreTypeValue);
   });
 
+  function loadSchedule() {
+    var href = "schedule.html";
+    $content.load(href, function (responseTxt, statusTxt, xhr) {
+      if (statusTxt == "error")
+        alert("Error: " + xhr.status + ": " + xhr.statusText);
+    });
+  }
+
   $("[class*='modifySkdSubmit']")
     .off("click")
     .on("click", function () {
       console.log("수정클릭" + backSkdModify);
       console.log("skdType:" + skdUpdateTypeValue);
       console.log("title: " + skdUpdateTitle.val());
-      console.log("skdContent: " + skdUpdateContent.val());
-      console.log(
-        "skdStartDate: " +
-          skdUpdateStartDate.val() +
-          " " +
-          skdUpdateStartTime.val()
-      );
-      console.log(
-        "skdEndDate: " + skdUpdateEndDate.val() + " " + skdUpdateEndTime.val()
-      );
-      console.log("skdShare: " + teamOrPersonalOption);
-      // alert(
-      //   skdUpdateStartTime.val() +
-      //     "-" +
-      //     skdUpdateEndDate.val() +
-      //     ", " +
-      //     skdUpdateEndTime.val()
-      // );
-      // console.log(
-      //   "starttime:" + skdUpdateStartDate //.val() + " " + skdUpdateStartTime.val()
-      // );
-      // console.log(
-      // "endtime" + skdUpdateEndDate//.val() + " " + skdUpdateEndTime.val()
-      // );
-      // console.log("share" + teamOrPersonalOption);
-
-      // let checker = $._data($("[class*='modifySkdSubmit']")[0], "events");
-      // console.log(checker);
-      //일정번호를 기준으로 수정하는 것이기 때문에 skd_no가 반드시 필요하다
-      //var teamOrPersonalOption = localStorage.getItem("share");
-      alert("teamOrPersonalOption=" + teamOrPersonalOption);
+      //      alert("teamOrPersonalOption=" + teamOrPersonalOption);
 
       if (teamOrPersonalOption.trim() == "p") {
         console.log("----수정 클릭시 전달데이터 ---");
@@ -334,8 +328,8 @@ function createModal(id, skdno) {
             window.alert("일정이 변경되었습니다");
 
             //scheduleMenu로 돌아가는 트리거 이벤트
-            //loadSchedule();
-            location.reload();
+            loadSchedule();
+            //location.reload();
           },
           error: function (request, status, error) {
             alert(
@@ -373,9 +367,9 @@ function createModal(id, skdno) {
             skdShare: teamOrPersonalOption,
           }),
           success: function () {
-            window.alert("일정이 변경되었습니다");
-            //loadSchedule();
-            location.reload();
+            window.alert("2일정이 변경되었습니다");
+            loadSchedule();
+            //location.reload();
           },
           error: function (request, status, error) {
             alert(
@@ -397,65 +391,70 @@ function createModal(id, skdno) {
 }
 
 //내용,제목 검색
-document.addEventListener("DOMContentLoaded", function () {
-  // var id = loginInfoIdObj.innerHTML;
+//document.addEventListener("DOMContentLoaded", function () {
+// var id = loginInfoIdObj.innerHTML;
 
-  var loginedId = localStorage.getItem("loginInfo");
-  var id = loginedId;
-  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
-  const urlParams = Object.fromEntries(urlSearchParams.entries());
-  //urlParams.id = id;
+// var loginedId = localStorage.getItem("loginInfo");
+// var id = loginedId;
+// //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
+// const urlSearchParams = new URLSearchParams(window.location.search);
 
-  console.log({ urlParams });
-  console.log("dddd" + urlParams.skd_content + urlParams.skd_title);
-  $.ajax({
-    url:
-      "http://localhost:8888/gwback/schedule/skdContent/" +
-      urlParams.skd_title +
-      "/" +
-      urlParams.skd_content,
-    method: "GET",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
-    success: function (responseData) {
-      console.log(responseData + "init함수 내용");
-      //위에 init함수 호출
-      console.log(responseData);
-      init(responseData, "내용검색");
-    },
-  });
+// //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
+// const urlParams = Object.fromEntries(urlSearchParams.entries());
+// //urlParams.id = id;
+
+// console.log("url" + { urlParams });
+// console.log("dddd" + urlParams.skd_content + urlParams.skd_title);
+
+$.ajax({
+  url:
+    "http://localhost:8888/gwback/schedule/skdContent/" +
+    localStorage.getItem("searchDetail") +
+    "/" +
+    localStorage.getItem("searchDetail2"),
+  method: "GET",
+  transformRequest: [null],
+  transformResponse: [null],
+  jsonpCallbackParam: "callback",
+  success: function (responseData) {
+    console.log(responseData + "init함수 내용");
+    //위에 init함수 호출
+    console.log(responseData);
+    init(responseData, "내용검색");
+  },
 });
+
+//});
 
 //기간검색
-document.addEventListener("DOMContentLoaded", function () {
-  var loginedId = localStorage.getItem("loginInfo");
-  var loginedDept = loginedId.substring(0, 3);
-  var id = loginedId;
-  var dept = loginedDept;
-  //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
-  const urlSearchParams = new URLSearchParams(window.location.search);
-  //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
-  const urlParams = Object.fromEntries(urlSearchParams.entries());
-  //urlParams.id = id;
-  //urlParams.dept_id = dept;
-
-  console.log({ urlParams });
-  $.ajax({
-    url:
-      "http://localhost:8888/gwback/schedule/skdDate/" +
-      urlParams.start_date +
-      "/" +
-      urlParams.end_date,
-    method: "GET",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
-    success: function (responseData) {
-      //위에 init함수 호출
-      init(responseData, "날짜검색");
-    },
-  });
+//document.addEventListener("DOMContentLoaded", function () {
+// var loginedId = localStorage.getItem("loginInfo");
+// var loginedDept = loginedId.substring(0, 3);
+// var id = loginedId;
+// var dept = loginedDept;
+// //주소창의 파라미터를 다른값으로 바꾸기 위해서 URLSearchParams 사용
+// const urlSearchParams = new URLSearchParams(window.location.search);
+// console.log(urlSearchParams + "dd");
+// //Object.entries() ==> 가지고 있는 값을 key와 value의 배열형태로 반환
+// const urlParams = Object.fromEntries(urlSearchParams.entries());
+// //urlParams.id = id;
+// //urlParams.dept_id = dept;
+// console.log("dddd" + urlParams.skd_content + urlParams.skd_title);
+// console.log({ urlParams });
+$.ajax({
+  url:
+    "http://localhost:8888/gwback/schedule/skdDate/" +
+    localStorage.getItem("searchDetail") +
+    "/" +
+    localStorage.getItem("searchDetail2"),
+  method: "GET",
+  transformRequest: [null],
+  transformResponse: [null],
+  jsonpCallbackParam: "callback",
+  success: function (responseData) {
+    //위에 init함수 호출
+    init(responseData, "날짜검색");
+  },
 });
+
+//});

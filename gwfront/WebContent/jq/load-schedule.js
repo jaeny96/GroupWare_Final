@@ -19,13 +19,17 @@ $(function () {
   var $searchResultP = $(".searchPeriodBtn");
   var $searchResultC = $(".searchContentBtn");
   // var $searchResultA = $(".searchAllBtn");
-  var $content = $("#skdDetailShare");
+  //var $content = $("#skdDetailShare");
+  var $content = $("div.wrapper>div.main>main.content");
 
   /**
    * 기간검색 데이터 받아오기
    */
   $searchResultP.on("click", function () {
-    var href = $(this).attr("href");
+    // localStorage.removeItem("searchTitle");
+    // localStorage.removeItem("searchContent");
+    //var href = "schedule-detail-search.html";
+    //$(this).attr("href");
     var loginedId = localStorage.getItem("loginInfo");
     var loginedDept = loginedId.substring(0, 3);
     var id = loginedId;
@@ -33,14 +37,18 @@ $(function () {
     //input날짜 값
     var sdatev = modalPeriodSearch.querySelector("input.cSdate");
     var sdate = sdatev.value;
+
     var edatev = modalPeriodSearch.querySelector("input.cEdate");
     var edate = edatev.value;
+
     //시작날짜가 종료일보다 늦을 경우
     if (sdate == null || sdate == "" || edate == null || edate == "") {
       alert("기간을 입력하세요.");
     } else if (new Date(edate) - new Date(sdate) < 0) {
       alert("종료일이 시작일보다 먼저입니다.");
     } else {
+      localStorage.setItem("searchDetail", sdate);
+      localStorage.setItem("searchDetail2", edate);
       //쿼리스트링으로 데이터 보내기
       var queryString =
         "id=" +
@@ -54,16 +62,25 @@ $(function () {
         "&" +
         "end_date=" +
         edate;
+      var href = "schedule-detail-search.html";
+      console.log(href);
+      $(this).attr("href");
       //schedule-detail-search.html로 페이지 이동하기  + ? 위에서 설정한 쿼리스트링값을 가지고
-      window.location.replace("schedule-detail-search.html?" + queryString);
-      switch (href) {
-        case "schedule-detail-search.html":
-          $content.load(href, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "error")
-              alert("Error: " + xhr.status + ": " + xhr.statusText);
-          });
-          break;
-      }
+      // var href = "schedule-detail-search.html?" + queryString;
+      // $content.load(href, function (responseTxt, statusTxt, xhr) {
+      //   if (statusTxt == "error")
+      //     alert("Error: " + xhr.status + ": " + xhr.statusText);
+      // });
+      // window.location.replace("schedule-detail-search.html?" + queryString);
+      // switch (href) {
+      //   case "schedule-detail-search.html":
+      $content.load(href, function (responseTxt, statusTxt, xhr) {
+        alert(href);
+        if (statusTxt == "error")
+          alert("Error: " + xhr.status + ": " + xhr.statusText);
+      });
+      //    break;
+      // }
       return false;
     }
   });
@@ -71,7 +88,11 @@ $(function () {
   내용검색 데이터 받아오기
   */
   $searchResultC.on("click", function () {
-    var href = $(this).attr("href");
+    // localStorage.removeItem("searchSDate");
+    // localStorage.removeItem("searchEDate");
+
+    // var href = "schedule-detail-search.html";
+    //var href = $(this).attr("href");
     // var id = loginInfoIdObj.innerHTML;
     var loginedId = localStorage.getItem("loginInfo");
     var id = loginedId;
@@ -80,6 +101,8 @@ $(function () {
     var title = titlev.value;
     var contentv = modalContentSearch.querySelector("input.pContent");
     var content = contentv.value;
+    localStorage.setItem("searchDetail", title);
+    localStorage.setItem("searchDetail2", content);
     //제목,내용이 빈칸이거나 null일때 alert
     if (title == null || title == "") {
       alert("검색어를 입력하세요.");
@@ -97,15 +120,21 @@ $(function () {
         content;
       // console.log(queryString);
       //schedule-detail-search.html로 페이지 이동하기  + ? 위에서 설정한 쿼리스트링값을 가지고
-      window.location.replace("schedule-detail-search.html?" + queryString);
-      switch (href) {
-        case "schedule-detail-search.html":
-          $content.load(href, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "error")
-              alert("Error: " + xhr.status + ": " + xhr.statusText);
-          });
-          break;
-      }
+      var href = "schedule-detail-search.html?" + queryString;
+      // $content.load(href, function (responseTxt, statusTxt, xhr) {
+      //   if (statusTxt == "error")
+      //     alert("Error: " + xhr.status + ": " + xhr.statusText);
+      // });
+      //window.location.replace("schedule-detail-search.html?" + queryString);
+      // switch (href) {
+      //   case "schedule-detail-search.html":
+      $content.load(href, function (responseTxt, statusTxt, xhr) {
+        alert(href);
+        if (statusTxt == "error")
+          alert("Error: " + xhr.status + ": " + xhr.statusText);
+      });
+      //    break;
+      //}
       return false;
     }
   });

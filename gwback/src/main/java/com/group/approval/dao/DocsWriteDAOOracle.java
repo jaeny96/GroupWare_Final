@@ -24,7 +24,7 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.employee.dto.Position;
 import com.group.employee.dto.Department;
-import com.group.sql.MyConnection;
+
 
 @Repository("docsWriteDAO")
 public class DocsWriteDAOOracle implements DocsWriteDAO {
