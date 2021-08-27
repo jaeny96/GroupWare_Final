@@ -51,7 +51,7 @@ $(function () {
   buttonTag3.innerHTML = "승인 요망";
   console.log(buttonTag3);
   var agButtonTag = document.createElement("button");
-  agButtonTag.setAttribute("id", "approvalCommentBtn");
+  agButtonTag.setAttribute("id", "agCommentConfirmBtn");
   agButtonTag.setAttribute("class", "btn");
   agButtonTag.setAttribute("class", "ap-btn-outline-purple");
   agButtonTag.setAttribute("style", "width: 90px");
@@ -145,6 +145,7 @@ $(function () {
     tdApStep2Name.innerHTML = apDocsApName2;
     tdApStep3Name.innerHTML = apDocsApName3;
     //결재선 승인날짜 채우기
+    console.log(apDocsApDate0);
     divApStep0Date.innerHTML = apDocsApDate0;
     divApStep1Date.innerHTML = apDocsApDate1;
     divApStep2Date.innerHTML = apDocsApDate2;
@@ -160,7 +161,7 @@ $(function () {
     if (apDocsApType0 == "대기" && myCheckName === apDocsApName0.toString()) {
       apStep0Obj.appendChild(buttonTag);
     } else if (apDocsApType0 == "대기") {
-      apStep0Obj.innerText = "대기중";
+      apStep0Obj.innerText = "(대기중)";
     } else if (apDocsApType0 == "반려") {
       imgTag.src = "img/icons/no.png";
       apStep0Obj.appendChild(imgTag);
@@ -172,7 +173,7 @@ $(function () {
     if (apDocsApType1 == "대기" && myCheckName === apDocsApName1.toString()) {
       apStep1Obj.appendChild(buttonTag1);
     } else if (apDocsApType1 == "대기") {
-      apStep1Obj.innerText = "대기중";
+      apStep1Obj.innerText = "(대기중)";
     } else if (apDocsApType1 == "반려") {
       imgTag1.src = "img/icons/no.png";
       apStep1Obj.appendChild(imgTag1);
@@ -184,7 +185,7 @@ $(function () {
     if (apDocsApType2 == "대기" && myCheckName === apDocsApName2.toString()) {
       apStep2Obj.appendChild(buttonTag2);
     } else if (apDocsApType2 == "대기") {
-      apStep2Obj.innerHTML = "대기중";
+      apStep2Obj.innerHTML = "(대기중)";
     } else if (apDocsApType2 == "반려") {
       imgTag2.src = "img/icons/no.png";
       apStep2Obj.appendChild(imgTag2);
@@ -196,7 +197,7 @@ $(function () {
     if (apDocsApType3 == "대기" && myCheckName === apDocsApName3.toString()) {
       apStep3Obj.appendChild(buttonTag3);
     } else if (apDocsApType3 == "대기") {
-      apStep3Obj.innerText = "대기중";
+      apStep3Obj.innerText = "(대기중)";
     } else if (apDocsApType3 == "반려") {
       imgTag3.src = "img/icons/no.png";
       apStep3Obj.appendChild(imgTag3);
@@ -211,6 +212,8 @@ $(function () {
     //합의 관련 승인여부에 따라, 알맞은 이미지 부여하기
     if (apDocsAgType == "대기" && myCheckName === apDocsAgName.toString()) {
       tdAgName.appendChild(agButtonTag);
+    } else if (apDocsAgType == "대기") {
+      tdAgName.innerText = apDocsAgName.toString() + " " + "(대기중)";
     } else if (apDocsAgType == "반려") {
       agImgTag.src = "img/icons/no.png";
       tdAgName.appendChild(agImgTag);
@@ -244,15 +247,9 @@ $(function () {
       $("#apReferenceName>div.fa-question").css("color", "#dfd5f5");
     }
   );
-  //로그인 아이디 받아오기
-  var loginInfoIdObj = document.querySelector(
-    "div.profileDropdown span.loginId"
-  );
-  var currentLoginId = loginInfoIdObj.innerText;
+
   //참조 버튼 클릭시 알림창 + ajax 처리
   $("#apReferenceName").click(function () {
-    console.log(myCheckName);
-    console.log(apDocsReName.toString());
     if (apDocsReType == "대기" && myCheckName === apDocsReName.toString()) {
       console.log("조건 클릭");
       //ajax 관련 내용 넣기
@@ -261,7 +258,7 @@ $(function () {
         transformRequest: [null],
         transformResponse: [null],
         jsonpCallbackParam: "callback",
-        url: "http://localhost:8888/gwback/approval/updatere/" + tmpDocsBdNo,
+        url: "http://localhost:8888/gwback/approval/updatere",
         headers: {
           Accept: "application/json, text/plain, */*",
           "Content-Type": "application/json;charset=utf-8",
@@ -276,6 +273,7 @@ $(function () {
           spanTag.style.color = "#6A0888";
           spanTag.setAttribute("class", "fa fa-check");
           var $content = $("div.wrapper>div.main>main.content");
+          //페이지 이동
           var href = "approval-detail.html";
           $content.load(href, function (responseTxt, statusTxt, xhr) {
             if (statusTxt == "error")
@@ -295,6 +293,14 @@ $(function () {
           );
         },
       });
+    } else if (
+      apDocsReType == "대기" &&
+      myCheckName != apDocsReName.toString()
+    ) {
+      alert("본인만 참조 확인가능합니다.");
+    } else {
+      //참조 승인일때에는 클릭이벤트를 발생시키지 않는다.
+      //참조가 존재하지 않을때에는 클릭 이벤트를 발생시키지 않는다.
     }
   });
 
@@ -416,7 +422,7 @@ $(function () {
     if (e.target.id == "apCommentConfirmBtn") {
       //결재 버튼 클릭시 작동
       apForm();
-    } else if (e.target.id == "approvalCommentBtn") {
+    } else if (e.target.id == "agCommentConfirmBtn") {
       //합의 버튼 클릭시 작동
       agForm();
     }
@@ -452,30 +458,40 @@ $(function () {
   //코멘트 관련 클릭 발동
   var okBtn = $("#apCommentOkImg");
   var noBtn = $("#apCommentNoImg");
-  console.log(okBtn);
 
-  console.log(noBtn);
   okBtn.click(audmitBtnHandler);
   noBtn.click(audmitBtnHandler);
 
   //문장 받아오기
-  var commentTextArea = $("#apCommentInput");
-  var lines = commentTextArea.value.split("\n");
+  var commentTextArea = document.getElementById("cmtTextArea");
+  console.log(commentTextArea);
 
-  //문단과, 태그 처리
-  var resultString = "<p>";
-  for (var i = 0; i < lines.length; i++) {
-    resultString += lines[i] + "<br />";
-  }
-  resultString += "</p>";
   //결재자의 승인요망을 클릭하면 작동하는 함수
   function apForm() {
-    console.log(resultString);
     confirmBtn.addEventListener("click", function (e) {
-      if (audmitStatus == "" && myStatus == "") {
+      if (
+        (typeof audmitStatus == "undefined" ||
+          audmitStatus == "" ||
+          audmitStatus == null) &&
+        (typeof myStatus == "undefined" || myStatus == "" || myStatus == null)
+      ) {
         //승인 타입 선택 안하면 작동
         alert("승인 타입을 선택하세요.");
       } else {
+        console.log(commentTextArea.value);
+        //코멘트 내용이 없을때만 시작
+        if (commentTextArea.value.length != 0) {
+          console.log("내부");
+          //문단과, 태그 처리
+          var lines = commentTextArea.value.split("\n");
+          var tmpComment = "<p>";
+          for (var i = 0; i < lines.length; i++) {
+            tmpComment += lines[i] + "<br />";
+          }
+          tmpComment += "</p>";
+          var resultComment = tmpComment;
+          console.log(resultComment);
+        }
         $.ajax({
           method: "PUT",
           transformRequest: [null],
@@ -488,9 +504,9 @@ $(function () {
           },
           data: JSON.stringify({
             documentNo: tmpDocsBdNo,
-            apComment: resultString,
+            apComment: resultComment,
             employee: { employeeId: myCheckId },
-            agStatus: { apType: myStatus },
+            apStatus: { apType: myStatus },
           }),
           timeout: {},
           success: function (responseData) {
@@ -522,9 +538,33 @@ $(function () {
   function agForm() {
     confirmBtn.addEventListener("click", function (e) {
       //코멘트 보내는
-      if (audmitStatus == "" && myStatus == "") {
+      if (
+        (typeof audmitStatus == "undefined" ||
+          audmitStatus == "" ||
+          audmitStatus == null) &&
+        (typeof myStatus == "undefined" || myStatus == "" || myStatus == null)
+      ) {
         alert("승인 타입을 선택하세요.");
       } else {
+        if (
+          typeof commentTextArea.value == "undefined" ||
+          commentTextArea.value == "" ||
+          commentTextArea.value == null
+        ) {
+          //코멘트 내용이 없을때만 시작
+          if (commentTextArea.value.length != 0) {
+            console.log("내부");
+            //문단과, 태그 처리
+            var lines = commentTextArea.value.split("\n");
+            var tmpComment = "<p>";
+            for (var i = 0; i < lines.length; i++) {
+              tmpComment += lines[i] + "<br />";
+            }
+            tmpComment += "</p>";
+            var resultComment = tmpComment;
+            console.log(resultComment);
+          }
+        }
         $.ajax({
           method: "PUT",
           transformRequest: [null],
@@ -537,7 +577,7 @@ $(function () {
           },
           data: JSON.stringify({
             documentNo: tmpDocsBdNo,
-            apComment: resultString,
+            apComment: resultComment,
             employee: { employeeId: myCheckId },
             agStatus: { apType: myStatus },
           }),

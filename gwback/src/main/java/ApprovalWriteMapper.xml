@@ -11,6 +11,12 @@
 		VALUES (#{documentNo},
 		#{documentStatus.documentType},#{employee.employeeId},#{documentTitle},#{documentContent})
 	</insert>
+	<!-- approval을 기안하기 0번째 결재자-->
+	<insert id="insertDraftAp0" parameterType="approval">
+		INSERT INTO approval
+		(document_no, employee_id,ap_type,ap_step,ap_date) VALUES
+		(#{documentNo},#{employee.employeeId},#{apStatus.apType},#{apStep},SYSTIMESTAMP)
+	</insert>
 	<!--해당 최대 숫자 가져오기 -->
 	<select id="checkMaxNum" resultType="int">
 		SELECT
@@ -18,7 +24,7 @@
 		SUBSTR(document_no,4,2)=#{type}
 	</select>
 	<!-- approval을 기안하기 -->
-	<insert id="insertDraftAp" parameterType="document">
+	<insert id="insertDraftAp" parameterType="approval">
 		INSERT INTO approval
 		(document_no, employee_id,ap_type,ap_step) VALUES
 		(#{documentNo},#{employee.employeeId},#{apStatus.apType},#{apStep})

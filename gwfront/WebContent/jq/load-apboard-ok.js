@@ -186,6 +186,7 @@ $(function () {
   //문서상태 선택했을때 발동하는 핸들러
   function apStatusPickSubmitHandler(e) {
     if (e.target.id == "apDocumentStatusAll") {
+      //전체 목록 문서 불러오는 ajax
       $.ajax({
         method: "GET",
         transformRequest: [null],
@@ -201,6 +202,7 @@ $(function () {
           emptyBdElement(tBodyObject);
           createTbodyElement();
           $(responseData).each(function (i, e) {
+            console.log(i + "," + e);
             apBdNo[i] = e.documentNo;
             apBdTitle[i] = e.documentTitle;
             apBdEmp[i] = e.employee.employeeId;
@@ -214,12 +216,14 @@ $(function () {
           for (var i = 0; i < apBdTitle.length; i++) {
             createApBdElement(i);
           }
-
           $titleObj = $("#apDocumentTbody tr td:nth-child(3) a");
 
+          console.log($titleObj);
+
           $titleObj.click(function (e) {
-            localStorage.setItem("apDocumentNum", e.target.id); //제목 클릭시 a링크에 담겨있는 문서값 저장
+            localStorage.setItem("apDocumentNum", e.target.id); //클릭시 a링크에 담겨있는 문서값 저장
             var href = $(this).attr("href");
+            console.log(href);
             switch (href) {
               case "approval-detail.html":
                 $content.load(href, function (responseTxt, statusTxt, xhr) {

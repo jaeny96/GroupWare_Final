@@ -5,6 +5,7 @@
 <mapper namespace="com.group.approval.ApprovalConfirmMapper">
 <resultMap type="document" id="documentMap" autoMapping="true">
     <id column="document_no" property="documentNo"/>
+    <result column="d.draft_date" property="draftDate" javaType="java.sql.Date"/>
 	<association property="employee" javaType="Employee">
 		 <result column="e.id" property="employeeId"/>
 		  <result column="e.name" property="name"/>
@@ -48,7 +49,7 @@
 <!-- 결재선 상세 -->
 <select id="selectByDocsDetail" resultMap="documentMap">
 SELECT 
-d.document_no, d.document_title,d.document_content,d.document_type "d.document_type",d.draft_date,
+d.document_no, d.document_title,d.document_content,d.document_type "d.document_type",d.draft_date "d.draft_date",
 e.employee_id "e.id",e.name "e.name",ed.department_title "ed.department_title",
 ap.ap_date "ap.ap_date", ap.ap_type "ap.ap_type", ap.ap_step "ap.ap_step", ape.name "ape.name"
 , ag.ap_date "ag.ap_date",ag.ap_type "ag.ap_type",age.name "age.name"

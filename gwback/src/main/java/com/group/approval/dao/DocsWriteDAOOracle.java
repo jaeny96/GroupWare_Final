@@ -24,7 +24,6 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.employee.dto.Position;
 import com.group.employee.dto.Department;
-import com.group.sql.MyConnection;
 
 @Repository("docsWriteDAO")
 public class DocsWriteDAOOracle implements DocsWriteDAO {
@@ -68,13 +67,18 @@ public class DocsWriteDAOOracle implements DocsWriteDAO {
 			ApprovalStatus aps = new ApprovalStatus();
 			if (ap.getApStep() == 0) {
 				apType = "승인";
+				aps.setApType(apType);
+				ap.setApStatus(aps);
+				session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAp0", ap);
+
 			} else {
 				apType = "대기";
-			}
-			aps.setApType(apType);
-			ap.setApStatus(aps);
-			session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAp", ap);
+				aps.setApType(apType);
+				ap.setApStatus(aps);
+				session.insert("com.group.approval.ApprovalWriteMapper.insertDraftAp", ap);
 
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AddException(e.getMessage());

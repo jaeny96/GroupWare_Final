@@ -70,7 +70,6 @@ public class ConfirmDocsController {
 	//결재 문서 상세 내용 확인
 	@GetMapping(value={"/docsdetail/{docsNo}"})
 	public Document selecDocsDetail(@PathVariable (name="docsNo") Optional<String> optDocsNo) {
-		//List<Document> list=new ArrayList<Document>();
 		Document list=new Document();
 		try {
 			if(optDocsNo.isPresent()) {

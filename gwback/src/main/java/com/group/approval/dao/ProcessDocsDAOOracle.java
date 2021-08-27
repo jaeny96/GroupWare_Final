@@ -33,16 +33,19 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 	@Override
 	public void updateReference(Reference re) throws UpdateException {
 		SqlSession session = null;
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, String> map = new HashMap<String, String>();
 		try {
 			System.out.println(re);
 			session = sessionFactory.openSession();
 			map.put("docsNo", re.getDocumentNo()); 
 			map.put("id", re.getEmployee().getEmployeeId());
 			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateRe", re);
-			session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
+			
 			if(rowcnt == 0) {
 				throw new UpdateException("참조 승인처리에 실패했습니다.");
+			}else {
+				System.out.println("참조 승인 프로시저 발동");
+				session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
 			}
 
 		}catch(Exception e) {
@@ -70,9 +73,11 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			map.put("docsNo", ap.getDocumentNo()); 
 			map.put("id", ap.getEmployee().getEmployeeId());
 			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAp", ap);
-			session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
 			if(rowcnt == 0) {
 				throw new UpdateException("결재 승인처리에 실패했습니다.");
+			}else {
+				System.out.println("결재 승인 프로시저 발동");
+				session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
 			}
 		
 		}catch(Exception e) {
@@ -100,7 +105,10 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAp", ap);
 			session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
 			if(rowcnt == 0) {
-				throw new UpdateException("결재 승인처리에 실패했습니다.");
+				throw new UpdateException("결재 반려 처리에 실패했습니다.");
+			}else {
+				System.out.println("결재 반려 프로시저 발동");
+				session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
 			}
 		}catch(Exception e) {
 			throw new UpdateException(e.getMessage());
@@ -124,10 +132,12 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			map.put("docsNo", ag.getDocumentNo()); 
 			map.put("id", ag.getEmployee().getEmployeeId());
 			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
-			session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
 			
 			if(rowcnt == 0) {
 				throw new UpdateException("합의 승인처리에 실패했습니다.");
+			}else {
+				System.out.println("합의 승인 프로시저 발동");
+				session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
 			}
 		}catch(Exception e) {
 			throw new UpdateException(e.getMessage());
@@ -151,8 +161,13 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 			session = sessionFactory.openSession();
 			map.put("docsNo", ag.getDocumentNo()); 
 			map.put("id", ag.getEmployee().getEmployeeId());
-			session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
-			session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
+			int rowcnt=session.update("com.group.approval.ApprovalProcessMapper.updateAg", ag);
+			if(rowcnt == 0) {
+				throw new UpdateException("합의 승인처리에 실패했습니다.");
+			}else {
+				System.out.println("합의 반려 프로시저 발동");
+				session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
+			}
 			
 		}catch(Exception e) {
 			throw new UpdateException(e.getMessage());
@@ -161,58 +176,4 @@ public class ProcessDocsDAOOracle implements ProcessDocsDAO {
 		}
 	}
 
-
-
-
-//	/**
-//	 * 모두 승인처리를 내리면,최종 문서 상태의 값을 '승인'으로 바꾼다.
-//	 * @param docsNo, id
-//	 * @throws ModifyException
-//	 */
-//	@Override
-//	public void documentAudmit(String docsNo, String id) throws UpdateException {
-//		SqlSession session = null;
-//		
-//
-//		try {
-//			System.out.println("합의 프로시저 호출 ");
-//			session = sessionFactory.openSession();
-//	
-//			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.audmitProcedure", map);
-//			if(rowcnt == 0) {
-//				throw new UpdateException("합의 프로시저 처리에 실패했습니다.");
-//			}
-//		}catch(Exception e) {
-//			throw new UpdateException(e.getMessage());
-//		}finally {
-//			session.close();
-//		}
-//	
-//	}
-//
-//	/**
-//	 * 한명이라도 반려시 '반려'로 변경한다.
-//	 * @param docsNo, id
-//	 * @throws ModifyException
-//	 */
-//	@Override
-//	public void documentRefuse(String docsNo, String id) throws UpdateException {
-//		SqlSession session = null;
-//		Map<String, Object> map = new HashMap<String, Object>();
-//
-//		try {
-//			session = sessionFactory.openSession();
-//			System.out.println("반려 프로시저 호출 ");
-//			map.put("docsNo", docsNo); 
-//			map.put("id", id);
-//			int rowcnt = session.update("com.group.approval.ApprovalProcessMapper.refuseProcedure", map);
-//			if(rowcnt == 0) {
-//				throw new UpdateException("반려 프로시저 처리에 실패했습니다.");
-//			}
-//		}catch(Exception e) {
-//			throw new UpdateException(e.getMessage());
-//		}finally {
-//			session.close();
-//		}
-//	}
 }

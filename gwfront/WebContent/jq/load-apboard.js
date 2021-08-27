@@ -52,7 +52,7 @@ $(function () {
   //검색 카테고리 버튼 객체 변수
   var apSearchCategoryBtnObj = document.querySelector("button.searchBtn");
   //검색 카테고리 form 객체 변수
-  var apSearchFormObj = document.querySelector("form.searchForm");
+  var apSearchFormObj = document.querySelector("form.searchForm"); // forsearchForm
   //검색 카테고리 버튼 + form 이랑 다 div로 묶어놓은 거 객체 변수
   var apInputGroupObj = document.querySelector("div.input-group");
   //사용자가 선택한 카테고리 값 받아오는 변수
@@ -182,6 +182,7 @@ $(function () {
   //문서상태 선택했을때 발동하는 핸들러
   function apStatusPickSubmitHandler(e) {
     if (e.target.id == "apDocumentStatusAll") {
+      //전체 목록 문서 불러오는 ajax
       $.ajax({
         method: "GET",
         transformRequest: [null],
