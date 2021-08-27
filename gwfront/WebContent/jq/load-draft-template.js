@@ -656,11 +656,11 @@ $(function () {
         lang: "ko-KR", // 한글 설정
       });
       if (templateType == "SR") {
-        SRTemplate($("div.note-editable"));
+        SRTemplate($("div.note-editing-area"));
       } else if (templateType == "LE") {
-        LETemplate($("div.note-editable"));
+        LETemplate($("div.note-editing-area"));
       } else if (templateType == "AC") {
-        ACTemplate($("div.note-editable"));
+        ACTemplate($("div.note-editing-area"));
         $("select#selectBankName").on("change", function (e) {});
       }
       insertApLineTable();
