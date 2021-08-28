@@ -20,7 +20,6 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 
-
 @Repository("mainDAO")
 public class MainDAOOracle implements MainDAO {
 	@Autowired

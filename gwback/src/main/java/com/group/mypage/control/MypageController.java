@@ -105,10 +105,10 @@ public class MypageController {
 		}
 	}
 	
-//	@RequestMapping("/a")
-//	public void test() {
-//		log.info("a");
-//	}
+	@RequestMapping("/a")
+	public void test() {
+		log.info("a");
+	}
 	@PostMapping("/updateProfile")
 	public void profileMapping(
 			@RequestPart MultipartFile profileFile,

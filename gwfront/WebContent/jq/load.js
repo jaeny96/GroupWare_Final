@@ -375,7 +375,7 @@ $(function () {
       method: "get",
       success: function (responseData) {
         //로그인 페이지로 이동
-        location.href = "http://localhost:8888/front";
+        location.href = "http://localhost:8888/gwfront";
       },
     });
   }
@@ -479,13 +479,13 @@ $(function () {
   // }
   // else {
   //   alert("접근하기 위해 로그인이 필요합니다.");
-  //   location.href = "http://localhost:8888/front";
+  //   location.href = "http://localhost:8888/gwfront";
   // }
   // },
   //로그인 x 면 로그인 페이지로 이동
   // error: function (request, status, error) {
   //   alert("접근하기 위해 로그인이 필요합니다.");
-  //   location.href = "http://localhost:8888/front";
+  //   location.href = "http://localhost:8888/gwfront";
   // },
   // });
 });
