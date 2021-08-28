@@ -80,9 +80,9 @@ class ProcessDocsDAOTest {
 			e.setEmployeeId("DEV001");
 			ap.setEmployee(e);
 		
-			dao.updateApproval(ap);
-			dao.documentRefuse(ap.getDocumentNo(), ap.getEmployee().getEmployeeId());
-			
+//			dao.updateApproval(ap);
+//			dao.documentRefuse(ap.getDocumentNo(), ap.getEmployee().getEmployeeId());
+//			
 		} catch (Exception e) {
 			//aps.setApType("대기");
 			// TODO: handle exception
@@ -107,11 +107,11 @@ class ProcessDocsDAOTest {
 			e.setEmployeeId("DEV001");
 			ag.setEmployee(e);
 		
-			dao.updateAgreement(ag);
-			
-			//dao.documentRefuse(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
-			dao.documentAudmit(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
-			
+//			dao.updateAgreement(ag);
+//			
+//			//dao.documentRefuse(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
+//			dao.documentAudmit(ag.getDocumentNo(), ag.getEmployee().getEmployeeId());
+//			
 		} catch (Exception e) {
 			//aps.setApType("대기");
 			// TODO: handle exception
