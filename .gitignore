@@ -134,3 +134,4 @@ Servers/Tomcat v9.0 Server at localhost-config/catalina.properties
 .metadata/.plugins/org.eclipse.core.resources/.projects/back/.markers
 *.ttf
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,windows
+*.class

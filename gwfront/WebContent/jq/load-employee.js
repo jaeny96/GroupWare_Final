@@ -203,6 +203,10 @@ $(function () {
       "class",
       "flex-grow-1 mr-2 " + empIdArr[i] + "openDetail"
     );
+    divContent.setAttribute(
+      "style",
+      "cursor:pointer;"
+    );
     //div에 id 속성 부여
     divContent.setAttribute("id", empIdArr[i] + "/" + empArr[i]);
 
@@ -348,6 +352,8 @@ $(function () {
 
   //검색 submit 이벤트 핸들러
   function searchSubmitHandler(e) {
+    //검색어가 비어있을 때 
+    
     //배열 초기화
     emptyElement();
     //'검색한 단어'의 검색 결과
@@ -391,8 +397,21 @@ $(function () {
     });
 
     e.preventDefault();
+  
   }
 
   //검색  form 객체에 submit 이벤트 등록
-  formObj.addEventListener("submit", searchSubmitHandler);
+  //만약 검색어가 없으면 false 반환 
+
+  var pattern = /\s/g; // 공백 체크 정규표현식 
+  $('button.empSearchBtn').click(function(){
+  if(wordObj.value===""||wordObj.value.match(pattern)){
+    alert('검색어를 입력하세요');
+    return false;
+  }else{
+    formObj.addEventListener("submit", searchSubmitHandler);
+    }
+  }); 
+ 
+  
 });

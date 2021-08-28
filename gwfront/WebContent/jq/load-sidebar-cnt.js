@@ -17,39 +17,58 @@ $(function () {
   function createApCntElement() {
     if (allCntObject) {
       //전체 - 0번 index
-      allCnt.innerHTML = cnt[0];
+      if (typeof cnt[0] == "undefined" || cnt[0] == "" || cnt[0] == null) {
+        allCnt.innerHTML = 0;
+      } else {
+        allCnt.innerHTML = cnt[0];
+      }
     }
     if (waitCntObject) {
       //대기 - 1번 index
-      waitCnt.innerHTML = cnt[1];
+      if (typeof cnt[1] == "undefined" || cnt[1] == "" || cnt[1] == null) {
+        waitCnt.innerHTML = 0;
+      } else {
+        waitCnt.innerHTML = cnt[1];
+      }
     }
     if (okCntObject) {
       //승인 - 2번 index
-      okCnt.innerHTML = cnt[2];
+      if (typeof cnt[2] == "undefined" || cnt[2] == "" || cnt[2] == null) {
+        okCnt.innerHTML = 0;
+      } else {
+        okCnt.innerHTML = cnt[2];
+      }
     }
     if (noCntObject) {
       //반려 - 3번 index
-      noCnt.innerHTML = cnt[3];
+      if (typeof cnt[3] == "undefined" || cnt[3] == "" || cnt[3] == null) {
+        noCnt.innerHTML = 0;
+      } else {
+        noCnt.innerHTML = cnt[3];
+      }
     }
   }
 
+  callSidebar();
   //사이드바 관련 ajax
-  $.ajax({
-    method: "GET",
-    transformRequest: [null],
-    transformResponse: [null],
-    jsonpCallbackParam: "callback",
-    url: "/gwback/approval/sidebar",
-    headers: {
-      Accept: "application/json, text/plain, */*",
-    },
-    data: "",
-    timeout: {},
-    success: function (responseData) {
-      $(responseData).each(function (i, e) {
-        cnt[i] = e;
-      });
-      createApCntElement();
-    },
-  });
+  function callSidebar() {
+    $.ajax({
+      method: "GET",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      url: "/gwback/approval/sidebar",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+      },
+      data: "",
+      timeout: {},
+      success: function (responseData) {
+        $(responseData).each(function (i, e) {
+          cnt[i] = e;
+        });
+        createApCntElement();
+      },
+    });
+  }
 });

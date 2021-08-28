@@ -16,7 +16,6 @@ import com.group.exception.DuplicatedException;
 import com.group.exception.FindException;
 import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
-
 @Repository("scheduleDAO")
 public class ScheduleDAOOracle implements ScheduleDAO {
 	
@@ -123,6 +122,7 @@ public class ScheduleDAOOracle implements ScheduleDAO {
 		session = sessionFactory.openSession();
 		
 		Schedule s = session.selectOne("com.group.ScheduleMapper.skdDetail", skd_no);
+		//System.out.println(s+"오라클");
 		if(s==null) {
 			throw new FindException("일정이 없습니다.");
 		}
