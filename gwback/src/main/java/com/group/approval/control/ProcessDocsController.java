@@ -52,7 +52,6 @@ public class ProcessDocsController {
 	//결재자 승인한다. 
 	@PutMapping("/updateap/{status}")
 	public Map<String, Object> updateAp(@RequestBody Approval ap,@PathVariable(name="status") Optional<String> statusOpt) {
-		
 		Map<String, Object> result = new HashMap<>();
 		try {
 			if(statusOpt.isPresent()) {
@@ -69,11 +68,9 @@ public class ProcessDocsController {
 	
 	//합의자 승인한다. 
 	@PutMapping("/updateag/{status}")
-	public Map<String, Object> updateAg(@RequestBody Agreement ag,@PathVariable(name="status") Optional<String> statusOpt) {
-		
+	public Map<String, Object> updateAg(@RequestBody Agreement ag,@PathVariable(name="status") Optional<String> statusOpt) {		
 		Map<String, Object> result = new HashMap<>();
 		try {
-		System.out.println("합의자 "+ag);
 		System.out.println(statusOpt.get());
 			if(statusOpt.isPresent()) {
 				service.decisionMyAg(ag,statusOpt.get());

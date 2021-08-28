@@ -192,10 +192,9 @@ $(function () {
         transformRequest: [null],
         transformResponse: [null],
         jsonpCallbackParam: "callback",
-        url: "/gwback/apboard/selectdocs" + "/" + status,
+        url: "/gwback/approval/selectdocs/" + status,
         headers: {
           Accept: "application/json, text/plain, */*",
-          contentType: "application/json; charset:UTF-8",
         },
         data: "",
         timeout: {},
@@ -206,11 +205,11 @@ $(function () {
             console.log(i + "," + e);
             apBdNo[i] = e.documentNo;
             apBdTitle[i] = e.documentTitle;
-            apBdEmp[i] = e.employee.employee_id;
+            apBdEmp[i] = e.employee.employeeId;
             apBdEmpName[i] = e.employee.name;
             apBdDate[i] = e.draftDate;
             apBdStatus[i] = e.documentStatus.documentType;
-            apBdCheck[i] = e.approval.apType.apStatusType;
+            apBdCheck[i] = e.approval.apStatus.apType;
           });
 
           //받아온 데이터 만큼 구성요소 생성
