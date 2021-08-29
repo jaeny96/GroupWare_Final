@@ -224,6 +224,7 @@
 			<version>1.0</version>
 			<scope>provided</scope>
 		</dependency>
+<!-- Json관련 -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

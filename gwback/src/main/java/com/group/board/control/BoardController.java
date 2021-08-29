@@ -119,9 +119,10 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/addboard")
-	public Object getAddboard(@RequestBody Board bd) {
+	public Object getAddboard(HttpSession session, @RequestBody Board bd) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD002";
+		String id = (String) session.getAttribute("id");
+//		String id = "MSD002";
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
 		bd.setWriter(emp);
@@ -149,9 +150,10 @@ public class BoardController {
 	 * @return
 	 */
 	@PutMapping("/modifybd/{bdNo}")
-	public Object getModifybd(@PathVariable String bdNo,@RequestBody Board bd) {
+	public Object getModifybd(HttpSession session, @PathVariable String bdNo,@RequestBody Board bd) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD002";
+		String id = (String) session.getAttribute("id");
+//		String id = "MSD002";
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
 		bd.setWriter(emp);
@@ -189,9 +191,10 @@ public class BoardController {
 
 	// 게시글삭제
 	@DeleteMapping("/removebd/{bdNo}")
-	public Map<String, Object> getRemovebd(@PathVariable String bdNo) {
+	public Map<String, Object> getRemovebd(HttpSession session,@PathVariable String bdNo) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD002";
+		String id = (String) session.getAttribute("id");
+//		String id = "MSD002";
 		Board bd = new Board();
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
