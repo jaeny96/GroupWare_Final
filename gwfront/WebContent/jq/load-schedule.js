@@ -75,7 +75,6 @@ $(function () {
       // switch (href) {
       //   case "schedule-detail-search.html":
       $content.load(href, function (responseTxt, statusTxt, xhr) {
-        alert(href);
         if (statusTxt == "error")
           alert("Error: " + xhr.status + ": " + xhr.statusText);
       });
@@ -129,7 +128,6 @@ $(function () {
       // switch (href) {
       //   case "schedule-detail-search.html":
       $content.load(href, function (responseTxt, statusTxt, xhr) {
-        alert(href);
         if (statusTxt == "error")
           alert("Error: " + xhr.status + ": " + xhr.statusText);
       });

@@ -700,12 +700,12 @@ $(function () {
       var UdpatePreContentValue = localStorage.getItem("content");
 
       //test용 프린트
-      console.log(UpdatePreTitleValue);
-      console.log(UpdatePreStartDate);
-      console.log(UpdatePreStartTime);
-      console.log(skdOriginEndDate);
-      console.log(skdOriginEndTime);
-      console.log(UdpatePreContentValue);
+      // console.log(UpdatePreTitleValue);
+      // console.log(UpdatePreStartDate);
+      // console.log(UpdatePreStartTime);
+      // console.log(skdOriginEndDate);
+      // console.log(skdOriginEndTime);
+      // console.log(UdpatePreContentValue);
 
       //기존 상세내역에 있었던 내용을 input에 넣기
       skdUpdateTitle.attr("value", UpdatePreTitleValue);
