@@ -180,7 +180,7 @@ public class Chat {
 		}
 	}
 
-	// 메시지 보내기는 함수
+	// 메시지 보내는 함수
 	private void sendMessage(String id, String message) {
 		// 메시지 내용
 		String sendMessage = id + "] " + message + "\n";
@@ -194,7 +194,7 @@ public class Chat {
 		}
 	}
 
-	// WebSocket이 닫기면 호출되는 함수
+	// WebSocket이 닫히면 호출되는 함수
 	@OnClose
 	public void handleClose(Session userSession) {
 		// session으로 users에서 찾는다.

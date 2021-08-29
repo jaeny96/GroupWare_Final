@@ -413,6 +413,7 @@ $(function () {
             case "schedule.html":
             case "employee.html":
             case "mypage.html":
+            case "chat.html":
               //클릭한 객체의 sidebar-item만 활성화 시키기
               $(this).closest("li").attr("class", "sidebar-item mb-2 active");
               $content.load(href, function (responseTxt, statusTxt, xhr) {

@@ -16,31 +16,41 @@
     </p>
     <!-- 아이디를 넣고 login 버튼을 누르면 name이 저장된다. -->
     <p>
-      login :
+      닉네임 :
       <input type="text" id="username" name="username" class="login-package" />
-      <button id="loginBtn" class="login-package">login</button>
-    </p>
-    <!-- 채팅시에 사용될 채팅 textbox과 버튼(초기는 disabled) -->
-    <p>
-      <input
-        id="textMessage"
-        type="text"
-        disabled="disabled"
-        class="chat-package"
-      />
-      <button id="sendBtn" disabled="disabled" class="chat-package">
-        Send
-      </button>
+      <button id="loginBtn" class="login-package btn btn-primary">Save</button>
     </p>
     <!-- 채팅 내용이 적혀질 채팅 내용 박스 -->
-    <p>
-      <textarea
-        id="messageTextArea"
-        rows="10"
-        cols="50"
-        disabled="disabled"
-      ></textarea>
-    </p>
+    <div class="position-relative">
+      <div class="chat-messages p-4">
+        <textarea
+          class="form-control"
+          rows="10"
+          id="messageTextArea"
+          disabled="disabled"
+        ></textarea>
+      </div>
+    </div>
+    <!-- 채팅시에 사용될 채팅 textbox과 버튼(초기는 disabled) -->
+    <div class="flex-grow-0 py-3 px-4 border-top">
+      <div class="input-group">
+        <input
+          id="textMessage"
+          type="text"
+          disabled="disabled"
+          class="chat-package form-control"
+          placeholder="메세지 보내기"
+        />
+        <button
+          id="sendBtn"
+          disabled="disabled"
+          class="chat-package btn btn-primary"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+
     <!-- Jquery 라이브러리 링크 -->
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">

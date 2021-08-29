@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,12 +50,13 @@ public class BoardCommentController {
 
 	// 댓글 등록
 	@PostMapping("/addbdcm/{bdNo}")
-	public Map<String, Object> addBoardcm(@PathVariable String bdNo, @RequestBody BoardComment cm) {
+	public Map<String, Object> addBoardcm(HttpSession session,@PathVariable String bdNo, @RequestBody BoardComment cm) {
 		Map<String, Object> map = new HashMap<>();
+		String id = (String) session.getAttribute("id");
 		try {
 			cm.setBdNo(bdNo);
 			Employee emp = new Employee();
-			emp.setEmployeeId("MSD002");
+			emp.setEmployeeId(id);
 			cm.setCmWriter(emp);
 			service.addCm(cm);
 		} catch (Exception e) {
@@ -65,9 +68,10 @@ public class BoardCommentController {
 	}
 	// 댓글 삭제
 	@DeleteMapping("/removecm/{bdNo}/{cmNo}")
-	public Map<String, Object> getRemovebd(@PathVariable String bdNo, @PathVariable int cmNo) {
+	public Map<String, Object> getRemovebd(HttpSession session, @PathVariable String bdNo, @PathVariable int cmNo) {
 		Map<String, Object> map = new HashMap<>();
-		String id = "MSD002";
+		String id = (String) session.getAttribute("id");
+//		String id = "MSD002";
 		Board bd = new Board();
 		bd.setBdNo(bdNo);
 		Employee emp = new Employee();
