@@ -59,10 +59,12 @@
 <context:component-scan base-package="com.group.employee.dao"/>
 <context:component-scan base-package="com.group.main.dao"/>
 <context:component-scan base-package="com.group.mypage.dao"/>
+<context:component-scan base-package="com.admin.jobmanage.dao"/>
 <context:component-scan base-package="com.group.approval.service"/>
 <context:component-scan base-package="com.group.board.service"/>
 <context:component-scan base-package="com.group.calendar.service"/>
 <context:component-scan base-package="com.group.employee.service"/>
 <context:component-scan base-package="com.group.main.service"/>
 <context:component-scan base-package="com.group.mypage.service"/>
+<context:component-scan base-package="com.admin.jobmanage.service"/>
 </beans>

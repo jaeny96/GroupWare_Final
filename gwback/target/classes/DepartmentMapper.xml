@@ -22,4 +22,8 @@ GROUP BY d.department_id, d.department_title
 ORDER BY DECODE(department_id,'CEO',1), d.department_title
 </select>
 
+<select id="selectJob" resultType="job">
+SELECT * FROM job
+</select>
+
 </mapper>  
