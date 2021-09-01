@@ -536,8 +536,7 @@ function ACTemplate(target) {
     html10 +
     html11 +
     html12 +
-    html13 +
-    html14;
+    html13;
   target.prepend(table);
 }
 
