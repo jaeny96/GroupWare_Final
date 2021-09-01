@@ -9,98 +9,215 @@
     font-size: 1rem;
     padding: 20px;
   }
+
+  .delete_modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal_overlay {
+    background-color: rgba(0, 0, 0, 0.18);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  ul {
+    list-style: none;
+    padding: 20px 10px;
+  }
+
+  ul li {
+    height: 40px;
+  }
+
+  form li > span {
+    float: left;
+    width: 100px;
+  }
+
+  form li > div {
+    float: left;
+    width: 300px;
+  }
+
+  #content_box {
+    width: 300px;
+  }
+
+  .savediv {
+    clear: both;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttonplace {
+    float: left;
+  }
 </style>
 <div class="flex-container">
   <h1>직무 관리</h1>
 
   <input type="text" id="addValue" />
-  <input class="btn-dark" type="button" value="직무 추가" onclick="addList()" />
+  <input
+    class="btn-dark"
+    type="button"
+    value="직무 추가"
+    id="jobAddBtn"
+    onclick="addList()"
+  />
 </div>
 
 <hr />
 
-<table id="tableObj" class="text-center m-lg-8">
-  <tr id="addTd">
-    <!-- <td class="editable" style="border: 1px solid">경영</td>
+<table id="jobTableObj" class="text-center m-lg-8">
+  <!-- <tr id="addTd"> -->
+  <!-- <td class="editable" style="border: 1px solid">경영</td>
     <td class="editable" style="border: 1px solid">회계</td>
     <td class="editable" style="border: 1px solid">마케팅</td>
     <td class="editable" style="border: 1px solid">자바개발</td> -->
-  </tr>
+  <!-- </tr> -->
 </table>
 
 <br />
 <button class="btn-dark fa-2px" type="button" id="saveJob">저장</button>
 
+<!-- <button id="open">모달창 열기</button> -->
+<div class="delete_modal hidden">
+  <div class="modal_overlay"></div>
+  <div class="modal_content">
+    <div class="card">
+      <div class="card-header">
+        <button
+          class="xBox"
+          style="
+            float: right;
+            border-style: 1px solid #6c757d;
+            border-radius: 7px;
+            background-color: #6c757d;
+            color: white;
+            cursor: pointer;
+          "
+        >
+          X
+        </button>
+        <h4>직무 삭제</h4>
+      </div>
+      <div style="text-align: center; margin: 30px">
+        <h5>해당 직무를 정말로 삭제하시겠습니까?</h5>
+      </div>
+
+      <!-- 취소 / 삭제  -->
+      <div class="mb-3 row">
+        <div style="text-align: center; margin: 10px 0">
+          <button class="btn btn-secondary">취소</button>
+          <button class="btn btn-primary deleteBtn">삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  var tableArray = [];
   $(document).ready(function () {
     //지우개 클릭시
     $(document).on("click", ".fa-eraser", function () {
-      var value = $(this).val();
-      if (value > 0) {
-        alert(
-          "저장 후, 삭제한 데이터는 복구할 수 없습니다. 신중하게 생각해주세요!"
-        );
-        var td = $(this).parent("td");
-        td.remove();
+      var value = $(this).val().trim();
+      var td = $(this).parent("td");
+      td.remove();
+      if (value != "") {
+        // alert(
+        // "저장 후, 삭제한 데이터는 복구할 수 없습니다. 신중하게 생각해주세요!"
+        // );
+        $.ajax({
+          url: "aaaaa",
+          success: function (responseObj) {
+            if (responseObj.length() == 0) {
+              //새로 추가한거 삭제
+              //직무에 해당 사원이 없는 경우
+              var td = $(this).parent("td");
+              td.remove();
+            } else {
+              //기존에 있던거 관련
+              //
+              //팝업띄우기
+              responseObj.forEach((element) => {});
+            }
+          },
+        });
+        return false;
       }
     });
-    //더블클릭시
-    $(document).on("dblclick", ".editable", function () {
+
+    //삭제버튼 클릭시
+
+    //저장버튼 클릭시(ajax발동)
+    $(document).on("click", "#saveJob", function () {
+      insertJobTable();
+      console.log(tableArray);
+
+      var jsonEncode = $.ajax({
+        method: "PUT",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        url: "/gwback/admin/job/save",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: JSON.stringify(tableArray),
+        dataType: "json",
+        timeout: {},
+        success: function (responseData) {
+          var $content = $("div.wrapper>div.main>main.content");
+          var href = "/gwfront/admin/job-manage.html";
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
+        },
+      });
+    });
+
+    //텍스트 최초 클릭시
+    $(document).on("click", ".editable", function () {
       var value = $(this).text();
       console.log(value);
 
       var input =
-        "<input type='text' class='input-data' placeholder='" +
+        "<span class='span-click'>" +
         value +
-        "'/><span class='fa fa-eraser'/>";
+        "</span><span class='fa fa-eraser'></span>";
       $(this).html(input);
 
       $(this).removeClass("editable");
     });
-    //마우스 다른데에 둘때
-    $(document).on("blur", ".input-data", function () {
-      var value = $(this).val();
+    //텍스트 다시 클릭시
+    $(document).on("click", ".span-click", function () {
+      var text = $(this).text();
+
+      console.log(text);
       var td = $(this).parent("td");
-      $(this).remove();
-      td.html(value);
+      td.html(text);
       td.addClass("editable");
     });
-    //엔터키 누를때
-    $(document).on("keypress", ".input-data", function (e) {
-      var key = e.which;
-      if (key == 13) {
-        var value = $(this).val();
-        var td = $(this).parent("td");
-        $(this).remove();
-        td.html(value);
-        td.addClass("editable");
-      }
-    });
 
-    var jobTitle = new Array(); //직무 넣을 변수
-
-    // var jobTableObj = document.getElementById("tableObj"); //코멘트 내용넣을 테이블 받아오기
-    var jobTableObj = document.getElementById("addTd"); //코멘트 내용넣을 테이블 받아오기
-
-    console.log(jobTableObj);
-    // 코멘트 구성요소 만들기 + 값 채워넣기
-    function createJobElement(i) {
-      //   var tr = document.createElement("tr");
-      //   tr.setAttribute("id", "addTd");
-      if (i % 5 == 0) {
-      }
-      var td = document.createElement("td"); //코멘트 id들어갈곳
-      td.setAttribute("class", "editable");
-      td.setAttribute("style", "border:1px solid;");
-
-      td.innerHTML = jobTitle[i];
-
-      //tr.appendChild(td);
-
-      jobTableObj.appendChild(td);
-    }
-
-    // 데이터값 받아오기 ajax
+    //최초 테이블 생성
+    console.log("실행");
+    var $jobTableObj = $("#jobTableObj");
+    var trHtml = "";
     $.ajax({
       method: "GET",
       transformRequest: [null],
@@ -115,29 +232,76 @@
       success: function (responseData) {
         console.log(responseData);
         $(responseData).each(function (i, e) {
-          jobTitle[i] = e.jobTitle;
+          if (i % 5 == 0) {
+            if (i > 0) {
+              trHtml += "</tr>";
+            }
+            trHtml += '<tr id="addTd">';
+          }
+
+          var jobTitle = e.jobTitle;
+          trHtml +=
+            '<td class="editable" style="border:1px solid">' +
+            jobTitle +
+            "</td>";
+
           console.log(jobTitle);
         });
-        console.log(jobTitle.length);
-        for (var i = 0; i < jobTitle.length; i++) {
-          createJobElement(i);
-        }
+        trHtml += "</tr>";
+        console.log(trHtml);
+        $jobTableObj.html(trHtml);
       },
     });
   });
 
+  //직무 추가버튼 관련
   function addList() {
     var addValue = document.getElementById("addValue").value;
+    insertJobTable(); //기존 값데리고오기
+    // console.log(tableArray.indexOf(addValue));
+    duplicate = 0;
 
-    var li = document.createElement("td");
+    for (var i = 0; i < tableArray.length; i++) {
+      if (tableArray[i].toLowerCase().indexOf(addValue) != -1) {
+        //값이 존재
+        console.log("같다");
+        duplicate = 1;
+      }
+    }
+    console.log(duplicate);
+    if (addValue != "" && duplicate != 1) {
+      var td = document.createElement("td");
 
-    li.setAttribute("td", addValue);
-    li.setAttribute("style", "border:1px solid;");
-    li.setAttribute("class", "editable");
+      td.setAttribute("td", addValue);
+      td.setAttribute("style", "border:1px solid;");
+      td.setAttribute("class", "editable");
 
-    var textNode = document.createTextNode(addValue);
-    li.appendChild(textNode);
+      var textNode = document.createTextNode(addValue);
+      td.appendChild(textNode);
 
-    document.getElementById("addTd").appendChild(li);
+      document.getElementById("addTd").appendChild(td);
+    } else if (duplicate == 1) {
+      alert("동일한 직무가 존재합니다!");
+    } else {
+      alert("추가할 직무를 입력해 주세요!");
+    }
+  }
+
+  //현재 테이블의 모든 내용 가지고 오기
+  function insertJobTable() {
+    //현재 테이블 객체 가지고오기
+    // $("#jobTableObj td").each(function (e) {
+    //   console.log($(this).text());
+    //   tableArray.push($(this).text());
+    // });
+    let row = [];
+    $("#jobTableObj tr").each(function () {
+      $(this)
+        .children("td")
+        .each(function () {
+          row.push($(this).text().trim());
+        });
+    });
+    tableArray.push(row);
   }
 </script>
