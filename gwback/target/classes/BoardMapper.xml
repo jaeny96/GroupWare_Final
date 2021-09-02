@@ -29,7 +29,7 @@ FROM (
    name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
-	 ORDER BY bd_date desc ) a
+	  ORDER BY (CASE WHEN bd_admin = 0 THEN 1 ELSE 2 END), bd_date desc) a
 )
 WHERE rn BETWEEN start_row(#{currentPage}, #{cnt_per_page}) AND
                  end_row(#{currentPage},   #{cnt_per_page})
@@ -53,8 +53,8 @@ JOIN employee e ON b.employee_id = e.employee_id
 WHERE b.bd_no = #{bdNo}
 </select>
 <insert id="insert" parameterType="board">
-INSERT INTO board(bd_no, employee_id, bd_title, bd_content)
-VALUES('BD'||BD_SEQ.NEXTVAL,#{writer.employeeId}, #{bdTitle}, #{bdContent})
+INSERT INTO board(bd_no, employee_id, bd_title, bd_content, bd_admin)
+VALUES('BD'||BD_SEQ.NEXTVAL,#{writer.employeeId}, #{bdTitle}, #{bdContent}, #{bdAdmin})
 </insert>
 <update id="update" parameterType="board">
 UPDATE board

@@ -1,5 +1,6 @@
 //board 페이지에서 적용할 내용
 $(function () {
+  var adminBd = [];
   //로그인한 사원의 아이디 객체
   var loginInfoIdObj = document.querySelector(
     "div.profileDropdown span.loginId"
@@ -115,11 +116,12 @@ $(function () {
             bdTitle[i] = e.bdTitle;
             bdWriter[i] = e.writer?.name;
             bdDate[i] = e.bdDate;
+            adminBd[i] = e.writer.name;
           });
           //게시글 생성하는 함수 호출
           //검색은 페이지 빈 설정하지 않았으므로 1페이지로 설정
           for (var i = 0; i < bdNo.length; i++) {
-            createBdElement(i, 1);
+            createBdElement(i, 1, adminBd);
           }
 
           //게시글 제목 객체
@@ -304,10 +306,12 @@ $(function () {
           bdTitle[i] = e.bdTitle;
           bdWriter[i] = e.writer.name;
           bdDate[i] = e.bdDate;
+          adminBd[i] = e.writer.name;
         });
+
         //게시글 목록 생성하는 함수 호출
         for (var i = 0; i < bdNo.length; i++) {
-          createBdElement(i, currentPage);
+          createBdElement(i, currentPage, adminBd);
         }
         //게시글 제목 객체
         $titleObj = $(
@@ -466,7 +470,7 @@ $(function () {
   }
 
   //게시글 목록 만들어주는 함수
-  function createBdElement(i, j) {
+  function createBdElement(i, j, adminBd) {
     //tr객체 생성
     var tr = document.createElement("tr");
     //th객체 생성
@@ -484,7 +488,11 @@ $(function () {
     //a객체 스타일 적용
     a.setAttribute("class", "sidebar-link-js");
     //a객체 상세 스타일 적용
-    a.setAttribute("style", "color: black");
+    if (adminBd[i] == "관리자") {
+      a.setAttribute("style", "color: red");
+    } else {
+      a.setAttribute("style", "color: black");
+    }
     //a객체 게시글 번호로 아이디 설정
     a.setAttribute("id", bdNo[i]);
     //이동 페이지 지정

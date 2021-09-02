@@ -44,6 +44,7 @@ $(function () {
           bdWriterId: loginInfoIdObj.innerText,
           bdTitle: titleObjInAdd.value,
           bdContent: contentObjInAdd.innerText,
+          bdAdmin: 0,
         }),
         success: function () {
           //제목이 작성되지 않았으면 등록 x
@@ -53,7 +54,7 @@ $(function () {
             alert("게시글이 등록되었습니다");
             //게시글 목록 페이지로 이동
             $(
-              "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+              "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
             ).trigger("click");
           }
         },
@@ -86,6 +87,7 @@ $(function () {
           bdWriterId: loginInfoIdObj.innerText,
           bdTitle: titleObjInAdd.value,
           bdContent: contentObjInAdd.innerText,
+          bdAdmin: 1,
         }),
         success: function () {
           //제목이 작성되지 않았으면 등록 x
@@ -95,7 +97,7 @@ $(function () {
             alert("게시글이 등록되었습니다");
             //게시글 목록 페이지로 이동
             $(
-              "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+              "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
             ).trigger("click");
           }
         },

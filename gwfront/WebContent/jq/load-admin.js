@@ -103,7 +103,7 @@ $(function () {
           //a태그에 id 속성 부여
           tdBdTitleA.setAttribute("id", mainBdId[i]);
           //a태그 이동 페이지 설정
-          tdBdTitleA.setAttribute("href", "board-detail.html");
+          tdBdTitleA.setAttribute("href", "notice-detail.html");
           //a태그 상세 스타일 적용
           tdBdTitleA.setAttribute("style", "color:black");
           tdBdTitle.setAttribute("style", "width:60%");
@@ -142,7 +142,7 @@ $(function () {
 
             //최근게시글 제목 객체
             $mainBdTitleObj = $(
-              'body > div > div > main > div > div:nth-child(1) > div.col-12.col-md-6.d-flex.order-2.order-xxl-3 > div > div.card-body.d-flex > div > table > tbody > tr > td >a[href="board-detail.html"]'
+              'body > div > div > main > div > div:nth-child(1) > div.col-12.col-md-6.d-flex.order-2.order-xxl-3 > div > div.card-body.d-flex > div > table > tbody > tr > td >a[href="notice-detail.html"]'
             );
 
             //최근게시글 제목 객체 클릭 시 이벤트 발생
@@ -153,7 +153,7 @@ $(function () {
               var href = $(this).attr("href");
 
               switch (href) {
-                case "board-detail.html":
+                case "notice-detail.html":
                   //컨텐트에 로드
                   $content.load(href, function (responseTxt, statusTxt, xhr) {
                     if (statusTxt == "error")

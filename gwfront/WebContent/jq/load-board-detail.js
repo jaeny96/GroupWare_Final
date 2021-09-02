@@ -70,7 +70,7 @@ $(function () {
   //뒤로가기 버튼 클릭 시 게시판 메뉴 클릭 trigger 이벤트 발생
   function boardPageGoClickHandler() {
     $(
-      "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+      "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
     ).trigger("click");
   }
 
@@ -420,7 +420,7 @@ $(function () {
         success: function (responseData) {
           alert("게시글이 삭제되었습니다!");
           $(
-            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
           ).trigger("click");
         },
       });
@@ -441,7 +441,7 @@ $(function () {
         success: function (responseData) {
           alert("게시글이 삭제되었습니다!");
           $(
-            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
           ).trigger("click");
         },
       });
