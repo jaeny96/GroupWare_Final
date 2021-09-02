@@ -26,6 +26,7 @@
   <body> -->
 <div class="container-fluid p-0">
   <h1 class="h3 mb-3">임직원 정보</h1>
+  <button id="addEmp" class="btn btn-primary" >직원추가</button>
   <div class="row">
     <div class="col-md-4 col-xl-3">
       <div class="card mb-3" id="navMenu">
@@ -122,9 +123,11 @@
             <strong>이메일</strong>
             <div class="flex-grow-1 ml-3 mb-2">이메일</div>
             <br>
-            <div>
-              <button id="modifyEmpBtn">수정</button>
-              <button class="xBox">닫기</button>
+            <br>
+            <br>
+            <div class="buttonBox">
+              <button id="modifyEmpBtn" class="btn btn-primary" type="button">수정</button>
+             
             </div>
           </div>
         </div>
@@ -132,7 +135,7 @@
     </div>
   </div>
 </div>
-
+<!--수정 모달-->
 <div id="modalEmpModify" >
   <div class="modal hidden">
     <div class="modal_overlay"></div>
@@ -156,7 +159,7 @@
         </div>
         <div class="card-body h-100 cardBody">
           <form id="modifyEmpForm">
-          <div class="d-flex align-items-start" id="position">
+          <div class="d-flex align-items-start">
             <strong>직책</strong>
             <div class="flex-grow-1 ml-3 mb-2">
               <select name="position" id="positionSelect">
@@ -164,11 +167,11 @@
               </select>
             </div>
           </div>
-          <div class="d-flex align-items-start" id="employeeId">
+          <div class="d-flex align-items-start" >
             <strong>사번</strong>
-            <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="modifyEmpId"></div>
+            <div class="flex-grow-1 ml-3 mb-2"><input type="text" requiredid="modifyEmpId"></div>
           </div>
-          <div class="d-flex align-items-start" id="department">
+          <div class="d-flex align-items-start" >
             <strong>부서</strong>
             <div class="flex-grow-1 ml-3 mb-2">
               <select name="department" id="departmentSelect">
@@ -176,7 +179,7 @@
               </select>
             </div>
           </div>
-          <div class="d-flex align-items-start" id="job">
+          <div class="d-flex align-items-start" >
             <strong>직무</strong>
             <div class="flex-grow-1 ml-3 mb-2">
               <select name="job" id="jobSelect">
@@ -184,16 +187,16 @@
               </select>
             </div>
           </div>
-          <div class="d-flex align-items-start" id="phoneNum">
+          <div class="d-flex align-items-start">
             <strong>연락처</strong>
             <div class="flex-grow-1 ml-3 mb-2" ><input type="text" id="modifyEmpPhoneNum"></div>
           </div>
-          <div class="d-flex align-items-start" id="email">
+          <div class="d-flex align-items-start">
             <strong>이메일</strong>
             <div class="flex-grow-1 ml-3 mb-2"><input type="email" id="modifyEmpEmail">
             </div>
           </div>
-          <div class="d-flex align-items-start" id="empStatus">
+          <div class="d-flex align-items-start">
             <strong>상태</strong>
             <div class="flex-grow-1 ml-3 mb-2" > <select name="status" id="statusSelect">
             <option value="1">활성화</option>
@@ -211,8 +214,109 @@
           </div> -->
 
           <div>
-            <button id="modifySubBtn" type="button">확인</button>
-            <button class="xBox" type="button">닫기</button>
+            <button id="modifySubBtn"   class="btn btn-primary" type="button">확인</button>
+            <button class="btn btn-secondary closeBtn" type="button">닫기</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--추가-->
+<div id="addEmpModal" >
+  <div class="modal hidden">
+    <div class="modal_overlay"></div>
+    <div class="modal_content" style="width: 400px; height: 300px">
+      <div class="card">
+        <div class="card-header">
+          <button
+            class="xBox"
+            style="
+              float: right;
+              border-style: 1px solid #6c757d;
+              border-radius: 7px;
+              background-color: #6c757d;
+              color: white;
+              cursor: pointer;
+            "
+          >
+            X
+          </button>
+          <h4>직원 추가</h4>
+        </div>
+        <div class="card-body h-100 cardBody">
+          <form id="addEmpForm">
+            <div class="d-flex align-items-start" id="employeeId">
+              <strong>이름</strong>
+              <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="addEmpName"></div>
+            </div>
+          
+          <div class="d-flex align-items-start" id="employeeId">
+            <strong>사번</strong>
+            <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="addEmpId"></div>
+          </div>
+          <div class="d-flex align-items-start" id="department">
+            <strong>부서</strong>
+            <div class="flex-grow-1 ml-3 mb-2">
+              <select name="department" id="addDepartmentSelect">
+              
+              </select>
+            </div>
+          </div>
+          <div class="d-flex align-items-start" id="position">
+            <strong>직책</strong>
+            <div class="flex-grow-1 ml-3 mb-2">
+              <select name="position" id="addPpositionSelect">
+              
+              </select>
+            </div>
+          </div>
+          <div class="d-flex align-items-start" id="job">
+            <strong>직무</strong>
+            <div class="flex-grow-1 ml-3 mb-2">
+              <select name="job" id="addJobSelect">
+              
+              </select>
+            </div>
+          </div>
+          <div class="d-flex align-items-start" id="phoneNum">
+            <strong>연락처</strong>
+            <div class="flex-grow-1 ml-3 mb-2" ><input type="tel"  name='userPhoneNumber'id="addEmpPhoneNum"></div>
+          </div>
+          <div class="d-flex align-items-start" id="email">
+            <strong>이메일</strong>
+            <div class="flex-grow-1 ml-3 mb-2"><input type="email" id="addEmpEmail">
+            </div>
+          </div>
+          <div class="d-flex align-items-start" id="position">
+            <strong>고용일</strong>
+            <div class="flex-grow-1 ml-3 mb-2">
+              <input type="date" id="addEmpHireDate"
+             >
+            </div>
+          </div>
+          <div class="d-flex align-items-start" id="empStatus">
+            <strong>상태</strong>
+            <div class="flex-grow-1 ml-3 mb-2" > <select name="status" id="addStatusSelect">
+            <option value="1">활성화</option>
+            <option value="0">비활성화</option>
+            </select></div>
+          </div>
+           <div class="d-flex align-items-start" id="modifyPassword">
+            <strong>비밀번호</strong>
+            <div class="flex-grow-1 ml-3 mb-2" ><input type="password" id="addEmpPassword"></div>
+          </div>
+<!-- 
+          <div class="d-flex align-items-start" id="modifyPassword">
+            <strong>비밀번호 확인</strong>
+            <div class="flex-grow-1 ml-3 mb-2" ><input type="password" id="modifyEmpPassword2"></div>
+          </div> --> 
+
+          <div>
+            <button id="addSubBtn" class="btn btn-primary" type="button">추가</button>
+            <button class="btn btn-secondary closeBtn" type="button">닫기</button>
           </div>
           </form>
         </div>
