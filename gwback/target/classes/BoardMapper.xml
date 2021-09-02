@@ -65,7 +65,21 @@ bd_date=SYSTIMESTAMP
 </set>
 WHERE bd_no=#{bdNo} AND employee_id=#{writer.employeeId}
 </update>
+
+<update id="updateAdmin" parameterType="board">
+UPDATE board
+<set>
+<if test="bdTitle != null">bd_title=#{bdTitle},</if>
+<if test="bdContent != null">bd_content=#{bdContent},</if>
+bd_date=SYSTIMESTAMP 
+</set>
+WHERE bd_no=#{bdNo}
+</update>
+
 <delete id="delete" parameterType="board">
 DELETE FROM board WHERE bd_no=#{bdNo} AND employee_id=#{writer.employeeId}
+</delete>
+<delete id="deleteAdmin" parameterType="board">
+DELETE FROM board WHERE bd_no=#{bdNo}
 </delete>
 </mapper>

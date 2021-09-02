@@ -1,5 +1,9 @@
 //board 페이지에서 적용할 내용
 $(function () {
+  //로그인한 사원의 아이디 객체
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
   //현재 몇페이지인지 나타내주는 객체
   var bdPageTitleObj = document.querySelector("h1.h1Title");
   //카테고리 버튼 객체body > div > div > main > div > form > div > div > div > button
@@ -130,6 +134,15 @@ $(function () {
             var href = $(this).attr("href");
             switch (href) {
               case "board-detail.html":
+                //게시글 상세 페이지로 이동
+                $content.load(href, function (responseTxt, statusTxt, xhr) {
+                  if (statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+                });
+                break;
+            }
+            switch (href) {
+              case "notice-detail.html":
                 //게시글 상세 페이지로 이동
                 $content.load(href, function (responseTxt, statusTxt, xhr) {
                   if (statusTxt == "error")
@@ -314,6 +327,14 @@ $(function () {
               });
               break;
           }
+          switch (href) {
+            case "notice-detail.html":
+              $content.load(href, function (responseTxt, statusTxt, xhr) {
+                if (statusTxt == "error")
+                  alert("Error: " + xhr.status + ": " + xhr.statusText);
+              });
+              break;
+          }
           return false;
         });
       },
@@ -467,7 +488,11 @@ $(function () {
     //a객체 게시글 번호로 아이디 설정
     a.setAttribute("id", bdNo[i]);
     //이동 페이지 지정
-    a.setAttribute("href", "board-detail.html");
+    if (loginInfoIdObj.innerHTML == "admin") {
+      a.setAttribute("href", "notice-detail.html");
+    } else {
+      a.setAttribute("href", "board-detail.html");
+    }
     //값 대입
     a.innerText = bdTitle[i];
     //td객체에 a 태그 append
@@ -537,6 +562,22 @@ $(function () {
     var href = $(this).attr("href");
     switch (href) {
       case "board-register.html":
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          $("#summernote").summernote({
+            height: 600, // 에디터 높이
+            minHeight: null, // 최소 높이
+            maxHeight: null, // 최대 높이
+            focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+            lang: "ko-KR", // 한글 설정
+            placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+          });
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+        break;
+    }
+    switch (href) {
+      case "notice-register.html":
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           $("#summernote").summernote({
             height: 600, // 에디터 높이

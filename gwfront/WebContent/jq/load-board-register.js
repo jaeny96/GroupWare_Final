@@ -3,6 +3,7 @@ $(function () {
   var loginInfoIdObj = document.querySelector(
     "div.profileDropdown span.loginId"
   );
+
   //현재 로그인한 사원의 이름 객체
   var loginInfoNameObj = document.querySelector(
     "div.profileDropdown span.loginName"
@@ -19,53 +20,99 @@ $(function () {
   //게시글 작성하기
   //var backurlAddBoard = "/back/addboard";
   var backurlAddBoard = "http://localhost:8888/gwback/board/addboard";
+  //관리자 공지사항 작성하기
+  var adminbackurlAddBoard = "http://localhost:8888/gwback/admin/addboard";
   //파일 업로드하기
   var backurlFileUpLoadInBd =
     "http://localhost:8888/gwback/board/fileuploadinbd";
 
   //게시글 등록 submit 이벤트 핸들러
   function addBdFormSubmitHandler(e) {
-    $.ajax({
-      url: backurlAddBoard,
-      method: "post",
-      transformRequest: [null],
-      transformResponse: [null],
-      jsonpCallbackParam: "callback",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      data: JSON.stringify({
-        bdWriter: loginInfoNameObj.innerText,
-        bdWriterId: loginInfoIdObj.innerText,
-        bdTitle: titleObjInAdd.value,
-        bdContent: contentObjInAdd.innerText,
-      }),
-      success: function () {
-        //제목이 작성되지 않았으면 등록 x
-        if (titleObjInAdd.value == "" || titleObjInAdd.value == null) {
-          alert("제목이 입력되지 않았습니다");
-        } else {
-          alert("게시글이 등록되었습니다");
-          //게시글 목록 페이지로 이동
-          $(
-            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
-          ).trigger("click");
-        }
-      },
-      error: function (request, status, error) {
-        alert(
-          "code:" +
-            request.status +
-            "\n" +
-            "message:" +
-            request.responseText +
-            "\n" +
-            "error:" +
-            error
-        );
-      },
-    });
+    if (loginInfoIdObj.innerHTML == "admin") {
+      $.ajax({
+        url: adminbackurlAddBoard,
+        method: "post",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: JSON.stringify({
+          bdWriter: loginInfoNameObj.innerText,
+          bdWriterId: loginInfoIdObj.innerText,
+          bdTitle: titleObjInAdd.value,
+          bdContent: contentObjInAdd.innerText,
+        }),
+        success: function () {
+          //제목이 작성되지 않았으면 등록 x
+          if (titleObjInAdd.value == "" || titleObjInAdd.value == null) {
+            alert("제목이 입력되지 않았습니다");
+          } else {
+            alert("게시글이 등록되었습니다");
+            //게시글 목록 페이지로 이동
+            $(
+              "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+            ).trigger("click");
+          }
+        },
+        error: function (request, status, error) {
+          alert(
+            "code:" +
+              request.status +
+              "\n" +
+              "message:" +
+              request.responseText +
+              "\n" +
+              "error:" +
+              error
+          );
+        },
+      });
+    } else {
+      $.ajax({
+        url: backurlAddBoard,
+        method: "post",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: JSON.stringify({
+          bdWriter: loginInfoNameObj.innerText,
+          bdWriterId: loginInfoIdObj.innerText,
+          bdTitle: titleObjInAdd.value,
+          bdContent: contentObjInAdd.innerText,
+        }),
+        success: function () {
+          //제목이 작성되지 않았으면 등록 x
+          if (titleObjInAdd.value == "" || titleObjInAdd.value == null) {
+            alert("제목이 입력되지 않았습니다");
+          } else {
+            alert("게시글이 등록되었습니다");
+            //게시글 목록 페이지로 이동
+            $(
+              "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+            ).trigger("click");
+          }
+        },
+        error: function (request, status, error) {
+          alert(
+            "code:" +
+              request.status +
+              "\n" +
+              "message:" +
+              request.responseText +
+              "\n" +
+              "error:" +
+              error
+          );
+        },
+      });
+    }
 
     //완성하지 못한 업로드 부분
     // $.ajax({

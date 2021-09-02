@@ -179,13 +179,16 @@ $(function () {
     cmCardBodyObj.appendChild(cmBodyDiv);
 
     //댓글 작성자 아이디와 현재 로그인한 아이디가 다를경우
-    if (currentLoginId != cmWrtierId[i]) {
-      //댓글 삭제 버튼 숨기기
-      cmDeleteSmall.setAttribute("style", "display:none");
-    } else {
+    //관리자는 무조건 보이기
+    if (currentLoginId == "admin") {
       //댓글 삭제 버튼 보이기
       cmDeleteSmall.removeAttribute("style");
+    } else if (currentLoginId != cmWrtierId[i]) {
+      //댓글 삭제 버튼 숨기기
+      cmDeleteSmall.setAttribute("style", "display:none");
     }
+    //댓글 삭제 버튼 보이기
+    else cmDeleteSmall.removeAttribute("style");
 
     //댓글 삭제 버튼 클릭 시 이벤트 등록
     cmDeleteSmall.addEventListener("click", cmDeleteClickHandler);
@@ -203,12 +206,15 @@ $(function () {
     detailContentObj.innerHTML = bdDetailContent;
 
     //로그인한 사원의 아이디와 게시글 작성자 아이디가 다를 경우
-    if (loginInfoIdObj.innerHTML != bdDetailWriterId) {
+    //관리자는 무조건 수정삭제보이기
+    if (
+      loginInfoIdObj.innerHTML == "admin" ||
+      loginInfoIdObj.innerHTML == bdDetailWriterId
+    ) {
+      bdBtnGroupObj.removeAttribute("style");
+    } else if (loginInfoIdObj.innerHTML != bdDetailWriterId) {
       //수정,삭제 버튼 그룹 숨기기
       bdBtnGroupObj.setAttribute("style", "display:none");
-    } else {
-      //수정,삭제 버튼 그룹 보이기
-      bdBtnGroupObj.removeAttribute("style");
     }
 
     //댓글 작성란의 작성자 현재 로그인한 사원 이름으로 대입
@@ -225,22 +231,42 @@ $(function () {
   //게시글 내 댓글 등록 관련
   //var backurlAddCm = "/back/addboardcomment";
   var backurlAddCm = "http://localhost:8888/gwback/boardcomment/addbdcm";
+  //관리자 게시판 관련
+  var adminbackurlBdDetail = "http://localhost:8888/gwback/admin/";
 
   //게시글 상세 내용 get
-  $.ajax({
-    url: backurlBdDetail + "/" + bdDetailBdNo,
-    method: "get",
-    success: function (responseData) {
-      bdDetailBdNo = responseData.bdNo;
-      bdDetailTitle = responseData.bdTitle;
-      bdDetailWriter = responseData.writer.name;
-      bdDetailWriterId = responseData.writer.employeeId;
-      bdDetailDate = responseData.bdDate;
-      bdDetailContent = responseData.bdContent;
-      //게시글 내용 대입하는 함수 호출
-      insertBdDatailElement();
-    },
-  });
+  //관리자인 경우와 일반 사용자의 경우
+  if (currentLoginEmp == "admin") {
+    $.ajax({
+      url: adminbackurlBdDetail + "/" + bdDetailBdNo,
+      method: "get",
+      success: function (responseData) {
+        bdDetailBdNo = responseData.bdNo;
+        bdDetailTitle = responseData.bdTitle;
+        bdDetailWriter = responseData.writer.name;
+        bdDetailWriterId = responseData.writer.employeeId;
+        bdDetailDate = responseData.bdDate;
+        bdDetailContent = responseData.bdContent;
+        //게시글 내용 대입하는 함수 호출
+        insertBdDatailElement();
+      },
+    });
+  } else {
+    $.ajax({
+      url: backurlBdDetail + "/" + bdDetailBdNo,
+      method: "get",
+      success: function (responseData) {
+        bdDetailBdNo = responseData.bdNo;
+        bdDetailTitle = responseData.bdTitle;
+        bdDetailWriter = responseData.writer.name;
+        bdDetailWriterId = responseData.writer.employeeId;
+        bdDetailDate = responseData.bdDate;
+        bdDetailContent = responseData.bdContent;
+        //게시글 내용 대입하는 함수 호출
+        insertBdDatailElement();
+      },
+    });
+  }
 
   //게시글 내 댓글 정보 get
   $.ajax({
@@ -328,24 +354,44 @@ $(function () {
     //현재 제목, 내용 로컬스토리지에 저장 - 수정 페이지에서 해당 내용 보여주기 위함
     localStorage.setItem("bdTitle", bdDetailTitle);
     localStorage.setItem("bdContent", bdDetailContent);
-
-    var href = $(this).attr("href");
-    switch (href) {
-      case "board-modify.html":
-        //summernote api 등록
-        $content.load(href, function (responseTxt, statusTxt, xhr) {
-          $("#summernote").summernote({
-            height: 600, // 에디터 높이
-            minHeight: null, // 최소 높이
-            maxHeight: null, // 최대 높이
-            focus: true, // 에디터 로딩후 포커스를 맞출지 여부
-            lang: "ko-KR", // 한글 설정
-            placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+    if (loginInfoIdObj.innerHTML == "admin") {
+      var href = $(this).attr("href");
+      switch (href) {
+        case "notice-modify.html":
+          //summernote api 등록
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            $("#summernote").summernote({
+              height: 600, // 에디터 높이
+              minHeight: null, // 최소 높이
+              maxHeight: null, // 최대 높이
+              focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+              lang: "ko-KR", // 한글 설정
+              placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+            });
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
           });
-          if (statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        });
-        break;
+          break;
+      }
+    } else {
+      var href = $(this).attr("href");
+      switch (href) {
+        case "board-modify.html":
+          //summernote api 등록
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            $("#summernote").summernote({
+              height: 600, // 에디터 높이
+              minHeight: null, // 최소 높이
+              maxHeight: null, // 최대 높이
+              focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+              lang: "ko-KR", // 한글 설정
+              placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+            });
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
+          break;
+      }
     }
     return false;
   });
@@ -353,29 +399,53 @@ $(function () {
   //게시글 제거 시 사용할 backurl
   //var backurlRemoveBd = "/back/removeboard";
   var backurlRemoveBd = "http://localhost:8888/gwback/board/removebd";
+  var adminbackurlRemoveBd = "http://localhost:8888/gwback/admin/removebd";
 
   //게시글 삭제 버튼 클릭 시 이벤트 발생
   $deleteBtnObj.click(function (e) {
-    $.ajax({
-      url: backurlRemoveBd + "/" + bdDetailBdNo,
-      method: "delete",
-      transformRequest: [null],
-      transformResponse: [null],
-      jsonpCallbackParam: "callback",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-      },
-      // data: JSON.stringify({
-      //   removeTargetBdNo: bdDetailBdNo,
-      //   removeWriterId: currentLoginId,
-      // }),
-      success: function (responseData) {
-        alert("게시글이 삭제되었습니다!");
-        $(
-          "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
-        ).trigger("click");
-      },
-    });
+    if (currentLoginEmp == "admin") {
+      $.ajax({
+        url: adminbackurlRemoveBd + "/" + bdDetailBdNo,
+        method: "delete",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        // data: JSON.stringify({
+        //   removeTargetBdNo: bdDetailBdNo,
+        //   removeWriterId: currentLoginId,
+        // }),
+        success: function (responseData) {
+          alert("게시글이 삭제되었습니다!");
+          $(
+            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+          ).trigger("click");
+        },
+      });
+    } else {
+      $.ajax({
+        url: backurlRemoveBd + "/" + bdDetailBdNo,
+        method: "delete",
+        transformRequest: [null],
+        transformResponse: [null],
+        jsonpCallbackParam: "callback",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+        },
+        // data: JSON.stringify({
+        //   removeTargetBdNo: bdDetailBdNo,
+        //   removeWriterId: currentLoginId,
+        // }),
+        success: function (responseData) {
+          alert("게시글이 삭제되었습니다!");
+          $(
+            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+          ).trigger("click");
+        },
+      });
+    }
     e.preventDefault();
   });
 });
