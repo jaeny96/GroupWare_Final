@@ -65,4 +65,6 @@
 <context:component-scan base-package="com.group.employee.service"/>
 <context:component-scan base-package="com.group.main.service"/>
 <context:component-scan base-package="com.group.mypage.service"/>
+<context:component-scan base-package="com.admin.empmanage.dao"/>
+<context:component-scan base-package="com.admin.empmanage.service"/>
 </beans>

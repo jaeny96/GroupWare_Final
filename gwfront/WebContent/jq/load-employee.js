@@ -85,6 +85,12 @@ $(function () {
   var positionArr = new Array();
   //불러온 사원의 사번 arr
   var empIdArr = new Array();
+  //수정 모달창 내 사원의 직무 배열
+  var empJobArr = new Array();
+  //수정 모달창 내 부서 배열
+  var departmentArr = new Array();
+  //수정 모달창 내 부서아이디 배열
+  var departmentIdArr = new Array();
 
   //사원 상세 사원명 변수
   var detailName;
@@ -112,11 +118,22 @@ $(function () {
   var backurlEmpDetail = "http://localhost:8888/gwback/employee/";
   //사원명으로 검색한 결과 불러오기 +{word}
   var backurlSearchEmp = "http://localhost:8888/gwback/employee/search/";
+  //사원 수정
+  var backurlUpdateEmp = "http://localhost:8888/gwback/admin/employee/update";
+  var backurlShowPosition =
+    "http://localhost:8888/gwback/admin/employee/position";
+
+  var backurlShowJob = "http://localhost:8888/gwback/admin/employee/job";
+
+  var backurlShowDep = "http://localhost:8888/gwback/admin/employee/department";
 
   //사원 클릭 시 클릭 이벤트 핸들러
   function empClickHandler(e) {
     console.log(e.target.id);
+
     var empInfoArr = e.target.id.split("/");
+    console.log(empInfoArr[0] + empInfoArr[1]);
+
     $.ajax({
       url: backurlEmpDetail + empInfoArr[0],
       method: "get",
@@ -125,7 +142,7 @@ $(function () {
         empName: empInfoArr[1],
       },
       success: function (responseData) {
-        console.log(responseData);
+        // console.log(responseData);
         detailName = responseData.name;
         detailPosition = responseData.position.positionTitle;
         detailEmployeeId = responseData.employeeId;
@@ -133,7 +150,68 @@ $(function () {
         detailJob = responseData.job.jobTitle;
         detailPhone = responseData.phoneNumber;
         detailEmail = responseData.email;
+        detailEnabled = responseData.enabled;
+
+        console.log(detailEnabled);
         openTargetModal("." + empInfoArr[0] + "openDetail", "modalDetail");
+
+        //-----------------------수정 시작--------------//
+
+        //수정 시, 기존 값이 select option 값에 삽입되도록 한다.
+        //position의 옵션 배열
+        var positionOpt = document.querySelectorAll("#positionSelect option");
+        //job의 옵션 배열
+        var jobOpt = document.querySelectorAll("#jobSelect option");
+        //department의 옵션 배열
+        var departmentOpt = document.querySelectorAll(
+          "#departmentSelect option"
+        );
+
+        //기존 position을 select option에 배정한다
+        for (var i = 0; i < positionOpt.length; i++) {
+          if (positionOpt[i].value == responseData.position.positionId) {
+            $("#positionSelect option:eq(" + i + ")").attr(
+              "selected",
+              "selected"
+            );
+            break;
+          }
+        }
+        //기존 job을 select option에 배정한다
+        for (var i = 0; i < jobOpt.length; i++) {
+          if (jobOpt[i].value == responseData.job.jobTitle) {
+            $("#jobSelect option:eq(" + i + ")").attr("selected", "selected");
+            break;
+          }
+        }
+
+        //기존 department를 select option에 배정한다
+        for (var i = 0; i < departmentOpt.length; i++) {
+          if (
+            departmentOpt[i].value == responseData.department.departmentId
+          ) {
+            $("#departmentSelect option:eq(" + i + ")").attr(
+              "selected",
+              "selected"
+            );
+            break;
+          }
+        }
+
+        //활성화/ 비활성화
+        // for (var i = 0; i < updateStatus.length; i++) {
+        //   if (
+        //     updateStatus[i].value == responseData.enabled
+        //   ) {
+        //     $("#statusSelect option:eq(" + i + ")").attr(
+        //       "selected",
+        //       "selected"
+        //     );
+        //     break;
+        //   }
+        // }
+
+        //-----------------------수정 끝--------------//
       },
     });
     //사원 상세 정보 모달 창 열기
@@ -176,7 +254,216 @@ $(function () {
       xBoxBtn.addEventListener("click", closeModal);
     }
   }
+  //---------------------수정 ----------------------//
 
+  //상세보기 모달
+  let modal = document.querySelector("#modalDetail>.modal");
+  //수정 모달
+  let modifyModal = document.querySelector("#modalEmpModify>.modal");
+  let modifyModalName = modifyModal.querySelector("h4");
+  let updateEmployeeId = $("#modifyEmpId");
+  let updatePhoneNum = $("#modifyEmpPhoneNum");
+  let updateEmail = $("#modifyEmpEmail");
+
+  //수정 셀렉트
+  let positionSelect = $("#positionSelect");
+  let jobSelect = $("#jobSelect");
+  let departmentSelect = $("#departmentSelect");
+
+  //수정 모달로 넘어가는 버튼
+  let modifyEmpBtn = $("#modifyEmpBtn");
+
+  //수정 버튼 클릭
+  modifyEmpBtn.click(function () {
+    //상세보기 모달 닫기
+    modal.classList.add("hidden");
+    //수정창 모달 열기
+    modifyModal.classList.remove("hidden");
+
+    //수정 대상 임직원 이름
+    modifyModalName.innerHTML = detailName;
+    //input에 기존 값 넣기
+    updateEmployeeId.attr("value", detailEmployeeId);
+    updatePhoneNum.attr("value", detailPhone);
+    updateEmail.attr("value", detailEmail);
+
+    //모달의 뒷 배경
+    let overlay = modifyModal.querySelector(".modal_overlay");
+    //모달 닫기 버튼
+    let xBoxBtn = modifyModal.querySelector("button.xBox");
+
+    let closeModal = () => {
+      modifyModal.classList.add("hidden");
+    };
+
+    overlay.addEventListener("click", closeModal);
+    //모달창 닫기 버튼
+    xBoxBtn.addEventListener("click", closeModal);
+  });
+
+  //수정 확인 버튼
+  let modifySubmitBtn = document.querySelector("#modifySubBtn");
+  //수정 확인 버튼 클릭이벤트 : 수정데이터 전송
+  modifySubmitBtn.addEventListener("click", function () {
+    $.ajax({
+      url: backurlUpdateEmp,
+      method: "put",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      data: JSON.stringify({
+        employeeId: detailEmployeeId,
+        department: { departmentId: $('#departmentSelect option:selected').val() },
+        job: { jobId: $("#jobSelect option:selected").val() },
+        position: { positionId: $('#positionSelect option:selected').val() },
+        phoneNumber: updatePhoneNum.val(),
+        email: updateEmail.val(),
+        enabled: $('#statusSelect option:selected').val(),
+      }),
+      success: function () {
+        alert("수정완료");
+        console.log(detailEmployeeId);
+        console.log(updatePhoneNum.val());
+        console.log(updateEmail.val());
+        console.log($('#departmentSelect option:selected').val());
+        console.log($('#jobSelect option:selected').val());
+         console.log($('#positionSelect option:selected').val());
+         console.log( $('#statusSelect option:selected').val());
+
+        var $content = $("div.wrapper>div.main>main.content");
+        var href = "/gwfront/admin/employee.html";
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+      },
+      error: function (request, status, error) {
+        alert(
+          "code:" +
+            request.status +
+            "\n" +
+            "message:" +
+            request.responseText +
+            "\n" +
+            "error:" +
+            error
+        );
+      },
+    });
+  });
+
+  // "{\n\"employeeId\":\"CEO004\",\n\"department\":{\"departmentId\":\"CEO\"},\n\"job\":{\"jobId\":\"경영\"},\n\"position\":{\"positionId\":\"1\"},\n\"phoneNumber\":\"010\",\n\"email\":\"이메일\",\n\"enabled\":\"1\",\n\"password\":\"1234\"\n}",
+  //
+
+  //직책 position select option을 불러오기
+  $.ajax({
+    url: backurlShowPosition,
+    method: "get",
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+        positionArr[i] = e.positionTitle;
+        //console.log(positionArr[i]);
+        positionSelect.append(
+          '<option value="' + (i + 1) + '">' + positionArr[i] + "</option>"
+        );
+      });
+    },
+  });
+
+  //직무 job select동적 처리
+  $.ajax({
+    method: "GET",
+    transformRequest: [null],
+    transformResponse: [null],
+    jsonpCallbackParam: "callback",
+    url: backurlShowJob,
+    headers: {
+      Accept: "application/json, text/plain, */*",
+    },
+    data: "",
+    timeout: {},
+    success: function (responseData) {
+      // console.log(responseData[0]);
+      $(responseData).each(function (i, e) {
+        empJobArr[i] = e;
+        //  console.log(empJobArr[i]);
+        jobSelect.append(
+          '<option value="' + empJobArr[i] + '">' + empJobArr[i] + "</option>"
+        );
+      });
+    },
+  });
+
+  //부서 select  동적 처리
+  $.ajax({
+    url: backurlShowDep,
+    method: "get",
+    success: function (responseData) {
+      $(responseData).each(function (i, e) {
+      //  console.log(responseData);
+        departmentIdArr[i] = e.departmentId;
+        departmentArr[i] = e.departmentTitle;
+
+        //console.log(departmentArr[i]);
+        departmentSelect.append(
+          '<option value="' +
+            departmentIdArr[i] +
+            '">' +
+            departmentArr[i] +
+            "</option>"
+        );
+      //  console.log(departmentIdArr[i]);
+      });
+    },
+  });
+
+  //eanbled 가져오기
+
+  // var enabledArr= new Array();
+
+  //       $(responseData).each(function (i, e) {
+  //         enabledArr[i] = e.enabled;
+  //         //console.log(positionArr[i]);
+
+  //         if(enabledArr[i]==1){
+  //         statusSelect.append(
+
+  //           '<option value="' +
+  //           enabledArr[i] +
+  //             '">' +
+  //           활성화 +
+  //             "</option>"
+  //         );
+  //       }else{
+
+  //           statusSelect.append(
+
+  //             '<option value="' +
+  //             enabledArr[i] +
+  //               '">' +
+  //               비활성화 +
+  //               "</option>"
+  //           );
+  //       }
+  //       });
+
+  //수정사항 DB 반영
+
+  //let modifySubmitForm = document.querySelector("#modifyEmpForm");
+
+  //  JSON.stringify({
+  //   employeeId:"CEO004",
+  //   department:{departmentId:"CEO"},
+  //   job:{jobId:"경영"},
+  //   position:{positionId:1},
+  //   phoneNumber:"010111",
+  //   email:"이메일",
+  //   enabled:1,
+  //   password:"1234"
+  // }),
+
+  //-----------------------수정 끝--------------//
   //해당 객체 제거
   function removeEmpElement(target) {
     target.remove();
@@ -203,10 +490,7 @@ $(function () {
       "class",
       "flex-grow-1 mr-2 " + empIdArr[i] + "openDetail"
     );
-    divContent.setAttribute(
-      "style",
-      "cursor:pointer;"
-    );
+    divContent.setAttribute("style", "cursor:pointer;");
     //div에 id 속성 부여
     divContent.setAttribute("id", empIdArr[i] + "/" + empArr[i]);
 
@@ -352,8 +636,8 @@ $(function () {
 
   //검색 submit 이벤트 핸들러
   function searchSubmitHandler(e) {
-    //검색어가 비어있을 때 
-    
+    //검색어가 비어있을 때
+
     //배열 초기화
     emptyElement();
     //'검색한 단어'의 검색 결과
@@ -397,21 +681,18 @@ $(function () {
     });
 
     e.preventDefault();
-  
   }
 
   //검색  form 객체에 submit 이벤트 등록
-  //만약 검색어가 없으면 false 반환 
+  //만약 검색어가 없으면 false 반환
 
-  var pattern = /\s/g; // 공백 체크 정규표현식 
-  $('button.empSearchBtn').click(function(){
-  if(wordObj.value===""||wordObj.value.match(pattern)){
-    alert('검색어를 입력하세요');
-    return false;
-  }else{
-    formObj.addEventListener("submit", searchSubmitHandler);
+  var pattern = /\s/g; // 공백 체크 정규표현식
+  $("button.empSearchBtn").click(function () {
+    if (wordObj.value === "" || wordObj.value.match(pattern)) {
+      alert("검색어를 입력하세요");
+      return false;
+    } else {
+      formObj.addEventListener("submit", searchSubmitHandler);
     }
-  }); 
- 
-  
+  });
 });

@@ -212,7 +212,7 @@
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.14</version>
 		</dependency>
-		<!-- 웹소켓 관련 -->
+<!-- 웹소켓 관련 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.admin.empmanage.EmployeeManageMapper">
+
+	<!-- <resultMap id="employeeMap" type="employee"> <result property="employeeId" 
+		column="employee_id"/> <result property="name" column="name"/> <result property="phoneNumber" 
+		column="phone_number"/> <result property="email" column="email"/> <result 
+		property="hireDate" column="hire_date"/> <result property="password" column="password"/> 
+		<result property="enabled" column="enabled"/> <association property="position" 
+		javaType="position" autoMapping="true"> <result property="positionId" column="position_id"/> 
+		<result property="positionTitle" column="position_title"/> </association> 
+		<association property="job" javaType="job" autoMapping="true"> <result property="jobId" 
+		column="job_id"/> <result property="jobTitle" column="job_title"/> </association> 
+		<association property="department" javaType="department" autoMapping="true"> 
+		<result property="departmentId" column="department_id"/> <result property="departmentTitle" 
+		column="department_title"/> <result property="managerId" column="manager_id"/> 
+		</association> </resultMap> -->
+
+	<insert id="addEmployee" parameterType="employee">
+		insert into employee
+		(employee_id, name, department_id, job_id, position_id,
+		phone_number, email, hire_date, enabled, password)
+		values (#{employeeId}, #{name}, #{department.departmentId}, #{job.jobId},
+		#{position.positionId},
+		#{phoneNumber}, #{email}, #{hireDate},#{enabled}, #{password})
+	</insert>
+
+	<!-- delete -->
+	<delete id="deleteEmployee">
+
+	</delete>
+
+	<!-- update -->
+	<update id="updateEmployee" parameterType="employee">
+		UPDATE employee
+		<set>
+<!-- 			<if test="name!=null and name!='' ">
+				name=#{name},
+			</if> -->
+			<if test="department.departmentId != null">
+				department_id=#{department.departmentId},
+			</if> 
+ 		<if test="job.jobId != null">
+				job_id=#{job.jobId},
+			</if> 
+			
+			<if test="position.positionId != null">
+				position_id=#{position.positionId},
+			</if> 
+
+			<if test="phoneNumber != null and phoneNumber!=''">
+				phone_number=#{phoneNumber},
+			</if>
+			
+			<if test="email != null and email!=''">
+				email=#{email},
+			</if>
+			
+<!-- 			<if test="hireDate != null">
+				hire_date=#{hireDate},
+			</if> -->
+			
+			<if test="enabled != null and enabled!='' ">
+				enabled=#{enabled},
+			</if>
+
+		</set>
+		WHERE employee_id=#{employeeId}
+	</update>
+
+	<select id="findPosition" resultType="position">
+	select position_title from position where not position_id=0
+	</select>
+	
+		<select id="findDepartment" resultType="department">
+	select * from department where not department_id='ADM'
+	</select>
+	
+		<select id="findJob" resultType="job">
+	select job_title from job where not job_id='Admin'
+	</select>
+</mapper>  
