@@ -66,7 +66,7 @@ public class JobDAOOracle implements JobDAO {
 			int insertcnt = insertJobAll(session, newJobs);
 			System.out.println("insert 처리건수 " + insertcnt);
 		
-			if(deletecnt>=insertcnt) {
+			if(deletecnt>insertcnt) {
 				throw new AddException("insert가 부족하게 발생핬습니다.");
 			}
 //			throw new AddException("테스트"); -> 강제 예외 발생시키기, 그러면 롤백됨

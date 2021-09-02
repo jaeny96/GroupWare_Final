@@ -31,17 +31,8 @@ public class JobService {
 	 * @throws AddException
 	 * @param List<Job>
 	 */
-	public void saveBtn(String ag) throws RemoveException, AddException{
-		
-		List<Job> list = new ArrayList<Job>();
-//		for(int i=0; i<ag.length; i++) {
-//			Job j = new Job();
-//			j.setJobId(ag[i]);
-//			j.setJobTitle(ag[i]);
-//			list.add(j);
-//		}
-		
-		dao.selectAndDeleteAndInsert(list);
+	public void saveBtn(List<Job> jobList) throws RemoveException, AddException{
+		dao.selectAndDeleteAndInsert(jobList);
 	}
 	/**(x버튼 관련)
 	 * 해당 직무를 가지고 있는 사원들의 이름을 가지고온다. 

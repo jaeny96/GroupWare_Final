@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.jobmanage.service.JobService;
+import com.google.gson.JsonArray;
 import com.group.approval.dto.Agreement;
 import com.group.approval.dto.Approval;
 import com.group.employee.dto.Employee;
@@ -64,22 +65,16 @@ public class JobController {
 	
 	@GetMapping(value={"/job/emp-all/{jobId}"})
 	@ResponseBody
-	public Object allJobEmp(@PathVariable (name="jobId") Optional<String> optjobId) {
-		Map<String, Object> map = new HashMap<>();
+	public List<Employee> allJobEmp(@PathVariable (name="jobId") Optional<String> optjobId) {
+		List<Employee> job= new ArrayList<Employee>();
 		try {
-			List<Employee> job = service.findJobEmp(optjobId.get());
-			if (job.size() == 0) {
-				map.put("status", 0);
-				return map;
-			} else {
-				return job;
-			}
+			 job = service.findJobEmp(optjobId.get());
+			 System.out.println(job);
 		} catch (FindException e) {
-			map.put("status", -1);
-			map.put("msg", e.getMessage());
 			e.printStackTrace();
-			return map;
+			//return map;
 		}
+		return job;
 	}
 
 	/**(저장버튼 관련)
@@ -89,19 +84,10 @@ public class JobController {
 	 * @param List<Job>
 	 */
 	@PutMapping("/job/save")
-	public Object saveProcess(@RequestBody String jobList) {
-		System.out.println(jobList);
-		List<Job> list = new ArrayList<Job>();
-		for(int i=0; i<ag.length; i++) {
-			Job j = new Job();
-			j.setJobId(ag[i]);
-			j.setJobTitle(ag[i]);
-			list.add(j);
-		}
-		System.out.println(list);
+	public Object saveProcess(@RequestBody List<Job> jobList) {
 		Map<String, Object> map = new HashMap<>();
 		try {
-		//service.saveBtn(jobList);
+		service.saveBtn(jobList);
 		map.put("status",0);
 		}catch (Exception e) {
 			map.put("status", -1);
