@@ -41,4 +41,8 @@
 	<context:component-scan base-package="com.group.main.control" />
 	<context:component-scan base-package="com.group.mypage.control" />
 	<context:component-scan base-package="com.admin.empmanage.control" />
+<context:component-scan base-package="com.admin.main.control" />
+<context:component-scan base-package="com.admin.notice.control" />
+
+
 </beans:beans>

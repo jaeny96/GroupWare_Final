@@ -1,4 +1,22 @@
 $(function () {
+//------------admin 설정-----------------//
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
+  console.log(loginInfoIdObj);
+
+   //수정 모달로 넘어가는 버튼
+   let modifyEmpBtn = $("#modifyEmpBtn");
+   //직원 추가 버튼
+   let addEmpBtn = $("#addEmp");
+   //로그인한 사람이 admin일 경우 수정 버튼 보이게 
+ 
+   if(loginInfoIdObj.innerHTML=='admin'){
+   modifyEmpBtn.removeClass('hidden');
+   addEmpBtn.removeClass('hidden');
+ };
+ //-------------admin 설정-------------//
+
   //부서 메뉴 감싸주는 card Div 객체
   var $cardObj = $("div#navMenu");
   //옆에 메뉴 객체
@@ -157,7 +175,7 @@ $(function () {
         openTargetModal("." + empInfoArr[0] + "openDetail", "modalDetail");
 
         //-----------------------수정 시작--------------//
-
+        if(loginInfoIdObj.innerHTML=='admin'){
         //수정 시, 기존 값이 select option 값에 삽입되도록 한다.
         //position의 옵션 배열
         var positionOpt = document.querySelectorAll("#positionSelect option");
@@ -196,7 +214,7 @@ $(function () {
             break;
           }
         }
-
+      };
         //활성화/ 비활성화
         // for (var i = 0; i < updateStatus.length; i++) {
         //   if (
@@ -262,6 +280,7 @@ $(function () {
 
   //상세보기 모달
   let modal = document.querySelector("#modalDetail>.modal");
+  if(loginInfoIdObj.innerHTML=='admin'){
   //수정 모달
   let modifyModal = document.querySelector("#modalEmpModify>.modal");
   let modifyModalName = modifyModal.querySelector("h4");
@@ -287,8 +306,7 @@ $(function () {
   let addEmpPassword = $("#addEmpPassword");
   let addEmpHireDate = $("#addEmpHireDate");
 
-  //수정 모달로 넘어가는 버튼
-  let modifyEmpBtn = $("#modifyEmpBtn");
+  
 
   //수정 버튼 클릭
   modifyEmpBtn.click(function () {
@@ -454,7 +472,8 @@ $(function () {
   let xBoxBtn = addEmpModal.querySelector("button.xBox");
   let colseBtn = addEmpModal.querySelector("button.closeBtn");
   //직원 추가 모달 여는 버튼
-  let addEmpBtn = $("#addEmp");
+
+
 
   addEmpBtn.click(function () {
     //모달 열기
@@ -518,7 +537,7 @@ $(function () {
       },
     });
   });
-
+};
   //---------------------직원 추가 끝--------------//
   //해당 객체 제거
   function removeEmpElement(target) {
