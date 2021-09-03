@@ -6,6 +6,7 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
+import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
 
 
@@ -39,6 +40,6 @@ public interface JobDAO {
 	 * @param oldJobId 변경전 직무,newJobId 변경후 직무,name 변경할 사원 
 	 * @exception RemoveException
 	 */
-	public void updateJobEep(String oldJobId,String newJobId, String name) throws RemoveException;
+	public void updateJobEep(String oldJobId,List<Employee> employees) throws ModifyException;
 
 }

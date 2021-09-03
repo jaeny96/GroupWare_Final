@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -99,4 +100,19 @@ public class JobController {
 	}
 
 
+	@PutMapping("/job/changeJob/{oldJobId}")
+	@ResponseBody
+	public Object changeJob(@PathVariable String oldJobId,@RequestBody List<Employee> employees) {
+		Map<String, Object> map = new HashMap<>();
+		try {
+		service.changeJobEmp(oldJobId,employees);
+		map.put("status",0);
+		}catch (Exception e) {
+			map.put("status", -1);
+			map.put("msg", e.getMessage());
+			e.printStackTrace();
+			return map;
+		}
+		return map;
+	}
 }

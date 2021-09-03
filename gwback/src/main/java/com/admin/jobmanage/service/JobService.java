@@ -2,15 +2,19 @@ package com.admin.jobmanage.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.admin.jobmanage.dao.JobDAO;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
+import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
 @Service
 public class JobService {
@@ -48,8 +52,8 @@ public class JobService {
 	 * @param oldJobId 변경전 직무,newJobId 변경후 직무,name 변경할 사원 
 	 * @exception RemoveException
 	 */
-	public void changeJobEmp (String oldJobId,String newJobId, String name) throws RemoveException{
-		dao.updateJobEep(oldJobId,newJobId,name);
+	public void changeJobEmp (String oldJobId,List<Employee> employees) throws ModifyException{
+		dao.updateJobEep(oldJobId,employees);
 	}
 
 

@@ -16,7 +16,9 @@ import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
+import com.group.exception.ModifyException;
 import com.group.exception.RemoveException;
+import com.group.mypage.service.EmployeeLeaveService;
 
 import oracle.jdbc.logging.annotations.Log;
 
@@ -66,10 +68,6 @@ public class JobDAOOracle implements JobDAO {
 			int insertcnt = insertJobAll(session, newJobs);
 			System.out.println("insert 처리건수 " + insertcnt);
 		
-			if(deletecnt>insertcnt) {
-				throw new AddException("insert가 부족하게 발생핬습니다.");
-			}
-//			throw new AddException("테스트"); -> 강제 예외 발생시키기, 그러면 롤백됨
 		}catch(Exception e) {
 			throw new AddException (e.getMessage());
 		}finally {
@@ -134,21 +132,25 @@ public class JobDAOOracle implements JobDAO {
 	
 	/**(x모달 관련)
 	 * 받아온 사원의 직무를 변경한다. 
-	 * @param oldJobId 변경전 직무,newJobId 변경후 직무,name 변경할 사원 
+	 * @param oldJobId 변경전 직무,newJobId 변경후 직무,employeeId 변경할 사원아이디 
 	 * @exception RemoveException
 	 */
 	@Override
-	public void updateJobEep(String oldJobId,String newJobId, String name) throws RemoveException {
+	@Transactional(rollbackFor = com.group.exception.ModifyException.class)
+	public void updateJobEep(String oldJobId,List<Employee> employees) throws ModifyException {
 		SqlSession session = null;
 		try {
 			session = sessionFactory.openSession();
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("oldJobId",oldJobId);
-			map.put("newJobId",newJobId);
-			map.put("name",name);
-			session.update("com.group.employee.DepartmentMapper.updateJob",map);			
+			for(Employee e: employees) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("oldJobId",oldJobId);
+				map.put("newJobId",e.getJob().getJobId());
+				map.put("employeeId",e.getEmployeeId());
+				session.update("com.group.employee.DepartmentMapper.updateJob",map);
+				System.out.println(map.get("oldJobId")+map.get("newJobId")+map.get("employeeId"));
+			}
 		} catch (Exception e) {
-			throw new RemoveException(e.getMessage());	
+			throw new ModifyException(e.getMessage());	
 		} finally {
 			if(session!=null)
 			session.close();

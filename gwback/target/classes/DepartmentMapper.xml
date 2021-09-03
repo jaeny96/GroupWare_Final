@@ -33,6 +33,6 @@ delete from job where job_id=#{jobId}
 insert into job(job_id,job_title) values(#{jobId},#{jobTitle})
 </insert>
 <update id="updateJob" parameterType="java.util.HashMap">
-update employee set job_id=#{newJobId} where job_id=#{oldJobId} and name=#{name}
+update employee set job_id=#{newJobId} where job_id=#{oldJobId} and employee_id=#{employeeId}
 </update>
 </mapper>  

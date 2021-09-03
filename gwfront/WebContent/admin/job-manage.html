@@ -79,7 +79,10 @@
 ></div>
 
 <br />
-<button class="btn-dark fa-2px" type="button" id="saveJob">저장</button>
+<button class="btn-dark fa-1x" type="button" id="saveJob">저장</button>
+<span class="btn-danger fa-1x"
+  >저장버튼을 누르지 않을시, 수정사항이 반영되지 않습니다.</span
+>
 
 <!--사원 없을때 모달창 -->
 <div class="modal hidden" id="zero_person_modal">
@@ -115,7 +118,7 @@
       <div class="mb-3 row">
         <div style="text-align: center; margin: 10px 0">
           <button type="button" class="btn btn-secondary">취소</button>
-          <button type="button" class="btn btn-primary deleteBtn">삭제</button>
+          <button type="button" class="btn btn-dark deleteBtn">삭제</button>
         </div>
       </div>
     </div>
@@ -148,21 +151,8 @@
         <div class="jobName"></div>
         를 가지고 있는 사용자 목록
         <hr />
-        <div id="selectJobObj">
-          <!-- <span id="employeeName">김정은</span>
-          <select name="selectCode" id="selectChange">
-            <option value="">변경 직무</option>
-          <option value="46452">b</option>
-          <option value="46453">c</option> 
-          </select>
-          <hr />
-          <select name="selectCode" id="selectJobObj">
-            <option value="">변경 직무</option>
-            <option value="46452">b</option>
-            <option value="46453">c</option>
-          </select> -->
-        </div>
-        <hr />
+        <div id="selectJobObj"></div>
+
         위와 같이 변경하고, 해당 직무를 삭제하십니까?
       </div>
 
@@ -171,329 +161,11 @@
         <div style="text-align: center; margin: 10px 0">
           <button type="button" class="btn btn-secondary">취소</button>
 
-          <button type="button" class="btn btn-primary deleteBtn">삭제</button>
+          <button type="button" class="btn btn-dark deleteBtn">삭제</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-  var tableArray = [];
-  $(document).ready(function () {
-    //저장버튼 클릭시(ajax발동)
-    $(document).on("click", "#saveJob", function () {
-      insertJobTable();
-      console.log("최종 제출" + tableArray);
-
-      $.ajax({
-        method: "PUT",
-        transformRequest: [null],
-        transformResponse: [null],
-        jsonpCallbackParam: "callback",
-        url: "/gwback/admin/job/save",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        data: JSON.stringify(tableArray),
-        timeout: {},
-        success: function (responseData) {
-          var $content = $("div.wrapper>div.main>main.content");
-          var href = "/gwfront/admin/job-manage.html";
-          $content.load(href, function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "error")
-              alert("Error: " + xhr.status + ": " + xhr.statusText);
-          });
-        },
-      });
-    });
-
-    //텍스트 최초 클릭시
-    $(document).on("click", ".editable", function () {
-      var value = $(this).text();
-      console.log(value);
-      var input =
-        "<span class='span-click'>" +
-        value +
-        "</span><span class='fa fa-eraser'></span>";
-      $(this).html(input);
-
-      $(this).removeClass("editable");
-      return false;
-    });
-    //텍스트 다시 클릭시
-    $(document).on("click", ".span-click", function () {
-      var text = $(this).text();
-      var td = $(this).parent("div");
-      console.log(td);
-      td.html(text);
-      td.addClass("editable");
-      return false;
-    });
-
-    //최초 테이블 생성
-    console.log("실행");
-    var $jobListObj = $("#jobListObj"); //$('<div class="jobList">');
-    var jobListHtml = "";
-
-    $.ajax({
-      method: "GET",
-      transformRequest: [null],
-      transformResponse: [null],
-      jsonpCallbackParam: "callback",
-      url: "/gwback/admin/job/all",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-      },
-      data: "",
-      timeout: {},
-      success: function (responseData) {
-        //      console.log(responseData);
-        $(responseData).each(function (i, e) {
-          jobListHtml +=
-            '<div id="' +
-            e.jobId +
-            '" class="editable" style="padding:10px; display:inline-block;border:1px solid;">' +
-            e.jobTitle +
-            "</div>";
-        });
-        $jobListObj.html(jobListHtml);
-      },
-    });
-
-    //지우개 클릭시
-    $(document).on("click", ".fa-eraser", function () {
-      insertJobTable();
-      var value = $(this).val().trim();
-      var div = $(this).parent("div");
-
-      $.ajax({
-        method: "GET",
-        transformRequest: [null],
-        transformResponse: [null],
-        jsonpCallbackParam: "callback",
-        url: "/gwback/admin/job/emp-all/" + div.text().trim(),
-        headers: {
-          Accept: "application/json, text/plain, */*",
-        },
-        data: "",
-        timeout: {},
-        success: function (responseObj) {
-          console.log("ajax발동" + responseObj);
-          console.log("ajax발동");
-          if (responseObj.length == 0) {
-            //새로 추가한거 삭제
-            //직무에 해당 사원이 없는 경우
-
-            console.log("사원 없음");
-            deletePersonNo(div);
-
-            //td.remove();
-          } else {
-            //기존에 있던거 관련
-            //
-            //팝업띄우기
-            console.log("사원 존재");
-
-            var returnJobHtml = createOption(div);
-            // <hr>
-            //  <span>김정은</span> => 바뀌는 값
-            //   <select name="selectCode" id="6147" class="w100"> => 고정값
-            //   <option value="">변경 직무</option>
-            //    <option value="46452">b</option>
-            //    <option value="46453">c</option>
-            //   </select>
-            //참고코드
-            // $(responseData).each(function (i, e) {
-            //   jobListHtml +=
-            //     '<div id="' +
-            //     e.jobId +
-            //     '" class="editable" style="padding:10px; display:inline-block;border:1px solid;">' +
-            //     e.jobTitle +
-            //     "</div>";
-            // });
-            // $jobListObj.html(jobListHtml);
-            var $selectJobObj = $("#selectJobObj");
-            var selectJobList = "";
-            responseObj.forEach((e, i) => {
-              selectJobList += "<span>" + e.name + "</span>";
-              selectJobList +=
-                '<select name="selectName" id="seletChange">' +
-                '<option value="none">변경직무</option>';
-              selectJobList += returnJobHtml;
-              selectJobList += "</select>" + "<hr>";
-            });
-            $selectJobObj.html(selectJobList);
-            deletePersonYes(div, responseObj);
-          }
-        },
-      });
-      return false;
-    });
-  });
-  //현재있는 테이블 기준으로 option만들기
-  function createOption(div) {
-    var selectJobHtml = "";
-    for (var i = 0; i < tableArray.length; i++) {
-      //현재 선택한 것을 제외하고 option만들기
-      if (tableArray[i].jobId.indexOf(div.text().trim()) != -1) {
-      } else {
-        selectJobHtml +=
-          '<option value="' +
-          tableArray[i].jobId +
-          '">' +
-          tableArray[i].jobId +
-          "</option>";
-      }
-    }
-    console.log(selectJobHtml);
-    return selectJobHtml;
-  }
-  function deletePersonYes(div, responseObj) {
-    //모달창 띄우기
-    const modal = window.document.getElementById("more_person_modal");
-    modal.classList.remove("hidden");
-    //직무 글에 채워넣기
-    const jobName = modal.querySelector(
-      "div.more_modal_content div.card div div.jobName"
-    );
-    jobName.innerHTML = div.text().trim();
-
-    const overlay = modal.querySelector(".more_modal_overlay");
-    console.log(overlay);
-    const deleteBtn = modal.querySelector(
-      "div.more_modal_content div.card div.mb-3 div button.deleteBtn"
-    );
-    const cancelBtn = modal.querySelector(
-      "div.more_modal_content div.card div.mb-3 div button.btn-secondary"
-    );
-    const xBoxBtn = modal.querySelector(
-      "div.more_modal_content div.card div.card-header button.xBox"
-    );
-
-    function xBtn() {
-      modal.classList.add("hidden");
-    }
-
-    function deleteJobBtn() {
-      var cnt = 0;
-
-      if ($("#seletChange option:selected").val() == responseObj.length) {
-        cnt++;
-        console.log($("#seletChange option:selected").val());
-        alert("다 선택되었습니다.");
-      } else {
-        console.log($("#seletChange option:selected").val());
-        alert("선택 다 안됬습니다.");
-      }
-
-      console.log(cnt);
-      // if($("select[name=userListname]").val()!="none"){
-      //   $("select[name=userListname]").val();
-      // }
-      // modal.classList.add("hidden");
-      // div.remove(); //UI상에서만 삭제 -> 실제 저장버튼 눌러야 진짜 저장 실행
-    }
-
-    //input에는 없는 overlay 클릭 -> close 기능
-    overlay.addEventListener("click", xBtn);
-    //삭제 버튼
-    deleteBtn.addEventListener("click", deleteJobBtn);
-    //취소 버튼
-    cancelBtn.addEventListener("click", xBtn);
-    //모달창 닫기 버튼
-    xBoxBtn.addEventListener("click", xBtn);
-  }
-
-  function deletePersonNo(div) {
-    //모달창 띄우기
-    const modal = window.document.getElementById("zero_person_modal");
-    modal.classList.remove("hidden");
-    //직무 글에 채워넣기
-    const jobName = modal.querySelector(
-      "div.zero_modal_content div.card div h5 div.jobName"
-    );
-    jobName.innerHTML = div.text().trim();
-
-    const overlay = modal.querySelector(".zero_modal_overlay");
-    console.log(overlay);
-    const deleteBtn = modal.querySelector(
-      "div.zero_modal_content div.card div.mb-3 div button.deleteBtn"
-    );
-    const cancelBtn = modal.querySelector(
-      "div.zero_modal_content div.card div.mb-3 div button.btn-secondary"
-    );
-    const xBoxBtn = modal.querySelector(
-      "div.zero_modal_content div.card div.card-header button.xBox"
-    );
-
-    function xBtn() {
-      modal.classList.add("hidden");
-    }
-    function deleteJobBtn() {
-      console.log("삭제 수행");
-      modal.classList.add("hidden");
-      div.remove(); //UI상에서만 삭제 -> 실제 저장버튼 눌러야 진짜 저장 실행
-    }
-
-    //input에는 없는 overlay 클릭 -> close 기능
-    overlay.addEventListener("click", xBtn);
-    //삭제 버튼
-    deleteBtn.addEventListener("click", deleteJobBtn);
-    //취소 버튼
-    cancelBtn.addEventListener("click", xBtn);
-    //모달창 닫기 버튼
-    xBoxBtn.addEventListener("click", xBtn);
-  }
-
-  //직무 추가버튼 관련
-  function addList() {
-    var addValue = document.getElementById("addValue").value;
-    insertJobTable(); //기존 값데리고오기
-    //중복 확인
-    duplicate = 0;
-    for (var i = 0; i < tableArray.length; i++) {
-      if (tableArray[i].jobId.indexOf(addValue) != -1) {
-        //값이 존재
-        console.log("같다");
-        duplicate = 1;
-      }
-    }
-    if (addValue != "" && duplicate != 1) {
-      var td = document.createElement("div");
-
-      td.setAttribute("div", addValue);
-      td.setAttribute(
-        "style",
-        "padding:10px; display:inline-block;border:1px solid;"
-      );
-      td.setAttribute("class", "editable");
-
-      var textNode = document.createTextNode(addValue);
-      td.appendChild(textNode);
-
-      document.getElementById("jobListObj").appendChild(td);
-    } else if (duplicate == 1) {
-      alert("동일한 직무가 존재합니다!");
-    } else if (addValue == "") {
-      alert("추가할 직무를 입력해 주세요!");
-    }
-  }
-
-  //현재 테이블의 모든 내용 가지고 오기
-  function insertJobTable() {
-    $("#jobListObj").each(function () {
-      $(this)
-        .children("div")
-        .each(function () {
-          //json데이터로 생성
-          var jsonString = $(this).text().trim();
-          var listdata = { jobId: jsonString, jobTitle: jsonString };
-          tableArray.push(listdata);
-          // row.push($(this).text().trim());
-        });
-    });
-    console.log("받아온 데이터 " + JSON.stringify(tableArray));
-  }
-</script>
+<script src="../jq/load-admin-job.js"></script>
