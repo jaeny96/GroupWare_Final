@@ -17,7 +17,7 @@
 <select id="selectDep" resultType="department">
 SELECT d.department_id, d.department_title, count(*) "count"
 FROM employee e JOIN department d ON (e.department_id = d.department_id)
-WHERE enabled=1 
+WHERE enabled=1 and not d.department_id ='ADM'
 GROUP BY d.department_id, d.department_title
 ORDER BY DECODE(department_id,'CEO',1), d.department_title
 </select>

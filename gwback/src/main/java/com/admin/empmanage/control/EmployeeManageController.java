@@ -47,7 +47,7 @@ public class EmployeeManageController {
 			
 			service.addEmp(emp);
 			map.put("status", 0);
-			log.info("직원 추가 완료(Controller)");
+			log.error("직원 추가 완료(Controller)"+emp);
 			return map;
 		} catch (AddException e) {
 			e.printStackTrace();

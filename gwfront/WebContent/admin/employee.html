@@ -169,7 +169,8 @@
           </div>
           <div class="d-flex align-items-start" >
             <strong>사번</strong>
-            <div class="flex-grow-1 ml-3 mb-2"><input type="text" requiredid="modifyEmpId"></div>
+            <div class="flex-grow-1 ml-3 mb-2">
+              <input type="text" id="modifyEmpId"></div>
           </div>
           <div class="d-flex align-items-start" >
             <strong>부서</strong>
@@ -193,7 +194,7 @@
           </div>
           <div class="d-flex align-items-start">
             <strong>이메일</strong>
-            <div class="flex-grow-1 ml-3 mb-2"><input type="email" id="modifyEmpEmail">
+            <div class="flex-grow-1 ml-3 mb-2"><input type="email" id="modifyEmpEmail" required>
             </div>
           </div>
           <div class="d-flex align-items-start">
@@ -214,7 +215,7 @@
           </div> -->
 
           <div>
-            <button id="modifySubBtn"   class="btn btn-primary" type="button">확인</button>
+            <button id="modifySubBtn" class="btn btn-primary" type="button">확인</button>
             <button class="btn btn-secondary closeBtn" type="button">닫기</button>
           </div>
           </form>
@@ -250,12 +251,12 @@
           <form id="addEmpForm">
             <div class="d-flex align-items-start" id="employeeId">
               <strong>이름</strong>
-              <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="addEmpName"></div>
+              <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="addEmpName" required></div>
             </div>
           
           <div class="d-flex align-items-start" id="employeeId">
             <strong>사번</strong>
-            <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="addEmpId"></div>
+            <div class="flex-grow-1 ml-3 mb-2"><input type="text" id="addEmpId" required></div>
           </div>
           <div class="d-flex align-items-start" id="department">
             <strong>부서</strong>
@@ -268,7 +269,7 @@
           <div class="d-flex align-items-start" id="position">
             <strong>직책</strong>
             <div class="flex-grow-1 ml-3 mb-2">
-              <select name="position" id="addPpositionSelect">
+              <select name="position" id="addPositionSelect">
               
               </select>
             </div>
@@ -283,18 +284,18 @@
           </div>
           <div class="d-flex align-items-start" id="phoneNum">
             <strong>연락처</strong>
-            <div class="flex-grow-1 ml-3 mb-2" ><input type="tel"  name='userPhoneNumber'id="addEmpPhoneNum"></div>
+            <div class="flex-grow-1 ml-3 mb-2" ><input type="tel"   name='userPhoneNumber'id="addEmpPhoneNum"></div>
           </div>
           <div class="d-flex align-items-start" id="email">
             <strong>이메일</strong>
-            <div class="flex-grow-1 ml-3 mb-2"><input type="email" id="addEmpEmail">
+            <div class="flex-grow-1 ml-3 mb-2"><input type="email" id="addEmpEmail" required>
             </div>
           </div>
           <div class="d-flex align-items-start" id="position">
             <strong>고용일</strong>
             <div class="flex-grow-1 ml-3 mb-2">
               <input type="date" id="addEmpHireDate"
-             >
+              required>
             </div>
           </div>
           <div class="d-flex align-items-start" id="empStatus">
@@ -306,7 +307,7 @@
           </div>
            <div class="d-flex align-items-start" id="modifyPassword">
             <strong>비밀번호</strong>
-            <div class="flex-grow-1 ml-3 mb-2" ><input type="password" id="addEmpPassword"></div>
+            <div class="flex-grow-1 ml-3 mb-2" ><input type="password" id="addEmpPassword" required></div>
           </div>
 <!-- 
           <div class="d-flex align-items-start" id="modifyPassword">
@@ -315,7 +316,7 @@
           </div> --> 
 
           <div>
-            <button id="addSubBtn" class="btn btn-primary" type="button">추가</button>
+            <button id="addSubBtn" type="button" class="btn btn-primary">추가</button>
             <button class="btn btn-secondary closeBtn" type="button">닫기</button>
           </div>
           </form>

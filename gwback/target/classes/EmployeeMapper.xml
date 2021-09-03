@@ -32,7 +32,7 @@
 SELECT * FROM department d
 JOIN employee e ON d.department_id = e.department_id
 JOIN position p ON e.position_id=p.position_id JOIN job j ON e.job_id=j.job_id
-WHERE enabled=1 and NOT e.employee_id='admin'
+WHERE enabled=1 and NOT e.employee_id='admin' and not p.position_id=0
 ORDER BY DECODE(d.department_id,'CEO',1),d.department_title, p.position_id, employee_id
 </select>
 

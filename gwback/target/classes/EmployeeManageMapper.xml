@@ -71,7 +71,7 @@
 	</update>
 
 	<select id="findPosition" resultType="position">
-	select position_title from position where not position_id=0
+	select * from position where not position_id=0
 	</select>
 	
 		<select id="findDepartment" resultType="department">
