@@ -3,7 +3,6 @@ package com.group.chat.control;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -161,7 +160,9 @@ public class Chat {
 		// 파일을 읽어온다.
 		try (FileInputStream stream = new FileInputStream(file)) {
 			byte[] byteArr = IOUtils.toByteArray(stream);
-			return new String(byteArr);
+			//System.out.println("chat.txt파일 내용------" + new String(byteArr));
+			//System.out.println("chat.txt파일 내용: utf-8" + new String(byteArr, "UTF-8"));
+			return new String(byteArr, "UTF-8");
 		} catch (Throwable e) {
 			e.printStackTrace();
 			return "";

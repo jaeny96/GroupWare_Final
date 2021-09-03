@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
+    <meta charset="utf-8" />
     <title>Web Socket Example</title>
     <style>
       /* 에러 메시지 css */
@@ -80,6 +81,8 @@
             webSocket.onerror = function (message) {};
             // 서버로 부터 메시지가 오면 실행되는 이벤트
             webSocket.onmessage = function (message) {
+              console.log(message.data);
+              alert(message.data);
               // 채팅 내용 박스 객체 취득
               let messageTextArea = document.getElementById("messageTextArea");
               // 데이터 작성
