@@ -75,8 +75,8 @@ public class EmployeeManageController {
 		Position p = new Position();
 		p.setPositionId(emp.getPosition().getPositionId());
 		
-		log.error(dep);
-		log.error(job);
+		//log.error(dep);
+		//log.error(job);
 		employee.setEmployeeId(emp.getEmployeeId());
 		employee.setName(emp.getName());
 		employee.setDepartment(dep);
@@ -87,12 +87,13 @@ public class EmployeeManageController {
 		employee.setEmail(emp.getEmail());
 		employee.setHireDate(emp.getHireDate());
 		//System.out.println(new Timestamp(0));
+		
 		employee.setenabled(emp.getenabled());
-		log.error("emp"+emp);
+		//log.error("emp"+emp);
 		
 		try {
 			service.modifyEmp(employee);
-			log.info("직원 수정 완료(Controller)");
+			log.error("직원 수정 완료(Controller)"+employee);
 			map.put("status", 0);
 			return map;
 		} catch (UpdateException e) {

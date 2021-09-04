@@ -63,7 +63,7 @@
 			</if> -->
 			
 			<if test="enabled != null and enabled!='' ">
-				enabled=#{enabled},
+				enabled=#{enabled}
 			</if>
 
 		</set>
