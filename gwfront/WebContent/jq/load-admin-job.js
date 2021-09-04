@@ -65,10 +65,11 @@ $(document).ready(function () {
       data: JSON.stringify(tableArray),
       timeout: {},
       success: function () {
-        alert("저장 완료 되었습니다!");
+        // alert("저장 완료 되었습니다!");
         var $content = $("div.wrapper>div.main>main.content");
         var href = "/gwfront/admin/job-manage.html";
         $content.load(href, function (responseTxt, statusTxt, xhr) {
+          alert("저장 완료 되었습니다!");
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
@@ -400,8 +401,6 @@ function insertJobTable() {
         var jsonString = $(this).text().trim();
         var listdata = { jobId: jsonString, jobTitle: jsonString };
         tableArray.push(listdata);
-
-        console.log(listdata);
       });
   });
   return tableArray;

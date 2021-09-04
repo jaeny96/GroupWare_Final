@@ -147,7 +147,7 @@ public class JobDAOOracle implements JobDAO {
 				map.put("newJobId",e.getJob().getJobId());
 				map.put("employeeId",e.getEmployeeId());
 				session.update("com.group.employee.DepartmentMapper.updateJob",map);
-				System.out.println(map.get("oldJobId")+map.get("newJobId")+map.get("employeeId"));
+				//System.out.println(map.get("oldJobId")+map.get("newJobId")+map.get("employeeId"));
 			}
 		} catch (Exception e) {
 			throw new ModifyException(e.getMessage());	
