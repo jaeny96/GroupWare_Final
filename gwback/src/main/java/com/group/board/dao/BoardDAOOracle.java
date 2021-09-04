@@ -133,6 +133,24 @@ public class BoardDAOOracle implements BoardDAO {
 		}
 
 	}
+	@Override
+	public void updateAdmin(Board bd) throws ModifyException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession();
+			int rowcnt = session.update("com.group.board.dto.BoardMapper.updateAdmin", bd);
+			if (rowcnt == 1) {
+				System.out.println("내용이 변경되었습니다");
+			} else {
+				throw new ModifyException("내용이 변경되지 않았습니다");
+			}
+		} catch (Exception e) {
+			throw new ModifyException(e.getMessage());
+		} finally {
+			session.close();
+		}
+
+	}
 
 	@Override
 	@Transactional(rollbackFor = RemoveException.class)
@@ -146,6 +164,24 @@ public class BoardDAOOracle implements BoardDAO {
 //			session.update("com.group.board.dto.BoardMapper.delete", bd);
 			}
 			System.out.println("삭제완료");
+		} catch (Exception e) {
+			throw new RemoveException(e.getMessage());
+		}
+	}
+	@Override
+	@Transactional(rollbackFor = RemoveException.class)
+	public void deleteAdmin(Board bd) throws RemoveException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession();
+			int rowcnt = session.update("com.group.board.dto.BoardMapper.deleteAdmin", bd);
+			if (rowcnt == 1) {
+				System.out.println("삭제완료");
+//			session.update("com.group.board.dto.BoardMapper.delete", bd);
+			}else {
+				System.out.println("삭제실패");
+			}
+			
 		} catch (Exception e) {
 			throw new RemoveException(e.getMessage());
 		}

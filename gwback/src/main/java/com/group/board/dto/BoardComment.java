@@ -12,6 +12,15 @@ public class BoardComment {
 	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
 	private Timestamp cmDate;
 	private String cmContent;
+	private int bdAdmin;
+
+	public int getBdAdmin() {
+		return bdAdmin;
+	}
+
+	public void setBdAdmin(int bdAdmin) {
+		this.bdAdmin = bdAdmin;
+	}
 
 	public BoardComment() {
 	}
@@ -72,7 +81,7 @@ public class BoardComment {
 	@Override
 	public String toString() {
 		return "BoardComment [bdNo=" + bdNo + ", cmNo=" + cmNo + ", cmWriter=" + cmWriter + ", cmDate=" + cmDate
-				+ ", cmContent=" + cmContent + "]";
+				+ ", cmContent=" + cmContent + ", bdAdmin=" + bdAdmin + "]";
 	}
 
 }

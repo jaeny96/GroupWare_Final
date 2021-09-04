@@ -43,9 +43,19 @@ public interface BoardDAO {
 	 */
 	public void update(Board bd) throws ModifyException;
 	/**
+	 * 관리자가 게시글을 수정한다 (제목, 내용)
+	 * @param bd 게시글 수정할 내용 담고 있는 객체
+	 */
+	public void updateAdmin(Board bd) throws ModifyException;
+	/**
 	 * 게시글을 삭제한다 
 	 * @param bd_no 삭제할 게시글 번호
 	 */
 	public void delete(Board bd) throws RemoveException;
+	/**
+	 * 관리자가 게시글을 삭제한다 
+	 * @param bd_no 삭제할 게시글 번호
+	 */
+	public void deleteAdmin(Board bd) throws RemoveException;
 	
 }

@@ -38,11 +38,11 @@ public class ScheduleController {
 	@GetMapping("/allSkd")
 	public Object allSkd(HttpSession session){
 	String id = session.getAttribute("id").toString();
+	String deptId = session.getAttribute("dept").toString();
 		Employee emp = new Employee();
 		Department dept = new Department();
 		//String id = "MSD003";
 		//dept.setDepartmentId("MSD");
-		String deptId = id.substring(0,3);
 		dept.setDepartmentId(deptId);
 		emp.setEmployeeId(id);
 		emp.setDepartment(dept);
@@ -63,7 +63,7 @@ public class ScheduleController {
 		//String id = "MSD003";
 		Department dept = new Department();
 //		dept.setDepartmentId("SEC");
-		String deptId = id.substring(0,3);
+		String deptId = session.getAttribute("dept").toString();
 		dept.setDepartmentId(deptId);
         Employee em = new Employee(id, null, dept, null, null, null, null, null, 1, null);
 //        em.setEmployeeId(id);
@@ -83,7 +83,7 @@ public class ScheduleController {
 	public Object skdTeam(HttpSession session) {
 		String id = session.getAttribute("id").toString();
 		//String dept = "MSD";
-		String dept= id.substring(0,3);
+		String dept = session.getAttribute("dept").toString();
 		 Map<String,Object>map = new HashMap<>();
 		 try {
 			List<Schedule> list = service.findSkdTeam(dept);

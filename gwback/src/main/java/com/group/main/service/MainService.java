@@ -44,7 +44,22 @@ public class MainService {
 		}
 		return emp;
 	}
-
+	/**
+	 * 관리자 로그인한다
+	 * @param id 관리자계정
+	 * @param pwd 관리자 계정 비밀번호
+	 * @return 관리자 사원의 정보(사번,비밀번호,이름)
+	 * @throws FindException
+	 */
+	public Employee loginAdmin(String id, String pwd) throws FindException {
+		Employee emp = dao.selectByIdAdmin(id);
+		
+		 if(!emp.getPassword().equals(pwd)) {
+			throw new FindException("권한이 없습니다.");
+		}
+		return emp;
+	}
+	
 	/**
 	 * 기안일이 오래된 순으로 결재예정 문서 5건을 조회한다
 	 * @param id 로그인한 사원의 아이디

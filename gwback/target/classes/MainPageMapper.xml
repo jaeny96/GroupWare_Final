@@ -8,6 +8,11 @@
 		FROM employee
 		WHERE employee_id=#{id}
 	</select>
+	<select id="selectByIdAdmin" resultType="employee">
+		SELECT employee_id "employeeId", name, password, department_id "department.department_id"
+		FROM employee
+		WHERE employee_id='admin'
+	</select>
 	<select id="selectLeave" resultType="leave">
 		SELECT employee_id "employeeId", grant_days, (grant_days-remain_days), remain_days
 		FROM leave

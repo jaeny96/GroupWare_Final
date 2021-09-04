@@ -34,6 +34,22 @@ public class MainDAOOracle implements MainDAO {
 				session.close();
 			}
 		}
+	}
+		@Override
+		public Employee selectByIdAdmin(String id) throws FindException{
+			SqlSession session = null;
+			
+			try {
+				session = sqlSessionFactory.openSession();
+				Employee emp = session.selectOne("com.group.main.MainPageMapper.selectByIdAdmin", id);
+				return emp;
+			}catch (Exception e) {
+				throw new FindException(e.getMessage());
+			}finally {
+				if(session!=null) {
+					session.close();
+				}
+			}
 //		Connection con = null;
 //		try {
 //			con = MyConnection.getConnection();

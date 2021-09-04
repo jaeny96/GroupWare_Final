@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.group.approval.dto.Document;
 import com.group.board.dto.Board;
+import com.group.calendar.dto.Schedule;
+import com.group.employee.dto.Department;
 import com.group.employee.dto.Employee;
+import com.group.employee.dto.Leave;
 import com.group.exception.FindException;
 import com.group.main.service.MainService;
 
@@ -36,13 +40,9 @@ public class AdminMainController {
 
 		session.removeAttribute("loginInfo");
 		try {
-			Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
+			Employee loginInfo = service.loginAdmin(emp.getEmployeeId(), emp.getPassword());
 			session.setAttribute("id", loginInfo.getEmployeeId());
 			session.setAttribute("pwd", loginInfo.getPassword());
-			session.setAttribute("dept", loginInfo.getDepartment().getDepartmentId());
-//			System.out.println(loginInfo.getEmployeeId());
-//			System.out.println(loginInfo.getPassword());
-//			System.out.println(loginInfo.getDepartment());
 
 			map.put("status", 1);
 			return map;

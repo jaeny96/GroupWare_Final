@@ -18,6 +18,13 @@ public interface MainDAO {
 	 */
 	public Employee selectById(String id) throws FindException;
 	/**
+	 * 관리자 정보를 조회한다
+	 * @param id 나의 아이디
+	 * @return 조회한 나의 정보
+	 * 로그인, 프로필정보에 사용예정
+	 */
+	public Employee selectByIdAdmin(String id) throws FindException;
+	/**
 	 * 나의 휴가 정보를 조회한다
 	 * @param id 나의 아이디
 	 * @return 조회한 나의 휴가 정보
