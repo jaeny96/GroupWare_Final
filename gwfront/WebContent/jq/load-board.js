@@ -489,7 +489,7 @@ $(function () {
     a.setAttribute("class", "sidebar-link-js");
     //a객체 상세 스타일 적용
     if (adminBd[i] == "관리자") {
-      a.setAttribute("style", "color: red");
+      a.setAttribute("style", "color: red; font-weight: bold");
     } else {
       a.setAttribute("style", "color: black");
     }

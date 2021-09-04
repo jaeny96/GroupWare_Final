@@ -40,13 +40,9 @@ public class AdminMainController {
 
 		session.removeAttribute("loginInfo");
 		try {
-			Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
+			Employee loginInfo = service.loginAdmin(emp.getEmployeeId(), emp.getPassword());
 			session.setAttribute("id", loginInfo.getEmployeeId());
 			session.setAttribute("pwd", loginInfo.getPassword());
-			session.setAttribute("dept", loginInfo.getDepartment().getDepartmentId());
-//			System.out.println(loginInfo.getEmployeeId());
-//			System.out.println(loginInfo.getPassword());
-//			System.out.println(loginInfo.getDepartment());
 
 			map.put("status", 1);
 			return map;

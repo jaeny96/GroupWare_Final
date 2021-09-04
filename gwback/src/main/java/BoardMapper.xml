@@ -14,9 +14,8 @@ FROM (
    name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
-	 ORDER BY bd_date desc ) a
+		ORDER BY DECODE(b.employee_id,'admin',1), bd_date desc) a
 )
-
 </select>
 <!-- 페이지 별 게시글 목록 조회 -->
 <select id="selectAllPage" parameterType="java.util.HashMap" resultType="board">
@@ -29,7 +28,7 @@ FROM (
    name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
-	  ORDER BY (CASE WHEN bd_admin = 0 THEN 1 ELSE 2 END), bd_date desc) a
+	  	ORDER BY DECODE(b.employee_id,'admin',1), bd_date desc) a
 )
 WHERE rn BETWEEN start_row(#{currentPage}, #{cnt_per_page}) AND
                  end_row(#{currentPage},   #{cnt_per_page})

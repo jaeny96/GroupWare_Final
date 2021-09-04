@@ -1,13 +1,17 @@
 package com.admin.notice.control;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.group.board.dto.Board;
 import com.group.board.service.BoardService;
@@ -31,6 +37,8 @@ public class AdminBoardController {
 	private BoardService service;
 	@Autowired
 	private PageBeanService beanservice;
+	@Autowired
+	private ServletContext servletContext;
 
 	/**
 	 * 현재페이지에 해당하는 게시글 불러옴
@@ -162,18 +170,34 @@ public class AdminBoardController {
 	 * @return
 	 */
 	@GetMapping("/{bdNo}")
-	public Object getBddetail(@PathVariable String bdNo) {
+	public Map<String, Object> getBddetail(@PathVariable String bdNo) {
 		Map<String, Object> result = new HashMap<>();
+		String uploadPath = servletContext.getRealPath("upload");
+		File f = new File(uploadPath);
+		
 		Board bd = new Board();
 		bd.setBdNo(bdNo);
 		try {
 			Board bdDetail = service.showBdDetail(bdNo);
-			return bdDetail;
+			//String thisBoardNo = bdDetail.getBdNo();
+			String thisBoardId = bdDetail.getWriter().getEmployeeId();
+			if(f.isDirectory()) {
+				File[] fList = f.listFiles();
+				for(File ff: fList) {
+					if(ff.getName().contains(thisBoardId)) {
+						String thisFileName = ff.getName();
+						System.out.println(thisFileName);
+						result.put("fileName", thisFileName);
+					}
+				}
+			}
+			result.put("board", bdDetail);
 		} catch (Exception e) {
 			result.put("status", -1);
 			e.printStackTrace();
-			return result;
+			
 		}
+		return result;
 	}
 	
 	// 게시글삭제
@@ -196,6 +220,41 @@ public class AdminBoardController {
 			}
 			return map;
 		}
+		
+		/**
+		 * 파일업로드
+		 * 
+		 */
+		@PostMapping("/fileuploadinbd")
+		public Map<String, Object> getFileUploadinbd(@RequestPart MultipartFile fileUploadBoard, HttpSession session) {
+			Map<String, Object> result = new HashMap<>();
+		
+			
+			String uploadPath = servletContext.getRealPath("upload");
+			System.out.println("업로드 실제경로"+uploadPath);
+			//경로가 없으면 경로 생성
+			if(!new File(uploadPath).exists()) {
+				log.info("업로드실제경로생성"+uploadPath);
+				new File(uploadPath).mkdirs();
+			}
+		
+					if(fileUploadBoard != null) {
+						String UploadfileName = fileUploadBoard.getOriginalFilename();
+						System.out.println("파일크기:"+fileUploadBoard.getSize()+", 파일이름:"+fileUploadBoard.getOriginalFilename());
+					
+						String fileName = session.getAttribute("id").toString()+"_"+ UploadfileName;
+						System.out.println(fileName);
+						File file = new File(uploadPath, fileName);
+						try {
+							FileCopyUtils.copy(fileUploadBoard.getBytes(), file);
+							result.put("status", 1);
+							result.put("msg","파일업로드까지 성공!");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+				}
+					return result;
+			}
 	
 	
 }

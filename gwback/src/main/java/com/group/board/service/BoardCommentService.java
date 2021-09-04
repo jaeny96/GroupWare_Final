@@ -62,7 +62,9 @@ public class BoardCommentService {
 			BoardComment compare = cmList.get(cmList.size()-cm.getCmNo());
 			if(compare.getCmWriter().getEmployeeId().equals(cm.getCmWriter().getEmployeeId())) {
 				dao.delete(cm);
-			}else {
+			}else if(cm.getCmWriter().getEmployeeId().equals("admin")){
+				dao.deleteAdmin(cm);
+			}else{
 				System.out.println("댓글을 작성한 작성자가 아닙니다");
 			}
 		} catch (FindException e) {

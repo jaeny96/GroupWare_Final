@@ -14,11 +14,15 @@ ORDER BY cm_no desc
 </select>
 <!-- 댓글 등록 -->
 <insert id="insert" parameterType="boardcomment">
-INSERT INTO boardcomment (bd_no,cm_no,employee_id,cm_content)
-VALUES(#{bdNo},(SELECT NVL(MAX(cm_no), 0)+1 FROM boardcomment WHERE bd_no=#{bdNo}),#{cmWriter.employeeId},#{cmContent})
+INSERT INTO boardcomment (bd_no,cm_no,employee_id,cm_content, bd_admin)
+VALUES(#{bdNo},(SELECT NVL(MAX(cm_no), 0)+1 FROM boardcomment WHERE bd_no=#{bdNo}),#{cmWriter.employeeId},#{cmContent}, #{bdAdmin})
 </insert>
 <!-- 댓글 삭제 -->
 <delete id="delete" parameterType="boardcomment">
 DELETE FROM boardcomment WHERE bd_no=#{bdNo} AND cm_no=#{cmNo} AND employee_id=#{cmWriter.employeeId}
+</delete>
+<!-- 관리자 댓글 삭제 -->
+<delete id="deleteAdmin" parameterType="boardcomment">
+DELETE FROM boardcomment WHERE bd_no=#{bdNo} AND cm_no=#{cmNo}
 </delete>
 </mapper>

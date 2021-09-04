@@ -24,4 +24,9 @@ public interface BoardCommentDAO {
 	 * @param cm_no 삭제할 댓글 번호
 	 */
 	public void delete(BoardComment cm) throws RemoveException;
+	/**
+	 * 관리자가 댓글을  삭제한다
+	 * @param cm_no 삭제할 댓글 번호
+	 */
+	public void deleteAdmin(BoardComment cm) throws RemoveException;
 }

@@ -39,104 +39,60 @@ $(function () {
   //관리자가 게시글 수정시 사용할 backurl
   var adminbackurlModiBdDetail = "http://localhost:8888/gwback/admin/modifybd";
   //게시글 수정 form submit 이벤트 핸들러
+
+  var modifyUrl =
+    loginInfoIdObj.innerHTML == "admin"
+      ? adminbackurlModiBdDetail + "/" + bdTargetNoInModi
+      : backurlModiBdDetail + "/" + bdTargetNoInModi;
   function modifyBdSubmitHandler(e) {
-    if (loginInfoIdObj.innerHTML == "admin") {
-      $.ajax({
-        url: adminbackurlModiBdDetail + "/" + bdTargetNoInModi,
-        method: "PUT",
-        transformRequest: [null],
-        transformResponse: [null],
-        jsonpCallbackParam: "callback",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        // data: data,
-        timeout: {},
-        data: JSON.stringify({
-          // modiBdTargetNo: bdTargetNoInModi,
-          bdTitle: titleObjInModi.value,
-          bdContent: contentObjInModi.innerText,
-        }),
-        success: function () {
-          //제목이 입력되지 않으면 수정 x
-          if (titleObjInModi.value == "" || titleObjInModi.value == null) {
-            alert("제목이 입력되지 않았습니다");
-          } else {
-            alert("게시글이 변경되었습니다");
-            //게시글 수정 후 재로딩
-            var href = "notice-detail.html";
-            $content.load(href, function (responseTxt, statusTxt, xhr) {
-              if (statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            });
-            // $(
-            //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
-            // ).trigger("click");
-          }
-        },
-        error: function (request, status, error) {
-          alert(
-            "code:" +
-              request.status +
-              "\n" +
-              "message:" +
-              request.responseText +
-              "\n" +
-              "error:" +
-              error
-          );
-        },
-      });
-    } else {
-      $.ajax({
-        url: backurlModiBdDetail + "/" + bdTargetNoInModi,
-        method: "PUT",
-        transformRequest: [null],
-        transformResponse: [null],
-        jsonpCallbackParam: "callback",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        // data: data,
-        timeout: {},
-        data: JSON.stringify({
-          // modiBdTargetNo: bdTargetNoInModi,
-          bdTitle: titleObjInModi.value,
-          bdContent: contentObjInModi.innerText,
-        }),
-        success: function () {
-          //제목이 입력되지 않으면 수정 x
-          if (titleObjInModi.value == "" || titleObjInModi.value == null) {
-            alert("제목이 입력되지 않았습니다");
-          } else {
-            alert("게시글이 변경되었습니다");
-            //게시글 수정 후 재로딩
-            var href = "board-detail.html";
-            $content.load(href, function (responseTxt, statusTxt, xhr) {
-              if (statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            });
-            // $(
-            //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
-            // ).trigger("click");
-          }
-        },
-        error: function (request, status, error) {
-          alert(
-            "code:" +
-              request.status +
-              "\n" +
-              "message:" +
-              request.responseText +
-              "\n" +
-              "error:" +
-              error
-          );
-        },
-      });
-    }
+    $.ajax({
+      url: modifyUrl,
+      method: "PUT",
+      transformRequest: [null],
+      transformResponse: [null],
+      jsonpCallbackParam: "callback",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      // data: data,
+      timeout: {},
+      data: JSON.stringify({
+        // modiBdTargetNo: bdTargetNoInModi,
+        bdTitle: titleObjInModi.value,
+        bdContent: contentObjInModi.innerText,
+      }),
+      success: function () {
+        //제목이 입력되지 않으면 수정 x
+        if (titleObjInModi.value == "" || titleObjInModi.value == null) {
+          alert("제목이 입력되지 않았습니다");
+        } else {
+          alert("게시글이 변경되었습니다");
+          //게시글 수정 후 재로딩
+          var href = "notice-detail.html";
+          $content.load(href, function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "error")
+              alert("Error: " + xhr.status + ": " + xhr.statusText);
+          });
+          // $(
+          //   '#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li > a[href="board-detail.html"]'
+          // ).trigger("click");
+        }
+      },
+      error: function (request, status, error) {
+        alert(
+          "code:" +
+            request.status +
+            "\n" +
+            "message:" +
+            request.responseText +
+            "\n" +
+            "error:" +
+            error
+        );
+      },
+    });
+
     e.preventDefault();
   }
 

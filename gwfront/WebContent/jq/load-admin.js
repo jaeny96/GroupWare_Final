@@ -199,8 +199,7 @@ $(function () {
           switch (href) {
             case "notice.html":
             case "emp-manage.html":
-            case "dep-manage.html":
-            case "leave-manage.html":
+            case "job-manage.html":
               var realAdminPath = "/gwfront/admin/" + href;
               //클릭한 객체의 sidebar-item만 활성화 시키기
               $(this).closest("li").attr("class", "sidebar-item mb-2 active");
