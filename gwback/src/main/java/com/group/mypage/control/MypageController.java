@@ -154,12 +154,12 @@ public class MypageController {
 				File file = new File(uploadPath, fileName+"."+extension);
 				log.error("uploadPath "+uploadPath+ "fileName" +"." + extension);
 				//이런식으로 별도 파일(upload)에다가 하나 더 파일을 복사해놓고, javascript에서 계속 사진을 받아오는 방법이 있다 
-				//File backup = new File("C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload",fileName);
+				File backup = new File("C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload",fileName);
 					
 				
 				try {
 					FileCopyUtils.copy(profileFile.getBytes(), file);
-				//	FileCopyUtils.copy(profileFile.getBytes(), backup);
+					FileCopyUtils.copy(profileFile.getBytes(), backup);
 					log.error("파일 업로드 완료");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

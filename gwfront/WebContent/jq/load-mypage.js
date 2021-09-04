@@ -190,6 +190,7 @@ $(function () {
         $('#profileImgPage').attr('src',"img/avatars/MSD002.jpg");
         //모달 속 프로필이미지 바꾸기
         $('#profileImgModal').attr('src',"img/avatars/MSD002.jpg");
+        $('#mainProfileImg').attr('src',"img/avatars/MSD002.jpg");
         alert('재로딩');
          //재로딩
         //  $(

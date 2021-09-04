@@ -13,7 +13,7 @@ public class Employee {
 		private Position position;
 		private String phoneNumber;
 		private String email;
-		@JsonFormat(pattern="yy/MM/dd",  timezone="Asia/Seoul")
+		@JsonFormat(pattern="yyyy-MM-dd",  timezone="Asia/Seoul")
 		private Date hireDate;
 		private int enabled;
 		private String password;
