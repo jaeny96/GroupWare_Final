@@ -192,14 +192,6 @@ $(function () {
   */
     var apFlag = true; //결재여부
     for (var i = 0; i < apDocsApTypeArr.length; i++) {
-      // console.log(
-      //   "---i:" +
-      //     i +
-      //     ", apDocsApTypeArr[i]:" +
-      //     apDocsApTypeArr[i] +
-      //     ", apDocsApNameArr[i].toString():" +
-      //     apDocsApNameArr[i].toString()
-      // );
       if (apDocsApTypeArr[i] == "대기") {
         //
         //이전결재라인이 모두 승인된 경우
@@ -226,54 +218,6 @@ $(function () {
         apFlag = true;
       }
     }
-    // // 결재자 0
-    // if (apDocsApType0 == "대기" && myCheckName === apDocsApName0.toString()) {
-    //   apStep0Obj.appendChild(buttonTag);
-    // } else if (apDocsApType0 == "대기") {
-    //   apStep0Obj.innerText = "대기중";
-    // } else if (apDocsApType0 == "반려") {
-    //   imgTag.src = "img/icons/no.png";
-    //   apStep0Obj.appendChild(imgTag);
-    // } else if (apDocsApType0 == "승인") {
-    //   imgTag.src = "img/icons/yes.png";
-    //   apStep0Obj.appendChild(imgTag);
-    // }
-    // //결재자 1
-    // if (apDocsApType1 == "대기" && myCheckName === apDocsApName1.toString()) {
-    //   apStep1Obj.appendChild(buttonTag1);
-    // } else if (apDocsApType1 == "대기") {
-    //   apStep1Obj.innerText = "대기중";
-    // } else if (apDocsApType1 == "반려") {
-    //   imgTag1.src = "img/icons/no.png";
-    //   apStep1Obj.appendChild(imgTag1);
-    // } else if (apDocsApType1 == "승인") {
-    //   imgTag1.src = "img/icons/yes.png";
-    //   apStep1Obj.appendChild(imgTag1);
-    // }
-    // //결재자 2
-    // if (apDocsApType2 == "대기" && myCheckName === apDocsApName2.toString()) {
-    //   apStep2Obj.appendChild(buttonTag2);
-    // } else if (apDocsApType2 == "대기") {
-    //   apStep2Obj.innerHTML = "대기중";
-    // } else if (apDocsApType2 == "반려") {
-    //   imgTag2.src = "img/icons/no.png";
-    //   apStep2Obj.appendChild(imgTag2);
-    // } else if (apDocsApType2 == "승인") {
-    //   imgTag2.src = "img/icons/yes.png";
-    //   apStep2Obj.appendChild(imgTag2);
-    // }
-    // //결재자 3
-    // if (apDocsApType3 == "대기" && myCheckName === apDocsApName3.toString()) {
-    //   apStep3Obj.appendChild(buttonTag3);
-    // } else if (apDocsApType3 == "대기") {
-    //   apStep3Obj.innerText = "대기중";
-    // } else if (apDocsApType3 == "반려") {
-    //   imgTag3.src = "img/icons/no.png";
-    //   apStep3Obj.appendChild(imgTag3);
-    // } else if (apDocsApType3 == "승인") {
-    //   imgTag3.src = "img/icons/yes.png";
-    //   apStep3Obj.appendChild(imgTag3);
-    // }
 
     //합의 이름 채우기
     tdAgName.innerHTML = apDocsAgName;
