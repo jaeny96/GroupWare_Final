@@ -14,9 +14,8 @@ FROM (
    name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
-	 ORDER BY bd_date desc ) a
+		ORDER BY DECODE(b.employee_id,'admin',1), bd_date desc) a
 )
-
 </select>
 <!-- 페이지 별 게시글 목록 조회 -->
 <select id="selectAllPage" parameterType="java.util.HashMap" resultType="board">
@@ -29,7 +28,7 @@ FROM (
    name AS "writer.name"
 	 FROM board b
 	 JOIN employee e ON b.employee_id = e.employee_id
-	 ORDER BY bd_date desc ) a
+	  	ORDER BY DECODE(b.employee_id,'admin',1), bd_date desc) a
 )
 WHERE rn BETWEEN start_row(#{currentPage}, #{cnt_per_page}) AND
                  end_row(#{currentPage},   #{cnt_per_page})
@@ -53,8 +52,8 @@ JOIN employee e ON b.employee_id = e.employee_id
 WHERE b.bd_no = #{bdNo}
 </select>
 <insert id="insert" parameterType="board">
-INSERT INTO board(bd_no, employee_id, bd_title, bd_content)
-VALUES('BD'||BD_SEQ.NEXTVAL,#{writer.employeeId}, #{bdTitle}, #{bdContent})
+INSERT INTO board(bd_no, employee_id, bd_title, bd_content, bd_admin)
+VALUES('BD'||BD_SEQ.NEXTVAL,#{writer.employeeId}, #{bdTitle}, #{bdContent}, #{bdAdmin})
 </insert>
 <update id="update" parameterType="board">
 UPDATE board
@@ -65,7 +64,21 @@ bd_date=SYSTIMESTAMP
 </set>
 WHERE bd_no=#{bdNo} AND employee_id=#{writer.employeeId}
 </update>
+
+<update id="updateAdmin" parameterType="board">
+UPDATE board
+<set>
+<if test="bdTitle != null">bd_title=#{bdTitle},</if>
+<if test="bdContent != null">bd_content=#{bdContent},</if>
+bd_date=SYSTIMESTAMP 
+</set>
+WHERE bd_no=#{bdNo}
+</update>
+
 <delete id="delete" parameterType="board">
 DELETE FROM board WHERE bd_no=#{bdNo} AND employee_id=#{writer.employeeId}
+</delete>
+<delete id="deleteAdmin" parameterType="board">
+DELETE FROM board WHERE bd_no=#{bdNo}
 </delete>
 </mapper>

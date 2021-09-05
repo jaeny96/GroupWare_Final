@@ -1,13 +1,27 @@
 package com.group.board.control;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +29,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.group.board.dto.Board;
 import com.group.board.service.BoardService;
@@ -31,6 +47,9 @@ public class BoardController {
 	private BoardService service;
 	@Autowired
 	private PageBeanService beanservice;
+	@Autowired
+	private ServletContext servletContext;
+	
 	/**
 	 * 현재페이지에 해당하는 게시글 불러옴
 	 * @param currentPage
@@ -138,12 +157,87 @@ public class BoardController {
 
 	/**
 	 * 파일업로드
-	 * 진행중...
+	 * 
 	 */
-//	@PostMapping("/fileuploadinbd")
-//	public Object getFileuploadinbd() {
+	@PostMapping("/fileuploadinbd")
+	public Map<String, Object> getFileUploadinbd(@RequestPart MultipartFile fileUploadBoard, HttpSession session) {
+		Map<String, Object> result = new HashMap<>();
+	
+		
+		String uploadPath = "C:\\Users\\msyj1\\Desktop\\upload";
+				//servletContext.getRealPath("fileupload");
+		System.out.println("업로드 실제경로"+uploadPath);
+		//경로가 없으면 경로 생성
+		if(!new File(uploadPath).exists()) {
+			log.info("업로드실제경로생성"+uploadPath);
+			new File(uploadPath).mkdirs();
+		}
+	
+				if(fileUploadBoard != null) {
+					String UploadfileName = fileUploadBoard.getOriginalFilename();
+					System.out.println("파일크기:"+fileUploadBoard.getSize()+", 파일이름:"+fileUploadBoard.getOriginalFilename());
+				
+					String fileName = session.getAttribute("id").toString()+"_"+ UploadfileName;
+					System.out.println(fileName);
+					File file = new File(uploadPath, fileName);
+					try {
+						FileCopyUtils.copy(fileUploadBoard.getBytes(), file);
+						result.put("status", 1);
+						result.put("msg","파일업로드까지 성공!");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
+				return result;
+		}
+	/**
+	 * 파일다운로드
+	 * 
+	 */
+	@GetMapping("/download")
+//	public ResponseEntity<Resource>  down(String name) throws UnsupportedEncodingException, FileNotFoundException{
+//		//HttpHeaders : 요청/응답헤더용 API
+//		HttpHeaders headers = new HttpHeaders();		
+//		//응답형식 : application/octet-stream(무조건다운로드)
+//		headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream;charset=UTF-8");
+//		//다운로드시 파일이름 결정
+//		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + URLEncoder.encode(name, "UTF-8"));
 //		
-//	}
+//		//Resource : 자원(파일, URL)용 API
+//		FileInputStream fis = null;
+//		//다운로드할 파일의 실제 경로 얻기
+//		String path = servletContext.getRealPath("upload");				
+//		File f = new File(path, name);		
+//		System.out.println(f);
+//		Resource resource = new FileSystemResource(f);
+//		ResponseEntity<Resource> responseEntity  =  
+//				new ResponseEntity<>(resource, headers, HttpStatus.OK);
+//		return responseEntity;
+	public void download(HttpServletResponse response, String name) {
+        try {
+        	String path = "C:\\Users\\msyj1\\Desktop\\upload";
+        			//servletContext.getRealPath("fileupload"); // 경로에 접근할 때 역슬래시('\') 사용
+        	
+        	File file = new File(path);
+        	response.setHeader("Content-Disposition", "attachment;filename=" + name); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+        	
+        	FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기 
+        	OutputStream out = response.getOutputStream();
+        	
+        	int read = 0;
+                byte[] buffer = new byte[1024];
+                while ((read = fileInputStream.read(buffer)) != -1) { // 1024바이트씩 계속 읽으면서 outputStream에 저장, -1이 나오면 더이상 읽을 파일이 없음
+                    out.write(buffer, 0, read);
+                }
+             
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+    }
+	
+	
+	
+	
 	/**
 	 * 게시글 수정
 	 * @param 
@@ -175,18 +269,35 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/{bdNo}")
-	public Object getBddetail(@PathVariable String bdNo) {
+	public Map<String, Object> getBddetail(@PathVariable String bdNo) {
 		Map<String, Object> result = new HashMap<>();
+		String uploadPath = servletContext.getRealPath("fileupload");
+		String path = "C:\\Users\\msyj1\\Desktop\\upload";
+		File f = new File(path);
+		
 		Board bd = new Board();
 		bd.setBdNo(bdNo);
 		try {
 			Board bdDetail = service.showBdDetail(bdNo);
-			return bdDetail;
+			//String thisBoardNo = bdDetail.getBdNo();
+			String thisBoardId = bdDetail.getWriter().getEmployeeId();
+			if(f.isDirectory()) {
+				File[] fList = f.listFiles();
+				for(File ff: fList) {
+					if(ff.getName().contains(thisBoardId)) {
+						String thisFileName = ff.getName();
+						System.out.println(thisFileName);
+						result.put("fileName", thisFileName);
+					}
+				}
+			}
+			result.put("board", bdDetail);
 		} catch (Exception e) {
 			result.put("status", -1);
 			e.printStackTrace();
-			return result;
+			
 		}
+		return result;
 	}
 
 	// 게시글삭제

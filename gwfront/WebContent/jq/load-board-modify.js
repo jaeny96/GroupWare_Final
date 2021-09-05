@@ -1,4 +1,8 @@
 $(function () {
+  //현재 로그인한 사원의 아이디 객체
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
   var $content = $("main.content");
   //기존의 게시글 제목값
   var originBdTitleInModi = localStorage.getItem("bdTitle");
@@ -32,11 +36,17 @@ $(function () {
   //게시글 수정 시 사용할 backurl
   //var backurlModiBdDetail = "/back/changeboarddetail";
   var backurlModiBdDetail = "http://localhost:8888/gwback/board/modifybd";
-
+  //관리자가 게시글 수정시 사용할 backurl
+  var adminbackurlModiBdDetail = "http://localhost:8888/gwback/admin/modifybd";
   //게시글 수정 form submit 이벤트 핸들러
+
+  var modifyUrl =
+    loginInfoIdObj.innerHTML == "admin"
+      ? adminbackurlModiBdDetail + "/" + bdTargetNoInModi
+      : backurlModiBdDetail + "/" + bdTargetNoInModi;
   function modifyBdSubmitHandler(e) {
     $.ajax({
-      url: backurlModiBdDetail + "/" + bdTargetNoInModi,
+      url: modifyUrl,
       method: "PUT",
       transformRequest: [null],
       transformResponse: [null],
@@ -59,7 +69,7 @@ $(function () {
         } else {
           alert("게시글이 변경되었습니다");
           //게시글 수정 후 재로딩
-          var href = "board-detail.html";
+          var href = "notice-detail.html";
           $content.load(href, function (responseTxt, statusTxt, xhr) {
             if (statusTxt == "error")
               alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -82,6 +92,7 @@ $(function () {
         );
       },
     });
+
     e.preventDefault();
   }
 

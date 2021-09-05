@@ -72,7 +72,10 @@ public class BoardService {
 	 *                         할지 고민중
 	 */
 	public void modifyBd(Board bd) throws ModifyException {
-		if (!"".equals(bd.getBdTitle()) && bd.getBdTitle() != null) {
+		if(bd.getWriter().getEmployeeId().equals("admin")&&!"".equals(bd.getBdTitle()) && bd.getBdTitle() != null) {
+			dao.updateAdmin(bd);
+		}
+		else if (!"".equals(bd.getBdTitle()) && bd.getBdTitle() != null) {
 			dao.update(bd);
 		} else {
 			System.out.println("게시글바꼈죵");
@@ -86,7 +89,12 @@ public class BoardService {
 	 *                         할지 고민중
 	 */
 	public void removeBd(Board bd) throws RemoveException {
+		System.out.println(bd.getWriter().getEmployeeId());
+		if(bd.getWriter().getEmployeeId().equals("admin")) {
+			dao.deleteAdmin(bd);
+		}else {
 		dao.delete(bd);
+		}
 	}
 
 }

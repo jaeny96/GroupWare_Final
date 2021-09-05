@@ -69,9 +69,15 @@ $(function () {
 
   //뒤로가기 버튼 클릭 시 게시판 메뉴 클릭 trigger 이벤트 발생
   function boardPageGoClickHandler() {
-    $(
-      "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
-    ).trigger("click");
+    if (currentLoginId == "admin") {
+      $(
+        "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
+      ).trigger("click");
+    } else {
+      $(
+        "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+      ).trigger("click");
+    }
   }
 
   //뒤로가기 버튼 클릭 시 발생 이벤트 등록
@@ -94,7 +100,11 @@ $(function () {
         "board-detail.html";
         alert("댓글이 삭제되었습니다!");
         //댓글 삭제 후 재로딩
-        var href = "board-detail.html";
+        if (currentLoginId == "admin") {
+          var href = "notice-detail.html";
+        } else {
+          var href = "board-detail.html";
+        }
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -179,13 +189,16 @@ $(function () {
     cmCardBodyObj.appendChild(cmBodyDiv);
 
     //댓글 작성자 아이디와 현재 로그인한 아이디가 다를경우
-    if (currentLoginId != cmWrtierId[i]) {
-      //댓글 삭제 버튼 숨기기
-      cmDeleteSmall.setAttribute("style", "display:none");
-    } else {
+    //관리자는 무조건 보이기
+    if (currentLoginId == "admin") {
       //댓글 삭제 버튼 보이기
       cmDeleteSmall.removeAttribute("style");
+    } else if (currentLoginId != cmWrtierId[i]) {
+      //댓글 삭제 버튼 숨기기
+      cmDeleteSmall.setAttribute("style", "display:none");
     }
+    //댓글 삭제 버튼 보이기
+    else cmDeleteSmall.removeAttribute("style");
 
     //댓글 삭제 버튼 클릭 시 이벤트 등록
     cmDeleteSmall.addEventListener("click", cmDeleteClickHandler);
@@ -203,12 +216,15 @@ $(function () {
     detailContentObj.innerHTML = bdDetailContent;
 
     //로그인한 사원의 아이디와 게시글 작성자 아이디가 다를 경우
-    if (loginInfoIdObj.innerHTML != bdDetailWriterId) {
+    //관리자는 무조건 수정삭제보이기
+    if (
+      loginInfoIdObj.innerHTML == "admin" ||
+      loginInfoIdObj.innerHTML == bdDetailWriterId
+    ) {
+      bdBtnGroupObj.removeAttribute("style");
+    } else if (loginInfoIdObj.innerHTML != bdDetailWriterId) {
       //수정,삭제 버튼 그룹 숨기기
       bdBtnGroupObj.setAttribute("style", "display:none");
-    } else {
-      //수정,삭제 버튼 그룹 보이기
-      bdBtnGroupObj.removeAttribute("style");
     }
 
     //댓글 작성란의 작성자 현재 로그인한 사원 이름으로 대입
@@ -225,20 +241,64 @@ $(function () {
   //게시글 내 댓글 등록 관련
   //var backurlAddCm = "/back/addboardcomment";
   var backurlAddCm = "http://localhost:8888/gwback/boardcomment/addbdcm";
+  //관리자 게시판 관련
+  var adminbackurlBdDetail = "http://localhost:8888/gwback/admin/";
+  var divContainer = document.querySelector(
+    "body > div > div > main > div > div > div > div.card-header > div.card-body"
+  );
+
+  var downloadurl = "http://localhost:8888/gwback/board/download";
+  var admindownloaurl = "http://localhost:8888/gwback/admin/download";
+  var downloadUrl = currentLoginEmp == "admin" ? admindownloaurl : downloadurl;
+
+  function createFile(fileName) {
+    var divObj = document.createElement("div");
+    var aObj = document.createElement("a");
+
+    aObj.innerHTML = fileName.split("_")[1];
+    aObj.setAttribute("href", "#");
+
+    aObj.addEventListener("click", function () {
+      $.ajax({
+        url: downloadUrl,
+        method: "get",
+        data: { name: fileName },
+        success: function (responseObj) {
+          alert("다운로드 성공");
+        },
+      });
+    });
+    divObj.appendChild(aObj);
+    divContainer.appendChild(divObj);
+  }
+
+  var detailloadUrl =
+    currentLoginId == "admin"
+      ? adminbackurlBdDetail + "/" + bdDetailBdNo
+      : backurlBdDetail + "/" + bdDetailBdNo;
 
   //게시글 상세 내용 get
+  //관리자인 경우와 일반 사용자의 경우
+  // if (currentLoginEmp == "admin") {
   $.ajax({
-    url: backurlBdDetail + "/" + bdDetailBdNo,
+    url: detailloadUrl,
     method: "get",
     success: function (responseData) {
-      bdDetailBdNo = responseData.bdNo;
-      bdDetailTitle = responseData.bdTitle;
-      bdDetailWriter = responseData.writer.name;
-      bdDetailWriterId = responseData.writer.employeeId;
-      bdDetailDate = responseData.bdDate;
-      bdDetailContent = responseData.bdContent;
+      console.log(responseData.board);
+      var board = responseData.board;
+      bdDetailBdNo = board.bdNo;
+      bdDetailTitle = board.bdTitle;
+      bdDetailWriter = board.writer.name;
+      bdDetailWriterId = board.writer.employeeId;
+      bdDetailDate = board.bdDate;
+      bdDetailContent = board.bdContent;
+
       //게시글 내용 대입하는 함수 호출
       insertBdDatailElement();
+      console.log(responseData.fileName);
+      if (responseData.fileName != null) {
+        createFile(responseData.fileName);
+      }
     },
   });
 
@@ -273,6 +333,11 @@ $(function () {
     datajsObj.cmContent = cmTextAreaObj.value; //js객체의 프로퍼티 이름= 값대입
     datajsObj.cmWriter = {};
     datajsObj.cmWriter.employeeId = currentLoginId;
+    if (currentLoginId == "admin") {
+      datajsObj.bdAdmin = 0;
+    } else {
+      datajsObj.bdAdmin = 1;
+    }
 
     var data = JSON.stringify(datajsObj); //js객체를 json문자열로 변환
     $.ajax({
@@ -290,7 +355,11 @@ $(function () {
       success: function (responseData) {
         alert("댓글이 추가되었습니다!");
         //게시글 상세 페이지 재로딩
-        var href = "board-detail.html";
+        if (currentLoginId == "admin") {
+          var href = "notice-detail.html";
+        } else {
+          var href = "board-detail.html";
+        }
         $content.load(href, function (responseTxt, statusTxt, xhr) {
           if (statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -328,8 +397,25 @@ $(function () {
     //현재 제목, 내용 로컬스토리지에 저장 - 수정 페이지에서 해당 내용 보여주기 위함
     localStorage.setItem("bdTitle", bdDetailTitle);
     localStorage.setItem("bdContent", bdDetailContent);
-
+    // if (loginInfoIdObj.innerHTML == "admin") {
     var href = $(this).attr("href");
+    switch (href) {
+      case "notice-modify.html":
+        //summernote api 등록
+        $content.load(href, function (responseTxt, statusTxt, xhr) {
+          $("#summernote").summernote({
+            height: 600, // 에디터 높이
+            minHeight: null, // 최소 높이
+            maxHeight: null, // 최대 높이
+            focus: true, // 에디터 로딩후 포커스를 맞출지 여부
+            lang: "ko-KR", // 한글 설정
+            placeholder: "최대 2048자까지 쓸 수 있습니다", //placeholder 설정
+          });
+          if (statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+        break;
+    }
     switch (href) {
       case "board-modify.html":
         //summernote api 등록
@@ -346,18 +432,36 @@ $(function () {
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
         break;
-    }
-    return false;
+    } // } else {
   });
 
   //게시글 제거 시 사용할 backurl
   //var backurlRemoveBd = "/back/removeboard";
   var backurlRemoveBd = "http://localhost:8888/gwback/board/removebd";
+  var adminbackurlRemoveBd = "http://localhost:8888/gwback/admin/removebd";
 
   //게시글 삭제 버튼 클릭 시 이벤트 발생
+  var deleteUrl =
+    currentLoginId == "admin"
+      ? adminbackurlRemoveBd + "/" + bdDetailBdNo
+      : backurlRemoveBd + "/" + bdDetailBdNo;
+
+  function deletetrigger() {
+    if (currentLoginId == "admin") {
+      $(
+        "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(1) > a"
+      ).trigger("click");
+    } else {
+      $(
+        "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
+      ).trigger("click");
+    }
+  }
+
   $deleteBtnObj.click(function (e) {
+    // if (currentLoginId == "admin") {
     $.ajax({
-      url: backurlRemoveBd + "/" + bdDetailBdNo,
+      url: deleteUrl,
       method: "delete",
       transformRequest: [null],
       transformResponse: [null],
@@ -371,11 +475,10 @@ $(function () {
       // }),
       success: function (responseData) {
         alert("게시글이 삭제되었습니다!");
-        $(
-          "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(4) > a"
-        ).trigger("click");
+        deletetrigger();
       },
     });
+
     e.preventDefault();
   });
 });

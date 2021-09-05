@@ -66,5 +66,16 @@ public class BoardCommentDAOOracle implements BoardCommentDAO {
 			throw new RemoveException(e.getMessage());
 		}
 	}
+	@Override
+	@Transactional(rollbackFor = RemoveException.class)
+	public void deleteAdmin(BoardComment cm) throws RemoveException {
+		SqlSession session = null;
+		try {
+			session = sqlSessionFactory.openSession();
+			session.update("com.group.board.dto.BoardCommentMapper.deleteAdmin", cm);
+		} catch (Exception e) {
+			throw new RemoveException(e.getMessage());
+		}
+	}
 
 }

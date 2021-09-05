@@ -129,27 +129,21 @@
           </li>
           <ul class="sidebar-nav">
             <li class="sidebar-item mb-2">
-              <a class="sidebar-link" href="notice-manage.html">
+              <a class="sidebar-link" href="notice.html" id="noticeAlink">
                 <i class="align-middle text-white" data-feather="list"></i>
                 <span class="align-middle">공지사항</span>
               </a>
             </li>
             <li class="sidebar-item mb-2">
-              <a class="sidebar-link" href="emp-manage.html">
+              <a class="sidebar-link" id="employeeAlink" href="employee.html">
                 <i class="align-middle text-white" data-feather="user"></i>
                 <span class="align-middle">임직원 관리</span>
               </a>
             </li>
             <li class="sidebar-item mb-2">
-              <a class="sidebar-link" href="dep-manage.html">
+              <a class="sidebar-link" id="jobAlink" href="job-manage.html">
                 <i class="align-middle text-white" data-feather="briefcase"></i>
                 <span class="align-middle">직무 관리</span>
-              </a>
-            </li>
-            <li class="sidebar-item mb-2">
-              <a class="sidebar-link" href="leave-manage.html">
-                <i class="align-middle text-white" data-feather="coffee"></i>
-                <span class="align-middle">휴가 관리</span>
               </a>
             </li>
           </ul>
@@ -213,6 +207,43 @@
                   </div>
                 </div>
               </div>
+              <div class="col-12 col-md-6 d-flex order-2 order-xxl-3">
+                <div class="card flex-fill w-100">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0 float-left">오피스 정보</h5>
+                    <div class="mb-2 float-right">
+                      <a href="schedule.html">
+                        <i class="fas fa-plus align-middle mr-2"></i
+                      ></a>
+                    </div>
+                  </div>
+                  <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                      <table class="table mb-0">
+                        <tbody class="mainSkdTbody">
+                          <div>
+                            <h3>이름</h3>
+                            <p class="font-size-30">앙큼개발자</p>
+                          </div>
+                          <hr />
+                          <div>
+                            <h3>주소</h3>
+                            <p class="font-size-30" id="office_domain">
+                              http://localhost:8888/gwfront/
+                            </p>
+                          </div>
+                          <hr />
+                          <div>
+                            <h3>사용자</h3>
+                            <p class="font-size-30">50</p>
+                          </div>
+                          <hr />
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </main>
@@ -251,6 +282,7 @@
     </div>
 
     <script src="../js/app.js"></script>
+    <!-- <script src="../jq/load.js"></script> -->
     <script src="../jq/load-admin.js"></script>
     <script src="../js/main.js"></script>
   </body>

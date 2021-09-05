@@ -15,11 +15,25 @@ public class Board {
 	private String bdContent;
 	@JsonFormat(pattern = "yy/MM/dd", timezone = "Asia/Seoul")
 	private Timestamp bdDate;
-
+	private int bdAdmin;
+	
 	// 게시판은 여러개의 댓글을 가질 수 있다
 	public List<BoardComment> bdComments;
 
 	public Board() {
+	}
+
+	public Board(int bdAdmin) {
+		super();
+		this.bdAdmin = bdAdmin;
+	}
+
+	public int getBdAdmin() {
+		return bdAdmin;
+	}
+
+	public void setBdAdmin(int bdAdmin) {
+		this.bdAdmin = bdAdmin;
 	}
 
 	public Board(String bdNo, Employee writer) {
@@ -92,7 +106,7 @@ public class Board {
 	@Override
 	public String toString() {
 		return "Board [bdNo=" + bdNo + ", writer=" + writer + ", bdTitle=" + bdTitle + ", bdContent=" + bdContent
-				+ ", bdDate=" + bdDate + ", bdComments=" + bdComments + "]";
+				+ ", bdDate=" + bdDate + ", bdAdmin=" + bdAdmin + ", bdComments=" + bdComments + "]";
 	}
 
 }

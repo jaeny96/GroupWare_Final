@@ -1,0 +1,178 @@
+<style>
+  /**가로로 배치하기 위한 속성*/
+  .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal_overlay {
+    background-color: rgba(0, 0, 0, 0.18);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  ul {
+    list-style: none;
+    padding: 20px 10px;
+  }
+
+  ul li {
+    height: 40px;
+  }
+
+  form li > span {
+    float: left;
+    width: 100px;
+  }
+
+  form li > div {
+    float: left;
+    width: 300px;
+  }
+
+  #content_box {
+    width: 300px;
+  }
+
+  .savediv {
+    clear: both;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttonplace {
+    float: left;
+  }
+</style>
+<div class="flex-container">
+  <h1>직무 관리</h1>
+
+  <input type="text" id="addValue" />
+  <input
+    class="btn-dark"
+    type="button"
+    value="직무 추가"
+    id="jobAddBtn"
+    onclick="addList()"
+  />
+</div>
+<hr />
+<div
+  id="jobListObj"
+  style="border: 1px solid; width: 100%; height: 500px"
+></div>
+
+<br />
+<button
+  class="btn-dark fa-1x"
+  style="width: 70px; height: 37px"
+  type="button"
+  id="saveJob"
+>
+  저장
+</button>
+<span class="text-danger fa-1x"
+  >※ 저장버튼을 누르지 않을시, 수정사항이 반영되지 않습니다.</span
+>
+
+<!--사원 없을때 모달창 -->
+<div class="modal hidden" id="zero_person_modal">
+  <div class="zero_modal_overlay"></div>
+  <div class="zero_modal_content" style="height: 300px">
+    <div class="card">
+      <div class="card-header">
+        <button
+          type="button"
+          class="xBox"
+          style="
+            float: right;
+            border-style: 1px solid #6c757d;
+            border-radius: 7px;
+            background-color: #6c757d;
+            color: white;
+            cursor: pointer;
+          "
+        >
+          X
+        </button>
+        <h4>직무 삭제</h4>
+      </div>
+      <div style="text-align: center; margin: 30px">
+        <h5>
+          <div class="jobName"></div>
+          <br />
+          직무를 정말로 삭제하시겠습니까?
+        </h5>
+      </div>
+
+      <!-- 취소 / 삭제  -->
+      <div class="mb-3 row">
+        <div style="text-align: center; margin: 10px 0">
+          <button type="button" class="btn btn-secondary">취소</button>
+          <button type="button" class="btn btn-dark deleteBtn">삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--사원있을때 모달창-->
+<div class="modal hidden" id="more_person_modal">
+  <div class="more_modal_overlay"></div>
+
+  <div class="more_modal_content">
+    <div class="card">
+      <div class="card-header">
+        <button
+          class="xBox"
+          style="
+            float: right;
+            border-style: 1px solid #6c757d;
+            border-radius: 7px;
+            background-color: #6c757d;
+            color: white;
+            cursor: pointer;
+          "
+        >
+          X
+        </button>
+        <h4>직무 삭제</h4>
+      </div>
+      <div style="text-align: center; margin: 30px">
+        <div class="jobName"></div>
+        를 가지고 있는 사용자 목록
+        <hr />
+        <div id="selectJobObj"></div>
+
+        위와 같이 변경하고, 해당 직무를 삭제하십니까?
+      </div>
+
+      <!-- 취소 / 삭제  -->
+      <div class="mb-3 row">
+        <div style="text-align: center; margin: 10px 0">
+          <button type="button" class="btn btn-secondary">취소</button>
+
+          <button type="button" class="btn btn-dark deleteBtn">삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../jq/load-admin-job.js"></script>

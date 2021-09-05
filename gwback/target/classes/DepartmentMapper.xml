@@ -7,7 +7,6 @@
 <!-- <resultMap id="employeeMap" type="employee">
 	<result column="enabled" property="enabled"></result>
 </resultMap>
-
 <resultMap id="departmentMap" type="department">
 	<result column="departmentId" property="department_id"></result>
 	<result column="departmentTitle" property="department_title"></result>
@@ -17,9 +16,23 @@
 <select id="selectDep" resultType="department">
 SELECT d.department_id, d.department_title, count(*) "count"
 FROM employee e JOIN department d ON (e.department_id = d.department_id)
-WHERE enabled=1 
+WHERE enabled=1 and not d.department_id ='ADM'
 GROUP BY d.department_id, d.department_title
 ORDER BY DECODE(department_id,'CEO',1), d.department_title
 </select>
-
+<select id="selectJob" resultType="job">
+SELECT * FROM job where not job_id in ('Admin') order by job_title DESC
+</select>
+<select id="selectEmpName" parameterType="string" resultType="employee">
+select * from employee where job_id= #{jobId}
+</select>
+<delete id="deleteJobOne" parameterType="job">
+delete from job where job_id=#{jobId}
+</delete>
+<insert id="insertJobOne" parameterType="job">
+insert into job(job_id,job_title) values(#{jobId},#{jobTitle})
+</insert>
+<update id="updateJob" parameterType="java.util.HashMap">
+update employee set job_id=#{newJobId} where job_id=#{oldJobId} and employee_id=#{employeeId}
+</update>
 </mapper>  
