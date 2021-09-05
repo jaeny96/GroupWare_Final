@@ -54,6 +54,10 @@
 				phone_number=#{phoneNumber},
 			</if>
 			
+			<if test="enabled != null">
+				enabled=#{enabled},
+			</if>
+			
 			<if test="email != null and email!=''">
 				email=#{email},
 			</if>
@@ -62,9 +66,6 @@
 				hire_date=#{hireDate},
 			</if> -->
 			
-			<if test="enabled != null and enabled!='' ">
-				enabled=#{enabled}
-			</if>
 
 		</set>
 		WHERE employee_id=#{employeeId}
