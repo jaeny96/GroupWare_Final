@@ -103,6 +103,9 @@ jQuery(document).ready(function ($) {
         if (responseObj.status == 1) {
           alert("로그인에 성공하였습니다!");
           location.href = "./main.html";
+        } else if (responseObj.status == 0) {
+          alert("관리자 계정입니다. 관리자 페이지에서 로그인하세요.");
+          location.href = "./admin/";
         } else {
           //로그인 실패 시
           alert(responseObj.msg);

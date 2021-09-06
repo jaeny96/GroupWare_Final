@@ -62,7 +62,7 @@ public class AdminMainController {
 		Map<String, Integer> map = new HashMap<>();
 		int status;
 		String id = session.getAttribute("id").toString();
-		if (id == null) {
+		if (id == null || !"admin".equals(id)) {
 			status = 0;
 		} else {
 			status = 1;
