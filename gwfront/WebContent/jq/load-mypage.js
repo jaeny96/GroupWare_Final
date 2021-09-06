@@ -162,11 +162,17 @@ $(function () {
     },
   });
 
+  //프로필 설정
+  $("#profileImgPage").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+  //모달 속 프로필이미지 바꾸기
+  $("#profileImgModal").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+  $("#mainProfileImg").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+
   //프로필 사진 변경 submit 이벤트
   //#postProfile > div> button
   $("#postProfile").submit(function () {
     var url = "http://localhost:8888/gwback/mypage/updateProfile"; //updateProfile
-    alert("프로필 수정 -0: url=" + url);
+    //alert("프로필 수정 -0: url=" + url);
     let formData = new FormData($("#postProfile")[0]);
     console.log("-----------------");
     console.log(formData);
@@ -174,6 +180,11 @@ $(function () {
     formData.forEach(function (value, key) {
       console.log(key + ":" + value);
     });
+    $("#profileImgPage").removeAttr("src");
+    //모달 속 프로필이미지 바꾸기
+    $("#profileImgModal").removeAttr("src");
+    $("#mainProfileImg").removeAttr("src");
+
     console.log("-----------------");
     $.ajax({
       url: url, //mypage/updateProfile
@@ -185,23 +196,30 @@ $(function () {
       // dataType: "json",
       // contentType: "application/json; charset=utf-8",
       data: formData,
-       success: function () {
+      success: function () {
+        // $("#profileImgPage").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+        // //모달 속 프로필이미지 바꾸기
+        // $("#profileImgModal").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+        // $("#mainProfileImg").attr("src", "/gwfront/img/avatars/CEO001.jpg");
         // alert("ajax 요청 성공");
-        $('#profileImgPage').attr('src',"img/avatars/MSD002.jpg");
-        //모달 속 프로필이미지 바꾸기
-        $('#profileImgModal').attr('src',"img/avatars/MSD002.jpg");
-        $('#mainProfileImg').attr('src',"img/avatars/MSD002.jpg");
-        alert('재로딩');
-         //재로딩
-        //  $(
-        //   "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(2) > a"
-        // ).trigger("click");
-        //페이지 프로필 바꾸기 
- 
-      }
-  
-      ,
-      
+        alert("프로필 이미지를 변경합니다.");
+
+        //재로딩
+        // location.reload();
+        setTimeout(function () {
+          alert("프로필 이미지가 변경되었습니다.");
+          $(
+            "#sidebar > div > div.simplebar-wrapper > div.simplebar-mask > div > div > div > ul > li:nth-child(2) > a"
+          ).trigger("click");
+        }, 3000);
+        // $("#profileImgPage").attr("src", "img/avatars/MSD002.jpg");
+        // //모달 속 프로필이미지 바꾸기
+        // $("#profileImgModal").attr("src", "img/avatars/MSD002.jpg");
+        // $("#mainProfileImg").attr("src", "img/avatars/MSD002.jpg");
+
+        //페이지 프로필 바꾸기
+      },
+
       error: function (request, status, error) {
         alert(
           "code:" +
@@ -213,7 +231,7 @@ $(function () {
             "error:" +
             error
         );
-      }
+      },
     });
     return false; //이걸왜?
   });

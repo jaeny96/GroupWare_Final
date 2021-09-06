@@ -2,7 +2,6 @@ $(function () {
   var $mainProfileImg = $("img#mainProfileImg");
   // console.log($mainProfileImg);
 
-  $mainProfileImg.attr("src", "img/avatars/avatar-2.jpg");
   //메뉴 이동 시 변경 될 부분
   var $content = $("div.wrapper>div.main>main.content");
   // 로그인 여부 확인
@@ -129,6 +128,7 @@ $(function () {
 
         //프로필 정보를 채우는 역할의 함수
         function insertProfileInfo() {
+          $mainProfileImg.attr("src", "img/avatars/" + mainLoginId + ".jpg");
           mainLoginIdObj.innerHTML = mainLoginId;
           mainLoginNameObj.innerHTML = mainLoginName;
         }

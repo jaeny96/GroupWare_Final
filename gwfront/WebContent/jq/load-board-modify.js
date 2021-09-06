@@ -34,7 +34,6 @@ $(function () {
   contentObjInModi.innerHTML = originBdContentInModi;
 
   //게시글 수정 시 사용할 backurl
-  //var backurlModiBdDetail = "/back/changeboarddetail";
   var backurlModiBdDetail = "http://localhost:8888/gwback/board/modifybd";
   //관리자가 게시글 수정시 사용할 backurl
   var adminbackurlModiBdDetail = "http://localhost:8888/gwback/admin/modifybd";
