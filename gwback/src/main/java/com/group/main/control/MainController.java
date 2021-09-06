@@ -38,23 +38,25 @@ public class MainController {
 		Map<String, Object> map = new HashMap<>();
 
 		session.removeAttribute("loginInfo");
-		try {
-			Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
-			session.setAttribute("id", loginInfo.getEmployeeId());
-			session.setAttribute("pwd", loginInfo.getPassword());
-			session.setAttribute("dept", loginInfo.getDepartment().getDepartmentId());
-//			System.out.println(loginInfo.getEmployeeId());
-//			System.out.println(loginInfo.getPassword());
-//			System.out.println(loginInfo.getDepartment());
-
-			map.put("status", 1);
+		if("admin".equals(emp.getEmployeeId())) {
+			map.put("status", 0);
 			return map;
-
-		} catch (FindException e) {
-			e.printStackTrace();
-			map.put("status", -1);
-			map.put("msg", e.getMessage());
-			return map;
+		}else {
+			try {
+				Employee loginInfo = service.login(emp.getEmployeeId(), emp.getPassword());
+				session.setAttribute("id", loginInfo.getEmployeeId());
+				session.setAttribute("pwd", loginInfo.getPassword());
+				session.setAttribute("dept", loginInfo.getDepartment().getDepartmentId());
+				
+				map.put("status", 1);
+				return map;
+				
+			} catch (FindException e) {
+				e.printStackTrace();
+				map.put("status", -1);
+				map.put("msg", e.getMessage());
+				return map;
+			}			
 		}
 	}
 
@@ -63,7 +65,7 @@ public class MainController {
 		Map<String, Integer> map = new HashMap<>();
 		int status;
 		String id = session.getAttribute("id").toString();
-		if (id == null) {
+		if (id == null || "admin".equals(id))  {
 			status = 0;
 		} else {
 			status = 1;

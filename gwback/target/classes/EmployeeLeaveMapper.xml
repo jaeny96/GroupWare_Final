@@ -35,6 +35,11 @@ JOIN job j ON e.job_id = j.job_id
 JOIN leave l ON l.employee_id = e.employee_id
 WHERE e.employee_id=#{employeeId}
 </select>
+<!-- 직원 추가 시 휴가 추가   -->
+	<insert id="addLeave">
+	insert into leave(employee_id, grant_days, remain_days, grant_year)
+	values(#{employeeId}, 15, 15, TO_DATE(sysdate,'yy/MM/dd'))
+	</insert>
 
 <update id="update" parameterType="employee">
       UPDATE employee

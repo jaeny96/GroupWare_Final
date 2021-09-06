@@ -215,6 +215,10 @@ $(function () {
           }
           return false;
         });
+      } else {
+        console.log(responseData.status);
+        alert("접근할 수 없는 세션 정보입니다.");
+        location.href = "http://localhost:8888/gwfront/admin";
       }
     },
     error: function (request, status, error) {

@@ -127,7 +127,7 @@ $(function () {
     //프로필 이미지 넣을 img 태그 생성
     var profileImg = document.createElement("img");
     //임시 프로필 이미지 등록
-    profileImg.setAttribute("src", "img/avatars/" + cmWrtierId[i]);
+    profileImg.setAttribute("src", "img/avatars/" + cmWrtierId[i] + ".jpg");
     //프로필 크기 설정
     profileImg.setAttribute("width", "36");
     profileImg.setAttribute("height", "36");
@@ -247,8 +247,8 @@ $(function () {
     "body > div > div > main > div > div > div > div.card-header > div.card-body"
   );
 
-  var downloadurl = "http://localhost:8888/gwback/board/download";
-  var admindownloaurl = "http://localhost:8888/gwback/admin/download";
+  var downloadurl = "http://localhost:8888/gwback/board/download/";
+  var admindownloaurl = "http://localhost:8888/gwback/admin/download/";
   var downloadUrl = currentLoginEmp == "admin" ? admindownloaurl : downloadurl;
 
   function createFile(fileName) {
@@ -256,18 +256,7 @@ $(function () {
     var aObj = document.createElement("a");
 
     aObj.innerHTML = fileName.split("_")[1];
-    aObj.setAttribute("href", "#");
-
-    aObj.addEventListener("click", function () {
-      $.ajax({
-        url: downloadUrl,
-        method: "get",
-        data: { name: fileName },
-        success: function (responseObj) {
-          alert("다운로드 성공");
-        },
-      });
-    });
+    aObj.setAttribute("href", downloadUrl + fileName);
     divObj.appendChild(aObj);
     divContainer.appendChild(divObj);
   }

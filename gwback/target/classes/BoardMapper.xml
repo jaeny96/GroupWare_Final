@@ -54,7 +54,10 @@ WHERE b.bd_no = #{bdNo}
 <insert id="insert" parameterType="board">
 INSERT INTO board(bd_no, employee_id, bd_title, bd_content, bd_admin)
 VALUES('BD'||BD_SEQ.NEXTVAL,#{writer.employeeId}, #{bdTitle}, #{bdContent}, #{bdAdmin})
+<selectKey keyProperty="bdNo" resultType="java.lang.String" order="AFTER">SELECT 'BD'||BD_SEQ.CURRVAL FROM DUAL</selectKey>
 </insert>
+
+
 <update id="update" parameterType="board">
 UPDATE board
 <set>
