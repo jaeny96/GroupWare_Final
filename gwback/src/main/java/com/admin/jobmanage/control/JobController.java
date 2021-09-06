@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.admin.jobmanage.service.JobService;
-import com.google.gson.JsonArray;
-import com.group.approval.dto.Agreement;
-import com.group.approval.dto.Approval;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
 import com.group.exception.AddException;
 import com.group.exception.FindException;
-import com.group.exception.UpdateException;
 
 @RestController
 @RequestMapping("/admin/*")
@@ -70,10 +63,8 @@ public class JobController {
 		List<Employee> job= new ArrayList<Employee>();
 		try {
 			 job = service.findJobEmp(optjobId.get());
-			 System.out.println(job);
 		} catch (FindException e) {
 			e.printStackTrace();
-			//return map;
 		}
 		return job;
 	}
@@ -84,35 +75,38 @@ public class JobController {
 	 * @throws AddException
 	 * @param List<Job>
 	 */
-	@PutMapping("/job/save")
-	public Object saveProcess(@RequestBody List<Job> jobList) {
+	@PutMapping(value={"/job/save","/job/save/{oldJobId}"})
+	public Map<String, Object> saveProcess(@RequestBody Map<String, Object>requestMap,
+			@PathVariable (name="oldJobId") Optional<String> oldJobId) {
 		Map<String, Object> map = new HashMap<>();
+		
+		List<Map<String, String>> jobList = (List)requestMap.get("jobList");
+		List<Map<String, String>> employeeList = (List)requestMap.get("employeeList");
+	
 		try {
-		service.saveBtn(jobList);
+
+			if(employeeList.size()==0) {//변경값 존재안할시 
+//				System.out.println("변경값 존재x");
+//				System.out.println("jobList ; "+requestMap.get("jobList"));
+				service.saveBtn(jobList);
+
+			}else {//변경값 존재 
+//				System.out.println("jobList ; "+requestMap.get("jobList"));
+//				System.out.println("employeeList ;" +requestMap.get("employeeList"));
+//				System.out.println("oldJobId ;" + oldJobId);
+				service.changeJobEmp(oldJobId.get(), jobList,employeeList);
+			}
+
+	
 		map.put("status",0);
+		return map;
 		}catch (Exception e) {
 			map.put("status", -1);
 			map.put("msg", e.getMessage());
 			e.printStackTrace();
 			return map;
 		}
-		return map;
+		
 	}
 
-
-	@PutMapping("/job/changeJob/{oldJobId}")
-	@ResponseBody
-	public Object changeJob(@PathVariable String oldJobId,@RequestBody List<Employee> employees) {
-		Map<String, Object> map = new HashMap<>();
-		try {
-		service.changeJobEmp(oldJobId,employees);
-		map.put("status",0);
-		}catch (Exception e) {
-			map.put("status", -1);
-			map.put("msg", e.getMessage());
-			e.printStackTrace();
-			return map;
-		}
-		return map;
-	}
 }

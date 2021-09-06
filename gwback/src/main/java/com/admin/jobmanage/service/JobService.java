@@ -1,14 +1,18 @@
 package com.admin.jobmanage.service;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.admin.jobmanage.control.JobController;
 import com.admin.jobmanage.dao.JobDAO;
 import com.group.employee.dto.Employee;
 import com.group.employee.dto.Job;
@@ -20,7 +24,7 @@ import com.group.exception.RemoveException;
 public class JobService {
 	@Autowired
 	private JobDAO dao;
-	
+	private Logger log = Logger.getLogger(JobService.class);
 	/**
 	 * 직무 목록을 조회한다. 
 	 * @return 직무목록
@@ -35,7 +39,8 @@ public class JobService {
 	 * @throws AddException
 	 * @param List<Job>
 	 */
-	public void saveBtn(List<Job> jobList) throws RemoveException, AddException{
+
+	public void saveBtn(List<Map<String, String>> jobList) throws RemoveException, AddException{
 		dao.selectAndDeleteAndInsert(jobList);
 	}
 	/**(x버튼 관련)
@@ -52,9 +57,11 @@ public class JobService {
 	 * @param oldJobId 변경전 직무,newJobId 변경후 직무,name 변경할 사원 
 	 * @exception RemoveException
 	 */
-	public void changeJobEmp (String oldJobId,List<Employee> employees) throws ModifyException{
-		dao.updateJobEep(oldJobId,employees);
+	public void changeJobEmp (String oldJobId,List<Map<String,String>> jobList,
+			List<Map<String, String>> employeeList) throws ModifyException{
+		dao.selectAndDeleteAndInsert(oldJobId,jobList,employeeList);
 	}
+
 
 
 }

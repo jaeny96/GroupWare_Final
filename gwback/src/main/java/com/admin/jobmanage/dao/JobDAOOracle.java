@@ -47,7 +47,7 @@ public class JobDAOOracle implements JobDAO {
 			session.close();
 		}
 	}
-	/**(저장버튼 관련)
+	/**(저장버튼 관련) 변경값 x
 	 * 직무를 추가하기 전에 
 	 * 모든 직무를 검색후 모든 직무 삭제한다. 그 다음 새로운 직무들을 추가한다 
 	 * @throws AddException
@@ -55,13 +55,12 @@ public class JobDAOOracle implements JobDAO {
 	 */
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 	@Transactional(rollbackFor = com.group.exception.AddException.class)
-	public void selectAndDeleteAndInsert(List<Job>newJobs) throws AddException{
-
+	public void selectAndDeleteAndInsert(List<Map<String, String>>newJobs) throws AddException{
 		SqlSession session = null;
 		try {
 			session = sessionFactory.openSession();
 			List<Job>oldJobs = selectJobAll(session);
-			log.error("--oldjobs--" + oldJobs);
+			System.out.println("--oldjobs"+oldJobs);
 			int deletecnt = deleteJobAll(session, oldJobs);	
 			System.out.println("delete 처리건수 " + deletecnt);
 			
@@ -76,7 +75,37 @@ public class JobDAOOracle implements JobDAO {
 			}
 		}
 	}
-
+	/**(저장버튼 관련)변경값 o
+	 * 직무를 추가하기 전에 
+	 * 모든 직무를 검색후 모든 직무 삭제한다. 그 다음 새로운 직무들을 추가하고, 변경할 사원들을 변경한다. 
+	 * @throws AddException
+	 * @param List<Job>
+	 */
+	@Transactional(rollbackFor = {com.group.exception.AddException.class, com.group.exception.ModifyException.class})
+	public void selectAndDeleteAndInsert(String oldJobId,List<Map<String,String>> newJobs,
+			List<Map<String, String>> employeeList )throws ModifyException{
+		SqlSession session = null;
+		try {
+			session = sessionFactory.openSession();
+			List<Job>oldJobs = selectJobAll(session);
+			System.out.println("--oldjobs"+oldJobs);
+			int deletecnt = deleteJobAll(session, oldJobs);	
+			System.out.println("delete 처리건수 " + deletecnt);
+			
+			int insertcnt = insertJobAll(session, newJobs);
+			System.out.println("insert 처리건수 " + insertcnt);
+			
+			int updatecnt = updateJobAll(session, oldJobId,employeeList);
+			System.out.println("update 처리건수 " + insertcnt);
+		
+		}catch(Exception e) {
+			throw new ModifyException (e.getMessage());
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+		}
+	}
 	private List<Job> selectJobAll(SqlSession session) {
 		List<Job> jobList = session.selectList("com.group.employee.DepartmentMapper.selectJob");			
 		return jobList;
@@ -87,19 +116,24 @@ public class JobDAOOracle implements JobDAO {
 		for(Job j:oldJobs) {
 			try {
 			  int rowcnt = session.delete("com.group.employee.DepartmentMapper.deleteJobOne",j);
+				System.out.println("delete success jobid=" + j.getJobId());
 			  rowcntSum += rowcnt;
 			}catch(Exception e) { 
-				System.out.println("delete fail job id=" + j.getJobId());
+				System.out.println("delete fail jobid=" + j.getJobId());
 			}
 		}
 		return rowcntSum;
 	}
 		
-	private int insertJobAll(SqlSession session, List<Job>newJobs) throws AddException{
+
+	private int insertJobAll(SqlSession session, List<Map<String,String>>newJobs) throws AddException{
 		int rowcntSum = 0;
-		for(Job j: newJobs) {
+		for(Map<String,String>jmap: newJobs) {
+			System.out.println(jmap.get("jobId"));
+			Job j = new Job(jmap.get("jobId"), jmap.get("jobTitle"));//값셋팅 
 			try {
-				int rowcnt = session.insert("com.group.employee.DepartmentMapper.insertJobOne", j);
+				int rowcnt = session.insert("com.group.employee.DepartmentMapper.insertJobOne",  j );
+				System.out.println("insert success jobid=" + j.getJobId());
 				rowcntSum += rowcnt;
 			}catch(Exception e) {
 				System.out.println("insert fail jobid=" + j.getJobId());
@@ -108,6 +142,23 @@ public class JobDAOOracle implements JobDAO {
 		return rowcntSum;
 	}
 	
+	private int updateJobAll(SqlSession session,String oldJobId,List<Map<String, String>> employees) throws ModifyException{
+		int rowcntSum = 0;
+		for(Map<String,String> emap: employees) {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("oldJobId",oldJobId);
+			map.put("newJobId",emap.get("jobId"));
+			map.put("employeeId",emap.get("employeeId"));
+			try {
+				int rowcnt = session.update("com.group.employee.DepartmentMapper.updateJob",map);		
+				System.out.println("update success jobid=" +map.get("employeeId"));			
+				rowcntSum += rowcnt;
+			}catch(Exception e) {
+				System.out.println("update fail jobid=" +map.get("employeeId"));
+			}
+		}
+		return rowcntSum;
+	}
 
 	/**(x버튼 관련)
 	 * 해당 직무를 가지고 있는 사원들의 이름을 가지고온다. 
@@ -130,35 +181,6 @@ public class JobDAOOracle implements JobDAO {
 		}
 	}
 	
-	/**(x모달 관련)
-	 * 받아온 사원의 직무를 변경한다. 
-	 * @param oldJobId 변경전 직무,newJobId 변경후 직무,employeeId 변경할 사원아이디 
-	 * @exception RemoveException
-	 */
-	@Override
-	@Transactional(rollbackFor = com.group.exception.ModifyException.class)
-	public void updateJobEep(String oldJobId,List<Employee> employees) throws ModifyException {
-		SqlSession session = null;
-		try {
-			session = sessionFactory.openSession();
-			for(Employee e: employees) {
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("oldJobId",oldJobId);
-				map.put("newJobId",e.getJob().getJobId());
-				map.put("employeeId",e.getEmployeeId());
-				session.update("com.group.employee.DepartmentMapper.updateJob",map);
-				//System.out.println(map.get("oldJobId")+map.get("newJobId")+map.get("employeeId"));
-			}
-		} catch (Exception e) {
-			throw new ModifyException(e.getMessage());	
-		} finally {
-			if(session!=null)
-			session.close();
-		}
-		
-	}
-
-
 
 
 
