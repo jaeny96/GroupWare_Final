@@ -24,7 +24,9 @@ $(function () {
   var adminbackurlAddBoard = "http://localhost:8888/gwback/admin/addboard";
   //파일 업로드하기
   var backurlFileUpLoadInBd =
-    "http://localhost:8888/gwback/board/fileuploadinbd";
+    "http://localhost:8888/gwback/board/fileuploadinbd/";
+  var backurlFileUpLoadInBdAdmin =
+    "http://localhost:8888/gwback/admin/fileuploadinbd/";
 
   var addBoardUrl =
     loginInfoIdObj.innerHTML == "admin"
@@ -32,7 +34,7 @@ $(function () {
       : backurlAddBoard;
   var uploaldBoardUrl =
     loginInfoIdObj.innerHTML == "admin"
-      ? backurlFileUpLoadInBd
+      ? backurlFileUpLoadInBdAdmin
       : backurlFileUpLoadInBd;
 
   function registerTrigger() {
@@ -47,8 +49,9 @@ $(function () {
     }
   }
   $("#addBdForm > button").click(function () {
+    var bdNo; //추가된 게시글번호
     $.ajax({
-      url: adminbackurlAddBoard,
+      url: addBoardUrl,
       method: "post",
       transformRequest: [null],
       transformResponse: [null],
@@ -64,15 +67,42 @@ $(function () {
         bdContent: contentObjInAdd.innerText,
         bdAdmin: 0,
       }),
-      success: function () {
+      success: function (responseObj) {
         //제목이 작성되지 않았으면 등록 x
         if (titleObjInAdd.value == "" || titleObjInAdd.value == null) {
           alert("제목이 입력되지 않았습니다");
-        } else {
-          alert("게시글이 등록되었습니다");
-          //게시글 목록 페이지로 이동
-          registerTrigger();
+          // } else {
+          //   alert("게시글이 등록되었습니다");
+          //   //게시글 목록 페이지로 이동
+          //   registerTrigger();
         }
+        if (responseObj.status == 1) {
+          bdNo = responseObj.bdNo;
+        }
+        var formData = new FormData($("#addBdForm")[0]);
+        formData.append("bdNo", bdNo); //
+        formData.forEach(function (value, key) {
+          console.log(key + ":" + value);
+        });
+        $.ajax({
+          url: uploaldBoardUrl,
+          method: "post",
+          enctype: "multipart/form-data",
+          processData: false,
+          contentType: false,
+          data: formData, //요청전달데이터
+          success: function (responseObj) {
+            if (responseObj.status == -1) {
+            } else {
+              alert("게시글이 등록되었습니다");
+              //게시글 목록 페이지로 이동
+              registerTrigger();
+            }
+          },
+          error: function (jqXHR) {
+            alert("에러:" + jqXHR.status);
+          },
+        });
       },
       error: function (request, status, error) {
         alert(
@@ -87,23 +117,7 @@ $(function () {
         );
       },
     });
-    var formData = new FormData($("#addBdForm")[0]);
 
-    formData.forEach(function (value, key) {
-      console.log(key + ":" + value);
-    });
-    $.ajax({
-      url: uploaldBoardUrl,
-      method: "post",
-      enctype: "multipart/form-data",
-      processData: false,
-      contentType: false,
-      data: formData, //요청전달데이터
-      success: function (responseObj) {},
-      error: function (jqXHR) {
-        alert("에러:" + jqXHR.status);
-      },
-    });
     return false;
   });
 });

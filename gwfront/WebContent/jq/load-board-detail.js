@@ -247,8 +247,8 @@ $(function () {
     "body > div > div > main > div > div > div > div.card-header > div.card-body"
   );
 
-  var downloadurl = "http://localhost:8888/gwback/board/download";
-  var admindownloaurl = "http://localhost:8888/gwback/admin/download";
+  var downloadurl = "http://localhost:8888/gwback/board/download/";
+  var admindownloaurl = "http://localhost:8888/gwback/admin/download/";
   var downloadUrl = currentLoginEmp == "admin" ? admindownloaurl : downloadurl;
 
   function createFile(fileName) {
@@ -256,18 +256,7 @@ $(function () {
     var aObj = document.createElement("a");
 
     aObj.innerHTML = fileName.split("_")[1];
-    aObj.setAttribute("href", "#");
-
-    aObj.addEventListener("click", function () {
-      $.ajax({
-        url: downloadUrl,
-        method: "get",
-        data: { name: fileName },
-        success: function (responseObj) {
-          alert("다운로드 성공");
-        },
-      });
-    });
+    aObj.setAttribute("href", downloadUrl + fileName);
     divObj.appendChild(aObj);
     divContainer.appendChild(divObj);
   }

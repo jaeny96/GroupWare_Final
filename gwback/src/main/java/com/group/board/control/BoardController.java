@@ -141,12 +141,16 @@ public class BoardController {
 	public Object getAddboard(HttpSession session, @RequestBody Board bd) {
 		Map<String, Object> map = new HashMap<>();
 		String id = (String) session.getAttribute("id");
-//		String id = "MSD002";
+//		String id = "MSD003";
 		Employee emp = new Employee();
 		emp.setEmployeeId(id);
 		bd.setWriter(emp);
 		try {
 			service.addBd(bd);
+//			System.out.println("/addboard-bdNo:" + bd.getBdNo());
+			map.put("status", 1);
+			map.put("bdNo",  bd.getBdNo());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			map.put("status", -1);
@@ -160,12 +164,11 @@ public class BoardController {
 	 * 
 	 */
 	@PostMapping("/fileuploadinbd")
-	public Map<String, Object> getFileUploadinbd(@RequestPart MultipartFile fileUploadBoard, HttpSession session) {
+	public Map<String, Object> getFileUploadinbd(@RequestPart MultipartFile fileUploadBoard, HttpSession session, String bdNo) {
 		Map<String, Object> result = new HashMap<>();
 	
 		
-		String uploadPath = "C:\\Users\\msyj1\\Desktop\\upload";
-				//servletContext.getRealPath("fileupload");
+		String uploadPath = servletContext.getRealPath("fileupload");
 		System.out.println("업로드 실제경로"+uploadPath);
 		//경로가 없으면 경로 생성
 		if(!new File(uploadPath).exists()) {
@@ -177,15 +180,16 @@ public class BoardController {
 					String UploadfileName = fileUploadBoard.getOriginalFilename();
 					System.out.println("파일크기:"+fileUploadBoard.getSize()+", 파일이름:"+fileUploadBoard.getOriginalFilename());
 				
-					String fileName = session.getAttribute("id").toString()+"_"+ UploadfileName;
-					System.out.println(fileName);
+					String fileName = bdNo+"_"+ UploadfileName;
+					//System.out.println(fileName);
 					File file = new File(uploadPath, fileName);
 					try {
 						FileCopyUtils.copy(fileUploadBoard.getBytes(), file);
 						result.put("status", 1);
-						result.put("msg","파일업로드까지 성공!");
+						
 					} catch (IOException e) {
 						e.printStackTrace();
+						result.put("status", -1);
 					}
 			}
 				return result;
@@ -194,32 +198,13 @@ public class BoardController {
 	 * 파일다운로드
 	 * 
 	 */
-	@GetMapping("/download")
-//	public ResponseEntity<Resource>  down(String name) throws UnsupportedEncodingException, FileNotFoundException{
-//		//HttpHeaders : 요청/응답헤더용 API
-//		HttpHeaders headers = new HttpHeaders();		
-//		//응답형식 : application/octet-stream(무조건다운로드)
-//		headers.add(HttpHeaders.CONTENT_TYPE, "application/octet-stream;charset=UTF-8");
-//		//다운로드시 파일이름 결정
-//		headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + URLEncoder.encode(name, "UTF-8"));
-//		
-//		//Resource : 자원(파일, URL)용 API
-//		FileInputStream fis = null;
-//		//다운로드할 파일의 실제 경로 얻기
-//		String path = servletContext.getRealPath("upload");				
-//		File f = new File(path, name);		
-//		System.out.println(f);
-//		Resource resource = new FileSystemResource(f);
-//		ResponseEntity<Resource> responseEntity  =  
-//				new ResponseEntity<>(resource, headers, HttpStatus.OK);
-//		return responseEntity;
-	public void download(HttpServletResponse response, String name) {
+	@GetMapping("/download/{name:.+}")
+	public void download(HttpServletResponse response,@PathVariable String name ) {
         try {
-        	String path = "C:\\Users\\msyj1\\Desktop\\upload";
-        			//servletContext.getRealPath("fileupload"); // 경로에 접근할 때 역슬래시('\') 사용
+        	String path =servletContext.getRealPath("fileupload"+"/"+name);
         	
         	File file = new File(path);
-        	response.setHeader("Content-Disposition", "attachment;filename=" + name); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
+        	response.setHeader("Content-Disposition", "attachment;filename=" +name); // 다운로드 되거나 로컬에 저장되는 용도로 쓰이는지를 알려주는 헤더
         	
         	FileInputStream fileInputStream = new FileInputStream(path); // 파일 읽어오기 
         	OutputStream out = response.getOutputStream();
@@ -272,21 +257,20 @@ public class BoardController {
 	public Map<String, Object> getBddetail(@PathVariable String bdNo) {
 		Map<String, Object> result = new HashMap<>();
 		String uploadPath = servletContext.getRealPath("fileupload");
-		String path = "C:\\Users\\msyj1\\Desktop\\upload";
-		File f = new File(path);
-		
+		String path = "upload/";
+
+		File f = new File(uploadPath);
+		System.out.println(uploadPath);
 		Board bd = new Board();
 		bd.setBdNo(bdNo);
 		try {
 			Board bdDetail = service.showBdDetail(bdNo);
-			//String thisBoardNo = bdDetail.getBdNo();
-			String thisBoardId = bdDetail.getWriter().getEmployeeId();
 			if(f.isDirectory()) {
 				File[] fList = f.listFiles();
 				for(File ff: fList) {
-					if(ff.getName().contains(thisBoardId)) {
+					if(ff.getName().contains(bdNo+"_")) {
 						String thisFileName = ff.getName();
-						System.out.println(thisFileName);
+					//	System.out.println(thisFileName);
 						result.put("fileName", thisFileName);
 					}
 				}
