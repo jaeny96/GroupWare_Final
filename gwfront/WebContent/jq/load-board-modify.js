@@ -43,6 +43,10 @@ $(function () {
     loginInfoIdObj.innerHTML == "admin"
       ? adminbackurlModiBdDetail + "/" + bdTargetNoInModi
       : backurlModiBdDetail + "/" + bdTargetNoInModi;
+  var modifyReload =
+    loginInfoIdObj.innerHTML == "admin"
+      ? "notice-detail.html"
+      : "board-detail.html";
   function modifyBdSubmitHandler(e) {
     $.ajax({
       url: modifyUrl,
@@ -68,7 +72,8 @@ $(function () {
         } else {
           alert("게시글이 변경되었습니다");
           //게시글 수정 후 재로딩
-          var href = "notice-detail.html";
+          var href = modifyReload;
+          //"notice-detail.html";
           $content.load(href, function (responseTxt, statusTxt, xhr) {
             if (statusTxt == "error")
               alert("Error: " + xhr.status + ": " + xhr.statusText);
