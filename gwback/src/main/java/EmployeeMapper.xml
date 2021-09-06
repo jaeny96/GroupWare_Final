@@ -51,7 +51,7 @@ JOIN employee e ON d.department_id = e.department_id
 JOIN position p ON e.position_id = p.position_id 
 JOIN job j ON e.job_id=j.job_id
 WHERE name LIKE '%${word}%' AND enabled=1
-ORDER BY department_title, p.position_id, employee_id
+ORDER BY department_title, p.position_id, e.name
 </select>
 
 <select id="selectInfo" parameterType="string" resultMap="employeeMap">
