@@ -18,12 +18,12 @@
     <!-- 아이디를 넣고 login 버튼을 누르면 name이 저장된다. -->
     <p>
       닉네임 :
-      <input type="text" id="username" name="username" class="login-package" />
-      <button id="loginBtn" class="login-package btn btn-primary">Save</button>
+      <input type="text" id="username" name="username" class="loginPackage" />
+      <button id="loginBtn" class="loginPackage btn btn-primary">Save</button>
     </p>
     <!-- 채팅 내용이 적혀질 채팅 내용 박스 -->
-    <div class="position-relative">
-      <div class="chat-messages p-4">
+    <div class="positionRelative">
+      <div class="chatMessages p-4">
         <textarea
           class="form-control"
           rows="10"
@@ -34,18 +34,18 @@
     </div>
     <!-- 채팅시에 사용될 채팅 textbox과 버튼(초기는 disabled) -->
     <div class="flex-grow-0 py-3 px-4 border-top">
-      <div class="input-group">
+      <div class="inputGroup">
         <input
           id="textMessage"
           type="text"
           disabled="disabled"
-          class="chat-package form-control"
+          class="chatPackage formControl"
           placeholder="메세지 보내기"
         />
         <button
           id="sendBtn"
           disabled="disabled"
-          class="chat-package btn btn-primary"
+          class="chatPackage btn btn-primary"
         >
           Send
         </button>
@@ -53,89 +53,88 @@
     </div>
 
     <!-- Jquery 라이브러리 링크 -->
-    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script type="text/javascript">
       // Javascript 캡슐화
-      (function (_) {})(
-        (function () {
-          // WebSocket 변수
-          let webSocket = null;
-          // WebSocket 접속 함수
-          function connect() {
-            // 웹 소켓 객체 생성
-            webSocket = new WebSocket("ws://localhost:8888/gwback/chat");
-            // 웹 소켓이 open되면 실행되는 이벤트
-            webSocket.onopen = function (message) {
-              // 채팅 textbox와 버튼의 disabled 해제
-              $(".chat-package").attr("disabled", false);
-              // 접속 초기 데이터 작성
-              let key = {
-                id: $("#username").val(),
-                state: 0,
-                // state는 0
-              };
-              // 접속 메시지 보내기
-              webSocket.send(JSON.stringify(key));
-            };
-            webSocket.onclose = function (message) {};
-            webSocket.onerror = function (message) {};
-            // 서버로 부터 메시지가 오면 실행되는 이벤트
-            webSocket.onmessage = function (message) {
-              // console.log(message.data);
-              // alert(message.data);
-              // 채팅 내용 박스 객체 취득
-              let messageTextArea = document.getElementById("messageTextArea");
-              // 데이터 작성
-              messageTextArea.value += message.data;
-            };
-          }
-          // 메시지 보내기 함수
-          function sendMessage() {
-            // 텍스트 박스 객체 취득
-            let message = document.getElementById("textMessage");
-            // 메시지 전송 객체 만들기
+      //       (function (_) {})(
+      $(function () {
+        // WebSocket 변수
+        let webSocket = null;
+        // WebSocket 접속 함수
+        function connect() {
+          localStorage.setItem("chatVisited", 1);
+          webSocket = new WebSocket("ws://localhost:8888/gwback/chat");
+          // 웹 소켓 객체 생성
+          // 웹 소켓이 open되면 실행되는 이벤트
+          webSocket.onopen = function (message) {
+            // 채팅 textbox와 버튼의 disabled 해제
+            $(".chatPackage").attr("disabled", false);
+            // 접속 초기 데이터 작성
             let key = {
               id: $("#username").val(),
-              state: 1, // state는 1
-              value: message.value,
-              // 메시지 내용
+              state: 0,
+              // state는 0
             };
-            // 메시지 보내기
+            // 접속 메시지 보내기
             webSocket.send(JSON.stringify(key));
-            // 텍스트 박스 초기화
-            message.value = "";
+          };
+          // 서버로 부터 메시지가 오면 실행되는 이벤트
+          webSocket.onmessage = function (message) {
+            // 채팅 내용 박스 객체 취득
+            let messageTextArea = document.getElementById("messageTextArea");
+            // 데이터 작성
+            messageTextArea.value += message.data;
+          };
+        }
+        // 메시지 보내기 함수
+        function sendMessage() {
+          // 텍스트 박스 객체 취득
+          let message = document.getElementById("textMessage");
+          // 메시지 전송 객체 만들기
+          let key = {
+            id: $("#username").val(),
+            state: 1, // state는 1
+            value: message.value,
+            // 메시지 내용
+          };
+          console.log(message.value);
+          // 메시지 보내기
+          webSocket.send(JSON.stringify(key));
+          // 텍스트 박스 초기화
+          message.value = "";
+        }
+        // 로그인 버튼 이벤트
+        $("#loginBtn").on("click", function () {
+          // 아이디 텍스트 박스에 내용이 없으면
+          if ($.trim($("#username").val()) === "") {
+            // 에러 표시
+            $(".error-message").html("닉네임을 입력해 주세요");
+            // 함수 종료
+            return false;
           }
-          // 로그인 버튼 이벤트
-          $("#loginBtn").on("click", function () {
-            // 아이디 텍스트 박스에 내용이 없으면
-            if ($.trim($("#username").val()) === "") {
-              // 에러 표시
-              $(".error-message").html("Please input the name textbox.");
-              // 함수 종료
-              return false;
-            }
-            // 에러 메시지 삭제
-            $(".error-message").html("");
-            // 로그인 텍스트 박스와 버튼 disabled
-            $(".login-package").attr("disabled", "disabled");
-            // 접속
-            connect();
-          });
-          // 채팅 버튼 누르면 메시지 보내기
-          $("#sendBtn").on("click", sendMessage);
-          // 텍스트 박스에 키가 눌리면 enter함수 실행
-          $("#textMessage").on("keydown", enter);
-          // 텍스트 박스에서 엔터키가 오면 메시지 전송
-          function enter() {
-            if (event.keyCode === 13) {
-              sendMessage();
-              return false;
-            }
-            return true;
+          // 에러 메시지 삭제
+          $(".error-message").html("");
+          // 로그인 텍스트 박스와 버튼 disabled
+          $(".loginPackage").attr("disabled", "disabled");
+          // 접속
+          connect();
+        });
+        // 채팅 버튼 누르면 메시지 보내기
+        $("#sendBtn").on("click", sendMessage);
+        // 텍스트 박스에 키가 눌리면 enter함수 실행
+        $("#textMessage").on("keydown", enter);
+        // 텍스트 박스에서 엔터키가 오면 메시지 전송
+        function enter() {
+          if (event.keyCode === 13) {
+            sendMessage();
+            return false;
           }
-          return {};
-        })()
-      );
+          return true;
+        }
+        return {};
+      });
+      //         ()
+      //       );
     </script>
   </body>
 </html>

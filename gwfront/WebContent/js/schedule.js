@@ -212,7 +212,7 @@ $(function () {
                     );
                   },
                 });
-
+                return false;
                 //팀 일정일 경우
               } else if (teamOrPersonalOption == "t") {
                 var skdInsertObj = document.querySelector(

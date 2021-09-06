@@ -127,7 +127,10 @@ $(function () {
     //프로필 이미지 넣을 img 태그 생성
     var profileImg = document.createElement("img");
     //임시 프로필 이미지 등록
-    profileImg.setAttribute("src", "img/avatars/" + cmWrtierId[i] + ".jpg");
+    profileImg.setAttribute(
+      "src",
+      " http://localhost:8888/gwfront/img/avatars/" + cmWrtierId[i] + ".jpg"
+    );
     //프로필 크기 설정
     profileImg.setAttribute("width", "36");
     profileImg.setAttribute("height", "36");

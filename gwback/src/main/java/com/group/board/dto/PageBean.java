@@ -16,7 +16,7 @@ public class PageBean<T> {
 	/**
 	 * 페이지 그룹의 페이지 수
 	 */
-	public static final int CNT_PER_PAGE_GROUP = 4;
+	public static final int CNT_PER_PAGE_GROUP = 5;
 	private int startPage = 1;
 	private int endPage;
 
