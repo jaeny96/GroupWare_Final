@@ -1,7 +1,6 @@
 $(function () {
   var $mainProfileImg = $("img#mainProfileImg");
   // console.log($mainProfileImg);
-
   //메뉴 이동 시 변경 될 부분
   var $content = $("div.wrapper>div.main>main.content");
   // 로그인 여부 확인
@@ -141,9 +140,14 @@ $(function () {
           success: function (responseData) {
             mainLoginId = responseData.employeeId;
             mainLoginName = responseData.name;
-            
-  $mainProfileImg.attr("src", "img/avatars/"+responseData.employeeId+".jpg");
+
+            $mainProfileImg.attr(
+              "src",
+              "img/avatars/" + responseData.employeeId + ".jpg"
+            );
             //함수 호출
+
+            $mainProfileImg.attr("alt", responseData.employeeId);
             insertProfileInfo();
           },
         });
