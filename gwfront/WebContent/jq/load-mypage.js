@@ -1,4 +1,9 @@
 $(function () {
+
+  var loginInfoIdObj = document.querySelector(
+    "div.profileDropdown span.loginId"
+  );
+
   var cardBodyObj = document.querySelector("div.cardBody");
   //사원의 이름 객체
   var nameObj = document.querySelector("div#name");
@@ -163,10 +168,10 @@ $(function () {
   });
 
   //프로필 설정
-  $("#profileImgPage").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+  $("#profileImgPage").attr("src", "/gwfront/img/avatars/"+loginInfoIdObj.innerHTML +".jpg");
   //모달 속 프로필이미지 바꾸기
-  $("#profileImgModal").attr("src", "/gwfront/img/avatars/CEO001.jpg");
-  $("#mainProfileImg").attr("src", "/gwfront/img/avatars/CEO001.jpg");
+  $("#profileImgModal").attr("src", "/gwfront/img/avatars/"+loginInfoIdObj.innerHTML +".jpg");
+  $("#mainProfileImg").attr("src", "/gwfront/img/avatars/"+loginInfoIdObj.innerHTML +".jpg");
 
   //프로필 사진 변경 submit 이벤트
   //#postProfile > div> button
