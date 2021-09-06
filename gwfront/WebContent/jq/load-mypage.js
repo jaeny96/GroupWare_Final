@@ -1,5 +1,4 @@
 $(function () {
-
   var loginInfoIdObj = document.querySelector(
     "div.profileDropdown span.loginId"
   );
@@ -168,10 +167,19 @@ $(function () {
   });
 
   //프로필 설정
-  $("#profileImgPage").attr("src", "/gwfront/img/avatars/"+loginInfoIdObj.innerHTML +".jpg");
+  $("#profileImgPage").attr(
+    "src",
+    "/gwfront/img/avatars/" + loginInfoIdObj.innerHTML + ".jpg"
+  );
   //모달 속 프로필이미지 바꾸기
-  $("#profileImgModal").attr("src", "/gwfront/img/avatars/"+loginInfoIdObj.innerHTML +".jpg");
-  $("#mainProfileImg").attr("src", "/gwfront/img/avatars/"+loginInfoIdObj.innerHTML +".jpg");
+  $("#profileImgModal").attr(
+    "src",
+    "/gwfront/img/avatars/" + loginInfoIdObj.innerHTML + ".jpg"
+  );
+  $("#mainProfileImg").attr(
+    "src",
+    "/gwfront/img/avatars/" + loginInfoIdObj.innerHTML + ".jpg"
+  );
 
   //프로필 사진 변경 submit 이벤트
   //#postProfile > div> button

@@ -83,7 +83,6 @@ public class Chat {
 	private static List<ChatSession> users = new LinkedList<>();
 	// JSON을 파싱하는 클래스
 	private Gson gson = new Gson();
-
 	// WebSocket session으로 ChatSession을 탐색하는 함수
 	private ChatSession getSession(Session userSession) {
 		// session 클래스와 ChatSession 클래스의 session 변수를 비교해서 탐색해 온다.
@@ -160,8 +159,8 @@ public class Chat {
 		// 파일을 읽어온다.
 		try (FileInputStream stream = new FileInputStream(file)) {
 			byte[] byteArr = IOUtils.toByteArray(stream);
-			//System.out.println("chat.txt파일 내용------" + new String(byteArr));
-			//System.out.println("chat.txt파일 내용: utf-8" + new String(byteArr, "UTF-8"));
+			// System.out.println("chat.txt파일 내용------" + new String(byteArr));
+			// System.out.println("chat.txt파일 내용: utf-8" + new String(byteArr, "UTF-8"));
 			return new String(byteArr, "UTF-8");
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -189,6 +188,8 @@ public class Chat {
 			try {
 				// 메시지 전송
 				user.getSession().getBasicRemote().sendText(sendMessage);
+				System.out.println(id+"/"+message);
+				System.out.println(user);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
