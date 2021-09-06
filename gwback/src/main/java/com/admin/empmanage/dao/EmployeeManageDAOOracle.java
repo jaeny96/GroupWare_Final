@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,7 @@ import com.group.exception.AddException;
 import com.group.exception.FindException;
 import com.group.exception.RemoveException;
 import com.group.exception.UpdateException;
+import com.group.mypage.control.MypageController;
 
 @Repository("EmployeeManageDAO")
 public class EmployeeManageDAOOracle implements EmployeeManageDAO {
@@ -28,6 +30,10 @@ public class EmployeeManageDAOOracle implements EmployeeManageDAO {
 	@Autowired
 	private SqlSessionFactory sessionFactory;
 	
+
+	private Logger log = Logger.getLogger(MypageController.class);
+
+	
 	@Override
 	//직원 추가
 	public void addEmployee(Employee emp) throws AddException {	
@@ -35,6 +41,7 @@ public class EmployeeManageDAOOracle implements EmployeeManageDAO {
 		try {
 			session = sessionFactory.openSession();
 			session.insert("com.admin.empmanage.EmployeeManageMapper.addEmployee", emp);
+			session.insert("com.group.employee.EmployeeLeaveMapper.addLeave", emp.getEmployeeId());
 			session.commit();
 			
 		} catch (Exception e) {
@@ -63,13 +70,14 @@ public class EmployeeManageDAOOracle implements EmployeeManageDAO {
 		}
 	}
 
-	@Override
+	@Override 
 	//직원 수정 
 	public void updateEmployee(Employee emp) throws UpdateException {
 		SqlSession session = null;
 		try {
 			session = sessionFactory.openSession();
 			session.update("com.admin.empmanage.EmployeeManageMapper.updateEmployee",emp);
+		
 			session.commit();
 			
 		} catch (Exception e) {

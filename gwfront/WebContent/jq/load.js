@@ -141,6 +141,8 @@ $(function () {
           success: function (responseData) {
             mainLoginId = responseData.employeeId;
             mainLoginName = responseData.name;
+            
+  $mainProfileImg.attr("src", "img/avatars/"+responseData.employeeId+".jpg");
             //함수 호출
             insertProfileInfo();
           },
