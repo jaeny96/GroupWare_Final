@@ -171,6 +171,7 @@ $(function () {
     "src",
     "/gwfront/img/avatars/" + loginInfoIdObj.innerHTML + ".jpg"
   );
+  $("#profileImgPage").attr("alt", loginInfoIdObj.innerHTML);
   //모달 속 프로필이미지 바꾸기
   $("#profileImgModal").attr(
     "src",
