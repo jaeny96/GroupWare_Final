@@ -33,7 +33,6 @@ $(function () {
   //검색할 카테고리 값
   var bdSearchCategory = null;
 
-  //
   var pageli = null;
   var pagea = null;
   var bdNo = new Array();
@@ -46,7 +45,7 @@ $(function () {
   //페이지 별 보여줄 게시글 갯수
   var cnt_per_page = 5;
   //페이지 그룹 당 보여주는 페이지 수
-  var cnt_per_page_group = 4;
+  var cnt_per_page_group = 5;
 
   var $titleObj;
 
@@ -57,16 +56,12 @@ $(function () {
 
   //게시글 목록 페이지에서 사용할 backurl
   //게시글 목록 보여주기
-  //var backurlBdPage = "/back/showbdpage";
   var backurlBdPage = "http://localhost:8888/gwback/board/bdpage";
   //게시글 검색 결과 보여주기
-  //var backurlBdSearch = "/back/searchboard";
   var backurlBdSearch = "http://localhost:8888/gwback/board/searchboard";
   //현재 페이지그룹 보여주기
-  //var backurlPage = "/back/showpagegroup";
   var backurlPage = "http://localhost:8888/gwback/board/pagegroup";
   //총 페이지 수 보여주기
-  //var backurlTotalPage = "/back/showtotalpage";
   var backurlTotalPage = "http://localhost:8888/gwback/board/totalpage";
 
   //검색 카테고리 지정 시 이벤트 처리하는 핸들러
@@ -101,11 +96,6 @@ $(function () {
           Accept: "application/json, text/plain, */*",
         },
         timeout: {},
-        //카테고리 종류와 검색 단어 전송
-        // data: JSON.stringify({
-        //   bdSearchCategory: bdSearchCategory,
-        //   bdSearchWord: searchObj.value,
-        // }),
         success: function (responseData) {
           //현재 있는 tbody 제거 및 arr 값 초기화
           emptyBdElement(tBodyObj);
@@ -194,10 +184,8 @@ $(function () {
         );
         //페이지 그룹 반환 하는 ajax
         $.ajax({
-          url: backurlPage,
+          url: backurlPage + "/" + localStorage.getItem("bdCurrPageGroup"),
           method: "get",
-          //현재 페이지 그룹 전송
-          data: { nthPageGroup: localStorage.getItem("bdCurrPageGroup") },
           success: function (responseData) {
             //페이지 그룹 객체 삭제
             removeElement(pageGroupObj);
@@ -240,7 +228,6 @@ $(function () {
       }
       //로컬스토리지에 현재 페이지 저장
       localStorage.setItem("bdCurrPage", currentPage);
-      //현재페이지가 다음 페이지그룹+1과 같은 경우
       if (
         currentPage ==
         cnt_per_page_group * parseInt(localStorage.getItem("bdCurrPageGroup")) +
@@ -539,7 +526,6 @@ $(function () {
       });
       //prev 버튼 생성
       createPagePrev();
-      //페이지 번호 생성하는 함수 호출
       for (var i = 1; i < pageGroup.length + 1; i++) {
         createPageNum(i);
       }

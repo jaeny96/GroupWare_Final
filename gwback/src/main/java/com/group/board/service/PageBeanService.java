@@ -68,10 +68,10 @@ public class PageBeanService {
 				if((totalPage%group)!=0) {
 					index=(totalPage%group);
 				}else {
-					index=4;					
+					index=5;					
 				}
 			}else {
-				index=4;
+				index=5;
 			}
 
 			for(int i=0; i<index; i++) {
