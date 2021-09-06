@@ -26,6 +26,8 @@
 		#{position.positionId},
 		#{phoneNumber}, #{email}, #{hireDate},#{enabled}, #{password})
 	</insert>
+	
+	
 
 	<!-- delete -->
 	<delete id="deleteEmployee">

@@ -115,18 +115,18 @@ public class MypageController {
 			HttpSession session
 			) {
 		//업로드되는 프로필 사진의 이름은 id와 같도록 한다. 
-		String fileName = (String) session.getAttribute("id");
+		String fileName = (String) session.getAttribute("id")+".jpg";
 		System.out.println("id"+fileName);
 		//String fileName = "1";
-		log.error("profileFile"+profileFile.getSize());
+		//log.error("profileFile"+profileFile.getSize());
 		//이게 있나? 
 		String uploadPath = servletContext.getRealPath("upload");
 		
-		log.error("업로드 실제경로"+uploadPath);
+		//log.error("업로드 실제경로"+uploadPath);
 		
 		//파일 경로가 존재하지 않다면
 		if(! new File(uploadPath).exists()) {
-			log.error("업로드 실제 경로 생성" + uploadPath);
+			//log.error("업로드 실제 경로 생성" + uploadPath);
 			new File(uploadPath).mkdir();
 		}
 		//받아온 파일이 null이 아니라면
@@ -151,15 +151,17 @@ public class MypageController {
 				System.out.println("파일이름"+profileFileName + " 사이즈: "+profileFile.getSize());
 			
 				//파일의 경로와 파일의 이름 
-				File file = new File(uploadPath, fileName+"."+extension);
-				log.error("uploadPath "+uploadPath+ "fileName" +"." + extension);
+				File file = new File(uploadPath, fileName);
+				//log.error("uploadPath "+uploadPath+ "fileName" +"." + extension);
 				//이런식으로 별도 파일(upload)에다가 하나 더 파일을 복사해놓고, javascript에서 계속 사진을 받아오는 방법이 있다 
-				File backup = new File("C:\\Programming_kms_C\\GroupWare_Final\\gwback\\src\\main\\webapp\\upload",fileName);
+				File backup = new File("C:\\Programming_kms_C\\GroupWare_Final\\gwfront\\WebContent\\img\\avatars",fileName);
 					
 				
 				try {
 					FileCopyUtils.copy(profileFile.getBytes(), file);
 					FileCopyUtils.copy(profileFile.getBytes(), backup);
+					log.error(uploadPath);
+					log.error(fileName);
 					log.error("파일 업로드 완료");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
