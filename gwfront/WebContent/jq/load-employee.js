@@ -362,7 +362,7 @@ $(function () {
         }),
         success: function () {
           alert("수정이 완료되었습니다.");
-          alert($("#statusSelect option:selected").val());
+          //alert($("#statusSelect option:selected").val());
 
           var $content = $("div.wrapper>div.main>main.content");
           var href = "/gwfront/admin/employee.html";
