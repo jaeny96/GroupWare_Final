@@ -3,56 +3,56 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<settings>
-		<setting name="mapUnderscoreToCamelCase" value="true" />
-		<setting name="jdbcTypeForNull" value="NULL" />
-	</settings>
-	<typeAliases>
-		<typeAlias type="com.group.employee.dto.Employee"
-			alias="employee" />
-		<typeAlias type="com.group.employee.dto.Department"
-			alias="department" />
-		<typeAlias type="com.group.employee.dto.Position"
-			alias="position" />
-		<typeAlias type="com.group.employee.dto.Job" alias="job" />
-		<typeAlias type="com.group.mypage.dto.EmployeeLeave"
-			alias="employeeleave" />
-		<typeAlias type="com.group.approval.dto.Document"
-			alias="document" />
-		<typeAlias type="com.group.board.dto.Board" alias="board" />
-		<typeAlias type="com.group.board.dto.BoardComment"
-			alias="boardcomment" />
-		<typeAlias type="com.group.board.dto.PageBean"
-			alias="pagebean" />
-		<typeAlias type="com.group.calendar.dto.Schedule"
-			alias="schedule" />
-		<typeAlias type="com.group.employee.dto.Leave" alias="leave" />
-		<typeAlias type="com.group.approval.dto.Agreement"
-			alias="agreement" />
-		<typeAlias type="com.group.approval.dto.Approval"
-			alias="approval" />
-		<typeAlias type="com.group.approval.dto.ApprovalStatus"
-			alias="approvalStatus" />
-		<typeAlias type="com.group.approval.dto.DocumentType"
-			alias="documentType" />
-		<typeAlias type="com.group.approval.dto.Reference"
-			alias="reference" />
-			
+   <settings>
+      <setting name="mapUnderscoreToCamelCase" value="true" />
+      <setting name="jdbcTypeForNull" value="NULL" />
+   </settings>
+   <typeAliases>
+      <typeAlias type="com.group.employee.dto.Employee"
+         alias="employee" />
+      <typeAlias type="com.group.employee.dto.Department"
+         alias="department" />
+      <typeAlias type="com.group.employee.dto.Position"
+         alias="position" />
+      <typeAlias type="com.group.employee.dto.Job" alias="job" />
+      <typeAlias type="com.group.mypage.dto.EmployeeLeave"
+         alias="employeeleave" />
+      <typeAlias type="com.group.approval.dto.Document"
+         alias="document" />
+      <typeAlias type="com.group.board.dto.Board" alias="board" />
+      <typeAlias type="com.group.board.dto.BoardComment"
+         alias="boardcomment" />
+      <typeAlias type="com.group.board.dto.PageBean"
+         alias="pagebean" />
+      <typeAlias type="com.group.calendar.dto.Schedule"
+         alias="schedule" />
+      <typeAlias type="com.group.employee.dto.Leave" alias="leave" />
+      <typeAlias type="com.group.approval.dto.Agreement"
+         alias="agreement" />
+      <typeAlias type="com.group.approval.dto.Approval"
+         alias="approval" />
+      <typeAlias type="com.group.approval.dto.ApprovalStatus"
+         alias="approvalStatus" />
+      <typeAlias type="com.group.approval.dto.DocumentType"
+         alias="documentType" />
+      <typeAlias type="com.group.approval.dto.Reference"
+         alias="reference" />
+         
 
-	</typeAliases>
-	<mappers>
-		<mapper resource="EmployeeMapper.xml" />
-		<mapper resource="DepartmentMapper.xml" />
-		<mapper resource="EmployeeLeaveMapper.xml" />
-		<mapper resource="MainPageMapper.xml" />
-		<mapper resource="ScheduleMapper.xml" />
-		<mapper resource="BoardMapper.xml"></mapper>
-		<mapper resource="BoardCommentMapper.xml"></mapper>
-		<mapper resource="ApprovalSideMapper.xml"></mapper>
-		<mapper resource="ApprovalConfirmMapper.xml"></mapper>
-		<mapper resource="ApprovalWriteMapper.xml"></mapper>
-		<mapper resource="ApprovalProcessMapper.xml"></mapper>
-		<mapper resource="EmployeeManageMapper.xml"></mapper>
-		
-	</mappers>
+   </typeAliases>
+   <mappers>
+      <mapper resource="EmployeeMapper.xml" />
+      <mapper resource="DepartmentMapper.xml" />
+      <mapper resource="EmployeeLeaveMapper.xml" />
+      <mapper resource="MainPageMapper.xml" />
+      <mapper resource="ScheduleMapper.xml" />
+      <mapper resource="BoardMapper.xml"></mapper>
+      <mapper resource="BoardCommentMapper.xml"></mapper>
+      <mapper resource="ApprovalSideMapper.xml"></mapper>
+      <mapper resource="ApprovalConfirmMapper.xml"></mapper>
+      <mapper resource="ApprovalWriteMapper.xml"></mapper>
+      <mapper resource="ApprovalProcessMapper.xml"></mapper>
+      <mapper resource="EmployeeManageMapper.xml"></mapper>
+      
+   </mappers>
 </configuration>

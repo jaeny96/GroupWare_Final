@@ -210,7 +210,7 @@ $(function () {
       } else {
         if (apDocsApTypeArr[i] == "반려") {
           imgTagArr[i].src = "img/icons/no.png";
-          apStepObjArr[i].appendChild(imgTag1);
+          apStepObjArr[i].appendChild(imgTagArr[i]);
         } else if (apDocsApTypeArr[i] == "승인") {
           imgTagArr[i].src = "img/icons/yes.png";
           apStepObjArr[i].appendChild(imgTagArr[i]);
