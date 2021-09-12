@@ -148,7 +148,7 @@ public class MypageController {
 				File file = new File(uploadPath, fileName);
 				// log.error("uploadPath "+uploadPath+ "fileName" +"." + extension);
 				// 이런식으로 별도 파일(upload)에다가 하나 더 파일을 복사해놓고, javascript에서 계속 사진을 받아오는 방법이 있다
-				File backup = new File("C:\\Users\\JISU\\Desktop\\JAVAW_OJS\\GroupWare_Final\\gwfront\\WebContent\\img\\avatars",
+				File backup = new File("C:\\SW_JYJ\\GWproject\\GroupWare_Final\\gwfront\\WebContent\\img\\avatars",
 						fileName);
 
 				try {
