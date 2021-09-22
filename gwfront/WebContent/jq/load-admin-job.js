@@ -201,6 +201,7 @@ function deleteJobBtn(div, responseObj, modal) {
   //미선택한 사람들 알람 메세지
   if (showMsg != "") {
     alert(showMsg);
+    return false;
   }
 
   //다 선택했으면, ajax실행 준비

@@ -16,17 +16,6 @@
   position: absolute;
 }
 
-.modal_content {
-  position: relative;
-  top: 0px;
-  background-color: white;
-  padding: 25px 0px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  width: 500px;
-  height: 700px;
-}
-
 .hidden {
   display: none;
 }
@@ -52,4 +41,15 @@
   color: #0b0bdb;
   border-color: #0d87fa;
   margin-top: 20px;
+}
+
+.modal_content {
+  position: relative;
+  top: 0px;
+  background-color: white;
+  padding: 25px 0px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  width: 500px;
+  height: 700px;
 }
