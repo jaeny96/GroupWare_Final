@@ -4,7 +4,7 @@
 - 개발 기간: 2021.8.13-2021.9.7
 - 개발 인원: 5명
 ### 요구사항정의서
-https://broad-stargazer-1a9.notion.site/a8c9cf0fa88a4639b31a33f531b3bbb9
+https://periwinkle-nasturtium-28b.notion.site/b28244d3ce4242dc874785a36c8ef5c2
 
 ### 테이블 설계
 <img width="60%" src="https://user-images.githubusercontent.com/86638881/134633134-6567c88a-3fc9-46ad-a44d-ef629ce70d4c.png">
