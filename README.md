@@ -7,10 +7,10 @@
 https://broad-stargazer-1a9.notion.site/a8c9cf0fa88a4639b31a33f531b3bbb9
 
 ### 테이블 설계
-<img width="80%" src="https://user-images.githubusercontent.com/86638881/134633134-6567c88a-3fc9-46ad-a44d-ef629ce70d4c.png">
+<img width="60%" src="https://user-images.githubusercontent.com/86638881/134633134-6567c88a-3fc9-46ad-a44d-ef629ce70d4c.png">
 
 ### About Our Project
-<img width="1273" alt="프로젝트소개" src="https://user-images.githubusercontent.com/86638881/134633424-ceb8ec74-a265-4c7a-b6aa-35faf1b384f2.png">
+<img width="60%" alt="프로젝트소개" src="https://user-images.githubusercontent.com/86638881/134633424-ceb8ec74-a265-4c7a-b6aa-35faf1b384f2.png">
 
 ### 기능소개
 #### 1.메인
