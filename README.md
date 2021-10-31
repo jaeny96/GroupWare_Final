@@ -80,3 +80,5 @@ https://periwinkle-nasturtium-28b.notion.site/c7b63e78586340418863b6d91bc12b00
   ##### 직무 관리
    - 직무수정
    - 직무삭제
+
+ ### 자세한 사항은 위의 그룹웨어 포트폴리오.pdf 자료를 참고하세요 :)
